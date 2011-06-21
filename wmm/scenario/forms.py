@@ -17,8 +17,8 @@ class ScenarioForm(FeatureForm):
     input_dist_port = forms.FloatField(min_value=0, max_value=1.0, initial=0.5,
             widget=SliderWidget(min=0,max=1,step=0.01),
             label="Distance From Port")
-    input_min_depth = forms.FloatField(initial=0)
-    input_max_depth = forms.FloatField(initial=1)
+    input_min_depth = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}))
+    input_max_depth = forms.FloatField(initial=1, widget=forms.TextInput(attrs={'class':'slidervalue'}))
     # Dummy field to set both of the above
     input_depth = forms.FloatField(min_value=0, max_value=1.0, initial=0.5,
             widget=DualSliderWidget('input_min_depth','input_max_depth',
