@@ -1,3 +1,5 @@
+import time
+import os
 from django.db import models
 from django.conf import settings
 from django.contrib.gis.db import models
@@ -5,6 +7,7 @@ from django.utils.html import escape
 from lingcod.features.models import PolygonFeature, FeatureCollection
 from lingcod.analysistools.models import Analysis
 from lingcod.features import register, alternate
+from lingcod.common.utils import asKml
 
 @register
 class Scenario(Analysis):
@@ -13,68 +16,79 @@ class Scenario(Analysis):
     input_dist_port = models.FloatField(verbose_name='Distance to Port')
     input_min_depth = models.FloatField(verbose_name='Minimum Depth')
     input_max_depth = models.FloatField(verbose_name='Maximum Depth')
+    input_sand = models.BooleanField(verbose_name="Sand", default=True)
+    input_gravel = models.BooleanField(verbose_name="Gravel", default=True)
+    input_mud = models.BooleanField(verbose_name="Mud", default=True)
+    input_rocky = models.BooleanField(verbose_name="Rocky", default=True)
+    input_soft = models.BooleanField(verbose_name="Soft", default=True)
+    input_island = models.BooleanField(verbose_name="Island", default=True)
     
     #Descriptors (name field is inherited from Analysis)
     description = models.TextField(null=True, blank=True)
     
     # All output fields should be allowed to be Null/Blank
-    output_geom = models.PolygonField(srid=settings.GEOMETRY_DB_SRID,
+    output_geom = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID,
             null=True, blank=True, verbose_name="Scenario Geometry")
+    output_mapcalc = models.CharField(max_length=360, null=True, blank=True)
+    output_area = models.FloatField(null=True, blank=True, verbose_name="Total Area (sq km)")
     
     def run(self):
-#        from lingcod.analysistools.grass import Grass
-#
-#        coords = self.input_starting_point.transform(settings.GEOMETRY_DB_SRID, clone=True)
-#        max_cost=100 * (self.input_temp_weight + self.input_language_weight + \
-#                        self.input_precip_weight + self.input_biomass_weight)
-#
-#        g = Grass('world_moll', 
-#                gisbase="/usr/local/grass-6.4.1RC2", 
-#                gisdbase="/home/grass",
-#                autoclean=True)
-#        g.verbose = True
-#        g.run('g.region rast=soilmoist')
-#        rasts = g.list()['rast']
-#
-#        outdir = '/tmp'
-#        outbase = 'bioregion_%s' % str(time.time()).split('.')[0]
-#        output = os.path.join(outdir,outbase+'.json')
-#        if os.path.exists(output):
-#            raise Exception(output + " already exists")
-#
-#        g.run('r.mapcalc "weighted_combined_slope =  0.01 + ' +
-#                            '(%s * temp_slope) + ' % self.input_temp_weight  + 
-#                            '(%s * lang_slope) + ' % self.input_language_weight  +
-#                            '(%s * precip_slope) + ' % self.input_precip_weight +
-#                            '(%s * biomass_slope)' % self.input_biomass_weight +
-#                            '"')
-#        g.run('r.rescale input=weighted_combined_slope output=wcr_slope to=0,100')
-#        g.run('r.cost -k input=wcr_slope output=cost coordinate=%s,%s max_cost=%s' % \
-#                (coords[0],coords[1],max_cost) )
-#        g.run('r.mapcalc "bioregion=if(cost >= 0)"')
-#        g.run('r.to.vect -s input=bioregion output=bioregion_poly feature=area')
-#        g.run('v.out.ogr -c input=bioregion_poly type=area format=GeoJSON dsn=%s' % output)
-#
-#        from django.contrib.gis.gdal import DataSource
-#        ds = DataSource(output)
-#        layer = ds[0]
-#        geom = layer[0].geom.geos
-#
-#        # Take the single polygon with the largest geometry 
-#        # Assume the rest are slivers, etc
-#        largest_area = geom.area
-#        for feat in layer[1:]:
-#            if feat.geom.area > largest_area:
-#                largest_area = feat.geom.area
-#                geom = feat.geom.geos
-#
-#        geom.srid = settings.GEOMETRY_DB_SRID 
-#        g2 = geom.buffer(20000)
-#        geom = g2.buffer(-20000)
-#        if geom and not settings.DEBUG:
-#            os.remove(output)
-#            del g
-#        self.output_geom = geom
+        from lingcod.analysistools.grass import Grass
+
+        g = Grass('pacnw_utm10', 
+                gisbase="/usr/local/grass-6.4.1RC2", 
+                gisdbase="/mnt/wmm/grass",
+                autoclean=True)
+        g.verbose = True
+        g.run('g.region rast=bathy')
+        g.run('g.region nsres=180 ewres=180')
+        rasts = g.list()['rast']
+
+        outdir = '/tmp'
+        outbase = 'wa_scenario_%s' % str(time.time()).split('.')[0]
+        output = os.path.join(outdir,outbase+'.json')
+        if os.path.exists(output):
+            raise Exception(output + " already exists")
+
+        g.run('v.buffer input=ports output=port_buffer distance=%s' % (self.input_dist_port * 1000,) )
+        g.run('v.to.rast input=port_buffer output=port_buffer_rast use=cat')
+
+        g.run('r.buffer input=shoreline_rast output=shoreline_rast_buffer distances=%s' % (self.input_dist_shore * 1000,) )
+
+        substrates = []
+        if self.input_island: substrates.append(1)
+        if self.input_mud: substrates.append(2)
+        if self.input_sand: substrates.append(3)
+        if self.input_gravel: substrates.append(4)
+        if self.input_rocky: substrates.append(5)
+        if self.input_soft: substrates.append(7)
+
+        substrate_formula = ' || '.join(['substrate==%s' % s for s in substrates])
+        
+        mapcalc = """r.mapcalc "rresult = if((if(shoreline_rast_buffer==2) + if(port_buffer_rast) + if(bathy>%s && bathy<%s) + if(%s))==4,1,null())" """ % (self.input_min_depth, self.input_max_depth, substrate_formula) 
+        g.run(mapcalc)
+        self.output_mapcalc = mapcalc
+
+        g.run('r.to.vect input=rresult output=rresult_vect feature=area')
+
+        g.run('v.out.ogr -c input=rresult_vect type=area format=GeoJSON dsn=%s' % output)
+
+        from django.contrib.gis.gdal import DataSource
+        from django.contrib.gis.geos import MultiPolygon
+        try:
+            ds = DataSource(output)
+            layer = ds[0]
+            geom = MultiPolygon([g.geos for g in layer.get_geoms()])
+        except:
+            # Grass had no geometries to give - empty output
+            geom = MultiPolygon([])
+
+        geom.srid = settings.GEOMETRY_DB_SRID
+        if geom and not settings.DEBUG:
+            os.remove(output)
+            del g
+        self.output_geom = geom
+        self.output_area = geom.area / 1000000.0 # sq m to sq km
         return True
         
     def save(self, *args, **kwargs):
@@ -128,7 +142,6 @@ class Scenario(Analysis):
             <name>%s</name>
             <styleUrl>#%s-default</styleUrl>
             <MultiGeometry>
-            %s
             %s
             </MultiGeometry>
         </Placemark>

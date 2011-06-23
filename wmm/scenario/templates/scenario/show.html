@@ -24,22 +24,28 @@
                 <p>{{instance.description}}</p>
             <h2>Parameters</h2>
                 <div class="box species" id="temp">
-                    <p> Distance to Shore: {{ instance.input_dist_shore }}</p>
-                </div>
-                <div class="box species" id="temp">
-                    <p> Distance to Port: {{ instance.input_dist_port }}</p>
-                </div>
-                <div class="box species" id="temp">
-                    <p> Depth Range: {{ instance.input_min_depth }} to {{instance.input_max_depth}} </p>
+                    <p> Distance to Shore <= {{ instance.input_dist_shore }} km</p>
+                    <p> Distance to Port <= {{ instance.input_dist_port }} km</p>
+                    <p> Depth Range: {{ instance.input_min_depth }} m to {{instance.input_max_depth}} m</p>
+                    <p> Substrates : </p>
+                    <ul>
+                      <li> sand: {{instance.input_sand}} </li>
+                      <li> gravel: {{instance.input_gravel}} </li>
+                      <li> mud: {{instance.input_mud}} </li>
+                      <li> rock: {{instance.input_rocky}} </li>
+                      <li> island: {{instance.input_island}} </li>
+                      <li> soft: {{instance.input_soft}} </li>
+                    </ul>
                 </div>
         </div>
         
         {% if instance.done %}
         <div id="results">
-           <h3>Area</h3>
-            {{ instance.output_geometry.area }}
-           <h3>Geometry</h3>
-            {{ instance.output_geometry }}
+           <h3>Multipolygon with {{instance.output_geom|length}} individual polygons</h3>
+           <h3>Total Area</h3>
+           <p>{{ instance.output_area|floatformat }} sq. km</p>
+           <h3>Mapcalc equation</h3>
+           <pre>{{ instance.output_mapcalc }}</pre>
         </div>
         {% endif %}
     </div>

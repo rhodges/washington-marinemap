@@ -11,19 +11,19 @@ class FolderForm(FeatureForm):
         model = Folder
 
 class ScenarioForm(FeatureForm):
-    input_dist_shore = forms.FloatField(min_value=0, max_value=1.0, initial=0.5,
-            widget=SliderWidget(min=0,max=1,step=0.01),
-            label="Distance From Shore")
-    input_dist_port = forms.FloatField(min_value=0, max_value=1.0, initial=0.5,
-            widget=SliderWidget(min=0,max=1,step=0.01),
-            label="Distance From Port")
-    input_min_depth = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}))
-    input_max_depth = forms.FloatField(initial=1, widget=forms.TextInput(attrs={'class':'slidervalue'}))
+    input_dist_shore = forms.FloatField(min_value=1, max_value=200, initial=10,
+            widget=SliderWidget(min=1,max=200,step=1),
+            label="Within distance of Shore (km)")
+    input_dist_port = forms.FloatField(min_value=1, max_value=200, initial=10,
+            widget=SliderWidget(min=1,max=200,step=1),
+            label="Within distance of Port (km)")
+    input_min_depth = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}))
+    input_max_depth = forms.FloatField(initial=10, widget=forms.TextInput(attrs={'class':'slidervalue'}))
     # Dummy field to set both of the above
-    input_depth = forms.FloatField(min_value=0, max_value=1.0, initial=0.5,
+    input_depth = forms.FloatField(min_value=-2000, max_value=0, initial=0,
             widget=DualSliderWidget('input_min_depth','input_max_depth',
-                                    min=0,max=1,step=0.01),
-            label="Depth Range")
+                                    min=-2000,max=0,step=1),
+            label="Depth Range (meters)")
         
     class Meta(FeatureForm.Meta):
         model = Scenario

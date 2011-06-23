@@ -61,14 +61,14 @@ span.form-image > img { width:46px; height:46px; }
         </div>
     </div>
 
-    <div class="inputfield" id="temp">
+    <div class="inputfield">
         <div class="field required">
             {{ form.input_dist_port.label_tag }}
             {{ form.input_dist_port.errors }}
             {{ form.input_dist_port }}            
         </div>
     </div>
-    <div class="inputfield" id="lang">
+    <div class="inputfield">
         <div class="field required">
             {{ form.input_depth.label_tag }} 
             {{ form.input_depth.errors }}
@@ -78,6 +78,37 @@ span.form-image > img { width:46px; height:46px; }
             {{ form.input_max_depth }}            
 
             {{ form.input_depth }}            
+        </div>
+    </div>
+    <style type="text/css">
+	p.label_checkbox_pair {
+	clear: both;
+	float: none;
+	}
+	p.label_checkbox_pair input {
+	clear: none; 
+	float: left;
+	/*margin-left: 8px;*/
+        top:0px !important;
+	}
+	p.label_checkbox_pair label {
+	clear: left;
+	display: block;
+	float: left;
+	margin-left: 10px;
+        width: 60px;
+	} 
+    </style>
+
+    <div class="inputfield">
+        <div class="field required">
+          <h3> Include areas with the following substrates: </h3>
+            <p class="label_checkbox_pair">{{ form.input_sand.label_tag }} {{ form.input_sand }}</p>
+            <p class="label_checkbox_pair">{{ form.input_gravel.label_tag }} {{ form.input_gravel }}</p>
+            <p class="label_checkbox_pair">{{ form.input_mud.label_tag }} {{ form.input_mud }}</p>
+            <p class="label_checkbox_pair">{{ form.input_rocky.label_tag }} {{ form.input_rocky }}</p>
+            <p class="label_checkbox_pair">{{ form.input_island.label_tag }} {{ form.input_island }}</p>
+            <p class="label_checkbox_pair">{{ form.input_soft.label_tag }} {{ form.input_soft }}</p>
         </div>
     </div>
 
