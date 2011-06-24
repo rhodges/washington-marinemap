@@ -84,11 +84,13 @@ class Scenario(Analysis):
             geom = MultiPolygon([])
 
         geom.srid = settings.GEOMETRY_DB_SRID
-        if geom and not settings.DEBUG:
-            os.remove(output)
-            del g
         self.output_geom = geom
         self.output_area = geom.area / 1000000.0 # sq m to sq km
+
+        #cleanup
+        os.remove(output)
+        del g
+
         return True
         
     def save(self, *args, **kwargs):
