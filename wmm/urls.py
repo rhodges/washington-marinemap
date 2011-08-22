@@ -6,4 +6,5 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Include all lingcod app urls. 
     (r'', include('lingcod.common.urls')),
+    (r'^bookmark/', include('lingcod.bookmarks.urls')),
 )

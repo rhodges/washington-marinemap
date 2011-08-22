@@ -4,10 +4,11 @@ from django.db import models
 from django.conf import settings
 from django.contrib.gis.db import models
 from django.utils.html import escape
-from lingcod.features.models import PolygonFeature, FeatureCollection
 from lingcod.analysistools.models import Analysis
 from lingcod.features import register, alternate
 from lingcod.common.utils import asKml
+from lingcod.features.models import PointFeature, LineFeature, PolygonFeature, FeatureCollection
+from lingcod.layers.models import PrivateLayerList
 
 @register
 class Scenario(Analysis):
@@ -184,7 +185,12 @@ class Folder(FeatureCollection):
         
     class Options:
         verbose_name = 'Folder'
-        valid_children = ( 'scenario.models.Scenario', 'scenario.models.Folder')
+        valid_children = ( 'scenario.models.Scenario', 
+	                   'scenario.models.AOI', 
+	                   'scenario.models.POI', 
+	                   'scenario.models.LOI', 
+	                   'scenario.models.UserKml', 
+                           'scenario.models.Folder')
         form = 'scenario.forms.FolderForm'
         show_template = 'folder/show.html'
 
@@ -193,4 +199,32 @@ class Folder(FeatureCollection):
         return """ li.%(uid)s > .icon { 
         background: url('%(media)skmltree/dist/images/sprites/kml.png?1302821411') no-repeat -231px 0px ! important;
         } """ % { 'uid': klass.model_uid(), 'media': settings.MEDIA_URL }
-    
+
+
+@register
+class AOI(PolygonFeature):
+    description = models.TextField(null=True,blank=True)
+    class Options:
+        verbose_name = 'Area of Interest'
+        form = 'scenario.forms.AoiForm'
+        manipulators = []
+
+@register
+class POI(PointFeature):
+    description = models.TextField(null=True,blank=True)
+    class Options:
+        verbose_name = 'Point of Interest'
+        form = 'scenario.forms.PoiForm'
+
+@register
+class LOI(LineFeature):
+    description = models.TextField(null=True,blank=True)
+    class Options:
+        verbose_name = 'Line of Interest'
+        form = 'scenario.forms.LoiForm'
+
+@register
+class UserKml(PrivateLayerList):
+    class Options:
+        verbose_name = 'Uploaded KML'
+        form = 'scenario.forms.UserKmlForm'

@@ -30,3 +30,20 @@ class ScenarioForm(FeatureForm):
         exclude = list(FeatureForm.Meta.exclude)
         for f in model.output_fields():
             exclude.append(f.attname)
+
+class LoiForm(SpatialFeatureForm):
+    class Meta(SpatialFeatureForm.Meta):
+        model = LOI
+
+class PoiForm(SpatialFeatureForm):
+    class Meta(SpatialFeatureForm.Meta):
+        model = POI
+
+class AoiForm(SpatialFeatureForm):
+    class Meta(SpatialFeatureForm.Meta):
+        model = AOI
+
+class UserKmlForm(FeatureForm):
+    class Meta(FeatureForm.Meta):
+        model = UserKml
+

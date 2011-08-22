@@ -2,7 +2,7 @@
 from lingcod.common.default_settings import *
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-APP_NAME = "Washington MarineMap"
+APP_NAME = "Washington"
 
 DATABASES = {
     'default': {
@@ -25,7 +25,8 @@ ROOT_URLCONF = 'wmm.urls'
 
 TEMPLATE_DIRS = ( os.path.realpath(os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/')), )
 
-INSTALLED_APPS += ( 'lingcod.analysistools',
+INSTALLED_APPS += ( 'lingcod.analysistools', 
+                    'lingcod.bookmarks',
                     'scenario')
 
 # Make this unique, and don't share it with anybody.
