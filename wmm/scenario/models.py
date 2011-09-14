@@ -190,6 +190,7 @@ class Folder(FeatureCollection):
 	                   'scenario.models.POI', 
 	                   'scenario.models.LOI', 
 	                   'scenario.models.UserKml', 
+	                   'lingcod.bookmarks.models.Bookmark', 
                            'scenario.models.Folder')
         form = 'scenario.forms.FolderForm'
         show_template = 'folder/show.html'
