@@ -37,15 +37,16 @@ class Scenario(Analysis):
         from lingcod.analysistools.grass import Grass
 
         g = Grass('pacnw_utm10', 
-                gisbase="/usr/local/grass-6.4.1RC2", 
-                gisdbase="/mnt/wmm/grass",
+                gisbase=settings.GISBASE, #"/usr/local/grass-6.4.1RC2", 
+                gisdbase=settings.GISDBASE,  #"/mnt/wmm/grass",
                 autoclean=True)
         g.verbose = True
+        
         g.run('g.region rast=bathy')
         g.run('g.region nsres=180 ewres=180')
         rasts = g.list()['rast']
 
-        outdir = '/tmp'
+        outdir = settings.GRASS_TMP #'/tmp'
         outbase = 'wa_scenario_%s' % str(time.time()).split('.')[0]
         output = os.path.join(outdir,outbase+'.json')
         if os.path.exists(output):
@@ -69,7 +70,7 @@ class Scenario(Analysis):
         mapcalc = """r.mapcalc "rresult = if((if(shoreline_rast_buffer==2) + if(port_buffer_rast) + if(bathy>%s && bathy<%s) + if(%s))==4,1,null())" """ % (self.input_min_depth, self.input_max_depth, substrate_formula) 
         g.run(mapcalc)
         self.output_mapcalc = mapcalc
-
+        
         g.run('r.to.vect input=rresult output=rresult_vect feature=area')
 
         g.run('v.out.ogr -c input=rresult_vect type=area format=GeoJSON dsn=%s' % output)

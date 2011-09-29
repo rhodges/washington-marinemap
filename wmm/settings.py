@@ -34,4 +34,12 @@ SECRET_KEY = '3j9~fjio+adjf93iwashingtonjda()#Jfk3ljf-ea9#$@#90dsfj9@0aj3()*fj3i
 PRIVATE_KML_ROOT = '/usr/local/privatekml'
 BOOKMARK_FEATURE = True
 
+#GRASS variables
+GISBASE = "/usr/local/grass-6.4.1RC2"
+GISDBASE = "/mnt/wmm/grass"
+GRASS_TMP = "/tmp"
+GRASS_PATH = "/usr/local/grass-6.4.1RC2/bin:/usr/local/grass-6.4.1RC2/scripts:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+GRASS_VERSION = "6.4.1"
+GRASS_LIB_PATH = "/usr/local/grass-6.4.1RC2/lib"
+
 from settings_local import *
