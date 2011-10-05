@@ -29,12 +29,9 @@
                     <p> Depth Range: {{ instance.input_min_depth }} m to {{instance.input_max_depth}} m</p>
                     <p> Substrates : </p>
                     <ul>
-                      <li> sand: {{instance.input_sand}} </li>
-                      <li> gravel: {{instance.input_gravel}} </li>
-                      <li> mud: {{instance.input_mud}} </li>
-                      <li> rock: {{instance.input_rocky}} </li>
-                      <li> island: {{instance.input_island}} </li>
-                      <li> soft: {{instance.input_soft}} </li>
+                      {% for substrate in instance.input_substrate.all %}
+                        <li> {{substrate.name}} </li>
+                      {% endfor %}
                     </ul>
                 </div>
         </div>

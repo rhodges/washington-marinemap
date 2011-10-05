@@ -17,12 +17,8 @@ class Scenario(Analysis):
     input_dist_port = models.FloatField(verbose_name='Distance to Port')
     input_min_depth = models.FloatField(verbose_name='Minimum Depth')
     input_max_depth = models.FloatField(verbose_name='Maximum Depth')
-    input_sand = models.BooleanField(verbose_name="Sand", default=True)
-    input_gravel = models.BooleanField(verbose_name="Gravel", default=True)
-    input_mud = models.BooleanField(verbose_name="Mud", default=True)
-    input_rocky = models.BooleanField(verbose_name="Rocky", default=True)
-    input_soft = models.BooleanField(verbose_name="Soft", default=True)
-    input_island = models.BooleanField(verbose_name="Island", default=True)
+    
+    input_substrate = models.ManyToManyField("Substrate")
     
     #Descriptors (name field is inherited from Analysis)
     description = models.TextField(null=True, blank=True)
@@ -58,14 +54,7 @@ class Scenario(Analysis):
         g.run('r.buffer input=shoreline_rast output=shoreline_rast_buffer distances=%s' % (self.input_dist_shore * 1000,) )
 
         substrates = []
-        if self.input_island: substrates.append(1)
-        if self.input_mud: substrates.append(2)
-        if self.input_sand: substrates.append(3)
-        if self.input_gravel: substrates.append(4)
-        if self.input_rocky: substrates.append(5)
-        if self.input_soft: substrates.append(7)
-
-        substrate_formula = ' || '.join(['substrate==%s' % s for s in substrates])
+        substrate_formula = ' || '.join(['substrate==%s' % s.id for s in self.input_substrate.all()])
         
         mapcalc = """r.mapcalc "rresult = if((if(shoreline_rast_buffer==2) + if(port_buffer_rast) + if(bathy>%s && bathy<%s) + if(%s))==4,1,null())" """ % (self.input_min_depth, self.input_max_depth, substrate_formula) 
         g.run(mapcalc)
@@ -99,16 +88,21 @@ class Scenario(Analysis):
         rerun = False
         # only rerun the analysis if any of the input_ fields have changed
         # ie if name and description change no need to rerun the full analysis
-        if self.pk is None:
-            rerun = True
-        else:
+        if self.pk is not None:
             orig = Scenario.objects.get(pk=self.pk)
             for f in Scenario.input_fields():
                 # Is original value different from form value?
                 if orig._get_FIELD_display(f) != getattr(self,f.name):
                     rerun = True
                     break
-        super(Scenario, self).save(rerun=rerun, *args, **kwargs) 
+            if not rerun:
+                #compare substrate values
+                #better idea would be to compare set values
+                for sub_orig, sub_new in zip(getattr(self, 'input_substrate').all(), getattr(orig, 'input_substrate').all()):
+                    if sub_orig != sub_new:
+                        rerun = True
+                        break
+        super(Scenario, self).save(rerun=rerun, *args, **kwargs)
 
     @classmethod
     def mapnik_geomfield(self):
@@ -181,6 +175,13 @@ class Scenario(Analysis):
         show_template = 'scenario/show.html'
 
 
+class Substrate(models.Model):
+    name = models.CharField(max_length=30)  
+
+    def __unicode__(self):
+        return u'%s' % self.name
+    
+        
 @register
 class Folder(FeatureCollection):
         
