@@ -83,18 +83,18 @@ class Scenario(Analysis):
 
         return True
         
-    def save(self, *args, **kwargs):
-        rerun = False
+    def save(self, rerun=True, *args, **kwargs):
         # only rerun the analysis if any of the input_ fields have changed
         # ie if name and description change no need to rerun the full analysis
         if self.pk is not None:
+            rerun = False
             orig = Scenario.objects.get(pk=self.pk)
             for f in Scenario.input_fields():
                 # Is original value different from form value?
                 #if orig._get_FIELD_display(f) != getattr(self,f.name):
                 if getattr(orig, f.name) != getattr(self, f.name):
                     rerun = True
-                    break            
+                    break
             if not rerun:
                 #the substrates need to be grabbed, then saved, then grabbed again because both getattr calls 
                 #(regardless of whether we use orig or self) return the same original list until the model has been saved 
