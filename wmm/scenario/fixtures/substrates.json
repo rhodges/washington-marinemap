@@ -1,0 +1,50 @@
+ NOTICE: settings.LOG_FILE not specified or is not writeable; logging to stdout instead
+ NOTICE: settings.LOG_FILE not specified or is not writeable; logging to stdout instead
+ NOTICE: settings.LOG_FILE not specified or is not writeable; logging to stdout instead
+ NOTICE: settings.LOG_FILE not specified or is not writeable; logging to stdout instead
+ NOTICE: settings.LOG_FILE not specified or is not writeable; logging to stdout instead
+ NOTICE: settings.LOG_FILE not specified or is not writeable; logging to stdout instead
+[
+    {
+        "pk": 7, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "name": "Soft"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "name": "Rocky"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "name": "Gravel"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "name": "Mud"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "name": "Sand"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "name": "Island"
+        }
+    }
+]

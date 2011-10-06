@@ -53,7 +53,6 @@ class Scenario(Analysis):
 
         g.run('r.buffer input=shoreline_rast output=shoreline_rast_buffer distances=%s' % (self.input_dist_shore * 1000,) )
 
-        substrates = []
         substrate_formula = ' || '.join(['substrate==%s' % s.id for s in self.input_substrate.all()])
         
         mapcalc = """r.mapcalc "rresult = if((if(shoreline_rast_buffer==2) + if(port_buffer_rast) + if(bathy>%s && bathy<%s) + if(%s))==4,1,null())" """ % (self.input_min_depth, self.input_max_depth, substrate_formula) 
@@ -92,16 +91,20 @@ class Scenario(Analysis):
             orig = Scenario.objects.get(pk=self.pk)
             for f in Scenario.input_fields():
                 # Is original value different from form value?
-                if orig._get_FIELD_display(f) != getattr(self,f.name):
+                #if orig._get_FIELD_display(f) != getattr(self,f.name):
+                if getattr(orig, f.name) != getattr(self, f.name):
                     rerun = True
-                    break
+                    break            
             if not rerun:
-                #compare substrate values
-                #better idea would be to compare set values
-                for sub_orig, sub_new in zip(getattr(self, 'input_substrate').all(), getattr(orig, 'input_substrate').all()):
-                    if sub_orig != sub_new:
-                        rerun = True
-                        break
+                #the substrates need to be grabbed, then saved, then grabbed again because both getattr calls 
+                #(regardless of whether we use orig or self) return the same original list until the model has been saved 
+                #(I assume this means the form.save_m2m actually has to be called), after which calls to getattr 
+                #will return the same list (regardless of whether we use orig or self)
+                orig_substrates = set(getattr(orig, 'input_substrate').all())
+                super(Scenario, self).save(rerun=False, *args, **kwargs)
+                new_substrates = set(getattr(self, 'input_substrate').all())
+                if orig_substrates != new_substrates:
+                    rerun = True
         super(Scenario, self).save(rerun=rerun, *args, **kwargs)
 
     @classmethod
