@@ -27,13 +27,13 @@ class ScenarioForm(FeatureForm):
     input_min_depth = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}))
     input_max_depth = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}))
     # Dummy field to set both of the above
-    input_depth = forms.FloatField(min_value=-2000, max_value=0, initial=0,
+    input_depth = forms.FloatField(min_value=-1000, max_value=0, initial=0,
             widget=DualSliderWidget('input_min_depth','input_max_depth',
-                                    min=-2000,max=0,step=1),
+                                    min=-1000,max=0,step=10),
             label="Depth Range (meters)")
     input_substrate = SubstrateModelMultipleChoiceField(queryset=Substrate.objects.all().order_by('id'), 
                                                         widget=forms.SelectMultiple(attrs={'size':6}), 
-                                                        label="Include areas with the following substrates" )    
+                                                        label="Include areas with the following substrates")    
         
     class Meta(FeatureForm.Meta):
         model = Scenario

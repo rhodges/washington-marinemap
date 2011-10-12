@@ -2,8 +2,37 @@
 {% block title %}{{title}}{% endblock %}
 {% block panel %}
 <script type="text/javascript" charset="utf-8">
-    lingcod.onShow(function(){
+    lingcod.onShow(function() {
         lingcod.setupForm($('#featureform'));
+        
+        $(":checkbox").click(function() {
+            if ($("#scenario1").is(":checked")) {
+                $("#distance_shore").show("fast");
+                $("#distance_port").show("fast");
+                $("#substrate").show("fast");
+            }
+            else if ($("#scenario2").is(":checked")) {
+                $("#distance_shore").hide("fast");
+                $("#distance_port").hide("fast");
+            }
+            else  {
+                $("#distance_shore").hide("fast");
+                $("#distance_port").hide("fast");
+                $("#substrate").hide("fast");
+            }
+            if ($("#scenario2").is(":checked")) {
+                $("#depth").show("fast");
+                $("#substrate").show("fast");
+            }
+            else if ($("#scenario1").is(":checked")) {
+                $("#depth").hide("fast");
+            }
+            else {
+                $("#depth").hide("fast");
+                $("#substrate").hide("fast");
+            }
+        });
+        
     });
 </script>
 
@@ -25,6 +54,10 @@ div .box {
     background-repeat: no-repeat;
     min-height: 54px;
 }
+div .input {
+    vertical-align: bottom;
+    position: relative;
+}
 /* div .inputfield { padding-bottom: 14px; padding-left: 66px; } */
 span.form-image { float: left; margin-left: -66px; }
 span.form-image > img { width:46px; height:46px; }
@@ -32,6 +65,9 @@ span.form-image > img { width:46px; height:46px; }
 
 {% if form.media %} {{ form.media }} {% endif %}
 <h1>{{ title }}</h1>
+<div><input id="scenario1" type="checkbox" checked="checked" name="scenario" value="Scenario 1" />Scenario 1
+     <input id="scenario2" type="checkbox" checked="checked" name="scenario" value="Scenario 2" />Scenario 2</div>
+<p>
 <form id="featureform" action="{{action}}" method="post"> 
     {% for hidden in form.hidden_fields %}
     <div style="display:none;">
@@ -40,11 +76,11 @@ span.form-image > img { width:46px; height:46px; }
     {{ hidden }}
     {% endfor %}
 
-<div class="field required">
-    {{ form.name.label_tag }}
-    {{ form.name.errors }}
-    {{ form.name }}            
-</div>
+    <div class="field required">
+        {{ form.name.label_tag }}
+        {{ form.name.errors }}
+        {{ form.name }}            
+    </div>
 
     <div>
         {{ form.description.label_tag }}
@@ -52,8 +88,7 @@ span.form-image > img { width:46px; height:46px; }
         {{ form.description }}            
     </div>
 
-
-    <div id="start">
+    <div id="distance_shore">
         <div class="field required">
             {{ form.input_dist_shore.label_tag }}
             {{ form.input_dist_shore.errors }}
@@ -61,14 +96,15 @@ span.form-image > img { width:46px; height:46px; }
         </div>
     </div>
 
-    <div class="inputfield">
+    <div id="distance_port" class="inputfield">
         <div class="field required">
             {{ form.input_dist_port.label_tag }}
             {{ form.input_dist_port.errors }}
             {{ form.input_dist_port }}            
         </div>
     </div>
-    <div class="inputfield">
+    
+    <div id="depth" class="inputfield">
         <div class="field required">
             {{ form.input_depth.label_tag }} 
             {{ form.input_depth.errors }}
@@ -82,7 +118,7 @@ span.form-image > img { width:46px; height:46px; }
     </div>
     
 
-    <div class="inputfield">
+    <div id="substrate" class="inputfield">
         <div class="field required">
             {{ form.input_substrate.label_tag }}
             {{ form.input_substrate.errors }}

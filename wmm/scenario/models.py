@@ -29,6 +29,9 @@ class Scenario(Analysis):
     output_mapcalc = models.CharField(max_length=360, null=True, blank=True)
     output_area = models.FloatField(null=True, blank=True, verbose_name="Total Area (sq km)")
     
+    geometry_final = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID,
+            null=True, blank=True, verbose_name="Final Scenario Geometry")
+    
     def run(self):
         from lingcod.analysistools.grass import Grass
 
@@ -76,6 +79,8 @@ class Scenario(Analysis):
         geom.srid = settings.GEOMETRY_DB_SRID
         self.output_geom = geom
         self.output_area = geom.area / 1000000.0 # sq m to sq km
+        
+        self.geometry_final = geom
 
         #cleanup
         os.remove(output)
