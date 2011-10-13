@@ -17,8 +17,14 @@ class ClipToScenarioManipulator(ClipToShapeManipulator):
         #get the scenario geometry
         try:
             #scenario_geom = Scenario.objects.all()[3].geometry_final
-            #commit the above with id=28 for demo on thursday
-            scenario_geom = Scenario.objects.get(id=28).geometry_final
+            try: 
+                scenario_geom = Scenario.objects.get(id=28).geometry_final
+            except:
+                try:
+                    scenario_geom = Scenario.objects.get(id=74).geometry_final
+                except:
+                    scenario_geom = Scenario.objects.all()[0].geometry_final
+            #committing the above with id=28 for demo on thursday
             scenario_geom.transform(settings.GEOMETRY_CLIENT_SRID)
             #clean the scenario
             self.clip_against = scenario_geom.buffer(0)
