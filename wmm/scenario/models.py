@@ -218,7 +218,9 @@ class AOI(PolygonFeature):
     class Options:
         verbose_name = 'Area of Interest'
         form = 'scenario.forms.AoiForm'
+        #form_template = 'aoi/form.html'
         manipulators = []
+        optional_manipulators = [ 'wmm_manipulators.manipulators.ClipToScenarioManipulator', ]
 
 @register
 class POI(PointFeature):
