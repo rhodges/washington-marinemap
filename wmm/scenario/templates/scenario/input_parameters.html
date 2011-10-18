@@ -1,0 +1,27 @@
+
+<label for="id_input_parameters_0">Select the Parameters that are relevant to your Scenario.</label>
+<p></p>
+<ul>
+{% for parameter in parameter_list %}
+    <li>
+        <label for="id_input_parameters_{{forloop.counter0}}">
+            <input  id="id_input_parameters_{{forloop.counter0}}" 
+                    class="parameters" 
+                    type="checkbox" 
+                    value="{{parameter.id}}" 
+                    name="input_parameters" 
+                    {% if parameter.id in checked_list %}
+                    checked="checked"
+                    {% endif %}
+                    >
+            {% if parameter.id == 3 %}
+                Depth
+            {% else %}
+                {{ parameter.name }}
+            {% endif %}
+        </label>
+    </li>
+{% endfor %}
+</ul>
+<p></p>
+    

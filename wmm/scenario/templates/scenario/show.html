@@ -24,15 +24,23 @@
                 <p>{{instance.description}}</p>
             <h2>Parameters</h2>
                 <div class="box species" id="temp">
+                    {% if 1 in instance.get_input_parameters %}
                     <p> Distance to Shore <= {{ instance.input_dist_shore }} km</p>
+                    {% endif %}
+                    {% if 2 in instance.get_input_parameters %}
                     <p> Distance to Port <= {{ instance.input_dist_port }} km</p>
+                    {% endif %}
+                    {% if 3 in instance.get_input_parameters %}
                     <p> Depth Range: {{ instance.input_min_depth }} m to {{instance.input_max_depth}} m</p>
+                    {% endif %}
+                    {% if 5 in instance.get_input_parameters %}
                     <p> Substrates : </p>
                     <ul>
                       {% for substrate in instance.input_substrate.all %}
                         <li> {{substrate.name}} </li>
                       {% endfor %}
                     </ul>
+                    {% endif %}
                 </div>
         </div>
         

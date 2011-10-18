@@ -15,9 +15,17 @@ class FolderForm(FeatureForm):
 class SubstrateModelMultipleChoiceField(ModelMultipleChoiceField):
     def label_from_instance(self, obj):
         return obj.name
-            
+
 class ScenarioForm(FeatureForm):
     description = forms.CharField(widget=forms.Textarea(attrs={'cols': 30, 'rows': 3}), required=False)
+    input_objectives = forms.ModelMultipleChoiceField(  queryset=Objective.objects.all().order_by('id'), 
+                                                        required=False, 
+                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'objectives'}),
+                                                        label="Choose 1 or more Objectives from the following list.")
+    input_parameters = forms.ModelMultipleChoiceField(  queryset=Parameter.objects.all(),
+                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters'}),
+                                                        #initial = Parameter.objects.all(),
+                                                        label="Select the Parameters that are relevant to your Scenario.")
     input_dist_shore = forms.FloatField(min_value=0, max_value=40, initial=5,
             widget=SliderWidget(min=0,max=40,step=.5),
             label="Within distance of Shore (km)")
@@ -32,9 +40,9 @@ class ScenarioForm(FeatureForm):
                                     min=-1000,max=0,step=10),
             label="Depth Range (meters)")
     input_substrate = SubstrateModelMultipleChoiceField(queryset=Substrate.objects.all().order_by('id'), 
-                                                        widget=forms.SelectMultiple(attrs={'size':6}), 
-                                                        label="Include areas with the following substrates")    
-        
+                                                        widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
+                                                        label="Include areas with the following substrates") 
+    
     class Meta(FeatureForm.Meta):
         model = Scenario
         exclude = list(FeatureForm.Meta.exclude)

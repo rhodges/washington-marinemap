@@ -13,11 +13,13 @@ from lingcod.layers.models import PrivateLayerList
 @register
 class Scenario(Analysis):
     #Input Parameters
+    input_objectives = models.ManyToManyField("Objective")
+    input_parameters = models.ManyToManyField("Parameter")
+    
     input_dist_shore = models.FloatField(verbose_name='Distance from Shoreline')
     input_dist_port = models.FloatField(verbose_name='Distance to Port')
     input_min_depth = models.FloatField(verbose_name='Minimum Depth')
     input_max_depth = models.FloatField(verbose_name='Maximum Depth')
-    
     input_substrate = models.ManyToManyField("Substrate")
     
     #Descriptors (name field is inherited from Analysis)
@@ -50,15 +52,35 @@ class Scenario(Analysis):
         output = os.path.join(outdir,outbase+'.json')
         if os.path.exists(output):
             raise Exception(output + " already exists")
-
-        g.run('v.buffer input=ports output=port_buffer distance=%s' % (self.input_dist_port * 1000,) )
-        g.run('v.to.rast input=port_buffer output=port_buffer_rast use=cat')
-
-        g.run('r.buffer input=shoreline_rast output=shoreline_rast_buffer distances=%s' % (self.input_dist_shore * 1000,) )
-
-        substrate_formula = ' || '.join(['substrate==%s' % s.id for s in self.input_substrate.all()])
         
-        mapcalc = """r.mapcalc "rresult = if((if(shoreline_rast_buffer==2) + if(port_buffer_rast) + if(bathy>%s && bathy<%s) + if(%s))==4,1,null())" """ % (self.input_min_depth, self.input_max_depth, substrate_formula) 
+        input_params = [p.id for p in self.input_parameters.all()]
+        result = 0
+        if 2 in input_params:
+            g.run('v.buffer input=ports output=port_buffer distance=%s' % (self.input_dist_port * 1000,) )
+            g.run('v.to.rast input=port_buffer output=port_buffer_rast use=cat')
+            port_buffer = 'if(port_buffer_rast)'
+        else:
+            port_buffer = 1
+        
+        if 1 in input_params:
+            g.run('r.buffer input=shoreline_rast output=shoreline_rast_buffer distances=%s' % (self.input_dist_shore * 1000,) )
+            shoreline_buffer = 'if(shoreline_rast_buffer==2)'
+        else:
+            shoreline_buffer = 1
+        
+        if 5 in input_params:
+            substrate_formula = ' || '.join(['substrate==%s' % s.id for s in self.input_substrate.all()])
+            substrate = 'if(%s)' %substrate_formula
+        else:   
+            substrate = 1
+            
+        if 3 in input_params:
+            depth = 'if(bathy > %s && bathy < %s)' % (self.input_min_depth, self.input_max_depth)
+        else:
+            depth = 1
+            
+        mapcalc = """r.mapcalc "rresult = if((%s + %s + %s + %s)==4,1,null())" """ % (port_buffer, shoreline_buffer, substrate, depth)
+        #mapcalc = """r.mapcalc "rresult = if((if(shoreline_rast_buffer==2) + if(port_buffer_rast) + if(bathy>%s && bathy<%s) + if(%s))==4,1,null())" """ % (self.input_min_depth, self.input_max_depth, substrate_formula) 
         g.run(mapcalc)
         self.output_mapcalc = mapcalc
         
@@ -112,6 +134,9 @@ class Scenario(Analysis):
                     rerun = True
         super(Scenario, self).save(rerun=rerun, *args, **kwargs)
 
+    def __unicode__(self):
+        return u'%s' % self.name
+        
     @classmethod
     def mapnik_geomfield(self):
         return "output_geom"
@@ -174,6 +199,15 @@ class Scenario(Analysis):
             </PolyStyle>
         </Style>
         """ % (self.model_uid(),)
+        
+    @property
+    def get_input_parameters(self):
+        input_params = [p.id for p in self.input_parameters.all()]
+        return input_params
+        
+    @property
+    def get_id(self):
+        return self.id
     
     class Options:
         verbose_name = 'Scenario'
@@ -182,14 +216,25 @@ class Scenario(Analysis):
         form_template = 'scenario/form.html'
         show_template = 'scenario/show.html'
 
+class Objective(models.Model):
+    name = models.CharField(max_length=70)
+    
+    def __unicode__(self):
+        return u'%s' % self.name        
 
+class Parameter(models.Model):
+    name = models.CharField(max_length=70)
+    objectives = models.ManyToManyField("Objective", null=True, blank=True)
+    
+    def __unicode__(self):
+        return u'%s' % self.name
+        
 class Substrate(models.Model):
     name = models.CharField(max_length=30)  
 
     def __unicode__(self):
         return u'%s' % self.name
-    
-        
+
 @register
 class Folder(FeatureCollection):
         
@@ -219,8 +264,7 @@ class AOI(PolygonFeature):
         verbose_name = 'Area of Interest'
         form = 'scenario.forms.AoiForm'
         #form_template = 'aoi/form.html'
-        manipulators = []
-        optional_manipulators = [ 'wmm_manipulators.manipulators.ClipToScenarioManipulator', ]
+        show_template = 'aoi/show.html'
 
 @register
 class POI(PointFeature):

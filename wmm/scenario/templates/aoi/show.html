@@ -1,0 +1,36 @@
+{% extends 'common/panel.html' %}
+{% block title %}{{instance.name}}{% endblock title %}
+{% block panel %}
+
+<h1>Area of Interest result for {{instance.name}}</h1>
+    <div class="tabs">
+        <ul>
+            <li><a href="#Inputs"><span>Inputs</span></a></li>
+            {% if instance.done %}
+            <li><a href="#results"><span>Results</span></a></li>
+            {% endif %}
+        </ul>
+        <div id="Inputs">
+            <ul class="metadata">
+              {% if instance.user.first_name and instance.user.last_name %} 
+                <li class="creator">Created By {{instance.user.first_name}} {{instance.user.last_name}}</li>
+              {% else %}
+                <li class="creator">Created By {{instance.user.username}}</li>
+              {% endif %}
+                <li class="created">Created {{instance.date_created|date:"d M, Y P"}}</li>
+                <li class="modified">Modified {{instance.date_modified|date:"d M, Y P"}}</li>
+                <br class="clear" />
+            </ul>
+            <h2>Description</h2>
+                <p>{{instance.description}}</p>
+        </div>
+        
+        {% if instance.done %}
+        <div id="results">
+           <p>Reports coming soon...</p>
+        </div>
+        {% endif %}
+        
+    </div>
+
+{% endblock panel %}
