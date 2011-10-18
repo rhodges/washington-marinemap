@@ -1,0 +1,66 @@
+registering Feature Bookmark
+registering Feature Scenario
+registering Feature Folder
+registering Feature AOI
+registering Feature POI
+registering Feature LOI
+registering Feature UserKml
+[
+    {
+        "pk": 1, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "objectives": [
+                1, 
+                2
+            ], 
+            "name": "Distance to Shore"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "objectives": [
+                1, 
+                2, 
+                4
+            ], 
+            "name": "Distance to Port"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "objectives": [
+                1, 
+                2, 
+                3
+            ], 
+            "name": "Max Depth"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "objectives": [
+                1, 
+                2, 
+                3, 
+                4, 
+                5
+            ], 
+            "name": "Substrate"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "objectives": [], 
+            "name": "Min Depth"
+        }
+    }
+]

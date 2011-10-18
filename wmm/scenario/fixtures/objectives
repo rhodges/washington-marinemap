@@ -1,0 +1,44 @@
+registering Feature Bookmark
+registering Feature Scenario
+registering Feature Folder
+registering Feature AOI
+registering Feature POI
+registering Feature LOI
+registering Feature UserKml
+[
+    {
+        "pk": 1, 
+        "model": "scenario.objective", 
+        "fields": {
+            "name": "Wave Energy"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.objective", 
+        "fields": {
+            "name": "Wind Energy"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.objective", 
+        "fields": {
+            "name": "Conservation"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.objective", 
+        "fields": {
+            "name": "Development"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.objective", 
+        "fields": {
+            "name": "Shelfish"
+        }
+    }
+]
