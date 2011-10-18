@@ -7,6 +7,8 @@
         
         var step = 1;
         var max_step = 4;
+        var first_next = true;
+        var is_edit = !(!$('#id_name').val());
         var initial_objs = [];
         var selected_objs = [];
         var objectives = $('input.objectives');
@@ -17,12 +19,14 @@
         });
         var initial_params = [];
         var selected_params = [];
-        //var params = $('input.parameters');
-        //$.each(params, function(index, obj) {
-        //    if (obj.checked) {
-        //        initial_params.push(obj.value);
-        //    }
-        //});
+        if (is_edit) {
+            var params = $('input.parameters');        
+            $.each(params, function(index, obj) {
+                if (obj.checked) {
+                    selected_params.push(obj.value);
+                }
+            });
+        }
         
         function identical(list1, list2) {
             if (list1.length != list2.length) {
@@ -72,22 +76,21 @@
                 if (validate(step)) {
                     step += 1;
                     
-                    //console.log(initial_objs);
-                    //console.log(selected_objs);
-                    //console.log(initial_params);
-                    //console.log(selected_params);
+                    console.log(initial_objs);
+                    console.log(selected_objs);
+                    console.log(initial_params);
+                    console.log(selected_params);
                     
-                    //var is_edit = $('#id_name').val();
-                    var is_edit = !identical(initial_params, selected_params);
-                    //console.log(is_edit);
+                    //var is_edit = !identical(initial_params, selected_params);
+                    console.log(is_edit);
                     
-                    if (!identical(initial_objs, selected_objs) || is_edit) {
+                    if (!identical(initial_objs, selected_objs) || !identical(initial_params, selected_params) || first_next) {
                         console.log('calling get_params...');
-                        $.post('/scenario/form/get-params', {'selected_objs': selected_objs, 'initial_params': initial_params}, function(data) {
+                        $.post('/scenario/form/get-params', {'selected_objs': selected_objs, 'selected_params': selected_params, 'is_edit': is_edit}, function(data) {
                             $('#step2_data').html(data);
                         });
                     } 
-                    
+                    first_next = false;
                     initial_objs = selected_objs;
                 }
             } else if (step ==2 && action == 'prev') {

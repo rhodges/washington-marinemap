@@ -8,7 +8,7 @@ import settings
 '''
 def get_params(request, template='scenario/input_parameters.html'):
     if (request.POST):
-        #is_edit = len(request.POST.getlist('is_edit')) > 0
+        is_edit = request.POST.getlist('is_edit')[0] == 'true'
         
         #previous_objs = getlist(request, 'previous_objs[]')
         #param_qs = Parameter.objects.filter(objectives__in=previous_objs)
@@ -20,7 +20,7 @@ def get_params(request, template='scenario/input_parameters.html'):
         param_set = set(param_qs)
         parameter_list = list(param_set)
         
-        selected_params = getlist(request, 'initial_params[]')
+        selected_params = getlist(request, 'selected_params[]')
         
         #ensure that any newly appearing parameters will be checked
         #for param in parameter_list:
