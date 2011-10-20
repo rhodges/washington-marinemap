@@ -22,12 +22,12 @@ class ScenarioForm(FeatureForm):
     input_objectives = forms.ModelMultipleChoiceField(  queryset=Objective.objects.all().order_by('id'), 
                                                         widget=forms.CheckboxSelectMultiple(attrs={'class': 'objectives'}),
                                                         required=False, 
-                                                        label="Choose 1 or more Objectives from the following list. *")
+                                                        label="")
     input_parameters = forms.ModelMultipleChoiceField(  queryset=Parameter.objects.all(),
                                                         widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters'}),
                                                         required=False, 
                                                         #initial = Parameter.objects.all(),
-                                                        label="Select the Parameters that are relevant to your Scenarios. *")
+                                                        label="")
     input_dist_shore = forms.FloatField(min_value=0, max_value=40, initial=5,
             widget=SliderWidget(min=0,max=40,step=.5),
             label="Within distance of Shore (km)")

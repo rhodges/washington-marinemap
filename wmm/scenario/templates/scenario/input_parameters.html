@@ -1,11 +1,4 @@
-<script type="text/javascript" charset="utf-8">
-$('#check_all').click(function(event) {
-    $('input.parameters').each( function() { $(this).attr('checked', 'checked'); });
-});
-$('#uncheck_all').click(function(event) {
-    $('input.parameters').each( function() { $(this).removeAttr('checked'); });
-});
-</script>
+
 <p></p>
 <ul>
 {% for parameter in parameter_list %}
@@ -29,7 +22,5 @@ $('#uncheck_all').click(function(event) {
     </li>
 {% endfor %}
 </ul>
-<input type="button" id="check_all" value="Check All">
-<input type="button" id="uncheck_all" value="Uncheck All">
 <p></p>
     

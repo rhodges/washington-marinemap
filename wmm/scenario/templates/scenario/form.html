@@ -57,7 +57,7 @@
                 } 
             } else if (step == 2) {
                 selected_params = [];
-                all_params = $('input.parameters');
+                var all_params = $('input.parameters');
                 $.each(all_params, function(index, param) {
                     if (param.checked) {
                         selected_params.push(param.value);
@@ -76,16 +76,16 @@
                 if (validate(step)) {
                     step += 1;
                     
-                    console.log(initial_objs);
-                    console.log(selected_objs);
-                    console.log(initial_params);
-                    console.log(selected_params);
+                    //console.log(initial_objs);
+                    //console.log(selected_objs);
+                    //console.log(initial_params);
+                    //console.log(selected_params);
                     
                     //var is_edit = !identical(initial_params, selected_params);
-                    console.log(is_edit);
+                    //console.log(is_edit);
                     
                     if (!identical(initial_objs, selected_objs) || !identical(initial_params, selected_params) || first_next) {
-                        console.log('calling get_params...');
+                        //console.log('calling get_params...');
                         $.post('/scenario/form/get-params', {'selected_objs': selected_objs, 'selected_params': selected_params, 'is_edit': is_edit}, function(data) {
                             $('#step2_data').html(data);
                         });
@@ -96,7 +96,7 @@
             } else if (step ==2 && action == 'prev') {
                 step -= 1;
                 selected_params = [];
-                all_params = $('input.parameters');
+                var all_params = $('input.parameters');
                 $.each(all_params, function(index, param) {
                     if (param.checked) {
                         selected_params.push(param.value);
@@ -153,6 +153,14 @@
         $('ul.errorlist').each( function() {
                 $('div#error_bar').html("<ul class='errorlist'><li>We encountered an error while processing your bioregion. Can you recheck the steps and make sure you've filled in all the required information?</li></ul>");
         });
+        
+        
+        $('#check_all').click(function(event) {
+            $('input.parameters').each( function() { $(this).attr('checked', 'checked'); });
+        });
+        $('#uncheck_all').click(function(event) {
+            $('input.parameters').each( function() { $(this).removeAttr('checked'); });
+        });
                     
     });
 </script>
@@ -193,7 +201,7 @@ span.form-image > img { width:46px; height:46px; }
   
   <div class="step" id="step1">
     <h3> Step 1 of 4 </h3>
-    <p><p>
+    <p> <strong>Choose 1 or more Objectives </strong> from the following list. *<p>
     <div id="objectives" class="inputfield">
         <div>
             {{ form.input_objectives.label_tag }}
@@ -205,18 +213,21 @@ span.form-image > img { width:46px; height:46px; }
     
   <div class="step" id="step2">
     <h3> Step 2 of 4 </h3>
-    <p><p>
+    <p><strong>Choose Parameters </strong> that are relevant to your Scenarios. *<p>
     <div id="param_list">
         {{ form.input_parameters.label_tag }}
         {{ form.input_parameters.errors }}
         <div id="step2_data">
             <p>{{ form.input_parameters }} </p>
         </div>
+        <input type="button" id="check_all" value="Check All">
+        <input type="button" id="uncheck_all" value="Uncheck All">
     </div>
   </div>
 
   <div class="step" id="step3">
     <h3> Step 3 of 4 </h3>
+    <p><strong>Provide suitable values </strong>for each of the chosen parameters.</p>
     <p></p>
     <div id="distance_shore" class="inputfield">
         <div class="field required">
@@ -260,12 +271,13 @@ span.form-image > img { width:46px; height:46px; }
 <div class="step" id="step4">
     <h3> Step 4 of 4 </h3>
     <p> <strong>Provide a name</strong> to identify your scenario </p>
+    <p></p>
     <div class="field required">
         {{ form.name.label_tag }}
         {{ form.name.errors }}
         {{ form.name }}            
     </div>
-    <p> Optionally, you may add a description or attach a file here.  </p>
+    <p> <strong>Optionally</strong>, you may <strong>add a description </strong>or <strong>attach a file </strong>here.  </p>
     <div>
         {{ form.description.label_tag }}
         {{ form.description.errors }}
