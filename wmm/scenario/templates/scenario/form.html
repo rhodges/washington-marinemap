@@ -76,16 +76,7 @@
                 if (validate(step)) {
                     step += 1;
                     
-                    //console.log(initial_objs);
-                    //console.log(selected_objs);
-                    //console.log(initial_params);
-                    //console.log(selected_params);
-                    
-                    //var is_edit = !identical(initial_params, selected_params);
-                    //console.log(is_edit);
-                    
                     if (!identical(initial_objs, selected_objs) || !identical(initial_params, selected_params) || first_next) {
-                        //console.log('calling get_params...');
                         $.post('/scenario/form/get-params', {'selected_objs': selected_objs, 'selected_params': selected_params, 'is_edit': is_edit}, function(data) {
                             $('#step2_data').html(data);
                         });
@@ -288,7 +279,6 @@ span.form-image > img { width:46px; height:46px; }
         {{ form.file.errors }}  
         {% if form.instance.file %}
         <p>Current File: <a href="{{ form.instance.file.url }}" target="_blank">{{ form.instance.filename }}</a></p>
-        <!--<p>Remove Current File <input type="checkbox" id="remove_file" value="Remove File"> </p>-->
         {% endif %}
         <p>{{ form.file }}</p>         
     </div>

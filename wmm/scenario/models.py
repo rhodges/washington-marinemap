@@ -124,8 +124,8 @@ class Scenario(Analysis):
                     rerun = True
                     break
             if not rerun:
-                #the substrates need to be grabbed, then saved, then grabbed again because both getattr calls 
-                #(regardless of whether we use orig or self) return the same original list until the model has been saved 
+                #the substrates need to be grabbed, then saved, then grabbed again because (regardless of whether we use orig or self) 
+                #both getattr calls return the same original list until the model has been saved 
                 #(I assume this means the form.save_m2m actually has to be called), after which calls to getattr 
                 #will return the same list (regardless of whether we use orig or self)
                 orig_substrates = set(getattr(orig, 'input_substrate').all())
