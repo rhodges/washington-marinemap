@@ -18,14 +18,16 @@ class SubstrateModelMultipleChoiceField(ModelMultipleChoiceField):
 
 class ScenarioForm(FeatureForm):
     description = forms.CharField(widget=forms.Textarea(attrs={'cols': 30, 'rows': 3}), required=False)
+    file = forms.FileField(widget=forms.FileInput(), max_length=70, required=False) #using ClearableFileInput produces poorly formatted edit form
     input_objectives = forms.ModelMultipleChoiceField(  queryset=Objective.objects.all().order_by('id'), 
-                                                        required=False, 
                                                         widget=forms.CheckboxSelectMultiple(attrs={'class': 'objectives'}),
-                                                        label="Choose 1 or more Objectives from the following list.")
+                                                        required=False, 
+                                                        label="Choose 1 or more Objectives from the following list. *")
     input_parameters = forms.ModelMultipleChoiceField(  queryset=Parameter.objects.all(),
                                                         widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters'}),
+                                                        required=False, 
                                                         #initial = Parameter.objects.all(),
-                                                        label="Select the Parameters that are relevant to your Scenario.")
+                                                        label="Select the Parameters that are relevant to your Scenarios. *")
     input_dist_shore = forms.FloatField(min_value=0, max_value=40, initial=5,
             widget=SliderWidget(min=0,max=40,step=.5),
             label="Within distance of Shore (km)")

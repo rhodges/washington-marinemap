@@ -24,6 +24,7 @@ class Scenario(Analysis):
     
     #Descriptors (name field is inherited from Analysis)
     description = models.TextField(null=True, blank=True)
+    file = models.FileField(upload_to='scenarios/files/', null=True, blank=True)
     
     # All output fields should be allowed to be Null/Blank
     output_geom = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID,
@@ -136,6 +137,9 @@ class Scenario(Analysis):
 
     def __unicode__(self):
         return u'%s' % self.name
+        
+    def filename(self):
+        return os.path.basename(self.file.name)
         
     @classmethod
     def mapnik_geomfield(self):

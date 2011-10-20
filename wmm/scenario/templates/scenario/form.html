@@ -195,7 +195,7 @@ span.form-image > img { width:46px; height:46px; }
     <h3> Step 1 of 4 </h3>
     <p><p>
     <div id="objectives" class="inputfield">
-        <div class="field required">
+        <div>
             {{ form.input_objectives.label_tag }}
             {{ form.input_objectives.errors }}
             <p>{{ form.input_objectives }} </p>
@@ -207,9 +207,9 @@ span.form-image > img { width:46px; height:46px; }
     <h3> Step 2 of 4 </h3>
     <p><p>
     <div id="param_list">
-        <div class="field required" id="step2_data">
-            {{ form.input_parameters.label_tag }}
-            {{ form.input_parameters.errors }}
+        {{ form.input_parameters.label_tag }}
+        {{ form.input_parameters.errors }}
+        <div id="step2_data">
             <p>{{ form.input_parameters }} </p>
         </div>
     </div>
@@ -265,11 +265,20 @@ span.form-image > img { width:46px; height:46px; }
         {{ form.name.errors }}
         {{ form.name }}            
     </div>
-    <p> Optionally, you may add notes and further descriptions here.  </p>
+    <p> Optionally, you may add a description or attach a file here.  </p>
     <div>
         {{ form.description.label_tag }}
         {{ form.description.errors }}
         {{ form.description }}            
+    </div>
+    <div>
+        {{ form.file.label_tag }}
+        {{ form.file.errors }}  
+        {% if form.instance.file %}
+        <p>Current File: <a href="{{ form.instance.file.url }}" target="_blank">{{ form.instance.filename }}</a></p>
+        <!--<p>Remove Current File <input type="checkbox" id="remove_file" value="Remove File"> </p>-->
+        {% endif %}
+        <p>{{ form.file }}</p>         
     </div>
 </div>
 

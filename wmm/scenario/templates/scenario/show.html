@@ -21,7 +21,11 @@
                 <br class="clear" />
             </ul>
             <h2>Description</h2>
+                {% if instance.description %}
                 <p>{{instance.description}}</p>
+                {% else %}
+                <p>No Description</p>
+                {% endif %}
             <h2>Parameters</h2>
                 <div class="box species" id="temp">
                     {% if 1 in instance.get_input_parameters %}
@@ -40,6 +44,14 @@
                         <li> {{substrate.name}} </li>
                       {% endfor %}
                     </ul>
+                    {% endif %}
+                </div>
+            <h2>Attachments</h2>
+                <div class="box species">
+                    {% if instance.file %}
+                    <p><a href="{{instance.file.url}}" target="_blank">{{instance.filename}}</a></p>
+                    {% else %}
+                    <p>No Attachments</p>
                     {% endif %}
                 </div>
         </div>

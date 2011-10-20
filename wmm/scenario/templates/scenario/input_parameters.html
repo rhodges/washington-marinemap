@@ -6,7 +6,6 @@ $('#uncheck_all').click(function(event) {
     $('input.parameters').each( function() { $(this).removeAttr('checked'); });
 });
 </script>
-<label for="id_input_parameters_0">Select the Parameters that are relevant to your Scenario.</label>
 <p></p>
 <ul>
 {% for parameter in parameter_list %}
