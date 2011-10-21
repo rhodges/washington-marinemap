@@ -310,7 +310,7 @@ class AOI(PolygonFeature):
     class Options:
         verbose_name = 'Area of Interest'
         form = 'scenario.forms.AoiForm'
-        #form_template = 'aoi/form.html'
+        form_template = 'aoi/form.html'
         show_template = 'aoi/show.html'
 
 @register
