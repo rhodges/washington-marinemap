@@ -6,6 +6,18 @@ import settings
 
 '''
 '''
+def tradeoff_analysis(request, folder_id):
+    from tradeoff.tradeoff_analysis import display_tradeoff_analysis
+    folder_obj = get_object_or_404(Folder, pk=folder_id)
+    #check permissions
+    viewable, response = folder_obj.is_viewable(request.user)
+    if not viewable:
+        return response
+    return display_tradeoff_analysis(request, folder_obj)
+    
+
+'''
+'''
 def wind_analysis(request, ws_id, type):
     from wind.wind_analysis import display_wind_analysis
     wind_obj = get_object_or_404(WindEnergySite, pk=ws_id)
