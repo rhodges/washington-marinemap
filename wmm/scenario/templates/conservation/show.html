@@ -1,0 +1,41 @@
+{% extends 'common/panel.html' %}
+{% block title %}{{instance.name}}{% endblock title %}
+{% block panel %}
+
+<h1>Conservation Site Reports for {{instance.name}}</h1>
+    <div class="tabs">
+        <ul>
+            <li><a href="#inputs"><span>Inputs</span></a></li>
+            <li><a href="#results"><span>Reports</span></a></li>
+        </ul>
+        <div id="inputs">
+            <ul class="metadata">
+              {% if instance.user.first_name and instance.user.last_name %} 
+                <li class="creator">Created By {{instance.user.first_name}} {{instance.user.last_name}}</li>
+              {% else %}
+                <li class="creator">Created By {{instance.user.username}}</li>
+              {% endif %}
+                <li class="created">Created {{instance.date_created|date:"d M, Y P"}}</li>
+                <li class="modified">Modified {{instance.date_modified|date:"d M, Y P"}}</li>
+                <br class="clear" />
+            </ul>
+            <h2>Description</h2>
+                <p>{{instance.description}}</p>
+        </div>
+        
+        <div id="results" class="tabs">
+            <ul>
+                <li><a href="#Conservation_Instructions"><span>Instructions</span></a></li>
+                <li><a href="{% url conservation_analysis instance.pk 'phy' %}"><span>Physical</span></a></li>
+                <li><a href="{% url conservation_analysis instance.pk 'bio' %}"><span>Biological</span></a></li>
+            </ul>
+            <div id="Conservation_Instructions">
+                <h3>Conservation Site Reports Instructions</h3>
+                <p><strong>Physical</strong> reports provide information about the physical aspects of your site. </p>
+                <p><strong>Biological</strong> reports provide information about the biological aspects of your site. </p>
+            </div>
+        </div>
+        
+    </div>
+
+{% endblock panel %}
