@@ -22,6 +22,20 @@ class ParameterAdmin(admin.ModelAdmin):
     fields = ['name', 'objectives']
 admin.site.register(Parameter, ParameterAdmin)
 
+class ConservationSiteAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'name', 'user', 'date_created', 'date_modified')
+    list_filter = ['date_modified', 'date_created']
+    search_fields = ('name', 'user__username', 'id')
+    fields = ['name', 'description']
+admin.site.register(ConservationSite, ConservationSiteAdmin)
+
+class WindEnergySiteAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'name', 'user', 'date_created', 'date_modified')
+    list_filter = ['date_modified', 'date_created']
+    search_fields = ('name', 'user__username', 'id')
+    fields = ['name', 'description']
+admin.site.register(WindEnergySite, WindEnergySiteAdmin)
+
 class AOIAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'user', 'date_created', 'date_modified')
     list_filter = ['date_modified', 'date_created']
@@ -33,6 +47,6 @@ class FolderAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'user', 'date_created', 'date_modified')
     list_filter = ['date_modified', 'date_created']
     search_fields = ('name', 'user__username', 'id')
-    fields = ['name']
+    fields = ['name', 'description']
 admin.site.register(Folder, FolderAdmin)
 

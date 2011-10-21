@@ -101,6 +101,10 @@ class ScenarioForm(FeatureForm):
         for f in model.output_fields():
             exclude.append(f.attname)
 
+class ConservationSiteForm(SpatialFeatureForm):
+    class Meta(SpatialFeatureForm.Meta):
+        model = ConservationSite
+            
 class WindEnergySiteForm(SpatialFeatureForm):
     class Meta(SpatialFeatureForm.Meta):
         model = WindEnergySite

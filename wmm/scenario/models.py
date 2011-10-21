@@ -10,6 +10,31 @@ from lingcod.common.utils import asKml
 from lingcod.features.models import PointFeature, LineFeature, PolygonFeature, FeatureCollection
 from lingcod.layers.models import PrivateLayerList
 
+
+@register
+class Folder(FeatureCollection):
+    description = models.TextField(null=True,blank=True)
+        
+    class Options:
+        verbose_name = 'Folder'
+        valid_children = ( 'scenario.models.Scenario', 
+	                   'scenario.models.AOI', 
+	                   'scenario.models.POI', 
+	                   'scenario.models.LOI', 
+	                   'scenario.models.UserKml', 
+	                   'lingcod.bookmarks.models.Bookmark', 
+                           'scenario.models.Folder')
+        form = 'scenario.forms.FolderForm'
+        form_template = 'folder/form.html'
+        show_template = 'folder/show.html'
+
+    @classmethod
+    def css(klass):
+        return """ li.%(uid)s > .icon { 
+        background: url('%(media)skmltree/dist/images/sprites/kml.png?1302821411') no-repeat -231px 0px ! important;
+        } """ % { 'uid': klass.model_uid(), 'media': settings.MEDIA_URL }
+
+
 @register
 class Scenario(Analysis):
     #Input Parameters
@@ -239,29 +264,56 @@ class Substrate(models.Model):
     def __unicode__(self):
         return u'%s' % self.name
 
+
 @register
-class Folder(FeatureCollection):
+class ConservationSite(PolygonFeature):
     description = models.TextField(null=True,blank=True)
-        
+    
+    @property
+    def kml(self):
+        return """
+        <Placemark id="%s">
+            <visibility>1</visibility>
+            <name>%s</name>
+            <styleUrl>#%s-default</styleUrl>
+            <ExtendedData>
+                <Data name="name"><value>%s</value></Data>
+                <Data name="user"><value>%s</value></Data>
+                <Data name="desc"><value>%s</value></Data>
+                <Data name="modified"><value>%s</value></Data>
+            </ExtendedData>
+            %s 
+        </Placemark>
+        """ % (self.uid, escape(self.name), self.model_uid(), 
+               escape(self.name), self.user, escape(self.description), self.date_modified, 
+               self.geom_kml)
+
+    @property
+    def kml_style(self):
+        return """
+        <Style id="%s-default">
+            <BalloonStyle>
+                <bgColor>ffeeeeee</bgColor>
+                <text> <![CDATA[
+                    <font color="#1A3752"><strong>$[name]</strong></font><br />
+                    <p>$[desc]</p>
+                    <font size=1>Created by $[user] on $[modified]</font>
+                ]]> </text>
+            </BalloonStyle>
+            <PolyStyle>
+                <color>778B1A55</color>
+            </PolyStyle>
+            <LineStyle>
+                <color>ffffffff</color>
+            </LineStyle>
+        </Style>
+        """ % (self.model_uid())
+
     class Options:
-        verbose_name = 'Folder'
-        valid_children = ( 'scenario.models.Scenario', 
-	                   'scenario.models.AOI', 
-	                   'scenario.models.POI', 
-	                   'scenario.models.LOI', 
-	                   'scenario.models.UserKml', 
-	                   'lingcod.bookmarks.models.Bookmark', 
-                           'scenario.models.Folder')
-        form = 'scenario.forms.FolderForm'
-        form_template = 'folder/form.html'
-        show_template = 'folder/show.html'
-
-    @classmethod
-    def css(klass):
-        return """ li.%(uid)s > .icon { 
-        background: url('%(media)skmltree/dist/images/sprites/kml.png?1302821411') no-repeat -231px 0px ! important;
-        } """ % { 'uid': klass.model_uid(), 'media': settings.MEDIA_URL }
-
+        verbose_name = 'Conservation Site'
+        form = 'scenario.forms.ConservationSiteForm'
+        form_template = 'conservationsite/form.html'
+        show_template = 'conservationsite/show.html'
 
 @register
 class WindEnergySite(PolygonFeature):
