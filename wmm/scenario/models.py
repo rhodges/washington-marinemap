@@ -312,8 +312,8 @@ class ConservationSite(PolygonFeature):
     class Options:
         verbose_name = 'Conservation Site'
         form = 'scenario.forms.ConservationSiteForm'
-        form_template = 'conservationsite/form.html'
-        show_template = 'conservationsite/show.html'
+        form_template = 'conservation/form.html'
+        show_template = 'conservation/show.html'
 
 @register
 class WindEnergySite(PolygonFeature):
@@ -362,8 +362,8 @@ class WindEnergySite(PolygonFeature):
     class Options:
         verbose_name = 'Wind Energy Site'
         form = 'scenario.forms.WindEnergySiteForm'
-        form_template = 'windenergysite/form.html'
-        show_template = 'windenergysite/show.html'
+        form_template = 'windenergy/form.html'
+        show_template = 'windenergy/show.html'
 
 
 @register

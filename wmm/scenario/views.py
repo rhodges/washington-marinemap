@@ -4,6 +4,15 @@ from django.shortcuts import get_object_or_404, render_to_response
 from models import *
 import settings
 
+def conservation_analysis(request, cs_id, type):
+    from conservation.conservation_analysis import display_conservation_analysis
+    cs_object = get_object_or_404(ConservationSite, pk=cs_id)
+    #check permissions
+    viewable, response = cs_object.is_viewable(request.user)
+    if not viewable:
+        return response
+    return display_conservation_analysis(request, cs_object, type)
+    
 '''
 '''
 def get_params(request, template='scenario/input_parameters.html'):
