@@ -101,6 +101,14 @@ class ScenarioForm(FeatureForm):
         for f in model.output_fields():
             exclude.append(f.attname)
 
+class WindEnergySiteForm(SpatialFeatureForm):
+    class Meta(SpatialFeatureForm.Meta):
+        model = WindEnergySite
+            
+class AoiForm(SpatialFeatureForm):
+    class Meta(SpatialFeatureForm.Meta):
+        model = AOI
+
 class LoiForm(SpatialFeatureForm):
     class Meta(SpatialFeatureForm.Meta):
         model = LOI
@@ -108,10 +116,6 @@ class LoiForm(SpatialFeatureForm):
 class PoiForm(SpatialFeatureForm):
     class Meta(SpatialFeatureForm.Meta):
         model = POI
-
-class AoiForm(SpatialFeatureForm):
-    class Meta(SpatialFeatureForm.Meta):
-        model = AOI
 
 class UserKmlForm(FeatureForm):
     class Meta(FeatureForm.Meta):
