@@ -192,7 +192,7 @@ span.form-image > img { width:46px; height:46px; }
   
   <div class="step" id="step1">
     <h3> Step 1 of 4 </h3>
-    <p> <strong>Choose 1 or more Objectives </strong> from the following list. *<p>
+    <p> <strong>Choose 1 or more Objectives </strong> from the following list. <strong>*</strong><p>
     <div id="objectives" class="inputfield">
         <div>
             {{ form.input_objectives.label_tag }}
@@ -204,7 +204,7 @@ span.form-image > img { width:46px; height:46px; }
     
   <div class="step" id="step2">
     <h3> Step 2 of 4 </h3>
-    <p><strong>Choose Parameters </strong> that are relevant to your Scenarios. *<p>
+    <p><strong>Choose Parameters </strong> that are relevant to your Scenarios. <strong>*</strong><p>
     <div id="param_list">
         {{ form.input_parameters.label_tag }}
         {{ form.input_parameters.errors }}
@@ -218,7 +218,7 @@ span.form-image > img { width:46px; height:46px; }
 
   <div class="step" id="step3">
     <h3> Step 3 of 4 </h3>
-    <p><strong>Provide suitable values </strong>for each of the chosen parameters.</p>
+    <p><strong>Provide suitable values </strong>for each of the chosen parameters. <strong>*</strong></p>
     <p></p>
     <div id="distance_shore" class="inputfield">
         <div class="field required">
@@ -275,12 +275,12 @@ span.form-image > img { width:46px; height:46px; }
         {{ form.description }}            
     </div>
     <div>
-        {{ form.file.label_tag }}
-        {{ form.file.errors }}  
-        {% if form.instance.file %}
-        <p>Current File: <a href="{{ form.instance.file.url }}" target="_blank">{{ form.instance.filename }}</a></p>
+        {{ form.support_file.label_tag }}
+        {{ form.support_file.errors }} 
+        {% if form.support_file.help_text %}
+            <p>{{ form.support_file.help_text }}</p>            
         {% endif %}
-        <p>{{ form.file }}</p>         
+        <p>{{ form.support_file }}</p>         
     </div>
 </div>
 

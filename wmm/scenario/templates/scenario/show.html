@@ -46,10 +46,10 @@
                     </ul>
                     {% endif %}
                 </div>
-            <h2>Attachments</h2>
+            <h2>Support File</h2>
                 <div class="box species">
-                    {% if instance.file %}
-                    <p><a href="{{instance.file.url}}" target="_blank">{{instance.filename}}</a></p>
+                    {% if instance.support_file %}
+                    <p><a href="{{instance.support_file.url}}" target="_blank">{{instance.support_filename}}</a></p>
                     {% else %}
                     <p>No Attachments</p>
                     {% endif %}
