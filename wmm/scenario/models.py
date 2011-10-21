@@ -241,6 +241,7 @@ class Substrate(models.Model):
 
 @register
 class Folder(FeatureCollection):
+    description = models.TextField(null=True,blank=True)
         
     class Options:
         verbose_name = 'Folder'
@@ -252,6 +253,7 @@ class Folder(FeatureCollection):
 	                   'lingcod.bookmarks.models.Bookmark', 
                            'scenario.models.Folder')
         form = 'scenario.forms.FolderForm'
+        form_template = 'folder/form.html'
         show_template = 'folder/show.html'
 
     @classmethod
@@ -264,6 +266,47 @@ class Folder(FeatureCollection):
 @register
 class AOI(PolygonFeature):
     description = models.TextField(null=True,blank=True)
+    
+    @property
+    def kml(self):
+        return """
+        <Placemark id="%s">
+            <visibility>1</visibility>
+            <name>%s</name>
+            <styleUrl>#%s-default</styleUrl>
+            <ExtendedData>
+                <Data name="name"><value>%s</value></Data>
+                <Data name="user"><value>%s</value></Data>
+                <Data name="desc"><value>%s</value></Data>
+                <Data name="modified"><value>%s</value></Data>
+            </ExtendedData>
+            %s 
+        </Placemark>
+        """ % (self.uid, escape(self.name), self.model_uid(), 
+               escape(self.name), self.user, escape(self.description), self.date_modified, 
+               self.geom_kml)
+
+    @property
+    def kml_style(self):
+        return """
+        <Style id="%s-default">
+            <BalloonStyle>
+                <bgColor>ffeeeeee</bgColor>
+                <text> <![CDATA[
+                    <font color="#1A3752"><strong>$[name]</strong></font><br />
+                    <p>$[desc]</p>
+                    <font size=1>Created by $[user] on $[modified]</font>
+                ]]> </text>
+            </BalloonStyle>
+            <PolyStyle>
+                <color>778B1A55</color>
+            </PolyStyle>
+            <LineStyle>
+                <color>ffffffff</color>
+            </LineStyle>
+        </Style>
+        """ % (self.model_uid())
+
     class Options:
         verbose_name = 'Area of Interest'
         form = 'scenario.forms.AoiForm'

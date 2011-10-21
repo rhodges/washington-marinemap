@@ -6,9 +6,7 @@
     <div class="tabs">
         <ul>
             <li><a href="#Inputs"><span>Inputs</span></a></li>
-            {% if instance.done %}
             <li><a href="#results"><span>Results</span></a></li>
-            {% endif %}
         </ul>
         <div id="Inputs">
             <ul class="metadata">
@@ -25,11 +23,9 @@
                 <p>{{instance.description}}</p>
         </div>
         
-        {% if instance.done %}
         <div id="results">
-           <p>Reports coming soon...</p>
+           <p>Multi-Objective Analysis Reports coming soon...</p>
         </div>
-        {% endif %}
         
     </div>
 
