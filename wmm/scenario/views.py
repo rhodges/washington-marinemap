@@ -4,6 +4,19 @@ from django.shortcuts import get_object_or_404, render_to_response
 from models import *
 import settings
 
+'''
+'''
+def wind_analysis(request, ws_id, type):
+    from wind.wind_analysis import display_wind_analysis
+    wind_obj = get_object_or_404(WindEnergySite, pk=ws_id)
+    #check permissions
+    viewable, response = wind_obj.is_viewable(request.user)
+    if not viewable:
+        return response
+    return display_wind_analysis(request, wind_obj, type)
+    
+'''
+'''
 def conservation_analysis(request, cs_id, type):
     from conservation.conservation_analysis import display_conservation_analysis
     cs_object = get_object_or_404(ConservationSite, pk=cs_id)

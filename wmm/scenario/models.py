@@ -201,18 +201,34 @@ class Scenario(Analysis):
             <visibility>1</visibility>
             <name>%s</name>
             <styleUrl>#%s-default</styleUrl>
+            <ExtendedData>
+                <Data name="name"><value>%s</value></Data>
+                <Data name="user"><value>%s</value></Data>
+                <Data name="desc"><value>%s</value></Data>
+                <Data name="type"><value>%s</value></Data>
+                <Data name="modified"><value>%s</value></Data>
+            </ExtendedData>
             <MultiGeometry>
             %s
             </MultiGeometry>
         </Placemark>
         """ % (self.kml_style, self.uid, escape(self.name), self.model_uid(),
+            escape(self.name), self.user, escape(self.description), self.Options.verbose_name, self.date_modified.replace(microsecond=0), 
             asKml(self.output_geom.transform( settings.GEOMETRY_CLIENT_SRID, clone=True))
             )
-    
+        
     @property
     def kml_style(self):
         return """
         <Style id="%s-default">
+            <BalloonStyle>
+                <bgColor>ffeeeeee</bgColor>
+                <text> <![CDATA[
+                    <font color="#1A3752"><strong>$[name]</strong></font><br />
+                    <p>$[desc]</p>
+                    <font size=1>$[type] created by $[user] on $[modified]</font>
+                ]]> </text>
+            </BalloonStyle>
             <IconStyle>
                 <color>ffffffff</color>
                 <colorMode>normal</colorMode>
@@ -280,12 +296,13 @@ class ConservationSite(PolygonFeature):
                 <Data name="name"><value>%s</value></Data>
                 <Data name="user"><value>%s</value></Data>
                 <Data name="desc"><value>%s</value></Data>
+                <Data name="type"><value>%s</value></Data>
                 <Data name="modified"><value>%s</value></Data>
             </ExtendedData>
             %s 
         </Placemark>
         """ % (self.uid, escape(self.name), self.model_uid(), 
-               escape(self.name), self.user, escape(self.description), self.date_modified, 
+               escape(self.name), self.user, escape(self.description), self.Options.verbose_name, self.date_modified.replace(microsecond=0), 
                self.geom_kml)
 
     @property
@@ -297,7 +314,7 @@ class ConservationSite(PolygonFeature):
                 <text> <![CDATA[
                     <font color="#1A3752"><strong>$[name]</strong></font><br />
                     <p>$[desc]</p>
-                    <font size=1>Created by $[user] on $[modified]</font>
+                    <font size=1>$[type] created by $[user] on $[modified]</font>
                 ]]> </text>
             </BalloonStyle>
             <PolyStyle>
@@ -330,12 +347,13 @@ class WindEnergySite(PolygonFeature):
                 <Data name="name"><value>%s</value></Data>
                 <Data name="user"><value>%s</value></Data>
                 <Data name="desc"><value>%s</value></Data>
+                <Data name="type"><value>%s</value></Data>
                 <Data name="modified"><value>%s</value></Data>
             </ExtendedData>
             %s 
         </Placemark>
         """ % (self.uid, escape(self.name), self.model_uid(), 
-               escape(self.name), self.user, escape(self.description), self.date_modified, 
+               escape(self.name), self.user, escape(self.description), self.Options.verbose_name, self.date_modified.replace(microsecond=0), 
                self.geom_kml)
 
     @property
@@ -347,7 +365,7 @@ class WindEnergySite(PolygonFeature):
                 <text> <![CDATA[
                     <font color="#1A3752"><strong>$[name]</strong></font><br />
                     <p>$[desc]</p>
-                    <font size=1>Created by $[user] on $[modified]</font>
+                    <font size=1>$[type] created by $[user] on $[modified]</font>
                 ]]> </text>
             </BalloonStyle>
             <PolyStyle>
@@ -362,8 +380,8 @@ class WindEnergySite(PolygonFeature):
     class Options:
         verbose_name = 'Wind Energy Site'
         form = 'scenario.forms.WindEnergySiteForm'
-        form_template = 'windenergy/form.html'
-        show_template = 'windenergy/show.html'
+        form_template = 'wind/form.html'
+        show_template = 'wind/show.html'
 
 
 @register
@@ -386,7 +404,7 @@ class AOI(PolygonFeature):
             %s 
         </Placemark>
         """ % (self.uid, escape(self.name), self.model_uid(), 
-               escape(self.name), self.user, escape(self.description), self.date_modified, 
+               escape(self.name), self.user, escape(self.description), self.date_modified.replace(microsecond=0), 
                self.geom_kml)
 
     @property
