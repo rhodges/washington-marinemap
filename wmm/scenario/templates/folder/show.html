@@ -6,7 +6,7 @@
     <div class="tabs">
         <ul>
             <li><a href="#Inputs"><span>Inputs</span></a></li>
-            <li><a href="#results"><span>Results</span></a></li>
+            <li><a href="#results"><span>Reports</span></a></li>
         </ul>
         <div id="Inputs">
             <ul class="metadata">
@@ -20,7 +20,18 @@
                 <br class="clear" />
             </ul>
             <h2>Description</h2>
+                {% if instance.description %}
                 <p>{{instance.description}}</p>
+                {% else %}
+                <p>No description provided</p>
+                {% endif %}
+            
+            <h2>Hint</h2>
+            <div class="draghint">
+                <img src="{{MEDIA_URL}}common/images/dragdrophint.png" />
+                To add features to this collection, simply drag and drop features in and out of it from the sidebar after saving.
+                <br style="clear:both;" />
+            </div>
         </div>
         
         <div id="results">
@@ -28,5 +39,6 @@
         </div>
         
     </div>
+    
 
 {% endblock panel %}
