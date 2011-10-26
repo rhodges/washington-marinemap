@@ -29,8 +29,20 @@ INSTALLED_APPS += ( 'lingcod.analysistools',
                     'scenario',
                     'wmm_manipulators')
 
+
+COMPRESS_JS['application']['source_filenames'] += (
+    'wmm/js/excanvas.js',
+    'wmm/js/jquery.jqplot.js',
+    'wmm/js/jqplot.bubbleRenderer.js',
+    'wmm/js/jqplot.canvasTextRenderer.js',
+    'wmm/js/jqplot.canvasAxisLabelRenderer.js',
+    'wmm/js/jqplot.highlighter.js',
+    'wmm/js/jqplot.enhancedLegendRenderer.js'
+)                    
+                    
 COMPRESS_CSS['application']['source_filenames'] += (
     'wmm/css/analysis_reports.css',
+    'wmm/css/jquery.jqplot.css',
 )
                     
 # Make this unique, and don't share it with anybody.
