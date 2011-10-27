@@ -22,10 +22,10 @@ def get_tradeoff_context(folder_obj):
 Run the analysis, create the cache, and return the results as a context dictionary so they may be rendered with template
 '''    
 def run_tradeoff_analysis(folder_obj): 
-    conservation_site_1 = [75, 23, 16, 'Point Beach']
-    conservation_site_2 = [65, 82, 17, "Seal Cove"]
-    conservation_site_3 = [84, 10, 26, "Beach Sands"]
-    conservation_site_4 = [50, 33, 10, "Seagull Lookout"]
+    conservation_site_1 = [75, 23, 16, 'Crab Cape']
+    conservation_site_2 = [65, 82, 17, "OK Coral"]
+    conservation_site_3 = [84, 10, 26, "Pelican Point"]
+    conservation_site_4 = [50, 33, 10, "Barracuda Bay"]
     conservation_sites = [conservation_site_1, conservation_site_2, conservation_site_3, conservation_site_4]
     conservation_colors = [ "#4bb2c5", "#4bb2c5", "#4bb2c5", "#4bb2c5" ]
     windenergy_site_1 = [18, 67, 9, "Blustery Ave"]

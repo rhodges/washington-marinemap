@@ -6,7 +6,7 @@
     <div class="tabs">
         <ul>
             <li><a href="#Inputs"><span>Inputs</span></a></li>
-            <li><a href="#results"><span>Multi-Objective Analysis</span></a></li>
+            <li><a href="#results"><span>Multi-Objective Tradeoffs</span></a></li>
         </ul>
         <div id="Inputs">
             <ul class="metadata">
@@ -36,17 +36,18 @@
         
         <div id="results" class="tabs">
             <ul>
-                <li><a href="#Tradeoff_Instructions"><span>Instructions</span></a></li>
-                <li><a href="{% url tradeoff_analysis instance.pk %}"><span>Run Analysis</span></a></li>
+                <li><a href="#Tradeoff_Instructions"><span>Options</span></a></li>
+                <li><a href="{% url tradeoff_analysis instance.pk %}"><span>Show Analysis</span></a></li>
             </ul>
             <div id="Tradeoff_Instructions">
                 <h3>Multi-Objective Analysis</h3>
-                <p>The multi-objective analysis report compares the potential valuation of your shapes for both Wind Energy
+                <p>The multi-objective tradeoffs report compares the potential valuation of your shapes for both Wind Energy
                    and Conservation.  
                 </p>
                 <p>The results are displayed such that shapes that are valuated higher for Conservation will be further along 
                    the x-axis (to the right), and those that are valuated higher for Wind Energy Potential will be further 
-                   along the y-axis (toward the top).  
+                   along the y-axis (toward the top).  Conflict areas, those areas that have high valuations for both objectives, 
+                   will be seen in the upper-right quadrant of the graph.  
                 </p>
             </div>
         </div>
