@@ -73,7 +73,7 @@ span.form-image { float: left; margin-left: -66px; }
 span.form-image > img { width:46px; height:46px; }
 </style>
 
-<h1>Folder result for {{instance.name}}</h1>
+<h1>Results for "{{instance.name}}"</h1>
     <div class="tabs">
         <ul>
             <li><a href="#Inputs"><span>Inputs</span></a></li>
@@ -90,6 +90,9 @@ span.form-image > img { width:46px; height:46px; }
                 <li class="modified">Modified {{instance.date_modified|date:"d M, Y P"}}</li>
                 <br class="clear" />
             </ul>
+            
+            <h2>Feature Type</h2>
+                <p>Collection</p>
             
             <h2>Contents</h2>
                 {% if instance.num_scenarios > 0 %}

@@ -1,7 +1,7 @@
 {% extends 'common/panel.html' %}
 {% block title %}{{instance.name}}{% endblock title %}
 {% block panel %}
-<h1>Scenario result for {{instance.name}}</h1>
+<h1>Results for "{{instance.name}}"</h1>
     <div class="tabs">
         <ul>
             <li><a href="#Inputs"><span>Inputs</span></a></li>
@@ -20,13 +20,18 @@
                 <li class="modified">Modified {{instance.date_modified|date:"d M, Y P"}}</li>
                 <br class="clear" />
             </ul>
+            
+            <h2>Feature Type</h2>
+                <p>Scenario</p>
+                
             <h2>Description</h2>
                 {% if instance.description %}
                 <p>{{instance.description}}</p>
                 {% else %}
                 <p>No Description</p>
                 {% endif %}
-            <h2>Parameters</h2>
+                
+            <h2>Parameters</h2>            
                 <div class="box species" id="temp">
                     {% if 1 in instance.get_input_parameters %}
                     <p> Distance to Shore <= {{ instance.input_dist_shore }} km</p>
