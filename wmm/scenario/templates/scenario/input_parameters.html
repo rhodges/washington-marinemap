@@ -9,7 +9,7 @@
                     type="checkbox" 
                     value="{{parameter.id}}" 
                     name="input_parameters" 
-                    {% if parameter.id in checked_list %}
+                    {% if parameter.id in checked_list or parameter.id not in previous_params %}
                     checked="checked"
                     {% endif %}
                     >

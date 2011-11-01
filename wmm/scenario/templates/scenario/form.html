@@ -75,9 +75,8 @@
             if (step == 1 && action == 'next') {
                 if (validate(step)) {
                     step += 1;
-                    
                     if (!identical(initial_objs, selected_objs) || !identical(initial_params, selected_params) || first_next) {
-                        $.post('/scenario/form/get-params', {'selected_objs': selected_objs, 'selected_params': selected_params, 'is_edit': is_edit}, function(data) {
+                        $.post('/scenario/form/get-params', {'initial_objs': initial_objs, 'selected_objs': selected_objs, 'selected_params': selected_params, 'is_edit': is_edit}, function(data) {
                             $('#step2_data').html(data);
                         });
                     } 
@@ -197,7 +196,9 @@ span.form-image > img { width:46px; height:46px; }
         <div>
             {{ form.input_objectives.label_tag }}
             {{ form.input_objectives.errors }}
-            <p>{{ form.input_objectives }} </p>
+            <p>
+            {{ form.input_objectives }}
+            </p>
         </div>
     </div>
   </div>

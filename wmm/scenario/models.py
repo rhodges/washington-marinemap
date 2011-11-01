@@ -14,6 +14,30 @@ from lingcod.layers.models import PrivateLayerList
 @register
 class Folder(FeatureCollection):
     description = models.TextField(null=True,blank=True)
+    
+    @property
+    def num_scenarios(self):
+        count = 0
+        for object in self.feature_set():
+            if object.__class__ == Scenario:
+                count += 1
+        return count
+        
+    @property
+    def num_conservation_sites(self):
+        count = 0
+        for object in self.feature_set():
+            if object.__class__ == ConservationSite:
+                count += 1
+        return count
+        
+    @property
+    def num_windenergy_sites(self):
+        count = 0
+        for object in self.feature_set():
+            if object.__class__ == WindEnergySite:
+                count += 1
+        return count
         
     class Options:
         verbose_name = 'Folder'

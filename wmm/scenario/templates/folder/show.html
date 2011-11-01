@@ -2,6 +2,77 @@
 {% block title %}{{instance.name}}{% endblock title %}
 {% block panel %}
 
+<script type="text/javascript" charset="utf-8">
+    lingcod.onShow(function(){
+    
+        var folder_id = {{instance.pk}};
+        $('#Tradeoff_Analysis').hide();
+        $('#change_objectives').hide();
+        
+        $('#show_analysis').click( function(event) { 
+            
+            var x_objs = $('input.x-axis');
+            $.each(x_objs, function(index, obj) {
+                if (obj.checked) {
+                    selected_x = obj.value;
+                }
+            });
+            
+            var y_objs = $('input.y-axis');
+            $.each(y_objs, function(index, obj) {
+                if (obj.checked) {
+                    selected_y = obj.value;
+                }
+            });
+                        
+            //if (selected_x != selected_y) {
+            $.post('scenario/tradeoff/show-analysis', {'folder_id': folder_id, 'selected_x': selected_x, 'selected_y': selected_y}, function(data) {
+                $('#Tradeoff_Analysis').html(data);
+            });
+            $('#Tradeoff_Instructions').hide();
+            $('#Tradeoff_Analysis').show();
+            $('#show_analysis').hide();
+            $('#change_objectives').show();
+            //} else {
+                
+            //}
+            
+        });
+        
+        $('#change_objectives').click( function(event) {    
+            $('#Tradeoff_Analysis').hide();
+            $('#Tradeoff_Instructions').show();
+            $('#change_objectives').hide();
+            $('#show_analysis').show();
+        });
+            
+
+    });
+</script>
+
+<style type="text/css">
+div .field > label { font-size: 12px; display: inline; }
+div .step { 
+    -moz-box-shadow: 5px 5px 5px #ddd;
+    -webkit-box-shadow: 5px 5px 5px #ddd;
+    box-shadow: 5px 5px 5px #ddd; 
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -khtml-border-radius: 6px;
+    border-radius: 6px;
+    border: 1px #ddd solid;
+    padding: 6px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    background-color: white; 
+    background-repeat: no-repeat;
+    min-height: 54px;
+}
+div .inputfield { padding-bottom: 14px; }
+span.form-image { float: left; margin-left: -66px; }
+span.form-image > img { width:46px; height:46px; }
+</style>
+
 <h1>Folder result for {{instance.name}}</h1>
     <div class="tabs">
         <ul>
@@ -19,6 +90,18 @@
                 <li class="modified">Modified {{instance.date_modified|date:"d M, Y P"}}</li>
                 <br class="clear" />
             </ul>
+            
+            <h2>Contents</h2>
+                {% if instance.num_scenarios > 0 %}
+                <p>Scenarios: {{instance.num_scenarios}}</p>
+                {% endif %}
+                {% if instance.num_conservation_sites > 0 %}
+                <p>Conservation Sites: {{instance.num_conservation_sites}}</p>
+                {% endif %}
+                {% if instance.num_windenergy_sites > 0 %}
+                <p>Wind Energy Sites: {{instance.num_windenergy_sites}}</p>
+                {% endif %}
+            
             <h2>Description</h2>
                 {% if instance.description %}
                 <p>{{instance.description}}</p>
@@ -35,24 +118,57 @@
         </div>
         
         <div id="results" class="tabs">
-            <ul>
-                <li><a href="#Tradeoff_Instructions"><span>Options</span></a></li>
-                <li><a href="{% url tradeoff_analysis instance.pk %}"><span>Show Analysis</span></a></li>
-            </ul>
-            <div id="Tradeoff_Instructions">
-                <h3>Multi-Objective Analysis</h3>
-                <p>The multi-objective tradeoffs report compares the potential valuation of your shapes for both Wind Energy
-                   and Conservation.  
-                </p>
-                <p>The results are displayed such that shapes that are valuated higher for Conservation will be further along 
+            <div id="Tradeoff_Instructions" class="step">
+                <h3>Tradeoff Analysis</h3>
+                <p>The multi-objective tradeoffs report helps you compare the valuations of your shapes for any 2 objectives.</p>
+                <!--<p>The results are displayed such that shapes that are valuated higher for Conservation will be further along 
                    the x-axis (to the right), and those that are valuated higher for Wind Energy Potential will be further 
                    along the y-axis (toward the top).  Conflict areas, those areas that have high valuations for both objectives, 
                    will be seen in the upper-right quadrant of the graph.  
-                </p>
+                </p>-->
+                <p> Choose an objective from the left-column to be charted on the horizontal, or x-axis.
+                    Choose a different objective from the right-column for the vertical, or y-axis</p>
+                <form>
+                    <table>
+                        <tr>
+                            <td align="center" width="30%">
+                                <label>X-Axis</label>
+                            </td>
+                            <td width="30%">
+                                &nbsp;
+                            </td>
+                            <td align="center" width="30%">
+                                <label>Y-Axis</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <label><input class="x-axis" type="radio" name="x-axis" value="conservation" checked="checked">Conservation</label>
+                                <label><input class="x-axis" type="radio" name="x-axis" value="wind">Wind Energy</label>
+                            </td>
+                            <td width="30%">
+                                &nbsp;
+                            </td>
+                            <td width="30%">
+                                <label><input class="y-axis" type="radio" name="y-axis" value="conservation">Conservation</label>
+                                <label><input class="y-axis" type="radio" name="y-axis" value="wind" checked="checked">Wind Energy</label>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <p>
             </div>
+            
+            <div id="Tradeoff_Analysis" class="step"></div>
+            
+            <div class="wizard_nav" style="width:100%">
+                <a href="#" class="button" style="float:left;" onclick="this.blur(); return false;" id="change_objectives"><span>&lt; Change Objectives</span></a>
+                <a href="#" class="button" style="float:right;" onclick="this.blur(); return false;" id="show_analysis"><span>Show Analysis &gt;</span></a>
+            </div>
+
+            
         </div>
         
     </div>
     
-
 {% endblock panel %}
