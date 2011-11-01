@@ -11,19 +11,9 @@
         
         $('#show_analysis').click( function(event) { 
             
-            var x_objs = $('input.x-axis');
-            $.each(x_objs, function(index, obj) {
-                if (obj.checked) {
-                    selected_x = obj.value;
-                }
-            });
+            var selected_x = $('select.x-axis').val();
             
-            var y_objs = $('input.y-axis');
-            $.each(y_objs, function(index, obj) {
-                if (obj.checked) {
-                    selected_y = obj.value;
-                }
-            });
+            var selected_y = $('select.y-axis').val();
                         
             //if (selected_x != selected_y) {
             $.post('scenario/tradeoff/show-analysis', {'folder_id': folder_id, 'selected_x': selected_x, 'selected_y': selected_y}, function(data) {
@@ -48,6 +38,15 @@
             
 
     });
+    
+    function toggleDiv(divId, srcId) {
+        $("#"+divId).toggle();
+        if ($("#"+srcId).text() == 'Read More') { 
+            $("#"+srcId).text('Hide Text'); 
+        } else { 
+            $("#"+srcId).text('Read More'); 
+        }
+    }
 </script>
 
 <style type="text/css">
@@ -123,38 +122,48 @@ span.form-image > img { width:46px; height:46px; }
         <div id="results" class="tabs">
             <div id="Tradeoff_Instructions" class="step">
                 <h3>Tradeoff Analysis</h3>
-                <p>The multi-objective tradeoffs report helps you compare the valuations of your shapes for any 2 objectives.</p>
-                <!--<p>The results are displayed such that shapes that are valuated higher for Conservation will be further along 
-                   the x-axis (to the right), and those that are valuated higher for Wind Energy Potential will be further 
-                   along the y-axis (toward the top).  Conflict areas, those areas that have high valuations for both objectives, 
-                   will be seen in the upper-right quadrant of the graph.  
-                </p>-->
-                <p> Choose an objective from the left-column to be charted on the horizontal, or x-axis.
-                    Choose a different objective from the right-column for the vertical, or y-axis</p>
+                <p>Choose two objectives to be charted in the Tradeoff Analysis Report. &nbsp;
+                <a id="displayInstructions" href="javascript:toggleDiv('instructions', 'displayInstructions');">Read More</a>
+                </p>
+                <div id="instructions" style="display: none">
+                    <p>The multi-objective tradeoffs report helps you compare the valuations of your shapes.</p>
+                    <p>The results are displayed such that shapes that are valuated higher for Objective #1 will be further along 
+                       the x-axis (to the right), and those that are valuated higher for Objective #2 will be further 
+                       along the y-axis (toward the top).  
+                    <p>Conflict areas, those areas that have high valuations for both objectives, 
+                       will be seen in the upper-right quadrant of the graph.  
+                    </p>
+                </div>
                 <form>
                     <table>
                         <tr>
                             <td align="center" width="30%">
-                                <label>X-Axis</label>
+                                <label>Objective #1</label>
                             </td>
                             <td width="30%">
                                 &nbsp;
                             </td>
                             <td align="center" width="30%">
-                                <label>Y-Axis</label>
+                                <label>Objective #2</label>
                             </td>
                         </tr>
                         <tr>
-                            <td width="30%">
-                                <label><input class="x-axis" type="radio" name="x-axis" value="conservation" checked="checked">Conservation</label>
-                                <label><input class="x-axis" type="radio" name="x-axis" value="wind">Wind Energy</label>
+                            <td width="30%" align="center">
+                                <label>
+                                <select class="x-axis" name="x-axis">
+                                    <option value="conservation" selected>Conservation</option>
+                                    <option value="wind">Wind Energy</option>
+                                </select>
+                                </label>
                             </td>
                             <td width="30%">
                                 &nbsp;
                             </td>
-                            <td width="30%">
-                                <label><input class="y-axis" type="radio" name="y-axis" value="conservation">Conservation</label>
-                                <label><input class="y-axis" type="radio" name="y-axis" value="wind" checked="checked">Wind Energy</label>
+                            <td width="30%" align="center">
+                                <label><select class="y-axis" name="y-axis">
+                                    <option value="conservation">Conservation</option>
+                                    <option value="wind" selected>Wind Energy</option>
+                                </select></label>
                             </td>
                         </tr>
                     </table>
@@ -166,7 +175,7 @@ span.form-image > img { width:46px; height:46px; }
             
             <div class="wizard_nav" style="width:100%">
                 <a href="#" class="button" style="float:left;" onclick="this.blur(); return false;" id="change_objectives"><span>&lt; Change Objectives</span></a>
-                <a href="#" class="button" style="float:right;" onclick="this.blur(); return false;" id="show_analysis"><span>Show Analysis &gt;</span></a>
+                <a href="#" class="button" style="float:right;" onclick="this.blur(); return false;" id="show_analysis"><span>Show Tradeoffs &gt;</span></a>
             </div>
 
             
