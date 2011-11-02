@@ -51,10 +51,22 @@ def get_conservation_site_attributes(folder_obj, x_axis, y_axis):
 def get_valuation(site, axis, index):
     conservation_valuation_list = [75, 65, 84, 50, 18, 67, 12]
     wind_valuation_list = [23, 82, 10, 33, 67, 89, 73]
+    tidal_valuation_list = [14, 32, 24, 19, 18, 47, 25]
+    development_valuation_list = [0, 0, 0, 0, 0, 0, 0]
+    shellfish_valuation_list = [0, 0, 0, 28, 12, 0, 0]
+    fishing_valuation_list = [72, 67, 55, 83, 62, 43, 77]
     if axis == 'conservation':
         return conservation_valuation_list[index]
     elif axis == 'wind':
-        return wind_valuation_list[index]            
+        return wind_valuation_list[index]          
+    elif axis == 'tidal':
+        return tidal_valuation_list[index]          
+    elif axis == 'development':
+        return development_valuation_list[index]           
+    elif axis == 'shellfish':
+        return shellfish_valuation_list[index]           
+    elif axis == 'fishing':
+        return fishing_valuation_list[index]  
     
 def get_windenergy_sites(folder_obj, x_axis, y_axis):
     windenergy_attributes = []
@@ -74,8 +86,16 @@ def get_windenergy_sites(folder_obj, x_axis, y_axis):
     return windenergy_attributes
     
 def get_label(selection):
-    if selection == 'conservation':
-        return 'Conservation Value'
+    if selection == 'tidal':
+        return 'Tidal Energy Value'
     elif selection == 'wind':
         return 'Wind Energy Value'
+    elif selection == 'conservation':
+        return 'Marine Conservation Value'
+    elif selection == 'development':
+        return 'Shoreside Development Value'
+    elif selection == 'shellfish':
+        return 'Shellfish Aquaculture Value'
+    elif selection == 'fishing':
+        return 'Offshore Fishing Value'
     
