@@ -12,14 +12,29 @@ def tradeoff_analysis(request):
         y_axis = request.POST.getlist('selected_y')[0]
         folder_id = getlist(request, 'folder_id')[0]
         
-        from tradeoff.tradeoff_analysis import display_tradeoff_analysis
         folder_obj = get_object_or_404(Folder, pk=folder_id)
         #check permissions
         viewable, response = folder_obj.is_viewable(request.user)
         if not viewable:
             return response
+        
+        from tradeoff.tradeoff_analysis import display_tradeoff_analysis
         return display_tradeoff_analysis(request, folder_obj, x_axis, y_axis)
     
+'''
+'''
+def tradeoff_table(request):
+    if (request.POST):
+        folder_id = getlist(request, 'folder_id')[0]
+        
+        folder_obj = get_object_or_404(Folder, pk=folder_id)
+        #check permissions
+        viewable, response = folder_obj.is_viewable(request.user)
+        if not viewable:
+            return response
+            
+        from tradeoff.tradeoff_analysis import display_tradeoff_table
+        return display_tradeoff_table(request, folder_obj)        
 
 '''
 '''

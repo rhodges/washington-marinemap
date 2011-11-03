@@ -35,6 +35,12 @@
             $('#change_objectives').hide();
             $('#show_analysis').show();
         });
+        
+        $('#table_button').click( function(event) {
+            $.post('scenario/tradeoff/show-table', {'folder_id': folder_id}, function(data) {
+                $('#Tradeoff_Table').html(data);
+            });
+        });
             
 
     });
@@ -120,72 +126,82 @@ span.form-image > img { width:46px; height:46px; }
         </div>
         
         <div id="results" class="tabs">
-            <div id="Tradeoff_Instructions" class="step">
-                <h3>Tradeoff Analysis</h3>
-                <p>Choose two objectives to be charted in the Tradeoff Analysis Report. &nbsp;
-                <a id="displayInstructions" href="javascript:toggleDiv('instructions', 'displayInstructions');">Read More</a>
-                </p>
-                <div id="instructions" style="display: none">
-                    <p>The multi-objective tradeoffs report helps you compare the valuations of your shapes.</p>
-                    <p>The results are displayed such that shapes that are valuated higher for Objective #1 will be further along 
-                       the x-axis (to the right), and those that are valuated higher for Objective #2 will be further 
-                       along the y-axis (toward the top).  
-                    <p>Conflict areas, those areas that have high valuations for both objectives, 
-                       will be seen in the upper-right quadrant of the graph.  
+            <ul>
+                <li><a href="#visual"><span>Visualization</span></a></li>
+                <li><a id="table_button" href="#text"><span>Table</span></a></li>
+            </ul>
+            <div id="visual">
+                <div id="Tradeoff_Instructions" class="step">
+                    <h3>Tradeoff Analysis</h3>
+                    <p>Choose two objectives to be charted in the Tradeoff Analysis Report. &nbsp;
+                    <a id="displayInstructions" href="javascript:toggleDiv('instructions', 'displayInstructions');">Read More</a>
                     </p>
+                    <div id="instructions" style="display: none">
+                        <p>The multi-objective tradeoffs report helps you compare the valuations of your shapes.</p>
+                        <p>The results are displayed such that shapes that are valuated higher for Objective #1 will be further along 
+                           the x-axis (to the right), and those that are valuated higher for Objective #2 will be further 
+                           along the y-axis (toward the top).  
+                        <p>Conflict areas, those areas that have high valuations for both objectives, 
+                           will be seen in the upper-right quadrant of the graph.  
+                        </p>
+                    </div>
+                    <form>
+                        <table>
+                            <tr>
+                                <td align="center" width="30%">
+                                    <label>Objective #1</label>
+                                </td>
+                                <td width="30%">
+                                    &nbsp;
+                                </td>
+                                <td align="center" width="30%">
+                                    <label>Objective #2</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" align="center">
+                                    <label>
+                                    <select class="x-axis" name="x-axis">
+                                        <option value="tidal">Tidal Energy</option>
+                                        <option value="wind">Wind Energy</option>
+                                        <option value="conservation" selected>Marine Conservation</option>
+                                        <option value="development">Shoreside Development</option>
+                                        <option value="shellfish">Shellfish Aquaculture</option>
+                                        <option value="fishing">Offshore Fishing</option>
+                                    </select>
+                                    </label>
+                                </td>
+                                <td width="30%">
+                                    &nbsp;
+                                </td>
+                                <td width="30%" align="center">
+                                    <label><select class="y-axis" name="y-axis">
+                                        <option value="tidal">Tidal Energy</option>
+                                        <option value="wind" selected>Wind Energy</option>
+                                        <option value="conservation">Marine Conservation</option>
+                                        <option value="development">Shoreside Development</option>
+                                        <option value="shellfish">Shellfish Aquaculture</option>
+                                        <option value="fishing">Offshore Fishing</option>
+                                    </select></label>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <p>
                 </div>
-                <form>
-                    <table>
-                        <tr>
-                            <td align="center" width="30%">
-                                <label>Objective #1</label>
-                            </td>
-                            <td width="30%">
-                                &nbsp;
-                            </td>
-                            <td align="center" width="30%">
-                                <label>Objective #2</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="30%" align="center">
-                                <label>
-                                <select class="x-axis" name="x-axis">
-                                    <option value="tidal">Tidal Energy</option>
-                                    <option value="wind">Wind Energy</option>
-                                    <option value="conservation" selected>Marine Conservation</option>
-                                    <option value="development">Shoreside Development</option>
-                                    <option value="shellfish">Shellfish Aquaculture</option>
-                                    <option value="fishing">Offshore Fishing</option>
-                                </select>
-                                </label>
-                            </td>
-                            <td width="30%">
-                                &nbsp;
-                            </td>
-                            <td width="30%" align="center">
-                                <label><select class="y-axis" name="y-axis">
-                                    <option value="tidal">Tidal Energy</option>
-                                    <option value="wind" selected>Wind Energy</option>
-                                    <option value="conservation">Marine Conservation</option>
-                                    <option value="development">Shoreside Development</option>
-                                    <option value="shellfish">Shellfish Aquaculture</option>
-                                    <option value="fishing">Offshore Fishing</option>
-                                </select></label>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-                <p>
+                
+                <div id="Tradeoff_Analysis" class="step"></div>
+                
+                <div class="wizard_nav" style="width:100%">
+                    <a href="#" class="button" style="float:left;" onclick="this.blur(); return false;" id="change_objectives"><span>&lt; Change Objectives</span></a>
+                    <a href="#" class="button" style="float:right;" onclick="this.blur(); return false;" id="show_analysis"><span>Show Tradeoffs &gt;</span></a>
+                </div>
             </div>
-            
-            <div id="Tradeoff_Analysis" class="step"></div>
-            
-            <div class="wizard_nav" style="width:100%">
-                <a href="#" class="button" style="float:left;" onclick="this.blur(); return false;" id="change_objectives"><span>&lt; Change Objectives</span></a>
-                <a href="#" class="button" style="float:right;" onclick="this.blur(); return false;" id="show_analysis"><span>Show Tradeoffs &gt;</span></a>
+            <div id="text">
+                <div id="Tradeoff_Table" class="step">
+                    <p>coming soon...</p>
+                </div>
             </div>
-
             
         </div>
         

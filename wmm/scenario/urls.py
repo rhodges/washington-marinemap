@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'wind/(\d+)/(\w+)', wind_analysis, name='wind_analysis'), #user requested wind energy analysis 
     
     #tradeoff analysis
-    #url(r'tradeoff/(\d+)', tradeoff_analysis, name='tradeoff_analysis'), #user requested wind energy analysis
-    url(r'tradeoff/show-analysis', tradeoff_analysis, name='tradeoff_analysis'), #user requested wind energy analysis
+    #url(r'tradeoff/(\d+)', tradeoff_analysis, name='tradeoff_analysis'), #user requested tradeoff analysis
+    url(r'tradeoff/show-analysis', tradeoff_analysis, name='tradeoff_analysis'), #user requested tradeoff analysis
+    url(r'tradeoff/show-table', tradeoff_table, name='tradeoff_table'), #user requested tradeoff analysis
 )

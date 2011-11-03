@@ -1,0 +1,120 @@
+{% extends 'common/panel.html' %}
+{% load jsonify %}
+{% block title %}Tradeoff Analysis Report{% endblock %}
+
+{% block panel %}
+<h2 align="center">Valuations Table</h2>
+<div>
+<table class="tradeoff-table">
+    <tr class="top-row">
+        <td class="left-column">&nbsp;</td>
+        {% for objective in objective_list %}
+        <td class="{{objective.0}}">{{objective}}</td>
+        {% endfor %}
+    </tr>
+    {% for site in conservation_sites %}
+    <tr>
+        <td class="conservation-site">{{site.name}}</td>
+        {% for value in site.valuations %}
+        {% if site.conflict == 'true' and value > 70 %}
+        <td class="conflict">{{value}}</td>
+        {% else %}
+        {% if value > 70 %}
+        <td class="non-conflict">{{value}}</td>
+        {% else %}
+        <td>{{value}}</td>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    {% for site in windenergy_sites %}
+    <tr>
+        <td class="wind-site">{{site.name}}</td>
+        {% for value in site.valuations %}
+        {% if site.conflict == 'true' and value > 70 %}
+        <td class="conflict">{{value}}</td>
+        {% else %}
+        {% if value > 70 %}
+        <td class="non-conflict">{{value}}</td>
+        {% else %}
+        <td>{{value}}</td>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+</div>
+
+<div>
+<p>This table shows the valuations for each objective, for the sites in your folder.  
+<p><a id="tableLegend" href="javascript:toggleDiv('legend', 'tableLegend');">Read More</a>
+<div id="legend" style="display: none">
+    <p><span class="conflict"><b>Red</b></span> cells denote potential conflicts in which your site has high valuations for more than one objective.
+    <p><span class="non-conflict"><b>Green</b></span> cells denote high valuations for sites in which other objectives might be less suitable.
+</div>
+</div>
+
+
+<style type="text/css">
+span.conflict {
+    background-color: #D0C5C5;
+}
+
+span.non-conflict {
+    background-color: #C5D0C5;
+}
+
+table.tradeoff-table {
+    font-size: 11px;
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana,sans-serif;
+}
+
+table.tradeoff-table tr.top-row {
+    text-align: center;
+}
+
+table.tradeoff-table td {
+    border: 1px solid black;
+    text-align: center;
+}
+
+table.tradeoff-table td.M {
+    color: #4bb2c5;
+}
+
+table.tradeoff-table td.W {
+    color: #c5b47f;
+}
+
+table.tradeoff-table td.conservation-site {
+    color: #4bb2c5;
+    text-align: left;
+    width: 20%;
+}
+
+table.tradeoff-table td.wind-site {
+    color: #c5b47f;
+    text-align: left;
+    width: 20%;
+}
+
+table.tradeoff-table td.conflict {
+    background-color: #D0C5C5;
+    font-weight: bold;
+}
+
+table.tradeoff-table td.non-conflict {
+    background-color: #C5D0C5;
+    font-weight: bold;
+}
+
+table.tradeoff-table tbody {
+    background-color: white;
+}
+
+</style>
+{% endblock %}
