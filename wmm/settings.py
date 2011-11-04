@@ -2,7 +2,7 @@
 from lingcod.common.default_settings import *
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-APP_NAME = "Washington MarineMap"
+APP_NAME = "Washington Marine Planner"
 
 DATABASES = {
     'default': {

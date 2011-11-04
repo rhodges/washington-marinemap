@@ -200,10 +200,13 @@ class Scenario(Analysis):
     def mapnik_style(self):
         import mapnik
         polygon_style = mapnik.Style()
+        
         ps = mapnik.PolygonSymbolizer(mapnik.Color('#ffffff'))
         ps.fill_opacity = 0.5
+        
         ls = mapnik.LineSymbolizer(mapnik.Color('#555555'),0.75)
         ls.stroke_opacity = 0.5
+        
         r = mapnik.Rule()
         r.symbols.append(ps)
         r.symbols.append(ls)
@@ -352,6 +355,23 @@ class ConservationSite(PolygonFeature):
         </Style>
         """ % (self.model_uid())
 
+    @classmethod
+    def mapnik_style(self):
+        import mapnik
+        polygon_style = mapnik.Style()
+        
+        ps = mapnik.PolygonSymbolizer(mapnik.Color('#DC640C'))
+        ps.fill_opacity = 0.6
+        ls = mapnik.LineSymbolizer(mapnik.Color('#ff0000'),0.2)
+        ls.stroke_opacity = 1.0
+        
+        r = mapnik.Rule()
+        r.symbols.append(ps)
+        r.symbols.append(ls)
+        
+        polygon_style.rules.append(r)
+        return polygon_style                
+
     class Options:
         verbose_name = 'Conservation Site'
         form = 'scenario.forms.ConservationSiteForm'
@@ -403,6 +423,23 @@ class WindEnergySite(PolygonFeature):
         </Style>
         """ % (self.model_uid())
 
+    @classmethod
+    def mapnik_style(self):
+        import mapnik
+        polygon_style = mapnik.Style()
+        
+        ps = mapnik.PolygonSymbolizer(mapnik.Color('#DC640C'))
+        ps.fill_opacity = 0.6
+        ls = mapnik.LineSymbolizer(mapnik.Color('#ff0000'),0.2)
+        ls.stroke_opacity = 1.0
+        
+        r = mapnik.Rule()
+        r.symbols.append(ps)
+        r.symbols.append(ls)
+        
+        polygon_style.rules.append(r)
+        return polygon_style                
+
     class Options:
         verbose_name = 'Wind Energy Site'
         form = 'scenario.forms.WindEnergySiteForm'
@@ -452,7 +489,24 @@ class AOI(PolygonFeature):
                 <color>ffffffff</color>
             </LineStyle>
         </Style>
-        """ % (self.model_uid())
+        """ % (self.model_uid())        
+    
+    @classmethod
+    def mapnik_style(self):
+        import mapnik
+        polygon_style = mapnik.Style()
+        
+        ps = mapnik.PolygonSymbolizer(mapnik.Color('#DC640C'))
+        ps.fill_opacity = 0.6
+        ls = mapnik.LineSymbolizer(mapnik.Color('#ff0000'),0.2)
+        ls.stroke_opacity = 1.0
+        
+        r = mapnik.Rule()
+        r.symbols.append(ps)
+        r.symbols.append(ls)
+        
+        polygon_style.rules.append(r)
+        return polygon_style                
 
     class Options:
         verbose_name = 'Area of Interest'
@@ -464,6 +518,24 @@ class AOI(PolygonFeature):
 @register
 class POI(PointFeature):
     description = models.TextField(null=True,blank=True)
+    
+    @classmethod
+    def mapnik_style(self):
+        import mapnik
+        polygon_style = mapnik.Style()
+        
+        ps = mapnik.PolygonSymbolizer(mapnik.Color('#DC640C'))
+        ps.fill_opacity = 0.6
+        ls = mapnik.LineSymbolizer(mapnik.Color('#ff0000'),0.2)
+        ls.stroke_opacity = 1.0
+        
+        r = mapnik.Rule()
+        r.symbols.append(ps)
+        r.symbols.append(ls)
+        
+        polygon_style.rules.append(r)
+        return polygon_style                
+
     class Options:
         verbose_name = 'Point of Interest'
         form = 'scenario.forms.PoiForm'
@@ -471,6 +543,24 @@ class POI(PointFeature):
 @register
 class LOI(LineFeature):
     description = models.TextField(null=True,blank=True)
+    
+    @classmethod
+    def mapnik_style(self):
+        import mapnik
+        polygon_style = mapnik.Style()
+        
+        ps = mapnik.PolygonSymbolizer(mapnik.Color('#DC640C'))
+        ps.fill_opacity = 0.6
+        ls = mapnik.LineSymbolizer(mapnik.Color('#ff0000'),0.2)
+        ls.stroke_opacity = 1.0
+        
+        r = mapnik.Rule()
+        r.symbols.append(ps)
+        r.symbols.append(ls)
+        
+        polygon_style.rules.append(r)
+        return polygon_style                
+
     class Options:
         verbose_name = 'Line of Interest'
         form = 'scenario.forms.LoiForm'
