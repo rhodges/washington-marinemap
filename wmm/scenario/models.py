@@ -211,7 +211,14 @@ class Scenario(Analysis):
         r.symbols.append(ps)
         r.symbols.append(ls)
         polygon_style.rules.append(r)
-        return polygon_style
+        return polygon_style     
+
+    @property
+    def color(self):
+        try:
+            return Objective.objects.get(pk=self.input_objectives.values_list()[0][0]).color
+        except:
+            return '778B1A55'
 
     @property 
     def kml_working(self):
@@ -269,10 +276,10 @@ class Scenario(Analysis):
                 <scale>0.8</scale>
             </LabelStyle>
             <PolyStyle>
-                <color>778B1A55</color>
+                <color>%s</color>
             </PolyStyle>
         </Style>
-        """ % (self.model_uid(),)
+        """ % (self.model_uid(),self.color)
         
     @property
     def get_input_parameters(self):
@@ -292,6 +299,7 @@ class Scenario(Analysis):
 
 class Objective(models.Model):
     name = models.CharField(max_length=70)
+    color = models.CharField(max_length=8, default='778B1A55')
     
     def __unicode__(self):
         return u'%s' % self.name        
@@ -347,13 +355,13 @@ class ConservationSite(PolygonFeature):
                 ]]> </text>
             </BalloonStyle>
             <PolyStyle>
-                <color>778B1A55</color>
+                <color>%s</color>
             </PolyStyle>
             <LineStyle>
                 <color>ffffffff</color>
             </LineStyle>
         </Style>
-        """ % (self.model_uid())
+        """ % (self.model_uid(), self.color())
 
     @classmethod
     def mapnik_style(self):
@@ -370,7 +378,14 @@ class ConservationSite(PolygonFeature):
         r.symbols.append(ls)
         
         polygon_style.rules.append(r)
-        return polygon_style                
+        return polygon_style     
+
+    @classmethod
+    def color(self):
+        try:
+            return Objective.objects.get(id=3).color
+        except:
+            return '778B1A55'
 
     class Options:
         verbose_name = 'Conservation Site'
@@ -415,13 +430,13 @@ class WindEnergySite(PolygonFeature):
                 ]]> </text>
             </BalloonStyle>
             <PolyStyle>
-                <color>778B1A55</color>
+                <color>%s</color>
             </PolyStyle>
             <LineStyle>
                 <color>ffffffff</color>
             </LineStyle>
         </Style>
-        """ % (self.model_uid())
+        """ % (self.model_uid(), self.color())
 
     @classmethod
     def mapnik_style(self):
@@ -438,7 +453,14 @@ class WindEnergySite(PolygonFeature):
         r.symbols.append(ls)
         
         polygon_style.rules.append(r)
-        return polygon_style                
+        return polygon_style        
+
+    @classmethod
+    def color(self):
+        try:
+            return Objective.objects.get(id=2).color
+        except:
+            return '778B1A55'             
 
     class Options:
         verbose_name = 'Wind Energy Site'
@@ -483,13 +505,13 @@ class AOI(PolygonFeature):
                 ]]> </text>
             </BalloonStyle>
             <PolyStyle>
-                <color>778B1A55</color>
+                <color>%s</color>
             </PolyStyle>
             <LineStyle>
                 <color>ffffffff</color>
             </LineStyle>
         </Style>
-        """ % (self.model_uid())        
+        """ % (self.model_uid(), self.color())        
     
     @classmethod
     def mapnik_style(self):
@@ -506,7 +528,11 @@ class AOI(PolygonFeature):
         r.symbols.append(ls)
         
         polygon_style.rules.append(r)
-        return polygon_style                
+        return polygon_style       
+
+    @classmethod
+    def color(self):
+        return '778B1A55'              
 
     class Options:
         verbose_name = 'Area of Interest'

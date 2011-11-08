@@ -84,8 +84,9 @@
             if ( y < 50 ) { y = y + radius * 2 + 94; }
             //NOTE:  might want to base tooltip output on seriesIndex    
             var fontfamily = 'Lucida Grande,Lucida Sans Unicode,Arial,Verdana,sans-serif';
-            if (seriesIndex == 0) { color = '#4bb2c5'; }
-            else { color = '#c5b47f'; } //'rgb(50%,50%,100%)';  
+            //if (seriesIndex == 0) { color = '#4bb2c5'; }
+            //else { color = '#c5b47f'; } //'rgb(50%,50%,100%)';  
+            color = plot1.series[seriesIndex].color;
             $('.jqplot-highlighter-tooltip').css({left:x, top:y, 'background-color':'#fafaf5', 'opacity':.8});
             $('.jqplot-highlighter-tooltip').html('<span style="font-family:' + fontfamily + ';font-size:14px;font-weight:bold;color:' +
                 color + ';">' + data[3] + '</span><span style="font-family:' + fontfamily + ';font-size:12px;"><br />' + xaxis_label + ': ' 

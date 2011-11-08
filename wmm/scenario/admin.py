@@ -15,7 +15,7 @@ admin.site.register(Scenario, ScenarioAdmin)
 
 class ObjectiveAdmin(admin.ModelAdmin):
     list_display = ('name', 'pk')
-    fields = ['name']
+    fields = ['name', 'color']
 admin.site.register(Objective, ObjectiveAdmin)
 
 class ParameterAdmin(admin.ModelAdmin):

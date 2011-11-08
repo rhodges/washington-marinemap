@@ -97,9 +97,11 @@ def run_tradeoff_analysis(folder_obj, x_axis, y_axis):
     x_label = get_label(x_axis)
     y_label = get_label(y_axis)
     conservation_sites = get_conservation_site_attributes(folder_obj, x_axis, y_axis)
-    conservation_colors = [ "#4bb2c5", "#4bb2c5", "#4bb2c5", "#4bb2c5" ]
+    #conservation_colors = [ "#4bb2c5", "#4bb2c5", "#4bb2c5", "#4bb2c5" ]
+    from scenario.utils import kmlcolor_to_htmlcolor
+    conservation_colors = [kmlcolor_to_htmlcolor(ConservationSite.color())] * len(conservation_sites)
     windenergy_sites = get_windenergy_sites(folder_obj, x_axis, y_axis)
-    windenergy_colors = [ "#c5b47f", "#c5b47f", "#c5b47f" ]
+    windenergy_colors = [kmlcolor_to_htmlcolor(WindEnergySite.color())] * len(windenergy_sites)
     context = {'default_value': default_value, 'x_axis': x_axis, 'y_axis': y_axis, 'x_label': x_label, 'y_label': y_label, 'conservation_sites': conservation_sites, 'conservation_colors': conservation_colors, 'windenergy_sites': windenergy_sites, 'windenergy_colors': windenergy_colors}
     return context
     
