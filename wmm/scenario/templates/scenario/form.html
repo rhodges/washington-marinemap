@@ -141,7 +141,7 @@
         wizard();
         
         $('ul.errorlist').each( function() {
-                $('div#error_bar').html("<ul class='errorlist'><li>We encountered an error while processing your bioregion. Can you recheck the steps and make sure you've filled in all the required information?</li></ul>");
+                $('div#error_bar').html("<ul class='errorlist'><li>We encountered an error while processing your scenario. Can you recheck the steps and make sure you've filled in all the required information?</li></ul>");
         });
         
         
@@ -191,7 +191,7 @@ span.form-image > img { width:46px; height:46px; }
   
   <div class="step" id="step1">
     <h3> Step 1 of 4 </h3>
-    <p> <strong>Choose 1 or more Objectives </strong> from the following list. <strong>*</strong><p>
+    <p> <strong>Choose an Objective </strong> from the following list. <strong>*</strong><p>
     <div id="objectives" class="inputfield">
         <div>
             {{ form.input_objectives.label_tag }}
