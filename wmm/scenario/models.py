@@ -61,7 +61,7 @@ class Folder(FeatureCollection):
         } """ % { 'uid': klass.model_uid(), 'media': settings.MEDIA_URL }
 
 
-@register
+#@register
 class Scenario(Analysis):
     #Input Parameters
     input_objectives = models.ManyToManyField("Objective")
@@ -318,7 +318,7 @@ class Substrate(models.Model):
         return u'%s' % self.name
 
 
-@register
+#@register
 class ConservationSite(PolygonFeature):
     description = models.TextField(null=True,blank=True)
     
@@ -393,7 +393,7 @@ class ConservationSite(PolygonFeature):
         form_template = 'conservation/form.html'
         show_template = 'conservation/show.html'
 
-@register
+#@register
 class WindEnergySite(PolygonFeature):
     description = models.TextField(null=True,blank=True)
     
@@ -469,7 +469,7 @@ class WindEnergySite(PolygonFeature):
         show_template = 'wind/show.html'
 
 
-@register
+#@register
 class AOI(PolygonFeature):
     description = models.TextField(null=True,blank=True)
     
@@ -541,7 +541,7 @@ class AOI(PolygonFeature):
         show_template = 'aoi/show.html'
                 
 
-@register
+#@register
 class POI(PointFeature):
     description = models.TextField(null=True,blank=True)
     
@@ -566,7 +566,7 @@ class POI(PointFeature):
         verbose_name = 'Point of Interest'
         form = 'scenario.forms.PoiForm'
 
-@register
+#@register
 class LOI(LineFeature):
     description = models.TextField(null=True,blank=True)
     
