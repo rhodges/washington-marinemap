@@ -1,0 +1,37 @@
+{% extends 'common/panel.html' %}
+
+{% block title %}Conservation Site Physical Report{% endblock %}
+{% block panel %}
+
+<h3>Physical Characteristics</h3>
+<div class='freetext'>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td><b>Area</b></td>
+            <td><b>Perimeter</b></td>
+        </tr>
+        <tr>
+            <td>{{default_value}}</td>
+            <td>{{default_value}}</td>
+        </tr>
+    </tbody>
+</table>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Shoreline Types and Proportions</b></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{{default_value}}</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+</div>
+{% endblock %}

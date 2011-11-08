@@ -1,0 +1,210 @@
+{% extends 'common/panel.html' %}
+{% block title %}{{instance.name}}{% endblock title %}
+{% block panel %}
+
+<script type="text/javascript" charset="utf-8">
+    lingcod.onShow(function(){
+    
+        var folder_id = {{instance.pk}};
+        $('#Tradeoff_Analysis').hide();
+        $('#change_objectives').hide();
+        
+        $('#show_analysis').click( function(event) { 
+            
+            var selected_x = $('select.x-axis').val();
+            
+            var selected_y = $('select.y-axis').val();
+                        
+            //if (selected_x != selected_y) {
+            $.post('scenario/tradeoff/show-analysis', {'folder_id': folder_id, 'selected_x': selected_x, 'selected_y': selected_y}, function(data) {
+                $('#Tradeoff_Analysis').html(data);
+            });
+            $('#Tradeoff_Instructions').hide();
+            $('#Tradeoff_Analysis').show();
+            $('#show_analysis').hide();
+            $('#change_objectives').show();
+            //} else {
+                
+            //}
+            
+        });
+        
+        $('#change_objectives').click( function(event) {    
+            $('#Tradeoff_Analysis').hide();
+            $('#Tradeoff_Instructions').show();
+            $('#change_objectives').hide();
+            $('#show_analysis').show();
+        });
+        
+        $('#table_button').click( function(event) {
+            $.post('scenario/tradeoff/show-table', {'folder_id': folder_id}, function(data) {
+                $('#Tradeoff_Table').html(data);
+            });
+        });
+            
+
+    });
+    
+    function toggleDiv(divId, srcId) {
+        $("#"+divId).toggle();
+        if ($("#"+srcId).text() == 'Read More') { 
+            $("#"+srcId).text('Hide Text'); 
+        } else { 
+            $("#"+srcId).text('Read More'); 
+        }
+    }
+</script>
+
+<style type="text/css">
+div .field > label { font-size: 12px; display: inline; }
+div .step { 
+    -moz-box-shadow: 5px 5px 5px #ddd;
+    -webkit-box-shadow: 5px 5px 5px #ddd;
+    box-shadow: 5px 5px 5px #ddd; 
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -khtml-border-radius: 6px;
+    border-radius: 6px;
+    border: 1px #ddd solid;
+    padding: 6px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    background-color: white; 
+    background-repeat: no-repeat;
+    min-height: 54px;
+}
+div .inputfield { padding-bottom: 14px; }
+span.form-image { float: left; margin-left: -66px; }
+span.form-image > img { width:46px; height:46px; }
+</style>
+
+<h1>Results for "{{instance.name}}"</h1>
+    <div class="tabs">
+        <ul>
+            <li><a href="#Inputs"><span>Inputs</span></a></li>
+            <li><a href="#results"><span>Multi-Objective Tradeoffs</span></a></li>
+        </ul>
+        <div id="Inputs">
+            <ul class="metadata">
+              {% if instance.user.first_name and instance.user.last_name %} 
+                <li class="creator">Created By {{instance.user.first_name}} {{instance.user.last_name}}</li>
+              {% else %}
+                <li class="creator">Created By {{instance.user.username}}</li>
+              {% endif %}
+                <li class="created">Created {{instance.date_created|date:"d M, Y P"}}</li>
+                <li class="modified">Modified {{instance.date_modified|date:"d M, Y P"}}</li>
+                <br class="clear" />
+            </ul>
+            
+            <h2>Feature Type</h2>
+                <p>Collection</p>
+            
+            <h2>Contents</h2>
+                {% if instance.num_scenarios > 0 %}
+                <p>Scenarios: {{instance.num_scenarios}}</p>
+                {% endif %}
+                {% if instance.num_conservation_sites > 0 %}
+                <p>Conservation Sites: {{instance.num_conservation_sites}}</p>
+                {% endif %}
+                {% if instance.num_windenergy_sites > 0 %}
+                <p>Wind Energy Sites: {{instance.num_windenergy_sites}}</p>
+                {% endif %}
+            
+            <h2>Description</h2>
+                {% if instance.description %}
+                <p>{{instance.description}}</p>
+                {% else %}
+                <p>No description provided</p>
+                {% endif %}
+            
+            <h2>Hint</h2>
+            <div class="draghint">
+                <img src="{{MEDIA_URL}}common/images/dragdrophint.png" />
+                To add features to this collection, simply drag and drop features in and out of it from the sidebar after saving.
+                <br style="clear:both;" />
+            </div>
+        </div>
+        
+        <div id="results" class="tabs">
+            <ul>
+                <li><a href="#visual"><span>Visualization</span></a></li>
+                <li><a id="table_button" href="#text"><span>Table</span></a></li>
+            </ul>
+            <div id="visual">
+                <div id="Tradeoff_Instructions" class="step">
+                    <h3>Tradeoff Analysis</h3>
+                    <p>Choose two objectives to be charted in the Tradeoff Analysis Report. &nbsp;
+                    <a id="displayInstructions" href="javascript:toggleDiv('instructions', 'displayInstructions');">Read More</a>
+                    </p>
+                    <div id="instructions" style="display: none">
+                        <p>The multi-objective tradeoffs report helps you compare the valuations of your shapes.</p>
+                        <p>The results are displayed such that shapes that are valuated higher for Objective #1 will be further along 
+                           the x-axis (to the right), and those that are valuated higher for Objective #2 will be further 
+                           along the y-axis (toward the top).  
+                        <p>Conflict areas, those areas that have high valuations for both objectives, 
+                           will be seen in the upper-right quadrant of the graph.  
+                        </p>
+                    </div>
+                    <form>
+                        <table>
+                            <tr>
+                                <td align="center" width="30%">
+                                    <label>Objective #1</label>
+                                </td>
+                                <td width="30%">
+                                    &nbsp;
+                                </td>
+                                <td align="center" width="30%">
+                                    <label>Objective #2</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" align="center">
+                                    <label>
+                                    <select class="x-axis" name="x-axis">
+                                        <option value="tidal">Tidal Energy</option>
+                                        <option value="wind">Wind Energy</option>
+                                        <option value="conservation" selected>Marine Conservation</option>
+                                        <option value="development">Shoreside Development</option>
+                                        <option value="shellfish">Shellfish Aquaculture</option>
+                                        <option value="fishing">Offshore Fishing</option>
+                                    </select>
+                                    </label>
+                                </td>
+                                <td width="30%">
+                                    &nbsp;
+                                </td>
+                                <td width="30%" align="center">
+                                    <label><select class="y-axis" name="y-axis">
+                                        <option value="tidal">Tidal Energy</option>
+                                        <option value="wind" selected>Wind Energy</option>
+                                        <option value="conservation">Marine Conservation</option>
+                                        <option value="development">Shoreside Development</option>
+                                        <option value="shellfish">Shellfish Aquaculture</option>
+                                        <option value="fishing">Offshore Fishing</option>
+                                    </select></label>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <p>
+                </div>
+                
+                <div id="Tradeoff_Analysis" class="step"></div>
+                
+                <div class="wizard_nav" style="width:100%">
+                    <a href="#" class="button" style="float:left;" onclick="this.blur(); return false;" id="change_objectives"><span>&lt; Change Objectives</span></a>
+                    <a href="#" class="button" style="float:right;" onclick="this.blur(); return false;" id="show_analysis"><span>Show Tradeoffs &gt;</span></a>
+                </div>
+            </div>
+            <div id="text">
+                <div id="Tradeoff_Table" class="step">
+                    <p>coming soon...</p>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+    
+{% endblock panel %}
