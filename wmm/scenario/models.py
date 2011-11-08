@@ -65,6 +65,7 @@ class Folder(FeatureCollection):
 class Scenario(Analysis):
     #Input Parameters
     input_objectives = models.ManyToManyField("Objective")
+    #input_objective = models.ForeignKey("Objective")
     input_parameters = models.ManyToManyField("Parameter")
     
     input_dist_shore = models.FloatField(verbose_name='Distance from Shoreline')
