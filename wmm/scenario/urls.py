@@ -3,6 +3,7 @@ from views import *
 
 urlpatterns = patterns('',
     url(r'form/get-params', get_params), #called from the scenario creation wizard
+    url(r'form/post-params', post_params), #called from the scenario creation wizard
     
     #feature reports
     url(r'conservation/(\d+)/(\w+)', conservation_analysis, name='conservation_analysis'), #user requested conservation analysis 

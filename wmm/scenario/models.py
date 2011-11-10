@@ -7,7 +7,7 @@ from django.utils.html import escape
 from lingcod.analysistools.models import Analysis
 from lingcod.features import register, alternate
 from lingcod.common.utils import asKml
-from lingcod.features.models import PointFeature, LineFeature, PolygonFeature, FeatureCollection
+from lingcod.features.models import Feature, PointFeature, LineFeature, PolygonFeature, FeatureCollection
 from lingcod.layers.models import PrivateLayerList
 
 
@@ -41,7 +41,7 @@ class Folder(FeatureCollection):
         
     class Options:
         verbose_name = 'Folder'
-        valid_children = ( 'scenario.models.Scenario', 
+        valid_children = ( 'scenario.models.MultiObjectiveScenario', 
                            'scenario.models.ConservationSite',
                            'scenario.models.WindEnergySite',
                            'scenario.models.AOI', 
@@ -60,12 +60,166 @@ class Folder(FeatureCollection):
         background: url('%(media)skmltree/dist/images/sprites/kml.png?1302821411') no-repeat -231px 0px ! important;
         } """ % { 'uid': klass.model_uid(), 'media': settings.MEDIA_URL }
 
-
 @register
+class MultiObjectiveScenario(Feature):
+    scenarios = models.ManyToManyField("Scenario", null=True, blank=True)
+    
+    description = models.TextField(null=True, blank=True)
+    support_file = models.FileField(upload_to='scenarios/files/', null=True, blank=True)
+        
+    #might factor out form param from kwards in param list...
+    def save(self, form=None, *args, **kwargs):
+        if form is not None:
+            form_data = form.cleaned_data
+            user = form_data['user']
+            name = form_data['name']
+            self.name = name
+            super(MultiObjectiveScenario, self).save()
+            #description = form_data['description']
+            input_objectives = form_data['input_objectives']
+            for obj in input_objectives:
+                obj_id = obj.id
+                scenario_name = name + '_%s' % obj_id
+                params = form_data['input_parameters_%s'%obj_id]
+                
+                dist_shore = form_data['input_dist_shore_%s'%obj_id]
+                dist_port = form_data['input_dist_port_%s'%obj_id]
+                min_depth = form_data['input_min_depth_%s'%obj_id]
+                max_depth = form_data['input_max_depth_%s'%obj_id]
+                substrates = form_data['input_substrate_%s'%obj_id]
+                
+                scenario = Scenario(user=user, name=scenario_name, input_objective=obj, input_dist_shore=dist_shore,
+                                    input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth)            
+                scenario.save(rerun=False)
+                
+                for substrate in substrates:
+                    scenario.input_substrate.add(substrate)
+                for param in params:
+                    scenario.input_parameters.add(param)
+                scenario.save()
+                self.scenarios.add(scenario)
+              
+        super(MultiObjectiveScenario, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return u'%s' % self.name
+        
+    def support_filename(self):
+        return os.path.basename(self.support_file.name)
+           
+    
+    @property 
+    def kml_working(self):
+        return """
+        <Placemark id="%s">
+            <visibility>0</visibility>
+            <name>%s (WORKING)</name>
+        </Placemark>
+        """ % (self.uid, escape(self.name))
+
+    def get_scenarios_kml(self):
+        scenarios_kml = ""
+        scenarios = self.scenarios.all()
+        for scenario in scenarios:
+            scenario_kml = asKml(scenario.output_geom.transform( settings.GEOMETRY_CLIENT_SRID, clone=True))
+            scenarios_kml += scenario_kml
+        return scenarios_kml
+        
+    @property 
+    def kml(self):        
+        combined_kml = "<Folder><name>%s</name>" %self.name
+        for scenario in self.scenarios.all():
+            name = self.name + '_' + scenario.input_objective.name
+            kml =   """
+                    %s
+                    <Placemark id="%s">
+                        <visibility>1</visibility>
+                        <name>%s</name>
+                        <styleUrl>#%s-default</styleUrl>
+                        <ExtendedData>
+                            <Data name="name"><value>%s</value></Data>
+                            <Data name="user"><value>%s</value></Data>
+                            <Data name="desc"><value>%s</value></Data>
+                            <Data name="type"><value>%s</value></Data>
+                            <Data name="modified"><value>%s</value></Data>
+                        </ExtendedData>
+                        <MultiGeometry>
+                        %s
+                        </MultiGeometry>
+                    </Placemark>
+                    """ % ( self.scenario_style(scenario.color), self.uid, escape(name), self.model_uid(),
+                            escape(self.name), self.user, escape(self.description), self.Options.verbose_name, self.date_modified.replace(microsecond=0), 
+                            asKml(scenario.output_geom.transform( settings.GEOMETRY_CLIENT_SRID, clone=True)) )
+            combined_kml += kml
+        combined_kml += "</Folder>"
+        return combined_kml
+    
+    def scenario_style(self, color='778B1A55'):
+        return """
+        <Style id="%s-default">
+            <BalloonStyle>
+                <bgColor>ffeeeeee</bgColor>
+                <text> <![CDATA[
+                    <font color="#1A3752"><strong>$[name]</strong></font><br />
+                    <p>$[desc]</p>
+                    <font size=1>$[type] created by $[user] on $[modified]</font>
+                ]]> </text>
+            </BalloonStyle>
+            <IconStyle>
+                <color>ffffffff</color>
+                <colorMode>normal</colorMode>
+                <scale>0.9</scale> 
+                <Icon> <href>http://maps.google.com/mapfiles/kml/paddle/wht-blank.png</href> </Icon>
+            </IconStyle>
+            <LabelStyle>
+                <color>ffffffff</color>
+                <scale>0.8</scale>
+            </LabelStyle>
+            <PolyStyle>
+                <color>%s</color>
+            </PolyStyle>
+        </Style>
+        """ % (self.model_uid(), color)
+    
+    @property
+    def kml_style(self):
+        return """
+        <Style id="%s-default">
+            <BalloonStyle>
+                <bgColor>ffeeeeee</bgColor>
+                <text> <![CDATA[
+                    <font color="#1A3752"><strong>$[name]</strong></font><br />
+                    <p>$[desc]</p>
+                    <font size=1>$[type] created by $[user] on $[modified]</font>
+                ]]> </text>
+            </BalloonStyle>
+            <IconStyle>
+                <color>ffffffff</color>
+                <colorMode>normal</colorMode>
+                <scale>0.9</scale> 
+                <Icon> <href>http://maps.google.com/mapfiles/kml/paddle/wht-blank.png</href> </Icon>
+            </IconStyle>
+            <LabelStyle>
+                <color>ffffffff</color>
+                <scale>0.8</scale>
+            </LabelStyle>
+            <PolyStyle>
+                <color>778B1A55</color>
+            </PolyStyle>
+        </Style>
+        """ % (self.model_uid())
+        
+    class Options:
+        verbose_name = 'Multi-Objective Scenario'
+        #icon_url = 'bmm/img/regions.png'
+        form = 'scenario.forms.MultiObjectiveScenarioForm'
+        form_template = 'multi_objective_scenario/form.html'
+        show_template = 'multi_objective_scenario/show.html'
+
 class Scenario(Analysis):
     #Input Parameters
-    input_objectives = models.ManyToManyField("Objective")
-    #input_objective = models.ForeignKey("Objective")
+    #input_objectives = models.ManyToManyField("Objective")
+    input_objective = models.ForeignKey("Objective")
     input_parameters = models.ManyToManyField("Parameter")
     
     input_dist_shore = models.FloatField(verbose_name='Distance from Shoreline')
@@ -75,8 +229,8 @@ class Scenario(Analysis):
     input_substrate = models.ManyToManyField("Substrate")
     
     #Descriptors (name field is inherited from Analysis)
-    description = models.TextField(null=True, blank=True)
-    support_file = models.FileField(upload_to='scenarios/files/', null=True, blank=True)
+    #description = models.TextField(null=True, blank=True)
+    #support_file = models.FileField(upload_to='scenarios/files/', null=True, blank=True)
     
     # All output fields should be allowed to be Null/Blank
     output_geom = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID,
@@ -168,13 +322,19 @@ class Scenario(Analysis):
         # ie if name and description change no need to rerun the full analysis
         if self.pk is not None:
             rerun = False
-            orig = Scenario.objects.get(pk=self.pk)
-            for f in Scenario.input_fields():
-                # Is original value different from form value?
-                #if orig._get_FIELD_display(f) != getattr(self,f.name):
-                if getattr(orig, f.name) != getattr(self, f.name):
+            outputs = Scenario.output_fields()
+            for output in outputs:
+                if output.null:
                     rerun = True
                     break
+            if not rerun:
+                orig = Scenario.objects.get(pk=self.pk)
+                for f in Scenario.input_fields():
+                    # Is original value different from form value?
+                    #if orig._get_FIELD_display(f) != getattr(self,f.name):
+                    if getattr(orig, f.name) != getattr(self, f.name):
+                        rerun = True
+                        break
             if not rerun:
                 #the substrates need to be grabbed, then saved, then grabbed again because (regardless of whether we use orig or self) 
                 #both getattr calls return the same original list until the model has been saved 
@@ -217,10 +377,10 @@ class Scenario(Analysis):
     @property
     def color(self):
         try:
-            return Objective.objects.get(pk=self.input_objectives.values_list()[0][0]).color
+            return Objective.objects.get(pk=self.input_objective.id).color
         except:
             return '778B1A55'
-
+    
     @property 
     def kml_working(self):
         return """

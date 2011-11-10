@@ -1,0 +1,607 @@
+{% extends "common/panel.html" %}
+{% block title %}{{title}}{% endblock %}
+{% block panel %}
+<script type="text/javascript" charset="utf-8">
+    lingcod.onShow(function(){
+        lingcod.setupForm($('#featureform'));
+        
+        var step = 1;
+        var max_step = 4;
+        var first_next = true;
+        var is_edit = !(!$('#id_name').val());
+        var initial_objs = [];
+        var selected_objs = [];
+        var objectives = $('input.objectives');
+        $.each(objectives, function(index, obj) {
+            if (obj.checked) {
+                initial_objs.push(obj.value);
+            }
+        });
+        var initial_params = {};
+        var selected_params = {};
+        if (is_edit) {
+            selected_params = get_selected_params();
+        }
+        
+        function get_selected_params() {
+            selected_params = {};
+            $.each(selected_objs, function(index, obj) {
+                var obj_params = $('input.parameters_'+obj);
+                param_list = []
+                $.each(obj_params, function(index, param) {
+                    if (param.checked) {
+                        param_list.push(param.value);
+                    }
+                });
+                selected_params[obj] = param_list;
+            });
+            return selected_params;
+        }
+        
+        function identical_associations(assoc1, assoc2) {
+            return true;
+        }
+        
+        function identical(list1, list2) {
+            if (list1.length != list2.length) {
+                return false;
+            }
+            var a = list1.sort();
+            var b = list2.sort();
+            for (var i = 0; i < a.length; i++) {
+                if (a[i] != b[i]) {
+                    return false;
+                }
+            }
+            return true;
+        };
+        
+        function validate(step) {
+            if (step == 1) {
+                selected_objs = [];
+                var all_objs = $('input.objectives');
+                $.each(all_objs, function(index, obj) {
+                    if (obj.checked) {
+                        selected_objs.push(obj.value);
+                    }
+                });
+                if (selected_objs.length == 0) {
+                    alert("Select at least 1 Objective.");
+                    return false;
+                } 
+            } else if (step == 2) {
+                selected_params = get_selected_params();
+                $.each(selected_objs, function(index, obj_id) {
+                    if (selected_params[obj_id].length == 0) {
+                        alert("Select at least 1 Parameter for each Objective.");
+                        return false;
+                    }
+                });
+            }
+            return true
+        }; 
+
+        function wizard(action) {
+            if (step == 1 && action == 'next') {
+                if (validate(step)) {
+                    step += 1;
+                    //if (!identical(initial_objs, selected_objs) || !identical_associations(initial_params, selected_params) || first_next) {
+                    //    $.post('/scenario/form/get-params', {'initial_objs': initial_objs, 'selected_objs': selected_objs, 'selected_params': selected_params, 'is_edit': is_edit}, function(data) {
+                    //        $('#step2_data').html(data);
+                    //    });
+                    //} 
+                    
+                    for (var i=1; i<=6; i++) {
+                        $('#params_header_'+i).hide();
+                        $('#params_'+i).hide();
+                    }
+                    $.each(selected_objs, function(index, obj_id) {
+                        $('#params_header_'+obj_id).show();
+                        $('#params_'+obj_id).show();
+                        //console.log($('input.parameters_'+obj_id));
+                        $.each($('input.parameters_'+obj_id), function() {
+                            //if selected_params[obj_id]
+                            $(this).attr("checked", "checked");
+                        });
+                    });
+                    first_next = false;
+                    initial_objs = selected_objs;
+                }
+            } else if (step ==2 && action == 'prev') {
+                step -= 1;
+                //might wrap the following in a function 
+                selected_params = get_selected_params();
+                initial_params = selected_params;
+            } else if (step == 2 && action == 'next') {
+                if (validate(step)) {
+                    step += 1;
+                    selected_params = get_selected_params();
+                    /*
+                    $.post('/scenario/form/post-params', {'selected_params': selected_params, 'selected_objs': selected_objs}, function(data) {
+                        $('#step3_data').html(data);
+                    });
+                    */
+                    for (var i=1; i<=6; i++) {
+                        $('#widgets_header_'+i).hide();
+                        $('#distance_shore_'+i).hide();
+                        $('#distance_port_'+i).hide();
+                        $('#depth_'+i).hide();
+                        $('#substrate_'+i).hide();
+                    }
+                    $.each(selected_params, function(obj_id, param_list) {
+                        $('#widgets_header_'+obj_id).show();
+                        $(param_list).each( function(index, param_id) {
+                            if (param_id == '1') {
+                                $('#distance_shore_'+obj_id).show();
+                            } else if (param_id == '2') {
+                                $('#distance_port_'+obj_id).show();
+                            } else if (param_id == '3') {
+                                $('#depth_'+obj_id).show();
+                            } else if (param_id == '5') {
+                                $('#substrate_'+obj_id).show();
+                            }
+                        });
+                    });
+                }
+            } else if (step < max_step && action == 'next') {
+                step += 1;
+            } else if (step > 1 && action == 'prev') {
+                step -= 1;
+            }
+            $('div.step').each(function(index) {
+                $(this).hide();
+            });
+            $('div#step' + step).show();
+
+            if (step == 1) {
+                $('#button_prev').hide();
+            } else {
+                $('#button_prev').show();
+            }
+
+            if (step == max_step) {
+                $('#button_next').hide();
+                $('.submit_button').show();
+            } else {
+                $('#button_next').show();
+                $('.submit_button').hide();
+            }
+        };
+        $('#button_prev').click( function() { wizard('prev'); });
+        $('#button_next').click( function() { wizard('next'); });
+        wizard();
+        
+        $('ul.errorlist').each( function() {
+                $('div#error_bar').html("<ul class='errorlist'><li>We encountered an error while processing your scenarios. Please ensure all required elements have been completed.</li></ul>");
+        });
+        
+        
+        $('#check_all').click(function(event) {
+            $('input.parameters').each( function() { $(this).attr('checked', 'checked'); });
+        });
+        $('#uncheck_all').click(function(event) {
+            $('input.parameters').each( function() { $(this).removeAttr('checked'); });
+        });
+                    
+    });
+    
+    function toggleParams(param_id, src_id) {
+        $("#"+param_id).fadeToggle(100); //slideToggle
+        //$("#"+param_id).toggle();
+        if ($("#"+src_id).text() == 'Show Parameters') { 
+            $("#"+src_id).text('Hide Parameters'); 
+        } else { 
+            $("#"+src_id).text('Show Parameters'); 
+        }
+    }
+</script>
+
+<style type="text/css">
+div .field > label { font-size: 12px; display: inline; }
+div .step { 
+    -moz-box-shadow: 5px 5px 5px #ddd;
+    -webkit-box-shadow: 5px 5px 5px #ddd;
+    box-shadow: 5px 5px 5px #ddd; 
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -khtml-border-radius: 6px;
+    border-radius: 6px;
+    border: 1px #ddd solid;
+    padding: 6px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    background-color: white; 
+    background-repeat: no-repeat;
+    min-height: 54px;
+}
+div .inputfield { padding-bottom: 14px; }
+span.form-image { float: left; margin-left: -66px; }
+span.form-image > img { width:46px; height:46px; }
+</style>
+
+{% if form.media %} {{ form.media }} {% endif %}
+<h1>{{ title }}</h1>
+<form id="featureform" action="{{action}}" method="post"> 
+  {% for hidden in form.hidden_fields %}
+    <div style="display:none;">
+        {{ hidden.errors }}
+    </div>
+    {{ hidden }}
+  {% endfor %}
+  <div id="error_bar"></div>
+  
+  <div class="step" id="step1">
+    <h3> Step 1 of 4 </h3>
+    <p> <strong>Choose 1 or more Objectives </strong> from the following list. <strong>*</strong><p>
+    <div id="objectives" class="inputfield">
+        <div>
+            {{ form.input_objectives.label_tag }}
+            {{ form.input_objectives.errors }}
+            <p>
+            {{ form.input_objectives }}
+            </p>
+        </div>
+    </div>
+  </div>
+    
+  <!-- Should step2 be moved to a separate template populated via a server call? -->
+  <div class="step" id="step2">
+    <h3> Step 2 of 4 </h3>
+    <p><strong>Choose Parameters </strong> that are relevant to your Objectives. <strong>*</strong><p>
+    <div id="step2_data">
+    
+        <!-- Objective #1 -->
+        <div id="params_header_1">
+            <p><strong>Tidal Energy</strong> Parameters 
+            (<a id="showParams_1" href="javascript:toggleParams('params_1', 'showParams_1');">Hide Parameters</a>):</p>
+        </div>
+        <div id="params_1">
+            <p>{{ form.input_parameters_1 }} </p>
+        </div>
+    
+        <!-- Objective #2 -->
+        <div id="params_header_2">
+            <p><strong>Wind Energy</strong> Parameters 
+            (<a id="showParams_2" href="javascript:toggleParams('params_2', 'showParams_2');">Hide Parameters</a>):</p>
+        </div>
+        <div id="params_2">
+            <p>{{ form.input_parameters_2 }} </p>
+        </div>
+    
+        <!-- Objective #3 -->
+        <div id="params_header_3">
+            <p><strong>Wind Energy</strong> Parameters 
+            (<a id="showParams_3" href="javascript:toggleParams('params_3', 'showParams_3');">Hide Parameters</a>):</p>
+        </div>
+        <div id="params_3">
+            <p>{{ form.input_parameters_3 }} </p>
+        </div>
+    
+        <!-- Objective #4 -->
+        <div id="params_header_4">
+            <p><strong>Wind Energy</strong> Parameters 
+            (<a id="showParams_4" href="javascript:toggleParams('params_4', 'showParams_4');">Hide Parameters</a>):</p>
+        </div>
+        <div id="params_4">
+            <p>{{ form.input_parameters_4 }} </p>
+        </div>
+    
+        <!-- Objective #5 -->
+        <div id="params_header_5">
+            <p><strong>Wind Energy</strong> Parameters 
+            (<a id="showParams_5" href="javascript:toggleParams('params_5', 'showParams_5');">Hide Parameters</a>):</p>
+        </div>
+        <div id="params_5">
+            <p>{{ form.input_parameters_5 }} </p>
+        </div>
+    
+        <!-- Objective #6 -->
+        <div id="params_header_6">
+            <p><strong>Wind Energy</strong> Parameters 
+            (<a id="showParams_6" href="javascript:toggleParams('params_6', 'showParams_6');">Hide Parameters</a>):</p>
+        </div>
+        <div id="params_6">
+            <p>{{ form.input_parameters_6 }} </p>
+        </div>
+        
+        
+    </div>
+  </div>
+
+  <div class="step" id="step3">
+    <h3> Step 3 of 4 </h3>
+    <p><strong>Provide suitable values </strong>for each of your chosen parameters. <strong>*</strong></p>
+    <p></p>
+    <div id="step3_data">
+    
+        <!-- Objective #1 -->
+        <div id="widgets_header_1">
+            <p><strong>Tidal Energy</strong> Parameters 
+            (<a id="showWidgets_1" href="javascript:toggleParams('widgets_1', 'showWidgets_1');">Hide Parameters</a>):</p>
+        </div>
+        <div id="widgets_1">
+            <div id="distance_shore_1" class="inputfield">
+                <div class="field required">
+                    {{ form.input_dist_shore_1.label_tag }}
+                    {{ form.input_dist_shore_1.errors }}
+                    {{ form.input_dist_shore_1 }}            
+                </div>
+            </div>
+            <div id="distance_port_1" class="inputfield">
+                <div class="field required">
+                    {{ form.input_dist_port_1.label_tag }}
+                    {{ form.input_dist_port_1.errors }}
+                    {{ form.input_dist_port_1 }}            
+                </div>
+            </div>
+            <div id="depth_1" class="inputfield">
+                <div class="field required">
+                    {{ form.input_depth_1.label_tag }} 
+                    {{ form.input_depth_1.errors }}
+                    
+                    {{ form.input_min_depth_1 }}            
+                    to
+                    {{ form.input_max_depth_1 }}            
+
+                    {{ form.input_depth_1 }}            
+                </div>
+            </div>
+            <div id="substrate_1" class="inputfield">
+                <div class="field required">
+                    {{ form.input_substrate_1.label_tag }}
+                    {{ form.input_substrate_1.errors }}
+                    <p>{{ form.input_substrate_1 }} </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Objective #2 -->
+        <div id="widgets_header_2">
+            <p><strong>Wind Energy</strong> Parameters 
+            (<a id="showWidgets_2" href="javascript:toggleParams('widgets_2', 'showWidgets_2');">Hide Parameters</a>):</p>
+        </div>
+        <div id="widgets_2">
+            <div id="distance_shore_2" class="inputfield">
+                <div class="field required">
+                    {{ form.input_dist_shore_2.label_tag }}
+                    {{ form.input_dist_shore_2.errors }}
+                    {{ form.input_dist_shore_2 }}            
+                </div>
+            </div>
+            <div id="distance_port_2" class="inputfield">
+                <div class="field required">
+                    {{ form.input_dist_port_2.label_tag }}
+                    {{ form.input_dist_port_2.errors }}
+                    {{ form.input_dist_port_2 }}            
+                </div>
+            </div>
+            <div id="depth_2" class="inputfield">
+                <div class="field required">
+                    {{ form.input_depth_2.label_tag }} 
+                    {{ form.input_depth_2.errors }}
+                    
+                    {{ form.input_min_depth_2 }}            
+                    to
+                    {{ form.input_max_depth_2 }}            
+
+                    {{ form.input_depth_2 }}            
+                </div>
+            </div>
+            <div id="substrate_2" class="inputfield">
+                <div class="field required">
+                    {{ form.input_substrate_2.label_tag }}
+                    {{ form.input_substrate_2.errors }}
+                    <p>{{ form.input_substrate_2 }} </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Objective #3 -->
+        <div id="widgets_header_3">
+            <p><strong>Marine Conservation</strong> Parameters 
+            (<a id="showWidgets_3" href="javascript:toggleParams('widgets_3', 'showWidgets_3');">Hide Parameters</a>):</p>
+        </div>
+        <div id="widgets_3">
+            <div id="distance_shore_3" class="inputfield">
+                <div class="field required">
+                    {{ form.input_dist_shore_3.label_tag }}
+                    {{ form.input_dist_shore_3.errors }}
+                    {{ form.input_dist_shore_3 }}            
+                </div>
+            </div>
+            <div id="distance_port_3" class="inputfield">
+                <div class="field required">
+                    {{ form.input_dist_port_3.label_tag }}
+                    {{ form.input_dist_port_3.errors }}
+                    {{ form.input_dist_port_3 }}            
+                </div>
+            </div>
+            <div id="depth_3" class="inputfield">
+                <div class="field required">
+                    {{ form.input_depth_3.label_tag }} 
+                    {{ form.input_depth_3.errors }}
+                    
+                    {{ form.input_min_depth_3 }}            
+                    to
+                    {{ form.input_max_depth_3 }}            
+
+                    {{ form.input_depth_3 }}            
+                </div>
+            </div>
+            <div id="substrate_3" class="inputfield">
+                <div class="field required">
+                    {{ form.input_substrate_3.label_tag }}
+                    {{ form.input_substrate_3.errors }}
+                    <p>{{ form.input_substrate_3 }} </p>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Objective #4 -->
+        <div id="widgets_header_4">
+            <p><strong>Shoreside Development</strong> Parameters 
+            (<a id="showWidgets_4" href="javascript:toggleParams('widgets_4', 'showWidgets_4');">Hide Parameters</a>):</p>
+        </div>
+        <div id="widgets_4">
+            <div id="distance_shore_4" class="inputfield">
+                <div class="field required">
+                    {{ form.input_dist_shore_4.label_tag }}
+                    {{ form.input_dist_shore_4.errors }}
+                    {{ form.input_dist_shore_4 }}            
+                </div>
+            </div>
+            <div id="distance_port_4" class="inputfield">
+                <div class="field required">
+                    {{ form.input_dist_port_4.label_tag }}
+                    {{ form.input_dist_port_4.errors }}
+                    {{ form.input_dist_port_4 }}            
+                </div>
+            </div>
+            <div id="depth_4" class="inputfield">
+                <div class="field required">
+                    {{ form.input_depth_4.label_tag }} 
+                    {{ form.input_depth_4.errors }}
+                    
+                    {{ form.input_min_depth_4 }}            
+                    to
+                    {{ form.input_max_depth_4 }}            
+
+                    {{ form.input_depth_4 }}            
+                </div>
+            </div>
+            <div id="substrate_4" class="inputfield">
+                <div class="field required">
+                    {{ form.input_substrate_4.label_tag }}
+                    {{ form.input_substrate_4.errors }}
+                    <p>{{ form.input_substrate_4 }} </p>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Objective #5 -->
+        <div id="widgets_header_5">
+            <p><strong>Shellfish Aquaculture</strong> Parameters 
+            (<a id="showWidgets_5" href="javascript:toggleParams('widgets_5', 'showWidgets_5');">Hide Parameters</a>):</p>
+        </div>
+        <div id="widgets_5">
+            <div id="distance_shore_5" class="inputfield">
+                <div class="field required">
+                    {{ form.input_dist_shore_5.label_tag }}
+                    {{ form.input_dist_shore_5.errors }}
+                    {{ form.input_dist_shore_5 }}            
+                </div>
+            </div>
+            <div id="distance_port_5" class="inputfield">
+                <div class="field required">
+                    {{ form.input_dist_port_5.label_tag }}
+                    {{ form.input_dist_port_5.errors }}
+                    {{ form.input_dist_port_5 }}            
+                </div>
+            </div>
+            <div id="depth_5" class="inputfield">
+                <div class="field required">
+                    {{ form.input_depth_5.label_tag }} 
+                    {{ form.input_depth_5.errors }}
+                    
+                    {{ form.input_min_depth_5 }}            
+                    to
+                    {{ form.input_max_depth_5 }}            
+
+                    {{ form.input_depth_5 }}            
+                </div>
+            </div>
+            <div id="substrate_5" class="inputfield">
+                <div class="field required">
+                    {{ form.input_substrate_5.label_tag }}
+                    {{ form.input_substrate_5.errors }}
+                    <p>{{ form.input_substrate_5 }} </p>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Objective #6 -->
+        <div id="widgets_header_6">
+            <p><strong>Offshore Fishing</strong> Parameters 
+            (<a id="showWidgets_6" href="javascript:toggleParams('widgets_6', 'showWidgets_6');">Hide Parameters</a>):</p>
+        </div>
+        <div id="widgets_6">
+            <div id="distance_shore_6" class="inputfield">
+                <div class="field required">
+                    {{ form.input_dist_shore_6.label_tag }}
+                    {{ form.input_dist_shore_6.errors }}
+                    {{ form.input_dist_shore_6 }}            
+                </div>
+            </div>
+            <div id="distance_port_6" class="inputfield">
+                <div class="field required">
+                    {{ form.input_dist_port_6.label_tag }}
+                    {{ form.input_dist_port_6.errors }}
+                    {{ form.input_dist_port_6 }}            
+                </div>
+            </div>
+            <div id="depth_6" class="inputfield">
+                <div class="field required">
+                    {{ form.input_depth_6.label_tag }} 
+                    {{ form.input_depth_6.errors }}
+                    
+                    {{ form.input_min_depth_6 }}            
+                    to
+                    {{ form.input_max_depth_6 }}            
+
+                    {{ form.input_depth_6 }}            
+                </div>
+            </div>
+            <div id="substrate_6" class="inputfield">
+                <div class="field required">
+                    {{ form.input_substrate_6.label_tag }}
+                    {{ form.input_substrate_6.errors }}
+                    <p>{{ form.input_substrate_6 }} </p>
+                </div>
+            </div>
+        </div>
+    
+        
+    </div>
+  </div>
+
+<div class="step" id="step4">
+    <h3> Step 4 of 4 </h3>
+    <p> <strong>Provide a name</strong> to identify your scenario </p>
+    <p></p>
+    <div class="field required">
+        {{ form.name.label_tag }}
+        {{ form.name.errors }}
+        {{ form.name }}            
+    </div>
+    <p> <strong>Optionally</strong>, you may <strong>add a description </strong>and/or <strong>attach a file.</strong> </p>
+    <div>
+        {{ form.description.label_tag }}
+        {{ form.description.errors }}
+        {{ form.description }}            
+    </div>
+    <div>
+        {{ form.support_file.label_tag }}
+        {{ form.support_file.errors }} 
+        {% if form.support_file.help_text %}
+            <p>{{ form.support_file.help_text }}</p>            
+        {% endif %}
+        <p>{{ form.support_file }}</p>         
+    </div>
+</div>
+
+<p><input type="submit" value="submit"></p>
+</form>
+
+
+<div class="wizard_nav" style="width:100%">
+    <a href="#" class="button" style="float:left;" onclick="this.blur(); return false;" id="button_prev"><span>&lt; Previous</span></a>
+    <a href="#" class="button" style="float:right;" onclick="this.blur(); return false;" id="button_next"><span>Next &gt;</span></a>
+</div>
+
+<div>
+    <a href="#" class="cancel_button button red" onclick="this.blur(); return false;"><span>Cancel</span></a>
+    <a href="#" class="submit_button button" onclick="this.blur(); return false;"><span>Submit</span></a>
+</div>
+
+
+{% endblock %}
