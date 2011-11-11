@@ -57,6 +57,7 @@
         };
         
         function validate(step) {
+            return_value = true;
             if (step == 1) {
                 selected_objs = [];
                 var all_objs = $('input.objectives');
@@ -67,18 +68,19 @@
                 });
                 if (selected_objs.length == 0) {
                     alert("Select at least 1 Objective.");
-                    return false;
+                    return_value = false;
                 } 
             } else if (step == 2) {
                 selected_params = get_selected_params();
                 $.each(selected_objs, function(index, obj_id) {
                     if (selected_params[obj_id].length == 0) {
                         alert("Select at least 1 Parameter for each Objective.");
-                        return false;
+                        return_value = false;
+                        return;
                     }
                 });
             }
-            return true
+            return return_value;
         }; 
 
         function wizard(action) {
@@ -98,10 +100,10 @@
                     $.each(selected_objs, function(index, obj_id) {
                         $('#params_header_'+obj_id).show();
                         $('#params_'+obj_id).show();
-                        //console.log($('input.parameters_'+obj_id));
                         $.each($('input.parameters_'+obj_id), function() {
-                            //if selected_params[obj_id]
-                            $(this).attr("checked", "checked");
+                            if ( !(obj_id in selected_params) || ($.inArray($(this).value, selected_params[obj_id]) > -1) ) {
+                                $(this).attr("checked", "checked");
+                            }
                         });
                     });
                     first_next = false;
@@ -113,7 +115,9 @@
                 selected_params = get_selected_params();
                 initial_params = selected_params;
             } else if (step == 2 && action == 'next') {
-                if (validate(step)) {
+                validated = validate(step);
+                console.log(validated);
+                if (validated) {
                     step += 1;
                     selected_params = get_selected_params();
                     /*
@@ -167,6 +171,7 @@
                 $('.submit_button').hide();
             }
         };
+        
         $('#button_prev').click( function() { wizard('prev'); });
         $('#button_next').click( function() { wizard('next'); });
         wizard();
@@ -181,8 +186,7 @@
         });
         $('#uncheck_all').click(function(event) {
             $('input.parameters').each( function() { $(this).removeAttr('checked'); });
-        });
-                    
+        });           
     });
     
     function toggleParams(param_id, src_id) {

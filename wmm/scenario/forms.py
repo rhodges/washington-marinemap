@@ -32,44 +32,6 @@ class UserKmlForm(FeatureForm):
     class Meta(FeatureForm.Meta):
         model = UserKml
 
-class AdminFileWidget(forms.FileInput):
-    """
-    A FileField Widget that shows its current value if it has one.
-    """
-    def __init__(self, attrs={}):
-        super(AdminFileWidget, self).__init__(attrs)
-
-    def render(self, name, value, attrs=None):
-        output = ['<p>']
-        if value and hasattr(value, "name"):
-            filename = split(value.name)[-1]
-            output.append('Current File: <a href="%s" target="_blank">%s</a> : <input style="top:0px;margin-bottom:0px" type="checkbox" name="clear_%s" /> Remove </p>' % (value._get_url(), filename, name))
-            output.append('<p> Change:') 
-        output.append(super(AdminFileWidget, self).render(name, value, attrs))
-        output.append("</p>")
-        return mark_safe(u''.join(output))
- 
-# http://www.neverfriday.com/sweetfriday/2008/09/-a-long-time-ago.html
-class FileValidationError(forms.ValidationError):
-    def __init__(self):
-        super(FileValidationError, self).__init__('Document types accepted: ' + ', '.join(ValidFileField.valid_file_extensions))
-        
-class ValidFileField(forms.FileField):
-    """A validating document upload field"""
-    valid_file_extensions = ['odt', 'pdf', 'doc', 'xls', 'txt', 'csv', 'kml', 'kmz', 'jpeg', 'jpg', 'png', 'gif', 'zip']
-
-    def __init__(self, *args, **kwargs):
-        super(ValidFileField, self).__init__(*args, **kwargs)
-
-    def clean(self, data, initial=None):
-        f = super(ValidFileField, self).clean(data, initial)
-        if f:
-            ext = splitext(f.name)[1][1:].lower()
-            if ext in ValidFileField.valid_file_extensions: 
-                # check data['content-type'] ?
-                return f
-            raise FileValidationError()
-
 class FolderForm(FeatureForm):
     name = forms.CharField(label='Folder Name')
     description = forms.CharField(widget=forms.Textarea(attrs={'cols': 30, 'rows': 3}), required=False)
@@ -80,6 +42,7 @@ class SubstrateModelMultipleChoiceField(ModelMultipleChoiceField):
     def label_from_instance(self, obj):
         return obj.name
         
+'''        
 class ScenarioForm(FeatureForm):
     description = forms.CharField(widget=forms.Textarea(attrs={'cols': 30, 'rows': 3}), required=False)
     #file = forms.FileField(widget=forms.ClearableFileInput(attrs={'style': 'top:0px;margin-bottom:0px'), max_length=70, required=False) #using ClearableFileInput produces poorly formatted edit form
@@ -124,7 +87,46 @@ class ScenarioForm(FeatureForm):
         exclude = list(FeatureForm.Meta.exclude)
         for f in model.output_fields():
             exclude.append(f.attname)
+'''
 
+class AdminFileWidget(forms.FileInput):
+    """
+    A FileField Widget that shows its current value if it has one.
+    """
+    def __init__(self, attrs={}):
+        super(AdminFileWidget, self).__init__(attrs)
+
+    def render(self, name, value, attrs=None):
+        output = ['<p>']
+        if value and hasattr(value, "name"):
+            filename = split(value.name)[-1]
+            output.append('Current File: <a href="%s" target="_blank">%s</a> : <input style="top:0px;margin-bottom:0px" type="checkbox" name="clear_%s" /> Remove </p>' % (value._get_url(), filename, name))
+            output.append('<p> Change:') 
+        output.append(super(AdminFileWidget, self).render(name, value, attrs))
+        output.append("</p>")
+        return mark_safe(u''.join(output))
+ 
+# http://www.neverfriday.com/sweetfriday/2008/09/-a-long-time-ago.html
+class FileValidationError(forms.ValidationError):
+    def __init__(self):
+        super(FileValidationError, self).__init__('Document types accepted: ' + ', '.join(ValidFileField.valid_file_extensions))
+        
+class ValidFileField(forms.FileField):
+    """A validating document upload field"""
+    valid_file_extensions = ['odt', 'pdf', 'doc', 'xls', 'txt', 'csv', 'kml', 'kmz', 'jpeg', 'jpg', 'png', 'gif', 'zip']
+
+    def __init__(self, *args, **kwargs):
+        super(ValidFileField, self).__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        f = super(ValidFileField, self).clean(data, initial)
+        if f:
+            ext = splitext(f.name)[1][1:].lower()
+            if ext in ValidFileField.valid_file_extensions: 
+                # check data['content-type'] ?
+                return f
+            raise FileValidationError()
+        
 class MultiObjectiveScenarioForm(FeatureForm):
     description = forms.CharField(widget=forms.Textarea(attrs={'cols': 30, 'rows': 3}), required=False)
     support_file = ValidFileField(widget=AdminFileWidget,required=False,label="Support File")
@@ -274,26 +276,6 @@ class MultiObjectiveScenarioForm(FeatureForm):
                                                         widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
                                                         label="Include areas with the following Substrate Types", required=False) 
     
-    '''
-    input_widgets = {}
-    for i in range(6):
-        i += 1
-        input_widgets['input_dist_shore_%s'%i] = forms.FloatField(  min_value=0, max_value=40, initial=5,
-                                                                    widget=SliderWidget(min=0,max=40,step=.5),
-                                                                    label="Within distance of Shore (km)")
-        input_widgets['input_dist_port_%s'%i] = forms.FloatField(   min_value=0, max_value=100, initial=10,
-                                                                    widget=SliderWidget(min=0,max=100,step=1),
-                                                                    label="Within distance of Port (km)")
-        input_widgets['input_min_depth_%s'%i] = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}))
-        input_widgets['input_max_depth_%s'%i] = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}))
-        input_widgets['input_depth_%s'%i] = forms.FloatField(   min_value=-1000, max_value=0, initial=0,
-                                                                widget=DualSliderWidget('input_min_depth','input_max_depth',
-                                                                                        min=-1000,max=0,step=10),
-                                                                label="Depth Range (meters)")
-        input_widgest['input_substrate%s'%i] = SubstrateModelMultipleChoiceField(queryset=Substrate.objects.all().order_by('id'), 
-                                                        widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
-                                                        label="Include areas with the following Substrate Types") 
-    '''
     def save(self, commit=True):
         inst = super(FeatureForm, self).save(commit=False)
         if self.data.get('clear_support_file'):
@@ -305,3 +287,4 @@ class MultiObjectiveScenarioForm(FeatureForm):
     class Meta(FeatureForm.Meta):
         model = MultiObjectiveScenario
         exclude = list(FeatureForm.Meta.exclude)
+

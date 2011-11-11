@@ -19,7 +19,7 @@ class Folder(FeatureCollection):
     def num_scenarios(self):
         count = 0
         for object in self.feature_set():
-            if object.__class__ == Scenario:
+            if object.__class__ == MultiObjectiveScenario:
                 count += 1
         return count
         
@@ -107,7 +107,7 @@ class MultiObjectiveScenario(Feature):
     def support_filename(self):
         return os.path.basename(self.support_file.name)
            
-    
+    '''
     @property 
     def kml_working(self):
         return """
@@ -116,7 +116,8 @@ class MultiObjectiveScenario(Feature):
             <name>%s (WORKING)</name>
         </Placemark>
         """ % (self.uid, escape(self.name))
-
+    '''
+    '''
     def get_scenarios_kml(self):
         scenarios_kml = ""
         scenarios = self.scenarios.all()
@@ -124,15 +125,15 @@ class MultiObjectiveScenario(Feature):
             scenario_kml = asKml(scenario.output_geom.transform( settings.GEOMETRY_CLIENT_SRID, clone=True))
             scenarios_kml += scenario_kml
         return scenarios_kml
-        
+    '''    
     @property 
     def kml(self):        
-        combined_kml = "<Folder><name>%s</name>" %self.name
+        combined_kml = '<Folder id="%s"><name>%s</name><visibility>0</visibility><open>0</open>' %(self.uid, self.name)
         for scenario in self.scenarios.all():
             name = self.name + '_' + scenario.input_objective.name
             kml =   """
                     %s
-                    <Placemark id="%s">
+                    <Placemark>
                         <visibility>1</visibility>
                         <name>%s</name>
                         <styleUrl>#%s-default</styleUrl>
@@ -147,7 +148,7 @@ class MultiObjectiveScenario(Feature):
                         %s
                         </MultiGeometry>
                     </Placemark>
-                    """ % ( self.scenario_style(scenario.color), self.uid, escape(name), self.model_uid(),
+                    """ % ( self.scenario_style(scenario.color), escape(name), self.model_uid(),
                             escape(self.name), self.user, escape(self.description), self.Options.verbose_name, self.date_modified.replace(microsecond=0), 
                             asKml(scenario.output_geom.transform( settings.GEOMETRY_CLIENT_SRID, clone=True)) )
             combined_kml += kml

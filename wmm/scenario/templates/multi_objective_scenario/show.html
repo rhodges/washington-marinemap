@@ -5,9 +5,7 @@
     <div class="tabs">
         <ul>
             <li><a href="#Inputs"><span>Inputs</span></a></li>
-            {% if instance.done %}
             <li><a href="#results"><span>Results</span></a></li>
-            {% endif %}
         </ul>
         <div id="Inputs">
             <ul class="metadata">
@@ -31,26 +29,35 @@
                 <p>No Description</p>
                 {% endif %}
                 
-            <h2>Parameters</h2>            
+            <h2>Scenarios</h2>     
+                {% for scenario in instance.scenarios.all %}
                 <div class="box species" id="temp">
-                    {% if 1 in instance.get_input_parameters %}
-                    <p> Distance to Shore <= {{ instance.input_dist_shore }} km</p>
-                    {% endif %}
-                    {% if 2 in instance.get_input_parameters %}
-                    <p> Distance to Port <= {{ instance.input_dist_port }} km</p>
-                    {% endif %}
-                    {% if 3 in instance.get_input_parameters %}
-                    <p> Depth Range: {{ instance.input_min_depth }} m to {{instance.input_max_depth}} m</p>
-                    {% endif %}
-                    {% if 5 in instance.get_input_parameters %}
-                    <p> Substrates : </p>
-                    <ul>
-                      {% for substrate in instance.input_substrate.all %}
-                        <li> {{substrate.name}} </li>
-                      {% endfor %}
-                    </ul>
-                    {% endif %}
+                    <h3>Objective: </h3>
+                        <div>
+                            <p>{{scenario.input_objective}}</p>
+                        </div>
+                    <h3>Parameters</h3>
+                        <div>
+                            {% if 1 in scenario.get_input_parameters %}
+                            <p> Distance to Shore <= {{ scenario.input_dist_shore }} km</p>
+                            {% endif %}
+                            {% if 2 in scenario.get_input_parameters %}
+                            <p> Distance to Port <= {{ scenario.input_dist_port }} km</p>
+                            {% endif %}
+                            {% if 3 in scenario.get_input_parameters %}
+                            <p> Depth Range: {{ scenario.input_min_depth }} m to {{scenario.input_max_depth}} m</p>
+                            {% endif %}
+                            {% if 5 in scenario.get_input_parameters %}
+                            <p> Substrates : </p>
+                            <ul>
+                              {% for substrate in scenario.input_substrate.all %}
+                                <li> {{substrate.name}} </li>
+                              {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
                 </div>
+                {% endfor %}
             <h2>Support File</h2>
                 <div class="box species">
                     {% if instance.support_file %}
@@ -70,6 +77,11 @@
            <pre>{{ instance.output_mapcalc }}</pre>
         </div>
         {% endif %}
+        
+        
+        <div id="results">
+            <p>Reports coming soon...</p>
+        </div>
     </div>
 
 {% endblock panel %}
