@@ -63,21 +63,30 @@ class Folder(FeatureCollection):
 @register
 class MultiObjectiveScenario(Feature):
     scenarios = models.ManyToManyField("Scenario", null=True, blank=True)
+    input_objectives = models.ManyToManyField("Objective", null=True, blank=True)
     
     description = models.TextField(null=True, blank=True)
     support_file = models.FileField(upload_to='scenarios/files/', null=True, blank=True)
         
     #might factor out form param from kwards in param list...
     def save(self, form=None, *args, **kwargs):
-        if form is not None:
+        if form is not None:      
             form_data = form.cleaned_data
             user = form_data['user']
             name = form_data['name']
             self.name = name
             super(MultiObjectiveScenario, self).save()
             #description = form_data['description']
-            input_objectives = form_data['input_objectives']
-            for obj in input_objectives:
+            
+            #remove old scenarios from this multi-objective scenario object 
+            #TODO:  should optimize this so that it only removes those scenarios that need to be re-generated
+            old_scenarios = Scenario.objects.filter(multiobjectivescenario=self.id)
+            for old_scenario in old_scenarios:
+                self.scenarios.remove(old_scenario) #NOTE:  removes the relationship but not the scenario itself
+            
+            #generate new scenarios
+            self.input_objectives = form_data['input_objectives']
+            for obj in self.input_objectives.all():
                 obj_id = obj.id
                 scenario_name = name + '_%s' % obj_id
                 params = form_data['input_parameters_%s'%obj_id]
@@ -106,7 +115,12 @@ class MultiObjectiveScenario(Feature):
         
     def support_filename(self):
         return os.path.basename(self.support_file.name)
-           
+          
+    @property
+    def objective_ids(self):
+        obj_ids = [scenario.input_objective.id for scenario in self.scenarios.all()]
+        return obj_ids
+          
     '''
     @property 
     def kml_working(self):

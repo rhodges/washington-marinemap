@@ -58,16 +58,22 @@ def conservation_analysis(request, cs_id, type):
         return response
     return display_conservation_analysis(request, cs_object, type)
     
+'''    
+def get_objs(request, instance):
+    import pdb
+    pdb.set_trace()
+    context = {}
+    return HttpResponse(context)
 '''
-def get_params(request, template='multi_objective_scenario/list_parameters.html'):
+
+def list_params(request, template='multi_objective_scenario/list_parameters.html'):
     if request.POST:
-        is_edit = request.POST.getlist('is_edit')[0] == 'true'
         
-        previous_objs = getlist(request, 'initial_objs[]')
-        previous_param_qs = Parameter.objects.filter(objectives__in=previous_objs)
-        previous_param_set = set(previous_param_qs)
-        previous_parameter_list = list(previous_param_set)
-        previous_params = [param.id for param in previous_parameter_list]
+        initial_objs = getlist(request, 'initial_objs[]')
+        initial_param_qs = Parameter.objects.filter(objectives__in=initial_objs)
+        initial_param_set = set(initial_param_qs)
+        initial_parameter_list = list(initial_param_set)
+        initial_params = [param.id for param in initial_parameter_list]
         
         selected_objs = getlist(request, 'selected_objs[]')
         current_params = {}
@@ -80,10 +86,10 @@ def get_params(request, template='multi_objective_scenario/list_parameters.html'
         
         selected_params = getlist(request, 'selected_params[]')
                 
-        context = {'previous_params': previous_params, 'current_params': current_params, 'checked_list': selected_params}
+        context = {'initial_params': initial_params, 'current_params': current_params, 'checked_list': selected_params}
         return render_to_response(template, RequestContext(request, context)) 
     #return HttpResponse(context)
-'''
+
     
 '''
 def post_params(request, template='multi_objective_scenario/input_parameters.html'):

@@ -11,20 +11,46 @@
         var is_edit = !(!$('#id_name').val());
         var initial_objs = [];
         var selected_objs = [];
-        var objectives = $('input.objectives');
+        
+        var all_objs = $('input.objectives');
+        $.each(all_objs, function(index, obj) {
+            if (obj.checked) {
+                selected_objs.push(obj.value);
+            }
+        });
+        initial_objs = selected_objs;
+        /*
         $.each(objectives, function(index, obj) {
             if (obj.checked) {
                 initial_objs.push(obj.value);
             }
         });
+        */
         var initial_params = {};
         var selected_params = {};
         if (is_edit) {
-            selected_params = get_selected_params();
+            console.log('is edit');
+            
+            var params = $('input.parameters');  
+            console.log('selected_objs = ' + selected_objs);
+            $.each(selected_objs, function(index, obj) {
+                var obj_params = $('input.parameters_'+obj);
+                param_list = []
+                console.log(obj_params);
+                $.each(obj_params, function(index, param) { 
+                    console.log(param);
+                    if (param.checked) {
+                        console.log(param + ' is checked');
+                        param_list.push(param.value);
+                    }
+                });
+                selected_params[obj] = param_list;
+            });
+            console.log(selected_params);
         }
         
         function get_selected_params() {
-            selected_params = {};
+            var selected_params = {};
             $.each(selected_objs, function(index, obj) {
                 var obj_params = $('input.parameters_'+obj);
                 param_list = []
@@ -88,10 +114,11 @@
                 if (validate(step)) {
                     step += 1;
                     //if (!identical(initial_objs, selected_objs) || !identical_associations(initial_params, selected_params) || first_next) {
-                    //    $.post('/scenario/form/get-params', {'initial_objs': initial_objs, 'selected_objs': selected_objs, 'selected_params': selected_params, 'is_edit': is_edit}, function(data) {
-                    //        $('#step2_data').html(data);
-                    //    });
-                    //} 
+                    if (is_edit && first_next) {
+                        $.post('/scenario/form/list-params', {'initial_objs': initial_objs, 'selected_objs': selected_objs}, function(data) {
+                            $('#step2_data').html(data);
+                        });
+                    } 
                     
                     for (var i=1; i<=6; i++) {
                         $('#params_header_'+i).hide();
@@ -100,11 +127,11 @@
                     $.each(selected_objs, function(index, obj_id) {
                         $('#params_header_'+obj_id).show();
                         $('#params_'+obj_id).show();
-                        $.each($('input.parameters_'+obj_id), function() {
-                            if ( !(obj_id in selected_params) || ($.inArray($(this).value, selected_params[obj_id]) > -1) ) {
-                                $(this).attr("checked", "checked");
-                            }
-                        });
+                        //$.each($('input.parameters_'+obj_id), function() {
+                        //    if ( !(obj_id in selected_params) || ($.inArray($(this).value, selected_params[obj_id]) > -1) ) {
+                        //        $(this).attr("checked", "checked");
+                        //    }
+                        //});
                     });
                     first_next = false;
                     initial_objs = selected_objs;
