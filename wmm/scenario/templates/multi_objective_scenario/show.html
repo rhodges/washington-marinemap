@@ -5,7 +5,7 @@
     <div class="tabs">
         <ul>
             <li><a href="#Inputs"><span>Inputs</span></a></li>
-            <li><a href="#results"><span>Results</span></a></li>
+            <li><a href="#reports"><span>Reports</span></a></li>
         </ul>
         <div id="Inputs">
             <ul class="metadata">
@@ -38,21 +38,21 @@
                         </div>
                     <h3>Parameters</h3>
                         <div>
-                            {% if 1 in scenario.get_input_parameters %}
+                            {% if 1 in scenario.input_parameter_ids %}
                             <p> Distance to Shore <= {{ scenario.input_dist_shore }} km</p>
                             {% endif %}
-                            {% if 2 in scenario.get_input_parameters %}
+                            {% if 2 in scenario.input_parameter_ids %}
                             <p> Distance to Port <= {{ scenario.input_dist_port }} km</p>
                             {% endif %}
-                            {% if 3 in scenario.get_input_parameters %}
+                            {% if 3 in scenario.input_parameter_ids %}
                             <p> Depth Range: {{ scenario.input_min_depth }} m to {{scenario.input_max_depth}} m</p>
                             {% endif %}
-                            {% if 5 in scenario.get_input_parameters %}
+                            {% if 5 in scenario.input_parameter_ids %}
                             <p> Substrates : </p>
                             <ul>
-                              {% for substrate in scenario.input_substrate.all %}
-                                <li> {{substrate.name}} </li>
-                              {% endfor %}
+                            {% for substrate in scenario.input_substrate_names %}
+                                <li> {{substrate}} </li>
+                            {% endfor %}
                             </ul>
                             {% endif %}
                         </div>
@@ -69,7 +69,7 @@
         </div>
         
         {% if instance.done %}
-        <div id="results">
+        <div id="reports">
            <h3>Multipolygon with {{instance.output_geom|length}} individual polygons</h3>
            <h3>Total Area</h3>
            <p>{{ instance.output_area|floatformat }} sq. km</p>
@@ -79,7 +79,7 @@
         {% endif %}
         
         
-        <div id="results">
+        <div id="reports">
             <p>Reports coming soon...</p>
         </div>
     </div>

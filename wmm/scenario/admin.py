@@ -15,12 +15,72 @@ admin.site.register(MultiObjectiveScenario, MultiObjectiveScenarioAdmin)
 
 class ObjectiveAdmin(admin.ModelAdmin):
     list_display = ('name', 'pk')
-    fields = ['name', 'color']
+    fields = ['name', 'short_name', 'color']
 admin.site.register(Objective, ObjectiveAdmin)
 
 class ParameterAdmin(admin.ModelAdmin):
-    fields = ['name', 'objectives']
+    fields = ['name', 'short_name']
 admin.site.register(Parameter, ParameterAdmin)
+
+class TidalParameterAdmin(admin.ModelAdmin):
+    list_display = ['parameter']
+    fields = ['parameter']
+admin.site.register(TidalParameter, TidalParameterAdmin)
+
+class WindParameterAdmin(admin.ModelAdmin):
+    list_display = ['parameter']
+    fields = ['parameter']
+admin.site.register(WindParameter, WindParameterAdmin)
+
+class ConservationParameterAdmin(admin.ModelAdmin):
+    list_display = ['parameter']
+    fields = ['parameter']
+admin.site.register(ConservationParameter, ConservationParameterAdmin)
+
+class DevelopmentParameterAdmin(admin.ModelAdmin):
+    list_display = ['parameter']
+    fields = ['parameter']
+admin.site.register(DevelopmentParameter, DevelopmentParameterAdmin)
+
+class ShellfishParameterAdmin(admin.ModelAdmin):
+    list_display = ['parameter']
+    fields = ['parameter']
+admin.site.register(ShellfishParameter, ShellfishParameterAdmin)
+
+class FishingParameterAdmin(admin.ModelAdmin):
+    list_display = ['parameter']
+    fields = ['parameter']
+admin.site.register(FishingParameter, FishingParameterAdmin)
+
+class TidalSubstrateAdmin(admin.ModelAdmin):
+    list_display = ['substrate']
+    fields = ['substrate']
+admin.site.register(TidalSubstrate, TidalSubstrateAdmin)
+
+class WindSubstrateAdmin(admin.ModelAdmin):
+    list_display = ['substrate']
+    fields = ['substrate']
+admin.site.register(WindSubstrate, WindSubstrateAdmin)
+
+class ConservationSubstrateAdmin(admin.ModelAdmin):
+    list_display = ['substrate']
+    fields = ['substrate']
+admin.site.register(ConservationSubstrate, ConservationSubstrateAdmin)
+
+class DevelopmentSubstrateAdmin(admin.ModelAdmin):
+    list_display = ['substrate']
+    fields = ['substrate']
+admin.site.register(DevelopmentSubstrate, DevelopmentSubstrateAdmin)
+
+class ShellfishSubstrateAdmin(admin.ModelAdmin):
+    list_display = ['substrate']
+    fields = ['substrate']
+admin.site.register(ShellfishSubstrate, ShellfishSubstrateAdmin)
+
+class FishingSubstrateAdmin(admin.ModelAdmin):
+    list_display = ['substrate']
+    fields = ['substrate']
+admin.site.register(FishingSubstrate, FishingSubstrateAdmin)
 
 class ConservationSiteAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'user', 'date_created', 'date_modified')

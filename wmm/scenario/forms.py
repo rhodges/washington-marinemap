@@ -40,7 +40,7 @@ class FolderForm(FeatureForm):
 
 class SubstrateModelMultipleChoiceField(ModelMultipleChoiceField):
     def label_from_instance(self, obj):
-        return obj.name
+        return obj.substrate.name
         
 '''        
 class ScenarioForm(FeatureForm):
@@ -138,141 +138,142 @@ class MultiObjectiveScenarioForm(FeatureForm):
                                                         required=False, 
                                                         label="")
     
-    # Objective 1
-    input_parameters_1 = forms.ModelMultipleChoiceField(queryset=Parameter.objects.filter(objectives=1),
-                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_1'}),
+    # Objective 1 - Tidal Energy
+    # NOTE:  The input parameters must be ordered by id 
+    input_parameters_tidal = forms.ModelMultipleChoiceField(queryset=TidalParameter.objects.all().order_by('id'),
+                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_tidal'}),
                                                         required=False, 
                                                         #initial = Parameter.objects.filter(objectives=1),
                                                         label="")
-    input_dist_shore_1 = forms.FloatField(  min_value=0, max_value=40, initial=5,
+    input_dist_shore_tidal = forms.FloatField(  min_value=0, max_value=40, initial=5,
                                             widget=SliderWidget(min=0,max=40,step=.5),
                                             label="Within distance of Shore (km)", required=False)
-    input_dist_port_1 = forms.FloatField(   min_value=0, max_value=100, initial=10,
+    input_dist_port_tidal = forms.FloatField(   min_value=0, max_value=100, initial=10,
                                             widget=SliderWidget(min=0,max=100,step=1),
                                             label="Within distance of Port (km)", required=False)
-    input_min_depth_1 = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_max_depth_1 = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_min_depth_tidal = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_max_depth_tidal = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
     # Dummy field to set both of the above
-    input_depth_1 = forms.FloatField(   min_value=-1000, max_value=0, initial=0,
-                                        widget=DualSliderWidget('input_min_depth_1','input_max_depth_1',
+    input_depth_tidal = forms.FloatField(   min_value=-1000, max_value=0, initial=0,
+                                        widget=DualSliderWidget('input_min_depth_tidal','input_max_depth_tidal',
                                                                 min=-1000,max=0,step=10),
                                         label="Depth Range (meters)", required=False)
-    input_substrate_1 = SubstrateModelMultipleChoiceField(  queryset=Substrate.objects.all().order_by('id'), 
+    input_substrate_tidal = SubstrateModelMultipleChoiceField(  queryset=TidalSubstrate.objects.all().order_by('id'), 
                                                             widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
                                                             label="Include areas with the following Substrate Types", required=False) 
                                                         
-    # Objective 2
-    input_parameters_2 = forms.ModelMultipleChoiceField(queryset=Parameter.objects.filter(objectives=2),
-                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_2'}),
+    # Objective 2 - Wind Energy
+    input_parameters_wind = forms.ModelMultipleChoiceField(queryset=WindParameter.objects.all().order_by('id'),
+                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_wind'}),
                                                         required=False, 
                                                         #initial = Parameter.objects.filter(objectives=2),
                                                         label="")
-    input_dist_shore_2 = forms.FloatField(  min_value=0, max_value=40, initial=5,
+    input_dist_shore_wind = forms.FloatField(  min_value=0, max_value=40, initial=5,
                                             widget=SliderWidget(min=0,max=40,step=.5),
                                             label="Within distance of Shore (km)", required=False)
-    input_dist_port_2 = forms.FloatField(   min_value=0, max_value=100, initial=10,
+    input_dist_port_wind = forms.FloatField(   min_value=0, max_value=100, initial=10,
                                             widget=SliderWidget(min=0,max=100,step=1),
                                             label="Within distance of Port (km)", required=False)
-    input_min_depth_2 = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_max_depth_2 = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_min_depth_wind = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_max_depth_wind = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
     # Dummy field to set both of the above
-    input_depth_2 = forms.FloatField(   min_value=-1000, max_value=0, initial=0,
-                                        widget=DualSliderWidget('input_min_depth_2','input_max_depth_2',
+    input_depth_wind = forms.FloatField(   min_value=-1000, max_value=0, initial=0,
+                                        widget=DualSliderWidget('input_min_depth_wind','input_max_depth_wind',
                                                                 min=-1000,max=0,step=10),
                                         label="Depth Range (meters)", required=False)
-    input_substrate_2 = SubstrateModelMultipleChoiceField(  queryset=Substrate.objects.all().order_by('id'), 
+    input_substrate_wind = SubstrateModelMultipleChoiceField(  queryset=WindSubstrate.objects.all().order_by('id'), 
                                                             widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
                                                             label="Include areas with the following Substrate Types", required=False) 
                                                         
-    # Objective 3
-    input_parameters_3 = forms.ModelMultipleChoiceField(queryset=Parameter.objects.filter(objectives=3),
-                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_3'}),
+    # Objective 3 - Marine Conservation
+    input_parameters_conservation = forms.ModelMultipleChoiceField(queryset=ConservationParameter.objects.all().order_by('id'),
+                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_conservation'}),
                                                         required=False, 
                                                         #initial = Parameter.objects.filter(objectives=3),
                                                         label="")
-    input_dist_shore_3 = forms.FloatField(  min_value=0, max_value=40, initial=5,
+    input_dist_shore_conservation = forms.FloatField(  min_value=0, max_value=40, initial=5,
                                             widget=SliderWidget(min=0,max=40,step=.5),
                                             label="Within distance of Shore (km)", required=False)
-    input_dist_port_3 = forms.FloatField(   min_value=0, max_value=100, initial=10,
+    input_dist_port_conservation = forms.FloatField(   min_value=0, max_value=100, initial=10,
                                             widget=SliderWidget(min=0,max=100,step=1),
                                             label="Within distance of Port (km)", required=False)
-    input_min_depth_3 = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_max_depth_3 = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_min_depth_conservation = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_max_depth_conservation = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
     # Dummy field to set both of the above
-    input_depth_3 = forms.FloatField(   min_value=-1000, max_value=0, initial=0,
-                                        widget=DualSliderWidget('input_min_depth_3','input_max_depth_3',
+    input_depth_conservation = forms.FloatField(   min_value=-1000, max_value=0, initial=0,
+                                        widget=DualSliderWidget('input_min_depth_conservation','input_max_depth_conservation',
                                                                 min=-1000,max=0,step=10),
                                         label="Depth Range (meters)", required=False)
-    input_substrate_3 = SubstrateModelMultipleChoiceField(  queryset=Substrate.objects.all().order_by('id'), 
+    input_substrate_conservation = SubstrateModelMultipleChoiceField(  queryset=ConservationSubstrate.objects.all().order_by('id'), 
                                                             widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
                                                             label="Include areas with the following Substrate Types", required=False) 
                                                         
-    # Objective 4
-    input_parameters_4 = forms.ModelMultipleChoiceField(queryset=Parameter.objects.filter(objectives=4),
-                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_4'}),
+    # Objective 4 - Shoreside Development
+    input_parameters_development = forms.ModelMultipleChoiceField(queryset=DevelopmentParameter.objects.all().order_by('id'),
+                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_development'}),
                                                         required=False, 
                                                         #initial = Parameter.objects.filter(objectives=4),
                                                         label="")
-    input_dist_shore_4 = forms.FloatField(  min_value=0, max_value=40, initial=5,
+    input_dist_shore_development = forms.FloatField(  min_value=0, max_value=40, initial=5,
                                             widget=SliderWidget(min=0,max=40,step=.5),
                                             label="Within distance of Shore (km)", required=False)
     input_dist_port_4 = forms.FloatField(   min_value=0, max_value=100, initial=10,
                                             widget=SliderWidget(min=0,max=100,step=1),
                                             label="Within distance of Port (km)", required=False)
-    input_min_depth_4 = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_max_depth_4 = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_min_depth_development = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_max_depth_development = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
     # Dummy field to set both of the above
-    input_depth_4 = forms.FloatField(   min_value=-1000, max_value=0, initial=0,
-                                        widget=DualSliderWidget('input_min_depth_4','input_max_depth_4',
+    input_depth_development = forms.FloatField(   min_value=-1000, max_value=0, initial=0,
+                                        widget=DualSliderWidget('input_min_depth_development','input_max_depth_development',
                                                                 min=-1000,max=0,step=10),
                                         label="Depth Range (meters)", required=False)
-    input_substrate_4 = SubstrateModelMultipleChoiceField(  queryset=Substrate.objects.all().order_by('id'), 
+    input_substrate_development = SubstrateModelMultipleChoiceField(  queryset=DevelopmentSubstrate.objects.all().order_by('id'), 
                                                             widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
                                                             label="Include areas with the following Substrate Types", required=False) 
                                                         
-    # Objective 5
-    input_parameters_5 = forms.ModelMultipleChoiceField(queryset=Parameter.objects.filter(objectives=5),
-                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_5'}),
+    # Objective 5 - Shellfish Aquaculture
+    input_parameters_shellfish = forms.ModelMultipleChoiceField(queryset=ShellfishParameter.objects.all().order_by('id'),
+                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_shellfish'}),
                                                         required=False, 
                                                         #initial = Parameter.objects.filter(objectives=5),
                                                         label="")
-    input_dist_shore_5 = forms.FloatField(  min_value=0, max_value=40, initial=5,
+    input_dist_shore_shellfish = forms.FloatField(  min_value=0, max_value=40, initial=5,
                                             widget=SliderWidget(min=0,max=40,step=.5),
                                             label="Within distance of Shore (km)", required=False)
-    input_dist_port_5 = forms.FloatField(   min_value=0, max_value=100, initial=10,
+    input_dist_port_shellfish = forms.FloatField(   min_value=0, max_value=100, initial=10,
                                             widget=SliderWidget(min=0,max=100,step=1),
                                             label="Within distance of Port (km)", required=False)
-    input_min_depth_5 = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_max_depth_5 = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_min_depth_shellfish = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_max_depth_shellfish = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
     # Dummy field to set both of the above
-    input_depth_5 = forms.FloatField(   min_value=-1000, max_value=0, initial=0,
-                                        widget=DualSliderWidget('input_min_depth_5','input_max_depth_5',
+    input_depth_shellfish = forms.FloatField(   min_value=-1000, max_value=0, initial=0,
+                                        widget=DualSliderWidget('input_min_depth_shellfish','input_max_depth_shellfish',
                                                                 min=-1000,max=0,step=10),
                                         label="Depth Range (meters)", required=False)
-    input_substrate_5 = SubstrateModelMultipleChoiceField(  queryset=Substrate.objects.all().order_by('id'), 
+    input_substrate_shellfish = SubstrateModelMultipleChoiceField(  queryset=ShellfishSubstrate.objects.all().order_by('id'), 
                                                             widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
                                                             label="Include areas with the following Substrate Types", required=False)  
                                                         
-    # Objective 6
-    input_parameters_6 = forms.ModelMultipleChoiceField(queryset=Parameter.objects.filter(objectives=6),
-                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_6'}),
+    # Objective 6 - Offshore Fishing
+    input_parameters_fishing = forms.ModelMultipleChoiceField(queryset=FishingParameter.objects.all().order_by('id'),
+                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_fishing'}),
                                                         required=False, 
                                                         #initial = Parameter.objects.filter(objectives=6),
                                                         label="")
-    input_dist_shore_6 = forms.FloatField(  min_value=0, max_value=40, initial=5,
+    input_dist_shore_fishing = forms.FloatField(  min_value=0, max_value=40, initial=5,
                                             widget=SliderWidget(min=0,max=40,step=.5),
                                             label="Within distance of Shore (km)", required=False)
-    input_dist_port_6 = forms.FloatField(   min_value=0, max_value=100, initial=10,
+    input_dist_port_fishing = forms.FloatField(   min_value=0, max_value=100, initial=10,
                                             widget=SliderWidget(min=0,max=100,step=1),
                                             label="Within distance of Port (km)", required=False)
-    input_min_depth_6 = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_max_depth_6 = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_min_depth_fishing = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_max_depth_fishing = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
     # Dummy field to set both of the above
-    input_depth_6 = forms.FloatField(   min_value=-1000, max_value=0, initial=0,
-                                        widget=DualSliderWidget('input_min_depth_6','input_max_depth_6',
+    input_depth_fishing = forms.FloatField(   min_value=-1000, max_value=0, initial=0,
+                                        widget=DualSliderWidget('input_min_depth_fishing','input_max_depth_fishing',
                                                                 min=-1000,max=0,step=10),
                                         label="Depth Range (meters)", required=False)
-    input_substrate_6 = SubstrateModelMultipleChoiceField(  queryset=Substrate.objects.all().order_by('id'), 
+    input_substrate_fishing = SubstrateModelMultipleChoiceField(  queryset=FishingSubstrate.objects.all().order_by('id'), 
                                                             widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
                                                             label="Include areas with the following Substrate Types", required=False) 
     
@@ -287,4 +288,5 @@ class MultiObjectiveScenarioForm(FeatureForm):
     class Meta(FeatureForm.Meta):
         model = MultiObjectiveScenario
         exclude = list(FeatureForm.Meta.exclude)
+        exclude.append('scenarios')
 
