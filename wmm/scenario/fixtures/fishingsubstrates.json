@@ -9,45 +9,45 @@ registering Feature LOI
 registering Feature UserKml
 [
     {
-        "pk": 7, 
-        "model": "scenario.substrate", 
+        "pk": 1, 
+        "model": "scenario.fishingsubstrate", 
         "fields": {
-            "name": "Soft"
-        }
-    }, 
-    {
-        "pk": 5, 
-        "model": "scenario.substrate", 
-        "fields": {
-            "name": "Rocky"
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "scenario.substrate", 
-        "fields": {
-            "name": "Gravel"
+            "substrate": 7
         }
     }, 
     {
         "pk": 2, 
-        "model": "scenario.substrate", 
+        "model": "scenario.fishingsubstrate", 
         "fields": {
-            "name": "Mud"
+            "substrate": 5
         }
     }, 
     {
         "pk": 3, 
-        "model": "scenario.substrate", 
+        "model": "scenario.fishingsubstrate", 
         "fields": {
-            "name": "Sand"
+            "substrate": 4
         }
     }, 
     {
-        "pk": 1, 
-        "model": "scenario.substrate", 
+        "pk": 4, 
+        "model": "scenario.fishingsubstrate", 
         "fields": {
-            "name": "Island"
+            "substrate": 2
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.fishingsubstrate", 
+        "fields": {
+            "substrate": 3
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.fishingsubstrate", 
+        "fields": {
+            "substrate": 1
         }
     }
 ]

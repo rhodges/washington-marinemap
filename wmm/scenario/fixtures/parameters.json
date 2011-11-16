@@ -1,59 +1,51 @@
+registering Feature Bookmark
+registering Feature Folder
+registering Feature MultiObjectiveScenario
+registering Feature ConservationSite
+registering Feature WindEnergySite
+registering Feature AOI
+registering Feature POI
+registering Feature LOI
+registering Feature UserKml
 [
     {
-        "pk": 1, 
+        "pk": 4, 
         "model": "scenario.parameter", 
         "fields": {
-            "objectives": [
-                1, 
-                2
-            ], 
-            "name": "Distance to Shore"
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "scenario.parameter", 
-        "fields": {
-            "objectives": [
-                1, 
-                2, 
-                4
-            ], 
-            "name": "Distance to Port"
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "scenario.parameter", 
-        "fields": {
-            "objectives": [
-                1, 
-                2, 
-                3
-            ], 
-            "name": "Max Depth"
+            "name": "Min Depth", 
+            "short_name": "need_to_populate"
         }
     }, 
     {
         "pk": 5, 
         "model": "scenario.parameter", 
         "fields": {
-            "objectives": [
-                1, 
-                2, 
-                3, 
-                4, 
-                5
-            ], 
-            "name": "Substrate"
+            "name": "Substrate", 
+            "short_name": "substrate"
         }
     }, 
     {
-        "pk": 4, 
+        "pk": 3, 
         "model": "scenario.parameter", 
         "fields": {
-            "objectives": [], 
-            "name": "Min Depth"
+            "name": "Max Depth", 
+            "short_name": "depth"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Distance to Port", 
+            "short_name": "distance_port"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Distance to Shore", 
+            "short_name": "distance_shore"
         }
     }
 ]

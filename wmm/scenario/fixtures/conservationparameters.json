@@ -1,0 +1,18 @@
+registering Feature Bookmark
+registering Feature Folder
+registering Feature MultiObjectiveScenario
+registering Feature ConservationSite
+registering Feature WindEnergySite
+registering Feature AOI
+registering Feature POI
+registering Feature LOI
+registering Feature UserKml
+[
+    {
+        "pk": 1, 
+        "model": "scenario.conservationparameter", 
+        "fields": {
+            "parameter": 5
+        }
+    }
+]
