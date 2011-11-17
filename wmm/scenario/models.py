@@ -125,6 +125,7 @@ class MultiObjectiveScenario(Feature):
             if self.pk is not None:
                 #if no input_ fields have changed, then save without rerunning scenario analysis
                 first_run = False
+                #TODO: might move the following into a function rerun=inputs_have_changed()
                 orig = MultiObjectiveScenario.objects.get(pk=self.pk)
                 input_fields = [f for f in self._meta.fields if f.attname.startswith('input_')]
                 for f in input_fields:
@@ -214,41 +215,43 @@ class MultiObjectiveScenario(Feature):
                     
                     for param in params:
                         #the following should be compressible by using the getattr function or property calls
+                        #NOTE:  quick examination right before vacation suggests that the self.** lines may be unnecessary
+                        #       while the scenario.** lines are necessary
                         if obj_short_name == 'tidal':
-                            self.input_parameters_tidal.add(param)
+                            #self.input_parameters_tidal.add(param)
                             scenario.input_parameters_tidal.add(param)
                             for substrate in substrates:
-                                self.input_substrate_tidal.add(substrate)
+                                #self.input_substrate_tidal.add(substrate)
                                 scenario.input_substrate_tidal.add(substrate)
                         elif obj_short_name == 'wind':
-                            self.input_parameters_wind.add(param)
+                            #self.input_parameters_wind.add(param)
                             scenario.input_parameters_wind.add(param)
                             for substrate in substrates:
-                                self.input_substrate_wind.add(substrate)
+                                #self.input_substrate_wind.add(substrate)
                                 scenario.input_substrate_wind.add(substrate)
                         elif obj_short_name == 'conservation':
-                            self.input_parameters_conservation.add(param)
+                            #self.input_parameters_conservation.add(param)
                             scenario.input_parameters_conservation.add(param)
                             for substrate in substrates:
-                                self.input_substrate_conservation.add(substrate)
+                                #self.input_substrate_conservation.add(substrate)
                                 scenario.input_substrate_conservation.add(substrate)
                         elif obj_short_name == 'development':
-                            self.input_parameters_development.add(param)
+                            #self.input_parameters_development.add(param)
                             scenario.input_parameters_development.add(param)
                             for substrate in substrates:
-                                self.input_substrate_development.add(substrate)
+                                #self.input_substrate_development.add(substrate)
                                 scenario.input_substrate_development.add(substrate)
                         elif obj_short_name == 'shellfish':
-                            self.input_parameters_shellfish.add(param)
+                            #self.input_parameters_shellfish.add(param)
                             scenario.input_parameters_shellfish.add(param)
                             for substrate in substrates:
-                                self.input_substrate_shellfish.add(substrate)
+                                #self.input_substrate_shellfish.add(substrate)
                                 scenario.input_substrate_shellfish.add(substrate)
                         elif obj_short_name == 'fishing':
-                            self.input_parameters_fishing.add(param)
+                            #self.input_parameters_fishing.add(param)
                             scenario.input_parameters_fishing.add(param)
                             for substrate in substrates:
-                                self.input_substrate_fishing.add(substrate)
+                                #self.input_substrate_fishing.add(substrate)
                                 scenario.input_substrate_fishing.add(substrate)
                     scenario.save()
                     self.scenarios.add(scenario)
