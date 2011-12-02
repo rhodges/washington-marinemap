@@ -370,7 +370,7 @@ class MultiObjectiveScenario(Feature):
         
     class Options:
         verbose_name = 'Multi-Objective Scenario'
-        #icon_url = 'bmm/img/regions.png'
+        icon_url = 'wmm/img/multi.png'
         form = 'scenario.forms.MultiObjectiveScenarioForm'
         form_template = 'multi_objective_scenario/form.html'
         show_template = 'multi_objective_scenario/show.html'
@@ -639,7 +639,6 @@ class Scenario(Analysis):
     
     class Options:
         verbose_name = 'Scenario'
-        #icon_url = 'bmm/img/regions.png'
         form = 'scenario.forms.ScenarioForm'
         form_template = 'scenario/form.html'
         show_template = 'scenario/show.html'
@@ -826,6 +825,7 @@ class ConservationSite(PolygonFeature):
         form = 'scenario.forms.ConservationSiteForm'
         form_template = 'conservation/form.html'
         show_template = 'conservation/show.html'
+        icon_url = 'wmm/img/conservation.png'
 
 @register
 class WindEnergySite(PolygonFeature):
@@ -901,6 +901,7 @@ class WindEnergySite(PolygonFeature):
         form = 'scenario.forms.WindEnergySiteForm'
         form_template = 'wind/form.html'
         show_template = 'wind/show.html'
+        icon_url = 'wmm/img/wind.png'
 
 
 @register
@@ -999,6 +1000,7 @@ class POI(PointFeature):
     class Options:
         verbose_name = 'Point of Interest'
         form = 'scenario.forms.PoiForm'
+        icon_url = 'wmm/img/poi.png'
 
 @register
 class LOI(LineFeature):
