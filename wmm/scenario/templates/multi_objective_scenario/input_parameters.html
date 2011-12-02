@@ -1,0 +1,45 @@
+
+{% for objective, parameter_list in selected_params.items %}
+<p><strong>{{objective.name}}</strong> Parameters 
+(<a id="showParameter_Widgets__obj_{{objective.id}}" href="javascript:toggleParams('parameter_widgets_{{objective.id}}', 'showParameter_Widgets__obj_{{objective.id}}');">Hide Parameters</a>):</p>
+<div id="parameter_widgets_{{objective.id}}">
+    <div id="distance_shore" class="inputfield">
+        <div class="field required">
+            {{ form.input_dist_shore.label_tag }}
+            {{ form.input_dist_shore.errors }}
+            {{ form.input_dist_shore }}            
+        </div>
+    </div>
+
+    <div id="distance_port" class="inputfield">
+        <div class="field required">
+            {{ form.input_dist_port.label_tag }}
+            {{ form.input_dist_port.errors }}
+            {{ form.input_dist_port }}            
+        </div>
+    </div>
+    
+    <div id="depth" class="inputfield">
+        <div class="field required">
+            {{ form.input_depth.label_tag }} 
+            {{ form.input_depth.errors }}
+            
+            {{ form.input_min_depth }}            
+            to
+            {{ form.input_max_depth }}            
+
+            {{ form.input_depth }}            
+        </div>
+    </div>
+    
+    <div id="substrate" class="inputfield">
+        <div class="field required">
+            {{ form.input_substrate.label_tag }}
+            {{ form.input_substrate.errors }}
+            <p>{{ form.input_substrate }} </p>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<p></p>
+    

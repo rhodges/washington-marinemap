@@ -1,0 +1,16 @@
+[
+    {
+        "pk": 1, 
+        "model": "scenario.developmentparameter", 
+        "fields": {
+            "parameter": 2
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.developmentparameter", 
+        "fields": {
+            "parameter": 5
+        }
+    }
+]

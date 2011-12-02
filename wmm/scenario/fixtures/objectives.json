@@ -1,0 +1,56 @@
+[
+    {
+        "pk": 6, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "77470B64", 
+            "name": "Offshore Fishing", 
+            "short_name": "fishing"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "77722399", 
+            "name": "Shellfish Aquaculture", 
+            "short_name": "shellfish"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "772DBBC8", 
+            "name": "Shoreside Development", 
+            "short_name": "development"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "77C5B24B", 
+            "name": "Marine Conservation", 
+            "short_name": "conservation"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "777FB4C5", 
+            "name": "Wind Energy", 
+            "short_name": "wind"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "777F9722", 
+            "name": "Tidal Energy", 
+            "short_name": "tidal"
+        }
+    }
+]

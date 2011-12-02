@@ -1,0 +1,25 @@
+{% extends 'common/panel.html' %}
+
+{% block title %}Conservation Site Biological Report{% endblock %}
+{% block panel %}
+
+<h3>Biological Characteristics</h3>
+<div class='freetext'>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Habitat Types and Proportions</b></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{{default_value}}</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+</div>
+{% endblock %}
