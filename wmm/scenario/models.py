@@ -53,12 +53,7 @@ class Folder(FeatureCollection):
         form = 'scenario.forms.FolderForm'
         form_template = 'folder/form.html'
         show_template = 'folder/show.html'
-
-    @classmethod
-    def css(klass):
-        return """ li.%(uid)s > .icon { 
-        background: url('%(media)skmltree/dist/images/sprites/kml.png?1302821411') no-repeat -231px 0px ! important;
-        } """ % { 'uid': klass.model_uid(), 'media': settings.MEDIA_URL }
+        icon_url = 'wmm/img/folder.png'
 
 @register
 class MultiObjectiveScenario(Feature):
@@ -974,6 +969,7 @@ class AOI(PolygonFeature):
         form = 'scenario.forms.AoiForm'
         form_template = 'aoi/form.html'
         show_template = 'aoi/show.html'
+        icon_url = 'wmm/img/aoi.png'
                 
 
 @register
@@ -1026,9 +1022,11 @@ class LOI(LineFeature):
     class Options:
         verbose_name = 'Line of Interest'
         form = 'scenario.forms.LoiForm'
+        icon_url = 'wmm/img/loi.png'
 
 @register
 class UserKml(PrivateLayerList):
     class Options:
         verbose_name = 'Uploaded KML'
         form = 'scenario.forms.UserKmlForm'
+        icon_url = 'media/common/images/kml_document_icon.png'
