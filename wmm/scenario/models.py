@@ -9,6 +9,7 @@ from lingcod.features import register, alternate
 from lingcod.common.utils import asKml
 from lingcod.features.models import Feature, PointFeature, LineFeature, PolygonFeature, FeatureCollection
 from lingcod.layers.models import PrivateLayerList
+from utils import miles_to_meters, feet_to_meters
 
 
 @register
@@ -434,20 +435,20 @@ class Scenario(Analysis):
         result = 0
         
         if 1 in input_params:
-            g.run('r.buffer input=shoreline_rast output=shoreline_rast_buffer distances=%s' % (self.input_dist_shore * 1000,) )
+            g.run('r.buffer input=shoreline_rast output=shoreline_rast_buffer distances=%s' % miles_to_meters(self.input_dist_shore) )
             shoreline_buffer = 'if(shoreline_rast_buffer==2)'
         else:
             shoreline_buffer = 1
         
         if 2 in input_params:
-            g.run('v.buffer input=ports output=port_buffer distance=%s' % (self.input_dist_port * 1000,) )
+            g.run('v.buffer input=ports output=port_buffer distance=%s' % miles_to_meters(self.input_dist_port) )
             g.run('v.to.rast input=port_buffer output=port_buffer_rast use=cat')
             port_buffer = 'if(port_buffer_rast)'
         else:
             port_buffer = 1
         
         if 3 in input_params:
-            depth = 'if(bathy > %s && bathy < %s)' % (self.input_min_depth, self.input_max_depth)
+            depth = 'if(bathy <= %s && bathy >= %s)' % (-feet_to_meters(self.input_min_depth), -feet_to_meters(self.input_max_depth))
         else:
             depth = 1
             
