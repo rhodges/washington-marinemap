@@ -45,7 +45,7 @@
                             <p> Distance to Port <= {{ scenario.input_dist_port }} miles</p>
                             {% endif %}
                             {% if 3 in scenario.input_parameter_ids %}
-                            <p> Depth Range: {{ scenario.input_min_depth }} feet to {{scenario.input_max_depth}} feet</p>
+                            <p> Depth Range: {{scenario.input_min_depth|floatformat:0}} to {{scenario.input_max_depth|floatformat:0}} feet</p>
                             {% endif %}
                             {% if 5 in scenario.input_parameter_ids %}
                             <p> Substrates : </p>
