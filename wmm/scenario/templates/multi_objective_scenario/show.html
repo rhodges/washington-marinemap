@@ -39,13 +39,13 @@
                     <h3>Parameters</h3>
                         <div>
                             {% if 1 in scenario.input_parameter_ids %}
-                            <p> Distance to Shore <= {{ scenario.input_dist_shore }} km</p>
+                            <p> Distance to Shore <= {{ scenario.input_dist_shore }} miles</p>
                             {% endif %}
                             {% if 2 in scenario.input_parameter_ids %}
-                            <p> Distance to Port <= {{ scenario.input_dist_port }} km</p>
+                            <p> Distance to Port <= {{ scenario.input_dist_port }} miles</p>
                             {% endif %}
                             {% if 3 in scenario.input_parameter_ids %}
-                            <p> Depth Range: {{ scenario.input_min_depth }} m to {{scenario.input_max_depth}} m</p>
+                            <p> Depth Range: {{ scenario.input_min_depth }} feet to {{scenario.input_max_depth}} feet</p>
                             {% endif %}
                             {% if 5 in scenario.input_parameter_ids %}
                             <p> Substrates : </p>
