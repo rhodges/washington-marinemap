@@ -97,52 +97,17 @@ class SubstrateAdmin(admin.ModelAdmin):
     list_display = ['name', 'id']
     fields = ['name']
 admin.site.register(Substrate, SubstrateAdmin)
-'''
-class TidalEnergySubstrateAdmin(admin.ModelAdmin):
-    list_display = ['substrate', 'id']
-    fields = ['substrate']
-admin.site.register(TidalEnergySubstrate, TidalEnergySubstrateAdmin)
 
-class WaveEnergySubstrateAdmin(admin.ModelAdmin):
-    list_display = ['substrate', 'id']
-    fields = ['substrate']
-admin.site.register(WaveEnergySubstrate, WaveEnergySubstrateAdmin)
+class DepthClassAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id']
+    fields = ['name']
+admin.site.register(DepthClass, DepthClassAdmin)
 
-class WindEnergySubstrateAdmin(admin.ModelAdmin):
-    list_display = ['substrate', 'id']
-    fields = ['substrate']
-admin.site.register(WindEnergySubstrate, WindEnergySubstrateAdmin)
+class GeomorphologyAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id']
+    fields = ['name']
+admin.site.register(Geomorphology, GeomorphologyAdmin)
 
-class OffshoreConservationSubstrateAdmin(admin.ModelAdmin):
-    list_display = ['substrate', 'id']
-    fields = ['substrate']
-admin.site.register(OffshoreConservationSubstrate, OffshoreConservationSubstrateAdmin)
-
-class NearshoreConservationSubstrateAdmin(admin.ModelAdmin):
-    list_display = ['substrate', 'id']
-    fields = ['substrate']
-admin.site.register(NearshoreConservationSubstrate, NearshoreConservationSubstrateAdmin)
-
-class WaterColumnConservationSubstrateAdmin(admin.ModelAdmin):
-    list_display = ['substrate', 'id']
-    fields = ['substrate']
-admin.site.register(WaterColumnConservationSubstrate, WaterColumnConservationSubstrateAdmin)
-
-class ShoresideDevelopmentSubstrateAdmin(admin.ModelAdmin):
-    list_display = ['substrate', 'id']
-    fields = ['substrate']
-admin.site.register(ShoresideDevelopmentSubstrate, ShoresideDevelopmentSubstrateAdmin)
-
-class ShellfishAquacultureSubstrateAdmin(admin.ModelAdmin):
-    list_display = ['substrate', 'id']
-    fields = ['substrate']
-admin.site.register(ShellfishAquacultureSubstrate, ShellfishAquacultureSubstrateAdmin)
-
-class OffshoreFishingSubstrateAdmin(admin.ModelAdmin):
-    list_display = ['substrate', 'id']
-    fields = ['substrate']
-admin.site.register(OffshoreFishingSubstrate, OffshoreFishingSubstrateAdmin)
-'''
 class ConservationSiteAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'user', 'date_created', 'date_modified')
     list_filter = ['date_modified', 'date_created']
