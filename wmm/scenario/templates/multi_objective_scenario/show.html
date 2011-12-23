@@ -48,7 +48,7 @@
                             <p> Depth Range: {{scenario.input_min_depth|floatformat:0}} to {{scenario.input_max_depth|floatformat:0}} feet</p>
                             {% endif %}
                             {% if 5 in scenario.input_parameter_ids %}
-                            <p> Substrates : </p>
+                            <p> Substrates: </p>
                             <ul>
                             {% for substrate in scenario.input_substrate_names %}
                                 <li> {{substrate}} </li>
