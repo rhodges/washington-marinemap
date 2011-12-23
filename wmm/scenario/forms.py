@@ -170,9 +170,9 @@ class MOSForm(FeatureForm):
                                                 widget=DualSliderWidget('input_min_depth_tidal_energy','input_max_depth_tidal_energy',min=0,max=5000,step=10),
                                                 label="Depth Range (feet)", required=False)
     #input_substrate_tidal_energy = SubstrateModelMultipleChoiceField(   queryset=TidalEnergySubstrate.objects.all().order_by('id'), 
-    input_substrate_tidal_energy = ModelMultipleChoiceField(   queryset=Substrate.objects.all().order_by('id'), 
-                                                                        widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
-                                                                        label="Include areas with the following Substrate Types", required=False) 
+    input_substrate_tidal_energy = ModelMultipleChoiceField(queryset=Substrate.objects.all().order_by('id'), 
+                                                            widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
+                                                            label="Include areas with the following Substrate Types", required=False) 
                                                        
     # Objective 7 - Wave Energy
     # NOTE:  The input parameters must be ordered by id 

@@ -258,18 +258,18 @@ class MOS(Feature):
                         if obj_short_name == 'tidal_energy':
                             scenario.input_parameters_tidal_energy.add(param)
                             for substrate in substrates:
-                                scenario.input_substrate_tidal_energy.add(substrate)
-                                #scenario.input_substrate.add(substrate)
+                                #scenario.input_substrate_tidal_energy.add(substrate)
+                                scenario.input_substrate.add(substrate)
                         elif obj_short_name == 'wind_energy':
                             scenario.input_parameters_wind_energy.add(param)
                             for substrate in substrates:
-                                scenario.input_substrate_wind_energy.add(substrate)
-                                #scenario.input_substrate.add(substrate)
+                                #scenario.input_substrate_wind_energy.add(substrate)
+                                scenario.input_substrate.add(substrate)
                         elif obj_short_name == 'wave_energy':
                             scenario.input_parameters_wave_energy.add(param)
                             for substrate in substrates:
-                                scenario.input_substrate_wave_energy.add(substrate)
-                                #scenario.input_substrate.add(substrate)
+                                #scenario.input_substrate_wave_energy.add(substrate)
+                                scenario.input_substrate.add(substrate)
                     scenario.save()
                     self.scenarios.add(scenario)
                     
@@ -296,18 +296,18 @@ class MOS(Feature):
                         if obj_short_name == 'offshore_conservation':
                             scenario.input_parameters_offshore_conservation.add(param)
                             for substrate in substrates:
-                                scenario.input_substrate_offshore_conservation.add(substrate)
-                                #scenario.input_substrate.add(substrate)
+                                #scenario.input_substrate_offshore_conservation.add(substrate)
+                                scenario.input_substrate.add(substrate)
                         elif obj_short_name == 'nearshore_conservation':
                             scenario.input_parameters_nearshore_conservation.add(param)
                             for substrate in substrates:
-                                scenario.input_substrate_nearshore_conservation.add(substrate)
-                                #scenario.input_substrate.add(substrate)
+                                #scenario.input_substrate_nearshore_conservation.add(substrate)
+                                scenario.input_substrate.add(substrate)
                         elif obj_short_name == 'water_column_conservation':
                             scenario.input_parameters_water_column_conservation.add(param)
                             for substrate in substrates:
-                                scenario.input_substrate_water_column_conservation.add(substrate)
-                                #scenario.input_substrate.add(substrate)
+                                #scenario.input_substrate_water_column_conservation.add(substrate)
+                                scenario.input_substrate.add(substrate)
                     scenario.save()
                     self.scenarios.add(scenario)
                     
@@ -334,8 +334,8 @@ class MOS(Feature):
                         if obj_short_name == 'shoreside_development':
                             scenario.input_parameters_shoreside_development.add(param)
                             for substrate in substrates:
-                                scenario.input_substrate_shoreside_development.add(substrate)
-                                #scenario.input_substrate.add(substrate)
+                                #scenario.input_substrate_shoreside_development.add(substrate)
+                                scenario.input_substrate.add(substrate)
                     scenario.save()
                     self.scenarios.add(scenario)
                 
@@ -362,13 +362,13 @@ class MOS(Feature):
                         if obj_short_name == 'shellfish_aquaculture':
                             scenario.input_parameters_shellfish_aquaculture.add(param)
                             for substrate in substrates:
-                                scenario.input_substrate_shellfish_aquaculture.add(substrate)
-                                #scenario.input_substrate.add(substrate)
+                                #scenario.input_substrate_shellfish_aquaculture.add(substrate)
+                                scenario.input_substrate.add(substrate)
                         elif obj_short_name == 'offshore_fishing':
                             scenario.input_parameters_offshore_fishing.add(param)
                             for substrate in substrates:
-                                scenario.input_substrate_offshore_fishing.add(substrate) 
-                                #scenario.input_substrate.add(substrate) 
+                                #scenario.input_substrate_offshore_fishing.add(substrate) 
+                                scenario.input_substrate.add(substrate) 
                     scenario.save()
                     self.scenarios.add(scenario)      
                     
@@ -524,8 +524,10 @@ class Scenario(Analysis):
     input_min_depth = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     
-    #input_substrate = models.ManyToManyField("Substrate", null=True, blank=True)
-    
+    input_substrate = models.ManyToManyField("Substrate", null=True, blank=True)    
+    input_depth_class = models.ManyToManyField("DepthClass", null=True, blank=True)    
+    input_geomorphology = models.ManyToManyField("Geomorphology", null=True, blank=True)
+    '''
     input_substrate_tidal_energy = models.ManyToManyField("Substrate", related_name="TidalEnergySubstrate", null=True, blank=True)
     input_substrate_wave_energy = models.ManyToManyField("Substrate", related_name="WaveEnergySubstrate", null=True, blank=True)
     input_substrate_wind_energy = models.ManyToManyField("Substrate", related_name="WindEnergySubstrate", null=True, blank=True)
@@ -535,18 +537,27 @@ class Scenario(Analysis):
     input_substrate_shoreside_development = models.ManyToManyField("Substrate", related_name="ShoresideDevelopmentSubstrate", null=True, blank=True)
     input_substrate_shellfish_aquaculture = models.ManyToManyField("Substrate", related_name="ShellfishAquacultureSubstrate", null=True, blank=True)
     input_substrate_offshore_fishing = models.ManyToManyField("Substrate", related_name="OffshoreFishingSubstrate", null=True, blank=True)
-    '''
-    input_substrate_tidal_energy = models.ManyToManyField("TidalEnergySubstrate", null=True, blank=True)
-    input_substrate_wave_energy = models.ManyToManyField("WaveEnergySubstrate", null=True, blank=True)
-    input_substrate_wind_energy = models.ManyToManyField("WindEnergySubstrate", null=True, blank=True)
-    input_substrate_offshore_conservation = models.ManyToManyField("OffshoreConservationSubstrate", null=True, blank=True)
-    input_substrate_nearshore_conservation = models.ManyToManyField("NearshoreConservationSubstrate", null=True, blank=True)
-    input_substrate_water_column_conservation = models.ManyToManyField("WaterColumnConservationSubstrate", null=True, blank=True)
-    input_substrate_shoreside_development = models.ManyToManyField("ShoresideDevelopmentSubstrate", null=True, blank=True)
-    input_substrate_shellfish_aquaculture = models.ManyToManyField("ShellfishAquacultureSubstrate", null=True, blank=True)
-    input_substrate_offshore_fishing = models.ManyToManyField("OffshoreFishingSubstrate", null=True, blank=True)
-    '''
-    
+        
+    input_depth_class_tidal_energy = models.ManyToManyField("DepthClass", related_name="TidalEnergyDepthClass", null=True, blank=True)
+    input_depth_class_wave_energy = models.ManyToManyField("DepthClass", related_name="WaveEnergyDepthClass", null=True, blank=True)
+    input_depth_class_wind_energy = models.ManyToManyField("DepthClass", related_name="WindEnergyDepthClass", null=True, blank=True)
+    input_depth_class_offshore_conservation = models.ManyToManyField("DepthClass", related_name="OffshoreConservationDepthClass", null=True, blank=True)
+    input_depth_class_nearshore_conservation = models.ManyToManyField("DepthClass", related_name="NearshoreConservationDepthClass", null=True, blank=True)
+    input_depth_class_water_column_conservation = models.ManyToManyField("DepthClass", related_name="WaterColumnConservationDepthClass", null=True, blank=True)
+    input_depth_class_shoreside_development = models.ManyToManyField("DepthClass", related_name="ShoresideDevelopmentDepthClass", null=True, blank=True)
+    input_depth_class_shellfish_aquaculture = models.ManyToManyField("DepthClass", related_name="ShellfishAquacultureDepthClass", null=True, blank=True)
+    input_depth_class_offshore_fishing = models.ManyToManyField("DepthClass", related_name="OffshoreFishingDepthClass", null=True, blank=True)
+        
+    input_geomorphology_tidal_energy = models.ManyToManyField("Geomorphology", related_name="TidalEnergyGeomorphology", null=True, blank=True)
+    input_geomorphology_wave_energy = models.ManyToManyField("Geomorphology", related_name="WaveEnergyGeomorphology", null=True, blank=True)
+    input_geomorphology_wind_energy = models.ManyToManyField("Geomorphology", related_name="WindEnergyGeomorphology", null=True, blank=True)
+    input_geomorphology_offshore_conservation = models.ManyToManyField("Geomorphology", related_name="OffshoreConservationGeomorphology", null=True, blank=True)
+    input_geomorphology_nearshore_conservation = models.ManyToManyField("Geomorphology", related_name="NearshoreConservationGeomorphology", null=True, blank=True)
+    input_geomorphology_water_column_conservation = models.ManyToManyField("Geomorphology", related_name="WaterColumnConservationGeomorphology", null=True, blank=True)
+    input_geomorphology_shoreside_development = models.ManyToManyField("Geomorphology", related_name="ShoresideDevelopmentGeomorphology", null=True, blank=True)
+    input_geomorphology_shellfish_aquaculture = models.ManyToManyField("Geomorphology", related_name="ShellfishAquacultureGeomorphology", null=True, blank=True)
+    input_geomorphology_offshore_fishing = models.ManyToManyField("Geomorphology", related_name="OffshoreFishingGeomorphology", null=True, blank=True)
+    '''    
     # All output fields should be allowed to be Null/Blank
     output_geom = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Scenario Geometry")
     output_mapcalc = models.CharField(max_length=360, null=True, blank=True)
@@ -577,7 +588,8 @@ class Scenario(Analysis):
         
         input_params = self.input_parameter_ids
         result = 0
-        
+        import pdb
+        pdb.set_trace()
         #The following integers relate to the primary ids in the scenario_parameter table
         if 1 in input_params:
             g.run('r.buffer input=shoreline_rast output=shoreline_rast_buffer distances=%s' % miles_to_meters(self.input_dist_shore) )
@@ -602,6 +614,18 @@ class Scenario(Analysis):
             substrate = 'if(%s)' %substrate_formula
         else:   
             substrate = 1
+        
+        if 6 in input_params:
+            depth_class_formula = ' || '.join(['depth_class==%s' % dc.id for dc in self.input_depth_class.all()])
+            depth_class = 'if(%s)' %depth_class_formula
+        else:   
+            depth_class = 1
+        
+        if 7 in input_params:
+            geomorphology_formula = ' || '.join(['geomorphology==%s' % g.id for g in self.input_geomorphology.all()])
+            geomorphology = 'if(%s)' %geomorphology_formula
+        else:   
+            geomorphology = 1
         
         mapcalc = """r.mapcalc "rresult = if((%s + %s + %s + %s)==4,1,null())" """ % (port_buffer, shoreline_buffer, substrate, depth)
         #mapcalc = """r.mapcalc "rresult = if((if(shoreline_rast_buffer==2) + if(port_buffer_rast) + if(bathy>%s && bathy<%s) + if(%s))==4,1,null())" """ % (self.input_min_depth, self.input_max_depth, substrate_formula) 
@@ -691,9 +715,17 @@ class Scenario(Analysis):
         polygon_style.rules.append(r)
         return polygon_style   
 
+    #@property
+    #def input_substrate(self):
+    #    return getattr(self, 'input_substrate_%s' %self.input_objective.short_name)
+        
     @property
-    def input_substrate(self):
-        return getattr(self, 'input_substrate_%s' %self.input_objective.short_name)
+    def input_depth_class(self):
+        return getattr(self, 'input_depth_class_%s' %self.input_objective.short_name)
+        
+    @property
+    def input_geomorphology(self):
+        return getattr(self, 'input_geomorphology_%s' %self.input_objective.short_name)
         
     @property
     def input_parameters(self):        
@@ -900,61 +932,18 @@ class Substrate(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.name
-'''
-class TidalEnergySubstrate(models.Model): 
-    substrate = models.ForeignKey("Substrate", null=True, blank=True)
-
+        
+class DepthClass(models.Model):
+    name = models.CharField(max_length=30)
+    
     def __unicode__(self):
-        return u'%s' % self.substrate.name
+        return u'%s' % self.name        
 
-class WaveEnergySubstrate(models.Model):
-    substrate = models.ForeignKey("Substrate", null=True, blank=True)
-
+class Geomorphology(models.Model):
+    name = models.CharField(max_length=30)
+    
     def __unicode__(self):
-        return u'%s' % self.substrate.name
-
-class WindEnergySubstrate(models.Model):
-    substrate = models.ForeignKey("Substrate", null=True, blank=True)
-
-    def __unicode__(self):
-        return u'%s' % self.substrate.name
-
-class OffshoreConservationSubstrate(models.Model): 
-    substrate = models.ForeignKey("Substrate", null=True, blank=True)
-
-    def __unicode__(self):
-        return u'%s' % self.substrate.name
-
-class NearshoreConservationSubstrate(models.Model): 
-    substrate = models.ForeignKey("Substrate", null=True, blank=True)
-
-    def __unicode__(self):
-        return u'%s' % self.substrate.name
-
-class WaterColumnConservationSubstrate(models.Model): 
-    substrate = models.ForeignKey("Substrate", null=True, blank=True)
-
-    def __unicode__(self):
-        return u'%s' % self.substrate.name
-
-class ShoresideDevelopmentSubstrate(models.Model): 
-    substrate = models.ForeignKey("Substrate", null=True, blank=True)
-
-    def __unicode__(self):
-        return u'%s' % self.substrate.name
-
-class ShellfishAquacultureSubstrate(models.Model): 
-    substrate = models.ForeignKey("Substrate", null=True, blank=True)
-
-    def __unicode__(self):
-        return u'%s' % self.substrate.name
-
-class OffshoreFishingSubstrate(models.Model): 
-    substrate = models.ForeignKey("Substrate", null=True, blank=True)
-
-    def __unicode__(self):
-        return u'%s' % self.substrate.name
-'''
+        return u'%s' % self.name        
 
 @register
 class ConservationSite(PolygonFeature):
