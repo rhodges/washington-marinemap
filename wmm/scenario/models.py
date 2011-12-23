@@ -20,7 +20,7 @@ class Folder(FeatureCollection):
     def num_scenarios(self):
         count = 0
         for object in self.feature_set():
-            if object.__class__ == MultiObjectiveScenario:
+            if object.__class__ == MOS:
                 count += 1
         return count
         
@@ -42,7 +42,7 @@ class Folder(FeatureCollection):
         
     class Options:
         verbose_name = 'Folder'
-        valid_children = ( 'scenario.models.MultiObjectiveScenario', 
+        valid_children = ( 'scenario.models.MOS', 
                            'scenario.models.ConservationSite',
                            'scenario.models.WindEnergySite',
                            'scenario.models.AOI', 
@@ -57,57 +57,94 @@ class Folder(FeatureCollection):
         icon_url = 'wmm/img/folder.png'
 
 @register
-class MultiObjectiveScenario(Feature):
+class MOS(Feature):
     scenarios = models.ManyToManyField("Scenario", null=True, blank=True)
-    input_objectives = models.ManyToManyField("Objective", null=True, blank=True)
+    
+    input_objectives_energy = models.ManyToManyField("EnergyObjective", null=True, blank=True)
         
-    input_parameters_tidal = models.ManyToManyField("TidalParameter")
-    input_dist_shore_tidal = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
-    input_dist_port_tidal = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
-    input_min_depth_tidal = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
-    input_max_depth_tidal = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
-    input_substrate_tidal = models.ManyToManyField("TidalSubstrate")
+    input_parameters_tidal_energy = models.ManyToManyField("TidalEnergyParameter")
+    input_dist_shore_tidal_energy = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
+    input_dist_port_tidal_energy = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    input_min_depth_tidal_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
+    input_max_depth_tidal_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
+    #input_substrate_tidal_energy = models.ManyToManyField("TidalEnergySubstrate")
+    input_substrate_tidal_energy = models.ManyToManyField("Substrate", related_name="MOSTidalEnergySubstrate", null=True, blank=True)
     
-    input_parameters_wind = models.ManyToManyField("WindParameter")
-    input_dist_shore_wind = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
-    input_dist_port_wind = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
-    input_min_depth_wind = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
-    input_max_depth_wind = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
-    input_substrate_wind = models.ManyToManyField("WindSubstrate")
+    input_parameters_wind_energy = models.ManyToManyField("WindEnergyParameter")
+    input_dist_shore_wind_energy = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
+    input_dist_port_wind_energy = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    input_min_depth_wind_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
+    input_max_depth_wind_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
+    #input_substrate_wind_energy = models.ManyToManyField("WindEnergySubstrate")
+    input_substrate_wind_energy = models.ManyToManyField("Substrate", related_name="MOSWindEnergySubstrate", null=True, blank=True)
     
-    input_parameters_conservation = models.ManyToManyField("ConservationParameter")
-    input_dist_shore_conservation = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
-    input_dist_port_conservation = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
-    input_min_depth_conservation = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
-    input_max_depth_conservation = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
-    input_substrate_conservation = models.ManyToManyField("ConservationSubstrate")
+    input_parameters_wave_energy = models.ManyToManyField("WaveEnergyParameter")
+    input_dist_shore_wave_energy = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
+    input_dist_port_wave_energy = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    input_min_depth_wave_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
+    input_max_depth_wave_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
+    #input_substrate_wave_energy = models.ManyToManyField("WaveEnergySubstrate")
+    input_substrate_wave_energy = models.ManyToManyField("Substrate", related_name="MOSWaveEnergySubstrate", null=True, blank=True)
     
-    input_parameters_development = models.ManyToManyField("DevelopmentParameter")
-    input_dist_shore_development = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
-    input_dist_port_development = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
-    input_min_depth_development = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
-    input_max_depth_development = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
-    input_substrate_development = models.ManyToManyField("DevelopmentSubstrate")
+    input_objectives_conservation = models.ManyToManyField("ConservationObjective", null=True, blank=True)
     
-    input_parameters_shellfish = models.ManyToManyField("ShellfishParameter")
-    input_dist_shore_shellfish = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
-    input_dist_port_shellfish = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
-    input_min_depth_shellfish = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
-    input_max_depth_shellfish = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
-    input_substrate_shellfish = models.ManyToManyField("ShellfishSubstrate")
+    input_parameters_offshore_conservation = models.ManyToManyField("OffshoreConservationParameter")
+    input_dist_shore_offshore_conservation = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
+    input_dist_port_offshore_conservation = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    input_min_depth_offshore_conservation = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
+    input_max_depth_offshore_conservation = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
+    #input_substrate_offshore_conservation = models.ManyToManyField("OffshoreConservationSubstrate")
+    input_substrate_offshore_conservation = models.ManyToManyField("Substrate", related_name="MOSOffshoreConservationSubstrate", null=True, blank=True)
     
-    input_parameters_fishing = models.ManyToManyField("FishingParameter")
-    input_dist_shore_fishing = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
-    input_dist_port_fishing = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
-    input_min_depth_fishing = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
-    input_max_depth_fishing = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
-    input_substrate_fishing = models.ManyToManyField("FishingSubstrate")
+    input_parameters_nearshore_conservation = models.ManyToManyField("NearshoreConservationParameter")
+    input_dist_shore_nearshore_conservation = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
+    input_dist_port_nearshore_conservation = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    input_min_depth_nearshore_conservation = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
+    input_max_depth_nearshore_conservation = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
+    #input_substrate_nearshore_conservation = models.ManyToManyField("NearshoreConservationSubstrate")
+    input_substrate_nearshore_conservation = models.ManyToManyField("Substrate", related_name="MOSNearshoreConservationSubstrate", null=True, blank=True)
+    
+    input_parameters_water_column_conservation = models.ManyToManyField("WaterColumnConservationParameter")
+    input_dist_shore_water_column_conservation = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
+    input_dist_port_water_column_conservation = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    input_min_depth_water_column_conservation = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
+    input_max_depth_water_column_conservation = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
+    #input_substrate_water_column_conservation = models.ManyToManyField("WaterColumnConservationSubstrate")
+    input_substrate_water_column_conservation = models.ManyToManyField("Substrate", related_name="MOSWaterColumnConservationSubstrate", null=True, blank=True)
+    
+    input_objectives_development = models.ManyToManyField("DevelopmentObjective", null=True, blank=True)
+    
+    input_parameters_shoreside_development = models.ManyToManyField("ShoresideDevelopmentParameter")
+    input_dist_shore_shoreside_development = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
+    input_dist_port_shoreside_development = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    input_min_depth_shoreside_development = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
+    input_max_depth_shoreside_development = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
+    #input_substrate_shoreside_development = models.ManyToManyField("ShoresideDevelopmentSubstrate")
+    input_substrate_shoreside_development = models.ManyToManyField("Substrate", related_name="MOSShoresideDevelopmentSubstrate", null=True, blank=True)
+    
+    input_objectives_fisheries = models.ManyToManyField("FisheriesObjective", null=True, blank=True)
+    
+    input_parameters_shellfish_aquaculture = models.ManyToManyField("ShellfishAquacultureParameter")
+    input_dist_shore_shellfish_aquaculture = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
+    input_dist_port_shellfish_aquaculture = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    input_min_depth_shellfish_aquaculture = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
+    input_max_depth_shellfish_aquaculture = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
+    #input_substrate_shellfish_aquaculture = models.ManyToManyField("ShellfishAquacultureSubstrate")
+    input_substrate_shellfish_aquaculture = models.ManyToManyField("Substrate", related_name="MOSShellfishAquacultureSubstrate", null=True, blank=True)
+    
+    input_parameters_offshore_fishing = models.ManyToManyField("OffshoreFishingParameter")
+    input_dist_shore_offshore_fishing = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
+    input_dist_port_offshore_fishing = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    input_min_depth_offshore_fishing = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
+    input_max_depth_offshore_fishing = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
+    #input_substrate_offshore_fishing = models.ManyToManyField("OffshoreFishingSubstrate")
+    input_substrate_offshore_fishing = models.ManyToManyField("Substrate", related_name="MOSOffshoreFishingSubstrate", null=True, blank=True)
     
     
     description = models.TextField(null=True, blank=True)
     support_file = models.FileField(upload_to='scenarios/files/', null=True, blank=True)
-        
-        
+       
+       
     def save(self, form=None, *args, **kwargs):
         if form is not None: 
             form_data = form.cleaned_data 
@@ -122,7 +159,7 @@ class MultiObjectiveScenario(Feature):
                 #if no input_ fields have changed, then save without rerunning scenario analysis
                 first_run = False
                 #TODO: might move the following into a function rerun=inputs_have_changed()
-                orig = MultiObjectiveScenario.objects.get(pk=self.pk)
+                orig = MOS.objects.get(pk=self.pk)
                 input_fields = [f for f in self._meta.fields if f.attname.startswith('input_')]
                 for f in input_fields:
                     if getattr(orig, f.name) != getattr(self, f.name):
@@ -131,18 +168,19 @@ class MultiObjectiveScenario(Feature):
                 if not rerun:
                     #IMPORTANT NOTE:  We can't compare the objectives until we save m2m
                     #first collect the original objectives, parameters, and substrate values, then save, then compare 
-                    orig_objs = self.input_objectives.all()
+                    from itertools import chain
+                    orig_objs = list(chain(self.input_objectives_energy.all(), self.input_objectives_conservation.all(), self.input_objectives_development.all(), self.input_objectives_fisheries.all()))
                     
                     orig_dict = {}
                     for obj in orig_objs:
-                        suffix = obj.short_name
+                        suffix = obj.objective.short_name
                         #it appears that getattr returns a dynamic list (one that gets updated after call to super.save below)
                         #casting to list here makes the list static, preventing automatic changes after super.save
                         orig_dict['input_params_%s'%suffix] = list(getattr(self, 'input_parameters_%s'%suffix).all())
                         orig_dict['input_substrate_%s'%suffix] = list(getattr(self, 'input_substrate_%s'%suffix).all())
                     
                     #save so that m2m variables are updated
-                    super(MultiObjectiveScenario, self).save(form=form)
+                    super(MOS, self).save(form=form)
                     
                     #get new objectives
                     new_objs = self.input_objectives.all()
@@ -158,7 +196,7 @@ class MultiObjectiveScenario(Feature):
                             rerun = True
                     if not rerun:
                         for obj in orig_objs:
-                            suffix = obj.short_name
+                            suffix = obj.objective.short_name
                             orig_params = orig_dict['input_params_%s'%suffix]
                             new_params = getattr(self, 'input_parameters_%s'%suffix).all()
                             if len(orig_params) != len(new_params):
@@ -180,23 +218,106 @@ class MultiObjectiveScenario(Feature):
                                         if orig_substrate[i] != new_substrate[i]:
                                             rerun = True
                                             break
-                             
+            
             #NOTE:  This might need to be used to save self (maybe with form kwarg?) to save instance before scenarios are built
-            super(MultiObjectiveScenario, self).save(form=form)
-                        
+            super(MOS, self).save(form=form)
+            
             if first_run or rerun: 
                 #remove old scenarios from this multi-objective scenario object 
                 #TODO:  consider optimizing this so that it only removes those scenarios that need to be re-generated
-                old_scenarios = Scenario.objects.filter(multiobjectivescenario=self.id)
+                old_scenarios = Scenario.objects.filter(mos=self.id)
                 for old_scenario in old_scenarios:
                     self.scenarios.remove(old_scenario) #removes the relationship but not the scenario itself
                     old_scenario.delete()              #removes the actual scenario
+                                
                 #generate new scenarios
-                self.input_objectives = form_data['input_objectives']
-                for obj in self.input_objectives.all():
+                
+                self.input_objectives_energy = form_data['input_objectives_energy']
+                #input energy objectives
+                for obj in self.input_objectives_energy.all():
+                    obj_id = obj.objective.id
+                    obj_short_name = obj.objective.short_name
+                    scenario_name = name + '_%s' % obj_short_name
+                    
+                    params = form_data['input_parameters_%s'%obj_short_name]
+                    
+                    dist_shore = form_data['input_dist_shore_%s'%obj_short_name]
+                    dist_port = form_data['input_dist_port_%s'%obj_short_name]
+                    min_depth = form_data['input_min_depth_%s'%obj_short_name]
+                    max_depth = form_data['input_max_depth_%s'%obj_short_name]
+                    substrates = form_data['input_substrate_%s'%obj_short_name]
+                    
+                    scenario = Scenario(user=user, name=scenario_name, input_objective=obj.objective, input_dist_shore=dist_shore,
+                                        input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth)            
+                    scenario.save(rerun=False)
+                    
+                    for param in params:
+                        #the following should be compressible by using the getattr function or property calls
+                        #NOTE:  quick examination right before vacation suggests that the self.** lines may be unnecessary
+                        #       while the scenario.** lines are necessary
+                        if obj_short_name == 'tidal_energy':
+                            scenario.input_parameters_tidal_energy.add(param)
+                            for substrate in substrates:
+                                scenario.input_substrate_tidal_energy.add(substrate)
+                                #scenario.input_substrate.add(substrate)
+                        elif obj_short_name == 'wind_energy':
+                            scenario.input_parameters_wind_energy.add(param)
+                            for substrate in substrates:
+                                scenario.input_substrate_wind_energy.add(substrate)
+                                #scenario.input_substrate.add(substrate)
+                        elif obj_short_name == 'wave_energy':
+                            scenario.input_parameters_wave_energy.add(param)
+                            for substrate in substrates:
+                                scenario.input_substrate_wave_energy.add(substrate)
+                                #scenario.input_substrate.add(substrate)
+                    scenario.save()
+                    self.scenarios.add(scenario)
+                    
+                self.input_objectives_conservation = form_data['input_objectives_conservation']
+                #input conservation objectives
+                for obj in self.input_objectives_conservation.all():
+                    obj_id = obj.objective.id
+                    obj_short_name = obj.objective.short_name
+                    scenario_name = name + '_%s' % obj_short_name
+                    
+                    params = form_data['input_parameters_%s'%obj_short_name]
+                    
+                    dist_shore = form_data['input_dist_shore_%s'%obj_short_name]
+                    dist_port = form_data['input_dist_port_%s'%obj_short_name]
+                    min_depth = form_data['input_min_depth_%s'%obj_short_name]
+                    max_depth = form_data['input_max_depth_%s'%obj_short_name]
+                    substrates = form_data['input_substrate_%s'%obj_short_name]
+                    
+                    scenario = Scenario(user=user, name=scenario_name, input_objective=obj.objective, input_dist_shore=dist_shore,
+                                        input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth)            
+                    scenario.save(rerun=False)
+                    
+                    for param in params:
+                        if obj_short_name == 'offshore_conservation':
+                            scenario.input_parameters_offshore_conservation.add(param)
+                            for substrate in substrates:
+                                scenario.input_substrate_offshore_conservation.add(substrate)
+                                #scenario.input_substrate.add(substrate)
+                        elif obj_short_name == 'nearshore_conservation':
+                            scenario.input_parameters_nearshore_conservation.add(param)
+                            for substrate in substrates:
+                                scenario.input_substrate_nearshore_conservation.add(substrate)
+                                #scenario.input_substrate.add(substrate)
+                        elif obj_short_name == 'water_column_conservation':
+                            scenario.input_parameters_water_column_conservation.add(param)
+                            for substrate in substrates:
+                                scenario.input_substrate_water_column_conservation.add(substrate)
+                                #scenario.input_substrate.add(substrate)
+                    scenario.save()
+                    self.scenarios.add(scenario)
+                    
+                self.input_objectives_development = form_data['input_objectives_development']
+                #input development objectives
+                for obj in self.input_objectives_development.all():
                     obj_id = obj.id
                     obj_short_name = obj.short_name
-                    scenario_name = name + '_%s' % obj_id
+                    scenario_name = name + '_%s' % obj_short_name
+                    
                     params = form_data['input_parameters_%s'%obj_short_name]
                     
                     dist_shore = form_data['input_dist_shore_%s'%obj_short_name]
@@ -209,49 +330,49 @@ class MultiObjectiveScenario(Feature):
                                         input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth)            
                     scenario.save(rerun=False)
                     
-                    for param in params:
-                        #the following should be compressible by using the getattr function or property calls
-                        #NOTE:  quick examination right before vacation suggests that the self.** lines may be unnecessary
-                        #       while the scenario.** lines are necessary
-                        if obj_short_name == 'tidal':
-                            #self.input_parameters_tidal.add(param)
-                            scenario.input_parameters_tidal.add(param)
+                    for param in params:        
+                        if obj_short_name == 'shoreside_development':
+                            scenario.input_parameters_shoreside_development.add(param)
                             for substrate in substrates:
-                                #self.input_substrate_tidal.add(substrate)
-                                scenario.input_substrate_tidal.add(substrate)
-                        elif obj_short_name == 'wind':
-                            #self.input_parameters_wind.add(param)
-                            scenario.input_parameters_wind.add(param)
-                            for substrate in substrates:
-                                #self.input_substrate_wind.add(substrate)
-                                scenario.input_substrate_wind.add(substrate)
-                        elif obj_short_name == 'conservation':
-                            #self.input_parameters_conservation.add(param)
-                            scenario.input_parameters_conservation.add(param)
-                            for substrate in substrates:
-                                #self.input_substrate_conservation.add(substrate)
-                                scenario.input_substrate_conservation.add(substrate)
-                        elif obj_short_name == 'development':
-                            #self.input_parameters_development.add(param)
-                            scenario.input_parameters_development.add(param)
-                            for substrate in substrates:
-                                #self.input_substrate_development.add(substrate)
-                                scenario.input_substrate_development.add(substrate)
-                        elif obj_short_name == 'shellfish':
-                            #self.input_parameters_shellfish.add(param)
-                            scenario.input_parameters_shellfish.add(param)
-                            for substrate in substrates:
-                                #self.input_substrate_shellfish.add(substrate)
-                                scenario.input_substrate_shellfish.add(substrate)
-                        elif obj_short_name == 'fishing':
-                            #self.input_parameters_fishing.add(param)
-                            scenario.input_parameters_fishing.add(param)
-                            for substrate in substrates:
-                                #self.input_substrate_fishing.add(substrate)
-                                scenario.input_substrate_fishing.add(substrate)
+                                scenario.input_substrate_shoreside_development.add(substrate)
+                                #scenario.input_substrate.add(substrate)
                     scenario.save()
                     self.scenarios.add(scenario)
-        super(MultiObjectiveScenario, self).save(*args, **kwargs)
+                
+                self.input_objectives_fisheries = form_data['input_objectives_fisheries']
+                #input fisheries objectives
+                for obj in self.input_objectives_fisheries.all():
+                    obj_id = obj.id
+                    obj_short_name = obj.short_name
+                    scenario_name = name + '_%s' % obj_short_name
+                    
+                    params = form_data['input_parameters_%s'%obj_short_name]
+                    
+                    dist_shore = form_data['input_dist_shore_%s'%obj_short_name]
+                    dist_port = form_data['input_dist_port_%s'%obj_short_name]
+                    min_depth = form_data['input_min_depth_%s'%obj_short_name]
+                    max_depth = form_data['input_max_depth_%s'%obj_short_name]
+                    substrates = form_data['input_substrate_%s'%obj_short_name]
+                    
+                    scenario = Scenario(user=user, name=scenario_name, input_objective=obj, input_dist_shore=dist_shore,
+                                        input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth)            
+                    scenario.save(rerun=False)
+                    
+                    for param in params:                
+                        if obj_short_name == 'shellfish_aquaculture':
+                            scenario.input_parameters_shellfish_aquaculture.add(param)
+                            for substrate in substrates:
+                                scenario.input_substrate_shellfish_aquaculture.add(substrate)
+                                #scenario.input_substrate.add(substrate)
+                        elif obj_short_name == 'offshore_fishing':
+                            scenario.input_parameters_offshore_fishing.add(param)
+                            for substrate in substrates:
+                                scenario.input_substrate_offshore_fishing.add(substrate) 
+                                #scenario.input_substrate.add(substrate) 
+                    scenario.save()
+                    self.scenarios.add(scenario)      
+                    
+        super(MOS, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -370,59 +491,82 @@ class MultiObjectiveScenario(Feature):
     class Options:
         verbose_name = 'Multi-Objective Scenario'
         icon_url = 'wmm/img/multi.png'
-        form = 'scenario.forms.MultiObjectiveScenarioForm'
+        form = 'scenario.forms.MOSForm'
         form_template = 'multi_objective_scenario/form.html'
         show_template = 'multi_objective_scenario/show.html'
 
 class Scenario(Analysis):
     #Input Parameters
-    #input_objectives = models.ManyToManyField("Objective")
     input_objective = models.ForeignKey("Objective")
-    #input_parameters = models.ManyToManyField("Parameter")
+    '''
+    input_parameters_tidal_energy = models.ManyToManyField("Parameter", related_name="TidalEnergyParameter", null=True, blank=True)
+    input_parameters_wind_energy = models.ManyToManyField("Parameter", related_name="WindEnergyParameter", null=True, blank=True)
+    input_parameters_wave_energy = models.ManyToManyField("Parameter", related_name="WaveEnergyParameter", null=True, blank=True)
+    input_parameters_offshore_conservation = models.ManyToManyField("Parameter", related_name="OffshoreConservationParameter", null=True, blank=True)
+    input_parameters_nearshore_conservation = models.ManyToManyField("Parameter", related_name="NearshoreConservationParameter", null=True, blank=True)
+    input_parameters_water_column_conservation = models.ManyToManyField("Parameter", related_name="WaterColumnConservationParameter", null=True, blank=True)
+    input_parameters_shoreside_development = models.ManyToManyField("Parameter", related_name="ShoresideDevelopmentParameter", null=True, blank=True)
+    input_parameters_shellfish_aquaculture = models.ManyToManyField("Parameter", related_name="ShellfishAquacultureParameter", null=True, blank=True)
+    input_parameters_offshore_fishing = models.ManyToManyField("Parameter", related_name="OffshoreFishingParameter", null=True, blank=True)
+    '''
+    input_parameters_tidal_energy = models.ManyToManyField("TidalEnergyParameter", null=True, blank=True)
+    input_parameters_wind_energy = models.ManyToManyField("WindEnergyParameter", null=True, blank=True)
+    input_parameters_wave_energy = models.ManyToManyField("WaveEnergyParameter", null=True, blank=True)
+    input_parameters_offshore_conservation = models.ManyToManyField("OffshoreConservationParameter", null=True, blank=True)
+    input_parameters_nearshore_conservation = models.ManyToManyField("NearshoreConservationParameter", null=True, blank=True)
+    input_parameters_water_column_conservation = models.ManyToManyField("WaterColumnConservationParameter", null=True, blank=True)
+    input_parameters_shoreside_development = models.ManyToManyField("ShoresideDevelopmentParameter", null=True, blank=True)
+    input_parameters_shellfish_aquaculture = models.ManyToManyField("ShellfishAquacultureParameter", null=True, blank=True)
+    input_parameters_offshore_fishing = models.ManyToManyField("OffshoreFishingParameter", null=True, blank=True)
     
-    input_parameters_tidal = models.ManyToManyField("TidalParameter")
-    input_parameters_wind = models.ManyToManyField("WindParameter")
-    input_parameters_conservation = models.ManyToManyField("ConservationParameter")
-    input_parameters_development = models.ManyToManyField("DevelopmentParameter")
-    input_parameters_shellfish = models.ManyToManyField("ShellfishParameter")
-    input_parameters_fishing = models.ManyToManyField("FishingParameter")
+    input_dist_shore = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
+    input_dist_port = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    input_min_depth = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
+    input_max_depth = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     
-    input_dist_shore = models.FloatField(verbose_name='Distance from Shoreline')
-    input_dist_port = models.FloatField(verbose_name='Distance to Port')
-    input_min_depth = models.FloatField(verbose_name='Minimum Depth')
-    input_max_depth = models.FloatField(verbose_name='Maximum Depth')
+    #input_substrate = models.ManyToManyField("Substrate", null=True, blank=True)
     
-    input_substrate_tidal = models.ManyToManyField("TidalSubstrate")
-    input_substrate_wind = models.ManyToManyField("WindSubstrate")
-    input_substrate_conservation = models.ManyToManyField("ConservationSubstrate")
-    input_substrate_development = models.ManyToManyField("DevelopmentSubstrate")
-    input_substrate_shellfish = models.ManyToManyField("ShellfishSubstrate")
-    input_substrate_fishing = models.ManyToManyField("FishingSubstrate")
-    
-    #Descriptors (name field is inherited from Analysis)
-    #description = models.TextField(null=True, blank=True)
-    #support_file = models.FileField(upload_to='scenarios/files/', null=True, blank=True)
+    input_substrate_tidal_energy = models.ManyToManyField("Substrate", related_name="TidalEnergySubstrate", null=True, blank=True)
+    input_substrate_wave_energy = models.ManyToManyField("Substrate", related_name="WaveEnergySubstrate", null=True, blank=True)
+    input_substrate_wind_energy = models.ManyToManyField("Substrate", related_name="WindEnergySubstrate", null=True, blank=True)
+    input_substrate_offshore_conservation = models.ManyToManyField("Substrate", related_name="OffshoreConservationSubstrate", null=True, blank=True)
+    input_substrate_nearshore_conservation = models.ManyToManyField("Substrate", related_name="NearshoreConservationSubstrate", null=True, blank=True)
+    input_substrate_water_column_conservation = models.ManyToManyField("Substrate", related_name="WaterColumnConservationSubstrate", null=True, blank=True)
+    input_substrate_shoreside_development = models.ManyToManyField("Substrate", related_name="ShoresideDevelopmentSubstrate", null=True, blank=True)
+    input_substrate_shellfish_aquaculture = models.ManyToManyField("Substrate", related_name="ShellfishAquacultureSubstrate", null=True, blank=True)
+    input_substrate_offshore_fishing = models.ManyToManyField("Substrate", related_name="OffshoreFishingSubstrate", null=True, blank=True)
+    '''
+    input_substrate_tidal_energy = models.ManyToManyField("TidalEnergySubstrate", null=True, blank=True)
+    input_substrate_wave_energy = models.ManyToManyField("WaveEnergySubstrate", null=True, blank=True)
+    input_substrate_wind_energy = models.ManyToManyField("WindEnergySubstrate", null=True, blank=True)
+    input_substrate_offshore_conservation = models.ManyToManyField("OffshoreConservationSubstrate", null=True, blank=True)
+    input_substrate_nearshore_conservation = models.ManyToManyField("NearshoreConservationSubstrate", null=True, blank=True)
+    input_substrate_water_column_conservation = models.ManyToManyField("WaterColumnConservationSubstrate", null=True, blank=True)
+    input_substrate_shoreside_development = models.ManyToManyField("ShoresideDevelopmentSubstrate", null=True, blank=True)
+    input_substrate_shellfish_aquaculture = models.ManyToManyField("ShellfishAquacultureSubstrate", null=True, blank=True)
+    input_substrate_offshore_fishing = models.ManyToManyField("OffshoreFishingSubstrate", null=True, blank=True)
+    '''
     
     # All output fields should be allowed to be Null/Blank
-    output_geom = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID,
-            null=True, blank=True, verbose_name="Scenario Geometry")
+    output_geom = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Scenario Geometry")
     output_mapcalc = models.CharField(max_length=360, null=True, blank=True)
-    output_area = models.FloatField(null=True, blank=True, verbose_name="Total Area (sq km)")
+    output_area = models.FloatField(verbose_name="Total Area (sq km)", null=True, blank=True)
     
-    geometry_final = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID,
-            null=True, blank=True, verbose_name="Final Scenario Geometry")
+    geometry_final = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Final Scenario Geometry")
     
     def run(self):
         from lingcod.analysistools.grass import Grass
 
-        g = Grass('pacnw_utm10', 
+        #g = Grass('pacnw_utm10', 
+        g = Grass('wa_marine_planner',
                 gisbase=settings.GISBASE, #"/usr/local/grass-6.4.1RC2", 
                 gisdbase=settings.GISDBASE,  #"/mnt/wmm/grass",
                 autoclean=True)
         g.verbose = True
         
-        g.run('g.region rast=bathy')
-        g.run('g.region nsres=180 ewres=180')
+        g.run('g.region rast=bathy')  #sets extent 
+        #g.run('g.region rast=geomorphology')
+        g.run('g.region nsres=180 ewres=180')  #sets cell size
         rasts = g.list()['rast']
 
         outdir = settings.GRASS_TMP #'/tmp'
@@ -434,6 +578,7 @@ class Scenario(Analysis):
         input_params = self.input_parameter_ids
         result = 0
         
+        #The following integers relate to the primary ids in the scenario_parameter table
         if 1 in input_params:
             g.run('r.buffer input=shoreline_rast output=shoreline_rast_buffer distances=%s' % miles_to_meters(self.input_dist_shore) )
             shoreline_buffer = 'if(shoreline_rast_buffer==2)'
@@ -457,7 +602,7 @@ class Scenario(Analysis):
             substrate = 'if(%s)' %substrate_formula
         else:   
             substrate = 1
-            
+        
         mapcalc = """r.mapcalc "rresult = if((%s + %s + %s + %s)==4,1,null())" """ % (port_buffer, shoreline_buffer, substrate, depth)
         #mapcalc = """r.mapcalc "rresult = if((if(shoreline_rast_buffer==2) + if(port_buffer_rast) + if(bathy>%s && bathy<%s) + if(%s))==4,1,null())" """ % (self.input_min_depth, self.input_max_depth, substrate_formula) 
         g.run(mapcalc)
@@ -561,7 +706,7 @@ class Scenario(Analysis):
         
     @property
     def input_substrate_names(self):
-        input_substrate = [substrate.substrate.name for substrate in self.input_substrate.all()]
+        input_substrate = [substrate.name for substrate in self.input_substrate.all()]
         return input_substrate
         
     @property
@@ -575,6 +720,12 @@ class Scenario(Analysis):
         except:
             return '778B1A55'
     
+    @property
+    def kml_param_output(self):
+        return """
+            <p>testing...</p>
+        """
+        
     @property 
     def kml_working(self):
         return """
@@ -596,6 +747,7 @@ class Scenario(Analysis):
                 <Data name="name"><value>%s</value></Data>
                 <Data name="user"><value>%s</value></Data>
                 <Data name="desc"><value>%s</value></Data>
+                <Data name="params"><value>%s</value></Data>
                 <Data name="type"><value>%s</value></Data>
                 <Data name="modified"><value>%s</value></Data>
             </ExtendedData>
@@ -604,7 +756,8 @@ class Scenario(Analysis):
             </MultiGeometry>
         </Placemark>
         """ % (self.kml_style, self.uid, escape(self.name), self.model_uid(),
-            escape(self.name), self.user, escape(self.description), self.Options.verbose_name, self.date_modified.replace(microsecond=0), 
+            escape(self.name), self.user, escape(self.description), self.kml_param_output, 
+            self.Options.verbose_name, self.date_modified.replace(microsecond=0), 
             asKml(self.output_geom.transform( settings.GEOMETRY_CLIENT_SRID, clone=True))
             )
         
@@ -642,66 +795,101 @@ class Scenario(Analysis):
         form_template = 'scenario/form.html'
         show_template = 'scenario/show.html'
 
+class Category(models.Model):
+    name = models.CharField(max_length=70)
+    short_name = models.CharField(max_length=70)
+    
+    def __unicode__(self):
+        return u'%s' %self.name
+        
 class Objective(models.Model):
     name = models.CharField(max_length=70)
     short_name = models.CharField(max_length=70)
     color = models.CharField(max_length=8, default='778B1A55')
-    #parameters = models.ManyToManyField("Parameter", null=True, blank=True)
     
     def __unicode__(self):
-        return u'%s' % self.name        
+        return u'%s' % self.name   
+
+class EnergyObjective(models.Model):
+    objective = models.ForeignKey("Objective", null=True, blank=True)
+    
+    def __unicode__(self):
+        return u'%s' % self.objective.name
+
+class ConservationObjective(models.Model):
+    objective = models.ForeignKey("Objective", null=True, blank=True)
+    
+    def __unicode__(self):
+        return u'%s' % self.objective.name
+
+class FisheriesObjective(models.Model):
+    objective = models.ForeignKey("Objective", null=True, blank=True)
+    
+    def __unicode__(self):
+        return u'%s' % self.objective.name
+
+class DevelopmentObjective(models.Model):
+    objective = models.ForeignKey("Objective", null=True, blank=True)
+    
+    def __unicode__(self):
+        return u'%s' % self.objective.name
 
 class Parameter(models.Model):
     name = models.CharField(max_length=70)
     short_name = models.CharField(max_length=70)
-    #objectives = models.ManyToManyField("Objective", null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.name
         
-class TidalParameter(models.Model):
-    #name = models.CharField(max_length=70)
-    #short_name = models.CharField(max_length=70)
+class TidalEnergyParameter(models.Model):
     parameter = models.ForeignKey("Parameter", null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.parameter.name
         
-class WindParameter(models.Model):
-    #name = models.CharField(max_length=70)
-    #short_name = models.CharField(max_length=70)
+class WindEnergyParameter(models.Model):
     parameter = models.ForeignKey("Parameter", null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.parameter.name
         
-class ConservationParameter(models.Model):
-    #name = models.CharField(max_length=70)
-    #short_name = models.CharField(max_length=70)
+class WaveEnergyParameter(models.Model):
     parameter = models.ForeignKey("Parameter", null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.parameter.name
         
-class DevelopmentParameter(models.Model):
-    #name = models.CharField(max_length=70)
-    #short_name = models.CharField(max_length=70)
+class OffshoreConservationParameter(models.Model):
     parameter = models.ForeignKey("Parameter", null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.parameter.name
         
-class ShellfishParameter(models.Model):
-    #name = models.CharField(max_length=70)
-    #short_name = models.CharField(max_length=70)
+class NearshoreConservationParameter(models.Model):
     parameter = models.ForeignKey("Parameter", null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.parameter.name
         
-class FishingParameter(models.Model):
-    #name = models.CharField(max_length=70)
-    #short_name = models.CharField(max_length=70)
+class WaterColumnConservationParameter(models.Model):
+    parameter = models.ForeignKey("Parameter", null=True, blank=True)
+    
+    def __unicode__(self):
+        return u'%s' % self.parameter.name
+        
+class ShoresideDevelopmentParameter(models.Model):
+    parameter = models.ForeignKey("Parameter", null=True, blank=True)
+    
+    def __unicode__(self):
+        return u'%s' % self.parameter.name
+        
+class ShellfishAquacultureParameter(models.Model):
+    parameter = models.ForeignKey("Parameter", null=True, blank=True)
+    
+    def __unicode__(self):
+        return u'%s' % self.parameter.name
+        
+class OffshoreFishingParameter(models.Model):
     parameter = models.ForeignKey("Parameter", null=True, blank=True)
     
     def __unicode__(self):
@@ -712,43 +900,61 @@ class Substrate(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.name
-  
-class TidalSubstrate(models.Model): 
+'''
+class TidalEnergySubstrate(models.Model): 
     substrate = models.ForeignKey("Substrate", null=True, blank=True)
 
     def __unicode__(self):
         return u'%s' % self.substrate.name
 
-class WindSubstrate(models.Model):
+class WaveEnergySubstrate(models.Model):
     substrate = models.ForeignKey("Substrate", null=True, blank=True)
 
     def __unicode__(self):
         return u'%s' % self.substrate.name
 
-class ConservationSubstrate(models.Model): 
+class WindEnergySubstrate(models.Model):
     substrate = models.ForeignKey("Substrate", null=True, blank=True)
 
     def __unicode__(self):
         return u'%s' % self.substrate.name
 
-class DevelopmentSubstrate(models.Model): 
+class OffshoreConservationSubstrate(models.Model): 
     substrate = models.ForeignKey("Substrate", null=True, blank=True)
 
     def __unicode__(self):
         return u'%s' % self.substrate.name
 
-class ShellfishSubstrate(models.Model): 
+class NearshoreConservationSubstrate(models.Model): 
     substrate = models.ForeignKey("Substrate", null=True, blank=True)
 
     def __unicode__(self):
         return u'%s' % self.substrate.name
 
-class FishingSubstrate(models.Model): 
+class WaterColumnConservationSubstrate(models.Model): 
     substrate = models.ForeignKey("Substrate", null=True, blank=True)
 
     def __unicode__(self):
         return u'%s' % self.substrate.name
 
+class ShoresideDevelopmentSubstrate(models.Model): 
+    substrate = models.ForeignKey("Substrate", null=True, blank=True)
+
+    def __unicode__(self):
+        return u'%s' % self.substrate.name
+
+class ShellfishAquacultureSubstrate(models.Model): 
+    substrate = models.ForeignKey("Substrate", null=True, blank=True)
+
+    def __unicode__(self):
+        return u'%s' % self.substrate.name
+
+class OffshoreFishingSubstrate(models.Model): 
+    substrate = models.ForeignKey("Substrate", null=True, blank=True)
+
+    def __unicode__(self):
+        return u'%s' % self.substrate.name
+'''
 
 @register
 class ConservationSite(PolygonFeature):
