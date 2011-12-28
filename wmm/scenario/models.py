@@ -62,13 +62,16 @@ class MOS(Feature):
     input_objectives = models.ManyToManyField("Objective", null=True, blank=True)
         
     # Renewable Energy Parameters
-    '''
-    input_parameters_tidal_energy = models.ManyToManyField("TidalEnergyParameter")
+    input_objectives_energy = models.ManyToManyField("EnergyObjective", null=True, blank=True)
+    
+    input_parameters_tidal_energy = models.ManyToManyField("TidalEnergyParameter", null=True, blank=True)
     input_dist_shore_tidal_energy = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
     input_dist_port_tidal_energy = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
     input_min_depth_tidal_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_tidal_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_tidal_energy = models.ManyToManyField("Substrate", related_name="MOSTidalEnergySubstrate", null=True, blank=True)
+    #input_depth_class_tidal_energy = models.ManyToManyField("DepthClass", related_name="MOSTidalEnergyDepthClass", null=True, blank=True)    
+    #input_geomorphology_tidal_energy = models.ManyToManyField("Geomorphology", related_name="MOSTidalEnergyGeomorphology", null=True, blank=True)
     
     input_parameters_wind_energy = models.ManyToManyField("WindEnergyParameter")
     input_dist_shore_wind_energy = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
@@ -76,6 +79,8 @@ class MOS(Feature):
     input_min_depth_wind_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_wind_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_wind_energy = models.ManyToManyField("Substrate", related_name="MOSWindEnergySubstrate", null=True, blank=True)
+    #input_depth_class_wind_energy = models.ManyToManyField("DepthClass", related_name="MOSWindEnergyDepthClass", null=True, blank=True)    
+    #input_geomorphology_wind_energy = models.ManyToManyField("Geomorphology", related_name="MOSWindEnergyGeomorphology", null=True, blank=True)
     
     input_parameters_wave_energy = models.ManyToManyField("WaveEnergyParameter")
     input_dist_shore_wave_energy = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
@@ -83,8 +88,12 @@ class MOS(Feature):
     input_min_depth_wave_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_wave_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_wave_energy = models.ManyToManyField("Substrate", related_name="MOSWaveEnergySubstrate", null=True, blank=True)
+    #input_depth_class_wave_energy = models.ManyToManyField("DepthClass", related_name="MOSWaveEnergyDepthClass", null=True, blank=True)    
+    #input_geomorphology_wave_energy = models.ManyToManyField("Geomorphology", related_name="MOSWaveEnergyGeomorphology", null=True, blank=True)
     
     # Conservation Parameters
+    
+    input_objectives_conservation = models.ManyToManyField("ConservationObjective", null=True, blank=True)
     
     input_parameters_offshore_conservation = models.ManyToManyField("OffshoreConservationParameter")
     input_dist_shore_offshore_conservation = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
@@ -92,6 +101,8 @@ class MOS(Feature):
     input_min_depth_offshore_conservation = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_offshore_conservation = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_offshore_conservation = models.ManyToManyField("Substrate", related_name="MOSOffshoreConservationSubstrate", null=True, blank=True)
+    #input_depth_class_offshore_conservation = models.ManyToManyField("DepthClass", related_name="MOSOffshoreConservationDepthClass", null=True, blank=True)    
+    #input_geomorphology_offshore_conservation = models.ManyToManyField("Geomorphology", related_name="MOSOffshoreConservationGeomorphology", null=True, blank=True)
     
     input_parameters_nearshore_conservation = models.ManyToManyField("NearshoreConservationParameter")
     input_dist_shore_nearshore_conservation = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
@@ -99,6 +110,8 @@ class MOS(Feature):
     input_min_depth_nearshore_conservation = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_nearshore_conservation = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_nearshore_conservation = models.ManyToManyField("Substrate", related_name="MOSNearshoreConservationSubstrate", null=True, blank=True)
+    #input_depth_class_nearshore_conservation = models.ManyToManyField("DepthClass", related_name="MOSNearshoreConservationDepthClass", null=True, blank=True)    
+    #input_geomorphology_nearshore_conservation = models.ManyToManyField("Geomorphology", related_name="MOSNearshoreConservationGeomorphology", null=True, blank=True)
     
     input_parameters_water_column_conservation = models.ManyToManyField("WaterColumnConservationParameter")
     input_dist_shore_water_column_conservation = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
@@ -106,8 +119,12 @@ class MOS(Feature):
     input_min_depth_water_column_conservation = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_water_column_conservation = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_water_column_conservation = models.ManyToManyField("Substrate", related_name="MOSWaterColumnConservationSubstrate", null=True, blank=True)
+    #input_depth_class_water_column_conservation = models.ManyToManyField("DepthClass", related_name="MOSWaterColumnConservationDepthClass", null=True, blank=True)    
+    #input_geomorphology_water_column_conservation = models.ManyToManyField("Geomorphology", related_name="MOSWaterColumnConservationGeomorphology", null=True, blank=True)
     
     # Development Parameters
+    
+    input_objectives_development = models.ManyToManyField("DevelopmentObjective", null=True, blank=True)
     
     input_parameters_shoreside_development = models.ManyToManyField("ShoresideDevelopmentParameter")
     input_dist_shore_shoreside_development = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
@@ -115,8 +132,12 @@ class MOS(Feature):
     input_min_depth_shoreside_development = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_shoreside_development = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_shoreside_development = models.ManyToManyField("Substrate", related_name="MOSShoresideDevelopmentSubstrate", null=True, blank=True)
+    #input_depth_class_shoreside_development = models.ManyToManyField("DepthClass", related_name="MOSShoresideDevelopmentDepthClass", null=True, blank=True)    
+    #input_geomorphology_shoreside_development = models.ManyToManyField("Geomorphology", related_name="MOSShoresideDevelopmentGeomorphology", null=True, blank=True)
     
     # Fisheries Parameters
+    
+    input_objectives_fisheries = models.ManyToManyField("FisheriesObjective", null=True, blank=True)
     
     input_parameters_shellfish_aquaculture = models.ManyToManyField("ShellfishAquacultureParameter")
     input_dist_shore_shellfish_aquaculture = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
@@ -124,6 +145,8 @@ class MOS(Feature):
     input_min_depth_shellfish_aquaculture = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_shellfish_aquaculture = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_shellfish_aquaculture = models.ManyToManyField("Substrate", related_name="MOSShellfishAquacultureSubstrate", null=True, blank=True)
+    #input_depth_class_shellfish_aquaculture = models.ManyToManyField("DepthClass", related_name="MOSShoresideDevelopmentDepthClass", null=True, blank=True)    
+    #input_geomorphology_shellfish_aquaculture = models.ManyToManyField("Geomorphology", related_name="MOSShoresideDevelopmentGeomorphology", null=True, blank=True)
     
     input_parameters_offshore_fishing = models.ManyToManyField("OffshoreFishingParameter")
     input_dist_shore_offshore_fishing = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
@@ -131,133 +154,80 @@ class MOS(Feature):
     input_min_depth_offshore_fishing = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_offshore_fishing = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_offshore_fishing = models.ManyToManyField("Substrate", related_name="MOSOffshoreFishingSubstrate", null=True, blank=True)
-    '''
-    
+    #input_depth_class_offshore_fishing = models.ManyToManyField("DepthClass", related_name="MOSOffshoreFishingDepthClass", null=True, blank=True)    
+    #input_geomorphology_offshore_fishing = models.ManyToManyField("Geomorphology", related_name="MOSOffshoreFishingGeomorphology", null=True, blank=True)
+        
     description = models.TextField(null=True, blank=True)
     support_file = models.FileField(upload_to='scenarios/files/', null=True, blank=True)
        
-       
+    
+    def delete(self, *args, **kwargs):
+        scenarios = Scenario.objects.filter(mos=self.id)
+        scenarios.delete()
+        super(MOS, self).delete(*args, **kwargs)
+      
     def save(self, form=None, *args, **kwargs):
         if form is not None: 
             form_data = form.cleaned_data 
             user = form_data['user'] 
-            name = form_data['name']
-            self.name = name
-            first_run = True
-            rerun = False
-            
-            # if this is an edit request
-            if self.pk is not None:
-                #if no input_ fields have changed, then save without rerunning scenario analysis
-                first_run = False
-                #TODO: might move the following into a function rerun=inputs_have_changed()
-                orig = MOS.objects.get(pk=self.pk)
-                input_fields = [f for f in self._meta.fields if f.attname.startswith('input_')]
-                for f in input_fields:
-                    if getattr(orig, f.name) != getattr(self, f.name):
-                        rerun = True
-                        break
-                if not rerun:
-                    #IMPORTANT NOTE:  We can't compare the objectives until we save m2m
-                    #first collect the original objectives, parameters, and substrate values, then save, then compare 
-                    from itertools import chain
-                    orig_objs = list(chain(self.input_objectives_energy.all(), self.input_objectives_conservation.all(), self.input_objectives_development.all(), self.input_objectives_fisheries.all()))
-                    
-                    orig_dict = {}
-                    for obj in orig_objs:
-                        suffix = obj.objective.short_name
-                        #it appears that getattr returns a dynamic list (one that gets updated after call to super.save below)
-                        #casting to list here makes the list static, preventing automatic changes after super.save
-                        orig_dict['input_params_%s'%suffix] = list(getattr(self, 'input_parameters_%s'%suffix).all())
-                        orig_dict['input_substrate_%s'%suffix] = list(getattr(self, 'input_substrate_%s'%suffix).all())
-                    
-                    #save so that m2m variables are updated
-                    super(MOS, self).save(form=form)
-                    
-                    #get new objectives
-                    new_objs = self.input_objectives.all()
-                    
-                    #now compare for differences
-                            
-                    #compare obj lists
-                    if len(orig_objs) != len(new_objs):
-                        rerun = True
-                    else:
-                        objs_differ = len([i==j for i, j in zip(orig_objs, new_objs) if i!=j]) > 0
-                        if objs_differ:
-                            rerun = True
-                    if not rerun:
-                        for obj in orig_objs:
-                            suffix = obj.objective.short_name
-                            orig_params = orig_dict['input_params_%s'%suffix]
-                            new_params = getattr(self, 'input_parameters_%s'%suffix).all()
-                            if len(orig_params) != len(new_params):
-                                rerun = True
-                                break
-                            else:
-                                for i in range(len(orig_params)):
-                                    if orig_params[i] != new_params[i]:
-                                        rerun = True
-                                        break
-                            if not rerun:
-                                orig_substrate = orig_dict['input_substrate_%s'%suffix]
-                                new_substrate = getattr(self, 'input_substrate_%s'%suffix).all()
-                                if len(orig_substrate) != len(new_substrate):
-                                    rerun = True
-                                    break
-                                else:
-                                    for i in range(len(orig_substrate)):
-                                        if orig_substrate[i] != new_substrate[i]:
-                                            rerun = True
-                                            break
-            
+            self.name = form_data['name']
             #NOTE:  This might need to be used to save self (maybe with form kwarg?) to save instance before scenarios are built
             super(MOS, self).save(form=form)
             
-            if first_run or rerun: 
-                #remove old scenarios from this multi-objective scenario object 
-                #TODO:  consider optimizing this so that it only removes those scenarios that need to be re-generated
-                old_scenarios = Scenario.objects.filter(mos=self.id)
-                for old_scenario in old_scenarios:
-                    self.scenarios.remove(old_scenario) #removes the relationship but not the scenario itself
-                    old_scenario.delete()              #removes the actual scenario
-                                
-                #generate new scenarios
-                '''
-                energy_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_energy']]
-                conservation_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_conservation']]
-                development_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_development']]
-                fisheries_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_fisheries']]
-                '''  
-                input_objectives = [obj.objective for obj in form_data['input_objectives_energy']]
-                input_objectives += [obj.objective for obj in form_data['input_objectives_conservation']]
-                input_objectives += [obj.objective for obj in form_data['input_objectives_development']]
-                input_objectives += [obj.objective for obj in form_data['input_objectives_fisheries']]
-                                
-                for obj in input_objectives:
-                    #obj_id = obj.objective.id
-                    obj_short_name = obj.short_name
-                    scenario_name = name + '_%s' % obj_short_name
-                    
-                    params = form_data['input_parameters_%s'%obj_short_name]
-                    
-                    dist_shore = form_data['input_dist_shore_%s'%obj_short_name]
-                    dist_port = form_data['input_dist_port_%s'%obj_short_name]
-                    min_depth = form_data['input_min_depth_%s'%obj_short_name]
-                    max_depth = form_data['input_max_depth_%s'%obj_short_name]
-                    substrates = form_data['input_substrate_%s'%obj_short_name]
-                    
-                    scenario = Scenario(user=user, name=scenario_name, input_objective=obj, input_dist_shore=dist_shore,
-                                        input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth)            
-                    scenario.save(rerun=False)
-                    
-                    for param in params:
-                        scenario.input_parameters.add(param.parameter)
-                        for substrate in substrates:
-                            scenario.input_substrate.add(substrate)
-                    scenario.save()
-                    self.scenarios.add(scenario)
-                    
+            #accumulate input objectives into single field
+            energy_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_energy']]
+            conservation_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_conservation']]
+            development_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_development']]
+            fisheries_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_fisheries']]
+
+            #run analysis on scenarios only when necessary
+            for obj in self.input_objectives.all():
+                rerun = None
+                obj_short_name = obj.short_name
+                #note:  this is not the name provided in the kml.  this name is purely for referential purposes
+                scenario_name = self.name + '_%s' % obj_short_name
+                
+                params = form_data['input_parameters_%s'%obj_short_name]
+                input_params = [param.parameter for param in params]
+                
+                #do we need to grab these from the form or are they already stored in the MOS fields?
+                #probably stored in the fields already, but we do this to keep the code re-usable for all objectives
+                dist_shore = form_data['input_dist_shore_%s'%obj_short_name]
+                dist_port = form_data['input_dist_port_%s'%obj_short_name]
+                min_depth = form_data['input_min_depth_%s'%obj_short_name]
+                max_depth = form_data['input_max_depth_%s'%obj_short_name]
+                substrates = form_data['input_substrate_%s'%obj_short_name]
+                
+                scenarios = self.scenarios.filter(mos=self.id, input_objective=obj)
+                if len(scenarios) > 1: #not expecting this case to ever happen -- might want to log this event if it does...
+                    for scenario in scenarios:
+                        self.scenarios.remove(scenario) 
+                        scenario.delete()
+                    scenarios = []
+                if len(scenarios) == 1:
+                    scenario = scenarios[0]
+                    scenario_dict = {'user': user, 'name': scenario_name, 'input_parameters': input_params, 'input_objective': obj, 'input_dist_shore': dist_shore, 'input_dist_port': dist_port, 'input_min_depth': min_depth, 'input_max_depth': max_depth}
+                    if scenario.needs_rerun(scenario_dict):
+                        rerun = True
+                    scenario.__dict__.update(scenario_dict)
+                else:
+                    scenario = Scenario(user=user, name=scenario_name, input_objective=obj, input_dist_shore=dist_shore, input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth)            
+                scenario.save(rerun=False)
+                
+                if set(scenario.input_parameters.all()) != set(input_params) or set(scenario.input_substrate.all()) != set(substrates):
+                    rerun = True   
+                scenario.input_parameters = input_params                    
+                scenario.input_substrate = substrates
+                
+                scenario.save(rerun=rerun)
+                self.scenarios.add(scenario)
+        
+        #remove any unwanted scenarios
+        objs = self.input_objectives.all()
+        scenarios = self.scenarios.exclude(input_objective__in=objs)
+        scenarios.delete()
+        
+        #TODO:  why are we running analysis twice when creating scenarios initially???
         super(MOS, self).save(*args, **kwargs)
 
     def __unicode__(self):
@@ -265,25 +235,7 @@ class MOS(Feature):
         
     def support_filename(self):
         return os.path.basename(self.support_file.name)
-    '''      
-    #@property
-    #def input_objectives(self):
-        #return list(chain(self.input_objectives_energy.all(), self.input_objectives_conservation.all(), self.input_objectives_development.all(), self.input_objectives_fisheries.all()))
-          
-    @property
-    def input_objective_names(self):
-        import pdb
-        pdb.set_trace()
-        names = []
-        energy_names = [obj.objective.short_name for obj in self.input_objectives_energy.all()]
-        conservation_names = [obj.objective.short_name for obj in self.input_objectives_conservation.all()]
-        development_names = [obj.objective.short_name for obj in self.input_objectives_development.all()]
-        fisheries_names = [obj.objective.short_name for obj in self.input_objectives_fisheries.all()]
-        names = energy_names + conservation_names + development_names + fisheries_names
-        return names
-        #obj.objective.short_name
-        #return getattr(self, 'input_objectives_%s' %self.input_objective.short_name)
-    '''      
+    
     @property
     def objective_ids(self):
         obj_ids = [scenario.input_objective.id for scenario in self.scenarios.all()]
@@ -422,7 +374,9 @@ class Scenario(Analysis):
     
     def run(self):
         from lingcod.analysistools.grass import Grass
-
+        print
+        print 'RUNNING GRASS ANALYSIS ON: %s' %self.name 
+        print
         #g = Grass('pacnw_utm10', 
         g = Grass('wa_marine_planner',
                 gisbase=settings.GISBASE, #"/usr/local/grass-6.4.1RC2", 
@@ -512,24 +466,27 @@ class Scenario(Analysis):
 
         return True
         
-    def save(self, rerun=True, *args, **kwargs):
+    def save(self, rerun=None, *args, **kwargs):
         # only rerun the analysis if any of the input_ fields have changed
         # ie if name and description change no need to rerun the full analysis
-        if self.pk is not None:
+        #if self.pk is None: #if new Scenario
+        #    super(Scenario, self).save(rerun=True, *args, **kwargs)
+        if rerun is None and self.pk is not None: #if editing a scenario and no value for rerun is given
             rerun = False
-            outputs = Scenario.output_fields()
-            for output in outputs:
-                if output.null:
+            #not sure the following is doing what I thought it should be doing...
+            #outputs = Scenario.output_fields()
+            #for output in outputs:
+            #    if output.null:
+            #        rerun = True
+            #        break
+            #if not rerun:
+            orig = Scenario.objects.get(pk=self.pk)
+            for f in Scenario.input_fields():
+                # Is original value different from form value?
+                #if orig._get_FIELD_display(f) != getattr(self,f.name):
+                if getattr(orig, f.name) != getattr(self, f.name):
                     rerun = True
-                    break
-            if not rerun:
-                orig = Scenario.objects.get(pk=self.pk)
-                for f in Scenario.input_fields():
-                    # Is original value different from form value?
-                    #if orig._get_FIELD_display(f) != getattr(self,f.name):
-                    if getattr(orig, f.name) != getattr(self, f.name):
-                        rerun = True
-                        break
+                    break                                                                                                                   
             if not rerun:
                 #the substrates need to be grabbed, then saved, then grabbed again because (regardless of whether we use orig or self) 
                 #both getattr calls return the same original list until the model has been saved 
@@ -540,7 +497,9 @@ class Scenario(Analysis):
                 new_substrates = set(getattr(self, 'input_substrate').all())
                 if orig_substrates != new_substrates:
                     rerun = True
-        super(Scenario, self).save(rerun=rerun, *args, **kwargs)
+            super(Scenario, self).save(rerun=rerun, *args, **kwargs)
+        else: #editing a scenario and rerun is provided 
+            super(Scenario, self).save(rerun=rerun, *args, **kwargs)
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -548,6 +507,22 @@ class Scenario(Analysis):
     def support_filename(self):
         return os.path.basename(self.support_file.name)
         
+    def needs_rerun(self, input_dict):
+        rerun = False
+        input_fields = Scenario.input_fields()
+        for field in input_fields:
+            try:
+                if getattr(self, field.name) != input_dict[field.name]:
+                    rerun = True
+                    break
+            except KeyError:
+                print
+                print 'KEYERROR in Scenario.needs_rerun'
+                print '%s not found in needs_rerun.input_dict' %field.name
+                print
+                rerun = True
+        return rerun
+    
     @classmethod
     def mapnik_geomfield(self):
         return "output_geom"
@@ -573,13 +548,13 @@ class Scenario(Analysis):
     #def input_substrate(self):
     #    return getattr(self, 'input_substrate_%s' %self.input_objective.short_name)
         
-    @property
-    def input_depth_class(self):
-        return getattr(self, 'input_depth_class_%s' %self.input_objective.short_name)
+    #@property
+    #def input_depth_class(self):
+    #    return getattr(self, 'input_depth_class_%s' %self.input_objective.short_name)
         
-    @property
-    def input_geomorphology(self):
-        return getattr(self, 'input_geomorphology_%s' %self.input_objective.short_name)
+    #@property
+    #def input_geomorphology(self):
+    #    return getattr(self, 'input_geomorphology_%s' %self.input_objective.short_name)
         
     #@property
     #def input_parameters(self):        
@@ -678,6 +653,7 @@ class Scenario(Analysis):
     
     class Options:
         verbose_name = 'Scenario'
+        #ordering = ['id']
         form = 'scenario.forms.ScenarioForm'
         form_template = 'scenario/form.html'
         show_template = 'scenario/show.html'
