@@ -45,10 +45,11 @@ class SubstrateModelMultipleChoiceField(ModelMultipleChoiceField):
         
 '''        
 class ScenarioForm(FeatureForm):
-    description = forms.CharField(widget=forms.Textarea(attrs={'cols': 30, 'rows': 3}), required=False)
+    #description = forms.CharField(widget=forms.Textarea(attrs={'cols': 30, 'rows': 3}), required=False)
     #file = forms.FileField(widget=forms.ClearableFileInput(attrs={'style': 'top:0px;margin-bottom:0px'), max_length=70, required=False) #using ClearableFileInput produces poorly formatted edit form
-    support_file = ValidFileField(widget=AdminFileWidget,required=False,label="Support File")
-        #could optionally add a param similar to the following:  help_text="(e.g. a pdf or text document that explains this scenario)"
+    #support_file = ValidFileField(widget=AdminFileWidget,required=False,label="Support File")
+    #could optionally add a param similar to the following:  help_text="(e.g. a pdf or text document that explains this scenario)"
+    
     input_objective = forms.ModelChoiceField(   queryset=Objective.objects.all().order_by('id'), 
                                                 widget=forms.RadioSelect(attrs={'class': 'objectives'}),
                                                 required=False, 
@@ -59,21 +60,20 @@ class ScenarioForm(FeatureForm):
                                                         #initial = Parameter.objects.all(),
                                                         label="")
     input_dist_shore = forms.FloatField(min_value=0, max_value=40, initial=5,
-            widget=SliderWidget(min=0,max=40,step=.5),
-            label="Within distance of Shore (km)")
-    input_dist_port = forms.FloatField(min_value=0, max_value=100, initial=10,
-            widget=SliderWidget(min=0,max=100,step=1),
-            label="Within distance of Port (km)")
+                                        widget=SliderWidget(min=0,max=40,step=.5),
+                                        label="Within distance of Shore (km)")
+    input_dist_port = forms.FloatField( min_value=0, max_value=100, initial=10,
+                                        widget=SliderWidget(min=0,max=100,step=1),
+                                        label="Within distance of Port (km)")
     input_min_depth = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}))
     input_max_depth = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}))
     # Dummy field to set both of the above
-    input_depth = forms.FloatField(min_value=-1000, max_value=0, initial=0,
-            widget=DualSliderWidget('input_min_depth','input_max_depth',
-                                    min=-1000,max=0,step=10),
-            label="Depth Range (meters)")
-    input_substrate = SubstrateModelMultipleChoiceField(queryset=Substrate.objects.all().order_by('id'), 
-                                                        widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
-                                                        label="Include areas with the following Substrate Types") 
+    input_depth = forms.FloatField( min_value=-1000, max_value=0, initial=0,
+                                    widget=DualSliderWidget('input_min_depth','input_max_depth', min=-1000,max=0,step=10),
+                                    label="Depth Range (meters)")
+    input_substrate = ModelMultipleChoiceField( queryset=Substrate.objects.all().order_by('id'), 
+                                                widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
+                                                label="Include areas with the following Substrate Types") 
    
     def save(self, commit=True):
         inst = super(FeatureForm, self).save(commit=False)
@@ -152,6 +152,7 @@ class MOSForm(FeatureForm):
     
     # Objective 1 - Tidal Energy
     # NOTE:  The input parameters must be ordered by id 
+    
     input_parameters_tidal_energy = forms.ModelMultipleChoiceField( queryset=TidalEnergyParameter.objects.all().order_by('id'),
                                                                     widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_tidal_energy'}),
                                                                     required=False, 
