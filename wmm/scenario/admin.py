@@ -49,47 +49,47 @@ class ParameterAdmin(admin.ModelAdmin):
 admin.site.register(Parameter, ParameterAdmin)
 
 class TidalEnergyParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter']
+    list_display = ['parameter', 'id']
     fields = ['parameter']
 admin.site.register(TidalEnergyParameter, TidalEnergyParameterAdmin)
 
 class WaveEnergyParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter']
+    list_display = ['parameter', 'id']
     fields = ['parameter']
 admin.site.register(WaveEnergyParameter, WaveEnergyParameterAdmin)
 
 class WindEnergyParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter']
+    list_display = ['parameter', 'id']
     fields = ['parameter']
 admin.site.register(WindEnergyParameter, WindEnergyParameterAdmin)
 
 class OffshoreConservationParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter']
+    list_display = ['parameter', 'id']
     fields = ['parameter']
 admin.site.register(OffshoreConservationParameter, OffshoreConservationParameterAdmin)
 
 class NearshoreConservationParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter']
+    list_display = ['parameter', 'id']
     fields = ['parameter']
 admin.site.register(NearshoreConservationParameter, NearshoreConservationParameterAdmin)
 
 class WaterColumnConservationParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter']
+    list_display = ['parameter', 'id']
     fields = ['parameter']
 admin.site.register(WaterColumnConservationParameter, WaterColumnConservationParameterAdmin)
 
 class ShoresideDevelopmentParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter']
+    list_display = ['parameter', 'id']
     fields = ['parameter']
 admin.site.register(ShoresideDevelopmentParameter, ShoresideDevelopmentParameterAdmin)
 
 class ShellfishAquacultureParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter']
+    list_display = ['parameter', 'id']
     fields = ['parameter']
 admin.site.register(ShellfishAquacultureParameter, ShellfishAquacultureParameterAdmin)
 
 class OffshoreFishingParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter']
+    list_display = ['parameter', 'id']
     fields = ['parameter']
 admin.site.register(OffshoreFishingParameter, OffshoreFishingParameterAdmin)
 

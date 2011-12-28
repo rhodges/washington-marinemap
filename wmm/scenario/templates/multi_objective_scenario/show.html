@@ -55,6 +55,22 @@
                             {% endfor %}
                             </ul>
                             {% endif %}
+                            {% if 6 in scenario.input_parameter_ids %}
+                            <p> Depth Classes: </p>
+                            <ul>
+                            {% for depth_class in scenario.input_depth_class_names %}
+                                <li> {{depth_class}} </li>
+                            {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if 7 in scenario.input_parameter_ids %}
+                            <p> Geomorphologies: </p>
+                            <ul>
+                            {% for geomorphology in scenario.input_geomorphology_names %}
+                                <li> {{geomorphology}} </li>
+                            {% endfor %}
+                            </ul>
+                            {% endif %}
                         </div>
                 </div>
                 {% endfor %}

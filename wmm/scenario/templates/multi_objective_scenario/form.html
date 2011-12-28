@@ -14,13 +14,14 @@
                             'fisheries': ['offshore_fishing', 'shellfish_aquaculture'], 
                             'development': ['shoreside_development'] };
                             
-        parameters_list = [ 'distance_shore', 'distance_port', 'depth', 'substrate'];
+        //parameters_dict parameters ordering needs to match the ordering found in each <objective>parameter table in the db                     
+        parameters_list = [ 'distance_shore', 'distance_port', 'depth', 'substrate', 'depth_class', 'geomorphology'];
         parameters_dict = { 'tidal_energy': ['distance_shore', 'distance_port', 'depth', 'substrate'],
                             'wave_energy': ['distance_shore', 'distance_port', 'depth', 'substrate'],
                             'wind_energy': ['distance_shore', 'distance_port', 'depth', 'substrate'],
-                            'offshore_conservation': ['depth', 'substrate'],
+                            'offshore_conservation': ['substrate', 'depth_class', 'geomorphology'],
                             'nearshore_conservation': ['substrate'],
-                            'water_column_conservation': ['depth'],
+                            'water_column_conservation': ['depth_class'],
                             'offshore_fishing': ['distance_port', 'depth', 'substrate'],
                             'shellfish_aquaculture': ['distance_shore', 'depth', 'substrate'],
                             'shoreside_development': ['distance_shore'] };
@@ -53,20 +54,20 @@
         var initial_params = {};
         var selected_params = {};
         if (is_edit) {
-            console.log('is edit');
+            //console.log('is edit');
             var params = $('input.parameters');  
             
             $.each(selected_objectives, function(key, value) {
-                console.log('key='+key);
-                console.log('value='+value);
+                //console.log('key='+key);
+                //console.log('value='+value);
                 $.each(value, function(index, obj) {
-                    console.log('class=parameters_'+obj);
+                    //console.log('class=parameters_'+obj);
                     var obj_params = $('input.parameters_'+obj);
                     param_list = []
                     $.each(obj_params, function(index, param) { 
-                        console.log(param);
+                        //console.log(param);
                         if (param.checked) {
-                            console.log(param + ' is checked');
+                            //console.log(param.name + ' is checked');
                             //NOTE:  The following relies on db table pk's starting at 1 
                             param_list.push(parameters_dict[obj][param.value-1]);
                         }
@@ -74,7 +75,9 @@
                     selected_params[obj] = param_list;
                 });
             });
-            console.log('selected_params = ' + selected_params);
+            $.each(selected_params, function(index, param) {
+                //console.log('selected_params = ' + param);
+            });
         }
         
         function get_selected_objectives() {
@@ -119,17 +122,27 @@
         
         function get_selected_params() {
             var selected_params = {};
+            //console.log('Entering get_selected_params...');
             $.each(selected_objectives, function(key, value) {
+                //console.log('selected category: ' + key);
+                //console.log('selected objective: ' + value);
                 $.each(value, function(index, obj) {
                     var obj_params = $('input.parameters_'+obj);
                     param_list = []
                     $.each(obj_params, function(index, param) {
+                        //console.log('objective parameter: ' + param.name);
                         if (param.checked) {
+                            console.log(param.name + ' is checked');
+                            console.log('pushing ' + obj + ' ' + param.value + ' from parameters_dict');
                             param_list.push(parameters_dict[obj][param.value-1]);
                         }
                     });
                     selected_params[obj] = param_list;
                 });
+            });
+            //console.log('Leaving get_selected_params...');
+            $.each(selected_params, function(obj, param_list) {
+                console.log('returning ' + param_list + ' from get_selected_params');
             });
             return selected_params;
         };
@@ -223,9 +236,9 @@
                     //show only those widgets and widget headers that have been selected by the user
                     $.each(selected_params, function(obj, param_list) {
                         $('#'+obj+'_widgets_header').show();
-                        //console.log(param_list);
+                        console.log('showing ' + param_list);
                         $(param_list).each( function(index, param) {
-                            //console.log('#'+param+'_'+obj);
+                            console.log('showing #'+param+'_'+obj);
                             $('#'+param+'_'+obj+'_widget').show();
                         });
                     });
@@ -567,6 +580,14 @@ span.form-image > img { width:46px; height:46px; }
             </div>
         </div>
         
+        <!-- Offshore Conservation experimental header
+        <div id="offshore_conservation_widgets_header">
+            <h3>Offshore Conservation 
+            <small><small>(<a id="showWidgets_conservation" href="javascript:toggleParams('offshore_conservation_widgets', 'showWidgets_conservation');">Hide Parameters</a>):</small></small>
+            </h3> 
+        </div>
+        <p>
+        -->
         <!-- Offshore Conservation -->
         <div id="offshore_conservation_widgets_header" style="text-indent:1em">
             <p><strong>Offshore Conservation</strong>  
@@ -604,6 +625,20 @@ span.form-image > img { width:46px; height:46px; }
                     {{ form.input_substrate_offshore_conservation.label_tag }}
                     {{ form.input_substrate_offshore_conservation.errors }}
                     <p>{{ form.input_substrate_offshore_conservation }} </p>
+                </div>
+            </div>
+            <div id="depth_class_offshore_conservation_widget" class="inputfield">
+                <div class="field required">
+                    {{ form.input_depth_class_offshore_conservation.label_tag }}
+                    {{ form.input_depth_class_offshore_conservation.errors }}
+                    <p>{{ form.input_depth_class_offshore_conservation }} </p>
+                </div>
+            </div>
+            <div id="geomorphology_offshore_conservation_widget" class="inputfield">
+                <div class="field required">
+                    {{ form.input_geomorphology_offshore_conservation.label_tag }}
+                    {{ form.input_geomorphology_offshore_conservation.errors }}
+                    <p>{{ form.input_geomorphology_offshore_conservation }} </p>
                 </div>
             </div>
         </div>
@@ -647,6 +682,13 @@ span.form-image > img { width:46px; height:46px; }
                     <p>{{ form.input_substrate_nearshore_conservation }} </p>
                 </div>
             </div>
+            <div id="depth_class_nearshore_conservation_widget" class="inputfield">
+                <div class="field required">
+                    {{ form.input_depth_class_nearshore_conservation.label_tag }}
+                    {{ form.input_depth_class_nearshore_conservation.errors }}
+                    <p>{{ form.input_depth_class_nearshore_conservation }} </p>
+                </div>
+            </div>
         </div>
     
         <!-- Water Column Conservation -->
@@ -686,6 +728,13 @@ span.form-image > img { width:46px; height:46px; }
                     {{ form.input_substrate_water_column_conservation.label_tag }}
                     {{ form.input_substrate_water_column_conservation.errors }}
                     <p>{{ form.input_substrate_water_column_conservation }} </p>
+                </div>
+            </div>
+            <div id="depth_class_water_column_conservation_widget" class="inputfield">
+                <div class="field required">
+                    {{ form.input_depth_class_water_column_conservation.label_tag }}
+                    {{ form.input_depth_class_water_column_conservation.errors }}
+                    <p>{{ form.input_depth_class_water_column_conservation }} </p>
                 </div>
             </div>
         </div>
