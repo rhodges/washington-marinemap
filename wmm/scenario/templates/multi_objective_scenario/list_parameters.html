@@ -1,0 +1,31 @@
+
+{% for objective, parameter_list in current_params.items %}
+<p><strong>{{objective.name}}</strong> Parameters 
+(<a id="showParameters_{{objective.id}}" href="javascript:toggleParams('parameters_{{objective.id}}', 'showParameters_{{objective.id}}');">Hide Parameters</a>):</p>
+<div id="parameters_{{objective.id}}">
+<ul>
+    {% for parameter in parameter_list %}
+    <li>
+        <label for="id_input_parameters_{{objective.id}}">
+            <input  id="id_input_parameters_{{objective.id}}" 
+                    class="parameters_{{objective.id}}" 
+                    type="checkbox" 
+                    value="{{parameter.id}}" 
+                    name="input_parameters" 
+                    {% if parameter.id in checked_list or parameter.id not in previous_params %}
+                    checked="checked"
+                    {% endif %}
+                    >
+            {% if parameter.id == 3 %}
+                Depth
+            {% else %}
+                {{ parameter.name }}
+            {% endif %}
+        </label>
+    </li>
+    {% endfor %}
+</ul>
+</div>
+{% endfor %}
+<p></p>
+    
