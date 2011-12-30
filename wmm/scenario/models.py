@@ -244,7 +244,54 @@ class MOS(Feature):
     def objective_ids(self):
         obj_ids = [scenario.input_objective.id for scenario in self.scenarios.all()]
         return obj_ids
-          
+         
+    #def mos_name(self, scenario):
+    #    return scenario.mos_set.all()[0].name
+       
+    @property       
+    def description_html(self):
+        if self.description:
+            return "<p><strong>Description:</strong> %s</p>" %self.description
+        else:
+            return ""
+        
+    def parameter_html(self, scenario):
+        html = "" 
+        parameter_ids = scenario.input_parameter_ids
+        if 1 in parameter_ids:
+            #the symbol had to be replaced with &#60; ('<' breaks the html, and &lt; was not working either for some reason...)
+            html += "<p><strong> Distance to Shore</strong> &#60;= %s miles</p>" % scenario.input_dist_shore
+        if 2 in parameter_ids:
+            #the symbol had to be replaced with &#60; ('<' breaks the html, and &lt; was not working either for some reason...)
+            html += "<p><strong> Distance to Port</strong> &#60;= %s miles</p>" % scenario.input_dist_port
+        if 3 in parameter_ids:
+            html += "<p><strong> Depth Range:</strong> %s to %s feet</p>" % (scenario.input_min_depth, scenario.input_max_depth)
+        if 5 in parameter_ids:
+            html += '<p><strong> Substrates:</strong> [ '
+            html += ", ".join(scenario.input_substrate_names)
+            html += " ]</p>"
+            #html += "<ul>"
+            #for substrate in scenario.input_substrate_names:
+            #    html += "<li>%s</li>" %substrate
+            #html += "</ul></p>"
+        if 6 in parameter_ids:
+            html += "<p><strong> Depth Classes:</strong> [ "
+            html += ", ".join(scenario.input_depth_class_names)
+            html += " ]</p>"
+            #html += "<ul>"
+            #for depth_class in scenario.input_depth_class_names:
+            #    html += "<li>%s</li>" %depth_class
+            #html += "</ul></p>"
+        if 7 in parameter_ids:
+            html += "<p><strong> Geomorphologies:</strong> [ "
+            html += ", ".join(scenario.input_geomorphology_names)
+            html += " ]</p>"
+            #html += "<ul>"
+            #for geomorphology in scenario.input_geomorphology_names:
+            #    html += "<li>%s</li>" %geomorphology
+            #html += "</ul></p>"
+        return html 
+         
     '''
     @property 
     def kml_working(self):
@@ -267,8 +314,11 @@ class MOS(Feature):
     @property 
     def kml(self):        
         combined_kml = '<Folder id="%s"><name>%s</name><visibility>0</visibility><open>0</open>' %(self.uid, self.name)
+        #mos_name = escape(self.name)
+        #print 'mos_name = %s' %mos_name
         for scenario in self.scenarios.all():
-            name = self.name + '_' + scenario.input_objective.name
+            obj = scenario.input_objective.name
+            #name = scenario.mos_set.all()[0].name #why is this not working...?
             kml =   """
                     %s
                     <Placemark>
@@ -276,9 +326,11 @@ class MOS(Feature):
                         <name>%s</name>
                         <styleUrl>#%s-default</styleUrl>
                         <ExtendedData>
-                            <Data name="name"><value>%s</value></Data>
+                            <Data name="mos_name"><value>%s</value></Data>
+                            <Data name="obj"><value>%s</value></Data>
                             <Data name="user"><value>%s</value></Data>
                             <Data name="desc"><value>%s</value></Data>
+                            <Data name="params"><value>%s</value></Data>
                             <Data name="type"><value>%s</value></Data>
                             <Data name="modified"><value>%s</value></Data>
                         </ExtendedData>
@@ -286,8 +338,9 @@ class MOS(Feature):
                         %s
                         </MultiGeometry>
                     </Placemark>
-                    """ % ( self.scenario_style(scenario.color), escape(name), self.model_uid(),
-                            escape(self.name), self.user, escape(self.description), self.Options.verbose_name, self.date_modified.replace(microsecond=0), 
+                    """ % ( self.scenario_style(scenario.color), obj, self.model_uid(),
+                            self.name, obj, self.user, escape(self.description_html), escape(self.parameter_html(scenario)),
+                            self.Options.verbose_name, self.date_modified.replace(microsecond=0), 
                             asKml(scenario.output_geom.transform( settings.GEOMETRY_CLIENT_SRID, clone=True)) )
             combined_kml += kml
         combined_kml += "</Folder>"
@@ -299,8 +352,13 @@ class MOS(Feature):
             <BalloonStyle>
                 <bgColor>ffeeeeee</bgColor>
                 <text> <![CDATA[
-                    <font color="#1A3752"><strong>$[name]</strong></font><br />
-                    <p>$[desc]</p>
+                    <font color="#1A3752">
+                    <p><strong>Multi-Objective Scenario:</strong> $[mos_name]</p>
+                    $[desc]
+                    <p><strong>Objective:</strong> $[obj]</p> 
+                    <p>$[params]</p>
+                    <p>
+                    </font>                    
                     <font size=1>$[type] created by $[user] on $[modified]</font>
                 ]]> </text>
             </BalloonStyle>
