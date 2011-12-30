@@ -1,0 +1,44 @@
+[
+    {
+        "pk": 1, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "substrate": 7
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "substrate": 5
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "substrate": 4
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "substrate": 2
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "substrate": 3
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "substrate": 1
+        }
+    }
+]

@@ -21,9 +21,9 @@
         var selected_params = [];
         if (is_edit) {
             var params = $('input.parameters');        
-            $.each(params, function(index, obj) {
-                if (obj.checked) {
-                    selected_params.push(obj.value);
+            $.each(params, function(index, param) {
+                if (param.checked) {
+                    selected_params.push(param.value);
                 }
             });
         }
