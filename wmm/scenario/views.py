@@ -6,6 +6,19 @@ import settings
 
 '''
 '''
+def scenario_report(request, mos_id, scenario_id):
+    mos_obj = get_object_or_404(MOS, pk=mos_id)
+    #check permissions
+    viewable, response = mos_obj.is_viewable(request.user)
+    if not viewable:
+        return response
+    scenario_obj = get_object_or_404(Scenario, pk=scenario_id)
+    
+    from mos.scenario_report import display_scenario_report
+    return display_scenario_report(request, mos_obj, scenario_obj)
+    
+'''
+'''
 def tradeoff_analysis(request):
     if (request.POST):
         x_axis = request.POST.getlist('selected_x')[0]
@@ -60,8 +73,6 @@ def conservation_analysis(request, cs_id, type):
     
 '''    
 def get_objs(request, instance):
-    import pdb
-    pdb.set_trace()
     context = {}
     return HttpResponse(context)
 '''
@@ -98,8 +109,6 @@ def post_params(request, template='multi_objective_scenario/input_parameters.htm
         selected_objs = getlist(request, 'selected_objs[]')
         for obj_id in selected_objs:
             selected_params[Objective.objects.get(pk=obj_id)] = getlist(request, 'selected_params[%s]'%obj_id)
-        import pdb
-        pdb.set_trace()
         #form = request.POST
         context = {'selected_params': selected_params, 'selected_objs': selected_objs, 'form': form}
         return render_to_response(template, RequestContext(request, context))
