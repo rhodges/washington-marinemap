@@ -12,6 +12,7 @@ DATABASES = {
      }
 }
 
+#TODO change db srid to 26910
 GEOMETRY_DB_SRID = 32610 
 
 TIME_ZONE = 'America/Vancouver'
@@ -27,7 +28,8 @@ TEMPLATE_DIRS = ( os.path.realpath(os.path.join(os.path.dirname(__file__), 'temp
 
 INSTALLED_APPS += ( 'lingcod.analysistools', 
                     'scenario',
-                    'wmm_manipulators')
+                    'wmm_manipulators',
+                    'lingcod.raster_stats')
 
 
 COMPRESS_JS['application']['source_filenames'] += (
@@ -37,14 +39,21 @@ COMPRESS_JS['application']['source_filenames'] += (
     'wmm/js/jqplot.canvasTextRenderer.js',
     'wmm/js/jqplot.canvasAxisLabelRenderer.js',
     'wmm/js/jqplot.highlighter.js',
-    'wmm/js/jqplot.enhancedLegendRenderer.js'
+    'wmm/js/jqplot.enhancedLegendRenderer.js',
+    'wmm/js/jqplot.barRenderer.js',
+    'wmm/js/jqplot.categoryAxisRenderer.js',
+    'wmm/js/jqplot.pointLabels.js'
 )                    
                     
 COMPRESS_CSS['application']['source_filenames'] += (
     'wmm/css/analysis_reports.css',
     'wmm/css/jquery.jqplot.css',
 )
-                    
+  
+#was hoping one of the following would speed up the rendering process (it's timing out too often as it is), but not seeing any improvement
+#KML_SIMPLIFY_TOLERANCE = 180 # meters (default is 20)
+#KML_SIMPLIFY_TOLERANCE_DEGREES = 0.002 # (default is 0.0002)
+     
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '3j9~fjio+adjf93iwashingtonjda()#Jfk3ljf-ea9#$@#90dsfj9@0aj3()*fj3iow2f'
 
