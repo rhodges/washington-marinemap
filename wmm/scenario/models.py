@@ -10,6 +10,7 @@ from lingcod.common.utils import asKml
 from lingcod.features.models import Feature, PointFeature, LineFeature, PolygonFeature, FeatureCollection
 from lingcod.layers.models import PrivateLayerList
 from utils import miles_to_meters, feet_to_meters
+from django.utils import simplejson
 
 
 @register
@@ -432,6 +433,8 @@ class Scenario(Analysis):
     output_mapcalc = models.CharField(max_length=360, null=True, blank=True)
     output_area = models.FloatField(verbose_name="Total Area (sq km)", null=True, blank=True)
     
+    output_substrate_stats = models.TextField(max_length=360, null=True, blank=True)
+    
     geometry_final = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Final Scenario Geometry")
     
     def run(self):
@@ -461,6 +464,7 @@ class Scenario(Analysis):
         result = 0
         
         #The following integers relate to the primary ids in the scenario_parameter table
+        #TODO swap out numbers with parameter_names (I'm thinking the volatility that is introduced is worth the increase in readability)
         if 1 in input_params:
             g.run('r.buffer input=shoreline_rast output=shoreline_rast_buffer distances=%s' % miles_to_meters(self.input_dist_shore) )
             shoreline_buffer = 'if(shoreline_rast_buffer==2)'
@@ -501,6 +505,19 @@ class Scenario(Analysis):
         #mapcalc = """r.mapcalc "rresult = if((if(shoreline_rast_buffer==2) + if(port_buffer_rast) + if(bathy>%s && bathy<%s) + if(%s))==4,1,null())" """ % (self.input_min_depth, self.input_max_depth, substrate_formula) 
         g.run(mapcalc)
         self.output_mapcalc = mapcalc
+        
+        #substrate stats
+        substrate_result = """r.mapcalc "subresult = if(rresult==1,substrate,null())" """
+        g.run(substrate_result)
+        #r.stats -an generates area stats with area totals (-a), while ignoring null values (-n) (those areas outside of overlap)
+        substrate_stats = g.run('r.stats -an input=subresult')
+        substrate_split = substrate_stats.split()
+        #cast the area elements to integers (no need for the decimal value when dealing with meters)
+        substrate_ints = [int(float(x)) for x in substrate_split]
+        #note: we are now dealing with int areas rather than float strings 
+        substrate_dict = dict(zip(substrate_ints[::2], substrate_ints[1::2])) 
+        #use dumps to save and loads to extract
+        self.output_substrate_stats = simplejson.dumps(substrate_dict)
         
         g.run('r.to.vect input=rresult output=rresult_vect feature=area')
 
@@ -631,6 +648,11 @@ class Scenario(Analysis):
         #input_params = [p.parameter.id for p in self.input_parameters.all()]
         parameter_ids = [p.id for p in self.input_parameters.all()]
         return parameter_ids
+        
+    @property
+    def input_parameter_names(self):
+        parameter_names = [parameter.short_name for parameter in self.input_parameters.all()]
+        return parameter_names
         
     @property
     def input_substrate_names(self):
