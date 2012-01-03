@@ -434,6 +434,7 @@ class Scenario(Analysis):
     output_area = models.FloatField(verbose_name="Total Area (sq km)", null=True, blank=True)
     
     output_substrate_stats = models.TextField(max_length=360, null=True, blank=True)
+    output_depth_class_stats = models.TextField(max_length=360, null=True, blank=True)
     
     geometry_final = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Final Scenario Geometry")
     
@@ -518,6 +519,18 @@ class Scenario(Analysis):
         substrate_dict = dict(zip(substrate_ints[::2], substrate_ints[1::2])) 
         #use dumps to save and loads to extract
         self.output_substrate_stats = simplejson.dumps(substrate_dict)
+        
+        #depth class stats
+        depth_class_result = """r.mapcalc "dcresult = if(rresult==1,depth_class,null())" """
+        g.run(depth_class_result)
+        depth_class_stats = g.run('r.stats -an input_dcresult')
+        depth_class_split = depth_class_stats.split()
+        #cast the area elements to integers (no need for the decimal value when dealing with meters)
+        depth_class_ints = [int(float(x)) for x in depth_class_split]
+        #generate dictionary result
+        depth_class_dict = dict(zip(depth_class_ints[::2], depth_class_ints[1::2])) 
+        #use dumps to save and loads to extract
+        self.output_depth_class_stats = simplejson.dumps(depth_class_dict)
         
         g.run('r.to.vect input=rresult output=rresult_vect feature=area')
 
