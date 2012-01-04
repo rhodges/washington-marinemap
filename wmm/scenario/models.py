@@ -523,7 +523,7 @@ class Scenario(Analysis):
         #depth class stats
         depth_class_result = """r.mapcalc "dcresult = if(rresult==1,depth_class,null())" """
         g.run(depth_class_result)
-        depth_class_stats = g.run('r.stats -an input_dcresult')
+        depth_class_stats = g.run('r.stats -an input=dcresult')
         depth_class_split = depth_class_stats.split()
         #cast the area elements to integers (no need for the decimal value when dealing with meters)
         depth_class_ints = [int(float(x)) for x in depth_class_split]
@@ -565,34 +565,33 @@ class Scenario(Analysis):
         #    super(Scenario, self).save(rerun=True, *args, **kwargs)
         if rerun is None and self.pk is not None: #if editing a scenario and no value for rerun is given
             rerun = False
-            #not sure the following is doing what I thought it should be doing...
-            #outputs = Scenario.output_fields()
-            #for output in outputs:
-            #    if output.null:
-            #        rerun = True
-            #        break
-            #if not rerun:
-            orig = Scenario.objects.get(pk=self.pk)
-            for f in Scenario.input_fields():
-                # Is original value different from form value?
-                #if orig._get_FIELD_display(f) != getattr(self,f.name):
-                if getattr(orig, f.name) != getattr(self, f.name):
+            outputs = Scenario.output_fields()
+            for output in outputs:
+                if getattr(self, output.name) is None:
                     rerun = True
-                    break                                                                                                                   
+                    break
             if not rerun:
-                #the substrates need to be grabbed, then saved, then grabbed again because (regardless of whether we use orig or self) 
-                #both getattr calls return the same original list until the model has been saved 
-                #(I assume this means the form.save_m2m actually has to be called), after which calls to getattr 
-                #will return the same list (regardless of whether we use orig or self)
-                orig_substrates = set(getattr(orig, 'input_substrate').all())
-                orig_depth_classes = set(getattr(orig, 'input_depth_class').all())
-                orig_geomorphologies = set(getattr(orig, 'input_geomorphology').all())
-                super(Scenario, self).save(rerun=False, *args, **kwargs)
-                new_substrates = set(getattr(self, 'input_substrate').all())
-                new_depth_classes = set(getattr(self, 'input_depth_class').all())
-                new_geomorphologies = set(getattr(self, 'input_geomorphology').all())
-                if orig_substrates != new_substrates or orig_depth_classes != new_depth_classes or orig_geomorphologies != new_geomorphologies:
-                    rerun = True                    
+                orig = Scenario.objects.get(pk=self.pk)
+                for f in Scenario.input_fields():
+                    # Is original value different from form value?
+                    #if orig._get_FIELD_display(f) != getattr(self,f.name):
+                    if getattr(orig, f.name) != getattr(self, f.name):
+                        rerun = True
+                        break                                                                                                                   
+                if not rerun:
+                    #the substrates need to be grabbed, then saved, then grabbed again because (regardless of whether we use orig or self) 
+                    #both getattr calls return the same original list until the model has been saved 
+                    #(I assume this means the form.save_m2m actually has to be called), after which calls to getattr 
+                    #will return the same list (regardless of whether we use orig or self)
+                    orig_substrates = set(getattr(orig, 'input_substrate').all())
+                    orig_depth_classes = set(getattr(orig, 'input_depth_class').all())
+                    orig_geomorphologies = set(getattr(orig, 'input_geomorphology').all())
+                    super(Scenario, self).save(rerun=False, *args, **kwargs)
+                    new_substrates = set(getattr(self, 'input_substrate').all())
+                    new_depth_classes = set(getattr(self, 'input_depth_class').all())
+                    new_geomorphologies = set(getattr(self, 'input_geomorphology').all())
+                    if orig_substrates != new_substrates or orig_depth_classes != new_depth_classes or orig_geomorphologies != new_geomorphologies:
+                        rerun = True                    
             super(Scenario, self).save(rerun=rerun, *args, **kwargs)
         else: #editing a scenario and rerun is provided 
             super(Scenario, self).save(rerun=rerun, *args, **kwargs)

@@ -2,7 +2,7 @@
  * jqPlot
  * Pure JavaScript plotting plugin using jQuery
  *
- * Version: 1.0.0b2_r947
+ * Version: 1.0.0b2_r1012
  *
  * Copyright (c) 2009-2011 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
@@ -99,6 +99,12 @@
         // Allows backward compatability of bar renderer horizontal bars with 
         // old style data sets.
         this.transposedData = true;
+        this.renderer.animation = {
+            show: false,
+            direction: 'down',
+            speed: 3000,
+            _supported: true
+        };
         this._type = 'bar';
         
         // if user has passed in highlightMouseDown option and not set highlightMouseOver, disable highlightMouseOver
@@ -106,10 +112,25 @@
             options.highlightMouseOver = false;
         }
         
+        //////
+        // This is probably wrong here.
+        // After going back and forth on wether renderer should be the thing
+        // or extend the thing, it seems that it it best if it is a property
+        // on the thing.  This should be something that is commonized 
+        // among series renderers in the future.
+        //////
         $.extend(true, this, options);
+
+        // really should probably do this
+        $.extend(true, this.renderer, options);
         // fill is still needed to properly draw the legend.
         // bars have to be filled.
         this.fill = true;
+
+        // if horizontal bar and animating, reset the default direction
+        if (this.barDirection === 'horizontal' && this.rendererOptions.animation && this.rendererOptions.animation.direction == null) {
+            this.renderer.animation.direction = 'left';
+        }
         
         if (this.waterfall) {
             this.fillToZero = false;
