@@ -435,6 +435,7 @@ class Scenario(Analysis):
     
     output_substrate_stats = models.TextField(max_length=360, null=True, blank=True)
     output_depth_class_stats = models.TextField(max_length=360, null=True, blank=True)
+    output_geomorphology_stats = models.TextField(max_length=360, null=True, blank=True)
     
     geometry_final = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Final Scenario Geometry")
     
@@ -531,6 +532,18 @@ class Scenario(Analysis):
         depth_class_dict = dict(zip(depth_class_ints[::2], depth_class_ints[1::2])) 
         #use dumps to save and loads to extract
         self.output_depth_class_stats = simplejson.dumps(depth_class_dict)
+        
+        #geomorphology stats
+        geomorphology_result = """r.mapcalc "georesult = if(rresult==1,geomorphology,null())" """
+        g.run(geomorphology_result)
+        geomorphology_stats = g.run('r.stats -an input=georesult')
+        geomorphology_split = geomorphology_stats.split()
+        #cast the area elements to integers (no need for the decimal value when dealing with meters)
+        geomorphology_ints = [int(float(x)) for x in geomorphology_split]
+        #generate dictionary result
+        geomorphology_dict = dict(zip(geomorphology_ints[::2], geomorphology_ints[1::2])) 
+        #use dumps to save and loads to extract
+        self.output_geomorphology_stats = simplejson.dumps(geomorphology_dict)
         
         g.run('r.to.vect input=rresult output=rresult_vect feature=area')
 

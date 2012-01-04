@@ -13,6 +13,8 @@ substrate_extent = {'1': 377037332., '3': 1393314., '4': 28679009641., '5': 5315
 substrate_names = {'1': 'Boulder', '2': 'Cobble', '3': 'Island/Rock', '4': 'Mud', '5': 'Rock', '6': 'Sand', '7': 'Shell', '8': 'Gravel'}
 depth_class_extent = {'1': 20434120826., '2': 3204946935., '3': 4479278682., '4': 13152077003.}
 depth_class_names = {'1': 'Bathybenthal', '2': 'Innershelf', '3': 'Mesobenthal', '4': 'Midshelf'}
+geomorphology_extent = {'1': 4666468839., '3': 4993444064., '2': 25186067878., '4': 6424313054.}
+geomorphology_names = {'1': 'Basin', '2': 'Flat', '3': 'Ridge', '4': 'Slope'}
  
 '''
 '''
@@ -26,7 +28,8 @@ def get_scenario_context(mos, scenario):
     #get context from cache or from running analysis
     substrate_stats, substrate_table_height = get_substrate_stats(scenario)
     depth_class_stats, depth_class_table_height = get_depth_class_stats(scenario)
-    context = {'default_value': default_value, 'mos': mos, 'scenario': scenario, 'substrate_stats': substrate_stats, 'substrate_table_height': substrate_table_height, 'depth_class_stats': depth_class_stats, 'depth_class_table_height': depth_class_table_height}
+    geomorphology_stats, geomorphology_table_height = get_geomorphology_stats(scenario)
+    context = {'default_value': default_value, 'mos': mos, 'scenario': scenario, 'substrate_stats': substrate_stats, 'substrate_table_height': substrate_table_height, 'depth_class_stats': depth_class_stats, 'depth_class_table_height': depth_class_table_height, 'geomorphology_stats': geomorphology_stats, 'geomorphology_table_height': geomorphology_table_height}
     return context
    
 def get_substrate_stats(scenario):    
@@ -48,4 +51,14 @@ def get_depth_class_stats(scenario):
     depth_class_jstats = simplejson.dumps(depth_class_stats)
     depth_class_table_height = 40 * len(depth_class_stats.keys()) + 40   
     return depth_class_jstats, depth_class_table_height
+    
+def get_geomorphology_stats(scenario):   
+    geomorphology_dict = simplejson.loads(scenario.output_geomorphology_stats)
+    geomorphology_stats = {}
+    for key,value in geomorphology_dict.items():
+        if int(value / geomorphology_extent[key] * 100) > 0:
+            geomorphology_stats[geomorphology_names[key]] = int(value / geomorphology_extent[key] * 100)
+    geomorphology_jstats = simplejson.dumps(geomorphology_stats)
+    geomorphology_table_height = 40 * len(geomorphology_stats.keys()) + 40   
+    return geomorphology_jstats, geomorphology_table_height
     
