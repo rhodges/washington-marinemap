@@ -1,0 +1,514 @@
+[
+    {
+        "pk": 4, 
+        "model": "scenario.category", 
+        "fields": {
+            "name": "Development", 
+            "short_name": "development"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.category", 
+        "fields": {
+            "name": "Fisheries", 
+            "short_name": "fisheries"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.category", 
+        "fields": {
+            "name": "Conservation", 
+            "short_name": "conservation"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.category", 
+        "fields": {
+            "name": "Renewable Energy", 
+            "short_name": "energy"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "77C5B24B", 
+            "name": "Offshore Conservation", 
+            "short_name": "offshore_conservation"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "777F9722", 
+            "name": "Tidal Energy", 
+            "short_name": "tidal_energy"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "777FB4C5", 
+            "name": "Wind Energy", 
+            "short_name": "wind_energy"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "772DBBC8", 
+            "name": "Shoreside Development", 
+            "short_name": "shoreside_development"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "77722399", 
+            "name": "Shellfish Aquaculture", 
+            "short_name": "shellfish_aquaculture"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "77470B64", 
+            "name": "Offshore Fishing", 
+            "short_name": "offshore_fishing"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Wave Energy", 
+            "short_name": "wave_energy"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Nearshore Conservation", 
+            "short_name": "nearshore_conservation"
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Water Column Conservation", 
+            "short_name": "water_column_conservation"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.energyobjective", 
+        "fields": {
+            "objective": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.energyobjective", 
+        "fields": {
+            "objective": 7
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.energyobjective", 
+        "fields": {
+            "objective": 2
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.conservationobjective", 
+        "fields": {
+            "objective": 3
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.conservationobjective", 
+        "fields": {
+            "objective": 8
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.conservationobjective", 
+        "fields": {
+            "objective": 9
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.fisheriesobjective", 
+        "fields": {
+            "objective": 6
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.fisheriesobjective", 
+        "fields": {
+            "objective": 5
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.developmentobjective", 
+        "fields": {
+            "objective": 4
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Min Depth", 
+            "short_name": "need_to_populate"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Substrate", 
+            "short_name": "substrate"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Distance to Port", 
+            "short_name": "distance_port"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Distance to Shore", 
+            "short_name": "distance_shore"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Depth", 
+            "short_name": "depth"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Depth Class", 
+            "short_name": "depth_class"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Geomorphology", 
+            "short_name": "geomorphology"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.tidalenergyparameter", 
+        "fields": {
+            "parameter": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.tidalenergyparameter", 
+        "fields": {
+            "parameter": 2
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.tidalenergyparameter", 
+        "fields": {
+            "parameter": 3
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.tidalenergyparameter", 
+        "fields": {
+            "parameter": 5
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.windenergyparameter", 
+        "fields": {
+            "parameter": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.windenergyparameter", 
+        "fields": {
+            "parameter": 2
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.windenergyparameter", 
+        "fields": {
+            "parameter": 3
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.windenergyparameter", 
+        "fields": {
+            "parameter": 5
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.waveenergyparameter", 
+        "fields": {
+            "parameter": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.waveenergyparameter", 
+        "fields": {
+            "parameter": 2
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.waveenergyparameter", 
+        "fields": {
+            "parameter": 3
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.waveenergyparameter", 
+        "fields": {
+            "parameter": 5
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.offshoreconservationparameter", 
+        "fields": {
+            "parameter": 5
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.offshoreconservationparameter", 
+        "fields": {
+            "parameter": 6
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.offshoreconservationparameter", 
+        "fields": {
+            "parameter": 7
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.nearshoreconservationparameter", 
+        "fields": {
+            "parameter": 5
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.watercolumnconservationparameter", 
+        "fields": {
+            "parameter": 3
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.shoresidedevelopmentparameter", 
+        "fields": {
+            "parameter": 1
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.shellfishaquacultureparameter", 
+        "fields": {
+            "parameter": 5
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.shellfishaquacultureparameter", 
+        "fields": {
+            "parameter": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.shellfishaquacultureparameter", 
+        "fields": {
+            "parameter": 3
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.offshorefishingparameter", 
+        "fields": {
+            "parameter": 2
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.offshorefishingparameter", 
+        "fields": {
+            "parameter": 3
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.offshorefishingparameter", 
+        "fields": {
+            "parameter": 5
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "name": "Boulder"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "name": "Cobble"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "name": "Island/Rock"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "name": "Mud"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "name": "Rock"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "name": "Sand"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "name": "Shell"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "name": "Gravel"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.depthclass", 
+        "fields": {
+            "name": "Bathybenthal"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.depthclass", 
+        "fields": {
+            "name": "Innershelf"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.depthclass", 
+        "fields": {
+            "name": "Mesobenthal"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.depthclass", 
+        "fields": {
+            "name": "Midshelf"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.geomorphology", 
+        "fields": {
+            "name": "Basin"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.geomorphology", 
+        "fields": {
+            "name": "Flat"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.geomorphology", 
+        "fields": {
+            "name": "Ridge"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.geomorphology", 
+        "fields": {
+            "name": "Slope"
+        }
+    }
+]

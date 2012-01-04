@@ -441,9 +441,10 @@ class Scenario(Analysis):
     
     def run(self):
         from lingcod.analysistools.grass import Grass
-        print
-        print 'RUNNING GRASS ANALYSIS ON: %s' %self.name 
-        print
+        #print
+        #print 'RUNNING GRASS ANALYSIS ON: %s' %self.name 
+        #print
+        #TODO: should change the following GRASS Location name to a settings var...
         #g = Grass('pacnw_utm10', 
         g = Grass('wa_marine_planner',
                 gisbase=settings.GISBASE, #"/usr/local/grass-6.4.1RC2", 
