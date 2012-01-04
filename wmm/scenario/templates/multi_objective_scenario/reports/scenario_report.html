@@ -9,6 +9,8 @@ lingcod.onShow(function() {
     var substrate_data = [[]];
     var depth_class_stats = {{ depth_class_stats|safe }};
     var depth_class_data = [[]];
+    var geomorphology_stats = {{ geomorphology_stats|safe }};
+    var geomorphology_data = [[]];
     
     for (var key in substrate_stats) {
         if (!substrate_stats.hasOwnProperty(key)) { //not sure what this actually does...
@@ -22,18 +24,26 @@ lingcod.onShow(function() {
     //substrate_data[0].push([3, 'test']);
     
     for (var key in depth_class_stats) {
-        //if (!depth_class_stats.hasOwnProperty(key)) { //not sure what this actually does...
-        //    continue;
-        //}
+        if (!depth_class_stats.hasOwnProperty(key)) { //not sure what this actually does...
+            continue;
+        }
         depth_class_data[0].push([depth_class_stats[key],key]);
-        console.log(depth_class_data);
+        //console.log(depth_class_data);
+    }
+        
+    for (var key in geomorphology_stats) {
+        if (!geomorphology_stats.hasOwnProperty(key)) { //not sure what this actually does...
+            continue;
+        }
+        geomorphology_data[0].push([geomorphology_stats[key],key]);
+        console.log(geomorphology_data);
     }
         
     //var substrate_data = [[[30,'Rock'],[25,'Mud'],[40,'Sand']]];
         
     var substrate_chart = $.jqplot('substrates', substrate_data, {
-        //animate: true,
-        //animateReplot: true,
+        animate: true,
+        animateReplot: true,
         seriesDefaults: {
             renderer:$.jqplot.BarRenderer,
             // Show point labels to the right ('e'ast) of each bar.
@@ -60,7 +70,9 @@ lingcod.onShow(function() {
                 renderer: $.jqplot.CategoryAxisRenderer,
                 rendererOptions: {  tickRenderer: $.jqplot.AxisTickRenderer, 
                                     tickOptions: {  mark: null,
-                                                    fontSize: 12
+                                                    fontSize: 12,
+                                                    formatString: '%s8',
+                                                    showLabel: false
                                                  } 
                 }                                    
             },
@@ -122,17 +134,67 @@ lingcod.onShow(function() {
             shadow: false
         }
     });
+    
+    var geomorphology_chart = $.jqplot('geomorphologies', geomorphology_data, {
+        animate: true,
+        animateReplot: true,
+        seriesDefaults: {
+            renderer:$.jqplot.BarRenderer,
+            // Show point labels to the right ('e'ast) of each bar.
+            // edgeTolerance of -15 allows labels flow outside the grid
+            // up to 15 pixels.  If they flow out more than that, they
+            // will be hidden.
+            pointLabels: {  show: true, 
+                            location: 'e', 
+                            formatString: '%s'
+            },
+            // Rotate the bar shadow as if bar is lit from top right.
+            shadowAngle: 135,
+            // Here's where we tell the chart to orient horizontally.
+            rendererOptions: {  animation: { 
+                                    speed: 1200 
+                                },
+                                barWidth: 25,
+                                barPadding: 25,
+                                barDirection: 'horizontal' 
+            }
+        },
+        axes: {
+            yaxis: {
+                renderer: $.jqplot.CategoryAxisRenderer,
+                rendererOptions: {  tickRenderer: $.jqplot.AxisTickRenderer, 
+                                    tickOptions: {  mark: null,
+                                                    fontSize: 12
+                                                 } 
+                }                                    
+            },
+            xaxis: {
+                min: 0,
+                max: 100,
+                numberTicks: 6
+            }
+        },
+        grid: {
+            drawGridlines: false,
+            drawBorder: false,
+            shadow: false
+        }
+    });
 });    
 </script>
 
 <h2>{{scenario.input_objective}} Report</h2>
 
-<h3>Substrates (as a percentage of the Extent) {{substrate_table_height}}</h3>
+<h3>Substrates (as a percentage of the Extent) </h3>
 <div id="substrates" class="jqPlot" style="height:{{substrate_table_height}}px;width:400px; "></div>
 <p></p>
 
-<h3>Depth Classes (as a percentage of the Extent) {{depth_class_table_height}}</h3>
+<h3>Depth Classes (as a percentage of the Extent) </h3>
 <div id="depth_classes" class="jqPlot" style="height:{{depth_class_table_height}}px;width:400px; "></div>
+<p></p>
+
+<h3>Geomorphologies (as a percentage of the Extent) </h3>
+<div id="geomorphologies" class="jqPlot" style="height:{{geomorphology_table_height}}px;width:400px; "></div>
 <p></p>
 
 <h3>&nbsp;</h3>
