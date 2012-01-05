@@ -26,13 +26,17 @@ def display_scenario_report(request, mos, scenario, template='multi_objective_sc
 '''    
 def get_scenario_context(mos, scenario): 
     #get context from cache or from running analysis
-    substrate_stats, substrate_table_height = get_substrate_stats(scenario)
-    depth_class_stats, depth_class_table_height = get_depth_class_stats(scenario)
-    geomorphology_stats, geomorphology_table_height = get_geomorphology_stats(scenario)
-    context = {'default_value': default_value, 'mos': mos, 'scenario': scenario, 'substrate_stats': substrate_stats, 'substrate_table_height': substrate_table_height, 'depth_class_stats': depth_class_stats, 'depth_class_table_height': depth_class_table_height, 'geomorphology_stats': geomorphology_stats, 'geomorphology_table_height': geomorphology_table_height}
+    # Extent Report Data
+    substrate_extent, substrate_extent_table_height = get_substrate_extent_stats(scenario)
+    depth_class_extent, depth_class_extent_table_height = get_depth_class_extent_stats(scenario)
+    geomorphology_extent, geomorphology_extent_table_height = get_geomorphology_extent_stats(scenario)
+    context = { 'default_value': default_value, 'mos': mos, 'scenario': scenario, 
+                'substrate_extent': substrate_extent, 'substrate_extent_table_height': substrate_extent_table_height, 
+                'depth_class_extent': depth_class_extent, 'depth_class_extent_table_height': depth_class_extent_table_height, 
+                'geomorphology_extent': geomorphology_extent, 'geomorphology_extent_table_height': geomorphology_extent_table_height }
     return context
    
-def get_substrate_stats(scenario):    
+def get_substrate_extent_stats(scenario):    
     substrate_dict = simplejson.loads(scenario.output_substrate_stats)
     substrate_stats = {}
     for key,value in substrate_dict.items():
@@ -42,7 +46,7 @@ def get_substrate_stats(scenario):
     substrate_table_height = 40 * len(substrate_stats.keys()) + 40     
     return substrate_jstats, substrate_table_height
     
-def get_depth_class_stats(scenario):   
+def get_depth_class_extent_stats(scenario):   
     depth_class_dict = simplejson.loads(scenario.output_depth_class_stats)
     depth_class_stats = {}
     for key,value in depth_class_dict.items():
@@ -52,7 +56,7 @@ def get_depth_class_stats(scenario):
     depth_class_table_height = 40 * len(depth_class_stats.keys()) + 40   
     return depth_class_jstats, depth_class_table_height
     
-def get_geomorphology_stats(scenario):   
+def get_geomorphology_extent_stats(scenario):   
     geomorphology_dict = simplejson.loads(scenario.output_geomorphology_stats)
     geomorphology_stats = {}
     for key,value in geomorphology_dict.items():
