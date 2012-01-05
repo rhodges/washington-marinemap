@@ -3,6 +3,7 @@
 {% block title %}Multi-Objective Scenario Report{% endblock %}
 
 {% block panel %}
+
 <script type="text/javascript" charset="utf-8">
 lingcod.onShow(function() {
     var substrate_stats = {{ substrate_stats|safe }};
@@ -11,6 +12,8 @@ lingcod.onShow(function() {
     var depth_class_data = [[]];
     var geomorphology_stats = {{ geomorphology_stats|safe }};
     var geomorphology_data = [[]];
+    var obj_short_name = "{{ scenario.input_objective.short_name }}";
+    //console.log('obj_short_name is ' + obj_short_name);
     
     for (var key in substrate_stats) {
         if (!substrate_stats.hasOwnProperty(key)) { //not sure what this actually does...
@@ -36,12 +39,12 @@ lingcod.onShow(function() {
             continue;
         }
         geomorphology_data[0].push([geomorphology_stats[key],key]);
-        console.log(geomorphology_data);
+        //console.log(geomorphology_data);
     }
         
     //var substrate_data = [[[30,'Rock'],[25,'Mud'],[40,'Sand']]];
-        
-    var substrate_chart = $.jqplot('substrates', substrate_data, {
+    var substrate_div = obj_short_name+'_substrates';
+    var substrate_chart = $.jqplot(substrate_div, substrate_data, {
         animate: true,
         animateReplot: true,
         seriesDefaults: {
@@ -89,7 +92,7 @@ lingcod.onShow(function() {
         }
     });
     
-    var depth_class_chart = $.jqplot('depth_classes', depth_class_data, {
+    var depth_class_chart = $.jqplot(obj_short_name+'_depth_classes', depth_class_data, {
         //animate: true,
         //animateReplot: true,
         seriesDefaults: {
@@ -100,6 +103,7 @@ lingcod.onShow(function() {
             // will be hidden.
             pointLabels: {  show: true, 
                             location: 'e', 
+                            edgeTolerance: -25,
                             formatString: '%s'
             },
             // Rotate the bar shadow as if bar is lit from top right.
@@ -135,7 +139,7 @@ lingcod.onShow(function() {
         }
     });
     
-    var geomorphology_chart = $.jqplot('geomorphologies', geomorphology_data, {
+    var geomorphology_chart = $.jqplot(obj_short_name+'_geomorphologies', geomorphology_data, {
         animate: true,
         animateReplot: true,
         seriesDefaults: {
@@ -146,6 +150,7 @@ lingcod.onShow(function() {
             // will be hidden.
             pointLabels: {  show: true, 
                             location: 'e', 
+                            edgeTolerance: -25,
                             formatString: '%s'
             },
             // Rotate the bar shadow as if bar is lit from top right.
@@ -183,20 +188,21 @@ lingcod.onShow(function() {
 });    
 </script>
 
-<h2>{{scenario.input_objective}} Report</h2>
+<h2>{{scenario.input_objective.name}} Report</h2>
 
 <h3>Substrates (as a percentage of the Extent) </h3>
-<div id="substrates" class="jqPlot" style="height:{{substrate_table_height}}px;width:400px; "></div>
+<div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style="height:{{substrate_table_height}}px;width:400px; "></div>
 <p></p>
 
 <h3>Depth Classes (as a percentage of the Extent) </h3>
-<div id="depth_classes" class="jqPlot" style="height:{{depth_class_table_height}}px;width:400px; "></div>
+<div id="{{scenario.input_objective.short_name}}_depth_classes" class="jqPlot" style="height:{{depth_class_table_height}}px;width:400px; "></div>
 <p></p>
 
 <h3>Geomorphologies (as a percentage of the Extent) </h3>
-<div id="geomorphologies" class="jqPlot" style="height:{{geomorphology_table_height}}px;width:400px; "></div>
+<div id="{{scenario.input_objective.short_name}}_geomorphologies" class="jqPlot" style="height:{{geomorphology_table_height}}px;width:400px; "></div>
 <p></p>
 
 <h3>&nbsp;</h3>
+
 
 {% endblock %}
