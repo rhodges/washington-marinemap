@@ -509,7 +509,7 @@ class Scenario(Analysis):
         g.run(mapcalc)
         self.output_mapcalc = mapcalc
         
-        #substrate stats
+        #substrate stats -- collecting area (in meters) for each substrate represented in the resulting scenario
         substrate_result = """r.mapcalc "subresult = if(rresult==1,substrate,null())" """
         g.run(substrate_result)
         #r.stats -an generates area stats with area totals (-a), while ignoring null values (-n) (those areas outside of overlap)
@@ -562,7 +562,7 @@ class Scenario(Analysis):
 
         geom.srid = settings.GEOMETRY_DB_SRID
         self.output_geom = geom
-        self.output_area = geom.area / 1000000.0 # sq m to sq km
+        self.output_area = geom.area # sq m 
         
         self.geometry_final = geom
 
@@ -884,6 +884,7 @@ class OffshoreFishingParameter(models.Model):
         
 class Substrate(models.Model):
     name = models.CharField(max_length=30)  
+    color = models.CharField(max_length=8, default='778B1A55')
 
     def __unicode__(self):
         return u'%s' % self.name
