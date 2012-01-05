@@ -10,6 +10,9 @@ lingcod.onShow(function() {
     /*** THE EXTENT REPORTS ***/
     var substrate_extent = {{ substrate_extent|safe }};
     var substrate_data = [[]];
+    var substrate_colors = {{ substrate_colors|safe }};
+    var series_object_array = [];
+    var substrate_series = [];
     var depth_class_extent = {{ depth_class_extent|safe }};
     var depth_class_data = [[]];
     var geomorphology_extent = {{ geomorphology_extent|safe }};
@@ -17,11 +20,19 @@ lingcod.onShow(function() {
     var obj_short_name = "{{ scenario.input_objective.short_name }}";
     //console.log('obj_short_name is ' + obj_short_name);
     
+    //TODO: not sure if the ordering for substrate data and coloring are guaranteed to match here...maybe order by area?
     for (var key in substrate_extent) {
         if (!substrate_extent.hasOwnProperty(key)) { //not sure what this actually does...
             continue;
         }
         substrate_data[0].push([substrate_extent[key],key]);
+    }
+    for (var key in substrate_colors) {
+        if (!substrate_colors.hasOwnProperty(key)) { //not sure what this actually does...
+            continue;
+        }
+        series_object_array.push({ label: key, color: substrate_colors[key] });
+        substrate_series.push(substrate_colors[key]);
     }
     for (var key in depth_class_extent) {
         if (!depth_class_extent.hasOwnProperty(key)) { //not sure what this actually does...
@@ -44,6 +55,13 @@ lingcod.onShow(function() {
     var extent_divs = [substrate_div, depth_class_div, geomorphology_div];
     
     for (i=0; i<3; i++) {
+        if (extent_divs[i] == obj_short_name+'_substrates') {
+            series_array = substrate_series;
+            varyColor = true;
+        } else {
+            series_array = [ '#4bb2c5' ];
+            varyColor = false;
+        }
         chart = $.jqplot(extent_divs[i], extent_data[i], {
             animate: true,
             animateReplot: true,
@@ -65,16 +83,18 @@ lingcod.onShow(function() {
                                         speed: 1200 
                                     },
                                     barWidth: 25,
-                                    barDirection: 'horizontal' 
+                                    barDirection: 'horizontal',
+                                    varyBarColor: varyColor
                 }
             },
+            seriesColors: series_array,
             axes: {
                 yaxis: {
                     renderer: $.jqplot.CategoryAxisRenderer,
                     rendererOptions: {  tickRenderer: $.jqplot.AxisTickRenderer, 
                                         tickOptions: {  mark: null,
                                                         fontSize: 12,
-                                                        formatString: '%s8',
+                                                        formatString: '%s',
                                                         showLabel: false
                                                      } 
                     }                                    
@@ -94,71 +114,34 @@ lingcod.onShow(function() {
     };
     
     /*** THE SUBSTRATE REPORTS ***/
+    var substrate_percs = {{ substrate_percs|safe }};
+    var substrate_perc_data = [];
     
-    
-    
-    /*
-    var depth_class_chart = $.jqplot(obj_short_name+'_depth_classes', depth_class_data, {
-        //animate: true,
-        //animateReplot: true,
-        seriesDefaults: {
-            renderer:$.jqplot.BarRenderer,
-            // Show point labels to the right ('e'ast) of each bar.
-            // edgeTolerance of -15 allows labels flow outside the grid
-            // up to 15 pixels.  If they flow out more than that, they
-            // will be hidden.
-            pointLabels: {  show: true, 
-                            location: 'e', 
-                            edgeTolerance: -25,
-                            formatString: '%s'
-            },
-            // Rotate the bar shadow as if bar is lit from top right.
-            shadowAngle: 135,
-            // Here's where we tell the chart to orient horizontally.
-            rendererOptions: {  animation: { 
-                                    speed: 1200 
-                                },
-                                barWidth: 25,
-                                barPadding: 25,
-                                barDirection: 'horizontal' 
-            }
-        },
-        axes: {
-            yaxis: {
-                renderer: $.jqplot.CategoryAxisRenderer,
-                rendererOptions: {  tickRenderer: $.jqplot.AxisTickRenderer, 
-                                    tickOptions: {  mark: null,
-                                                    fontSize: 12
-                                                 } 
-                }                                    
-            },
-            xaxis: {
-                min: 0,
-                max: 100,
-                numberTicks: 6
-            }
-        },
-        grid: {
-            drawGridlines: false,
-            drawBorder: false,
-            shadow: false
+    for (var key in substrate_percs) {
+        if (!substrate_percs.hasOwnProperty(key)) { //not sure what this actually does...
+            continue;
         }
-    });
+        substrate_perc_data.push([ [substrate_percs[key],'1'] ]);
+    }
     
-    var geomorphology_chart = $.jqplot(obj_short_name+'_geomorphologies', geomorphology_data, {
+    //substrate_series = [{ label: 'Sand', color: '#ffeeaa' }, { label: 'Mud', color: 'green' }, { label: 'Rock', color: 'blue' }];
+    //console.log(substrate_percs);
+    //console.log(substrate_perc_data);
+    //console.log(substrate_series);
+    //console.log(series_object_array);
+    var substrate_perc_chart = $.jqplot('substrate_percentages', substrate_perc_data, {
         animate: true,
         animateReplot: true,
+        stackSeries: true,
         seriesDefaults: {
             renderer:$.jqplot.BarRenderer,
             // Show point labels to the right ('e'ast) of each bar.
-            // edgeTolerance of -15 allows labels flow outside the grid
-            // up to 15 pixels.  If they flow out more than that, they
-            // will be hidden.
-            pointLabels: {  show: true, 
-                            location: 'e', 
-                            edgeTolerance: -25,
-                            formatString: '%s'
-            },
+            // edgeTolerance allows labels to flow outside the grid
+            //pointLabels: {  //show: false, 
+                            //location: 'e', 
+                            //edgeTolerance: -25,
+                            //formatString: '%s'
+            //},
             // Rotate the bar shadow as if bar is lit from top right.
             shadowAngle: 135,
             // Here's where we tell the chart to orient horizontally.
@@ -166,18 +149,23 @@ lingcod.onShow(function() {
                                     speed: 1200 
                                 },
                                 barWidth: 25,
-                                barPadding: 25,
-                                barDirection: 'horizontal' 
+                                //barPadding: 25,
+                                barDirection: 'horizontal',
+                                //varyBarColor: true
             }
         },
+        series: series_object_array,
         axes: {
             yaxis: {
                 renderer: $.jqplot.CategoryAxisRenderer,
                 rendererOptions: {  tickRenderer: $.jqplot.AxisTickRenderer, 
                                     tickOptions: {  mark: null,
-                                                    fontSize: 12
-                                                 } 
-                }                                    
+                                                    fontSize: 12,
+                                                    //showLabel: false,
+                                                    //formatString: 'test'
+                                                 }
+                },
+                //label: 'Substrates'
             },
             xaxis: {
                 min: 0,
@@ -189,9 +177,14 @@ lingcod.onShow(function() {
             drawGridlines: false,
             drawBorder: false,
             shadow: false
-        }
-    });  
-   */
+        },
+        legend: {
+          show: true,
+          location: 'e',
+          placement: 'outside'
+        }  
+    });
+    
 }); 
 
 function toggleReport(obj_id, src_id) {
@@ -218,24 +211,24 @@ function toggleReports(obj_id, src_id) {
 
 <h3>Substrates (as a percentage of the Extent) 
 <small>(<a id="toggle_substrate_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_substrates', 'toggle_substrate_report');">Hide Report</a>)</small></h3>
-<div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style="height:{{substrate_extent_table_height}}px;width:400px; "></div>
+<div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style="height:{{substrate_extent_table_height}}px;width:400px;display "></div>
 <p></p>
 
 <h3>Depth Classes (as a percentage of the Extent) 
 <small>(<a id="toggle_depth_class_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_depth_classes', 'toggle_depth_class_report');">Hide Report</a>)</small></h3>
-<div id="{{scenario.input_objective.short_name}}_depth_classes" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px; "></div>
+<div id="{{scenario.input_objective.short_name}}_depth_classes" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px;display "></div>
 <p></p>
 
 <h3>Geomorphologies (as a percentage of the Extent)  
 <small>(<a id="toggle_geomorphology_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_geomorphologies', 'toggle_geomorphology_report');">Hide Report</a>)</small></h3>
-<div id="{{scenario.input_objective.short_name}}_geomorphologies" class="jqPlot" style="height:{{geomorphology_extent_table_height}}px;width:400px; "></div>
+<div id="{{scenario.input_objective.short_name}}_geomorphologies" class="jqPlot" style="height:{{geomorphology_extent_table_height}}px;width:400px;display "></div>
 <p></p>
 
 <h3>&nbsp;</h3>
 
 <h3>Substrate Reports
-<small>(<a id="toggle_substrate_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_substrate_reports', 'toggle_substrate_reports');">Show Reports</a>)</small></h3>
-<div id="{{scenario.input_objective.short_name}}_substrate_reports" class="jqPlot" style="height:{{substrate_extent_table_height}}px;width:400px;display:none"></div>
+<small>(<a id="toggle_substrate_reports" href="javascript:toggleReports('substrate_percentages', 'toggle_substrate_reports');">Show Reports</a>)</small></h3>
+<div id="substrate_percentages" class="jqPlot" style="height:80px;width:400px"></div>
 <p></p>
 
 <h3>Depth Class Reports

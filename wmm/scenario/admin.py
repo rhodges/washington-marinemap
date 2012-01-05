@@ -94,8 +94,8 @@ class OffshoreFishingParameterAdmin(admin.ModelAdmin):
 admin.site.register(OffshoreFishingParameter, OffshoreFishingParameterAdmin)
 
 class SubstrateAdmin(admin.ModelAdmin):
-    list_display = ['name', 'id']
-    fields = ['name']
+    list_display = ['name', 'id', 'color']
+    fields = ['name', 'color']
 admin.site.register(Substrate, SubstrateAdmin)
 
 class DepthClassAdmin(admin.ModelAdmin):
