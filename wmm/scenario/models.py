@@ -268,25 +268,25 @@ class MOS(Feature):
         if 3 in parameter_ids:
             html += "<p><strong> Depth Range:</strong> %s to %s feet</p>" % (scenario.input_min_depth, scenario.input_max_depth)
         if 5 in parameter_ids:
-            html += '<p><strong> Substrates:</strong> [ '
+            html += '<p><strong> Substrates:</strong>  '
             html += ", ".join(scenario.input_substrate_names)
-            html += " ]</p>"
+            html += " </p>"
             #html += "<ul>"
             #for substrate in scenario.input_substrate_names:
             #    html += "<li>%s</li>" %substrate
             #html += "</ul></p>"
         if 6 in parameter_ids:
-            html += "<p><strong> Depth Classes:</strong> [ "
+            html += "<p><strong> Depth Classes:</strong>  "
             html += ", ".join(scenario.input_depth_class_names)
-            html += " ]</p>"
+            html += " </p>"
             #html += "<ul>"
             #for depth_class in scenario.input_depth_class_names:
             #    html += "<li>%s</li>" %depth_class
             #html += "</ul></p>"
         if 7 in parameter_ids:
-            html += "<p><strong> Geomorphologies:</strong> [ "
+            html += "<p><strong> Geomorphologies:</strong>  "
             html += ", ".join(scenario.input_geomorphology_names)
-            html += " ]</p>"
+            html += " </p>"
             #html += "<ul>"
             #for geomorphology in scenario.input_geomorphology_names:
             #    html += "<li>%s</li>" %geomorphology
@@ -360,7 +360,7 @@ class MOS(Feature):
                     <p>$[params]</p>
                     <p>
                     </font>                    
-                    <font size=1>$[type] created by $[user] on $[modified]</font>
+                    <font size=1>created by $[user] on $[modified]</font>
                 ]]> </text>
             </BalloonStyle>
             <IconStyle>
