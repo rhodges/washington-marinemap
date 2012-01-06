@@ -33,27 +33,27 @@ def get_scenario_context(mos, scenario):
     geomorphology_extent, geomorphology_extent_table_height = get_geomorphology_extent_stats(scenario)
     
     # Substrate Report Context
-    substrate_percs = get_substrate_percs(scenario)
+    substrate_jpercs, substrate_percs = get_substrate_percs(scenario)
     
     # Substrate Colors
-    substrate_colors = get_substrate_colors(scenario, substrate_percs)
+    substrate_colors = get_substrate_colors(scenario, substrate_jpercs)
     
     context = { 'default_value': default_value, 'mos': mos, 'scenario': scenario, 
                 'substrate_extent': substrate_extent, 'substrate_extent_table_height': substrate_extent_table_height, 
                 'depth_class_extent': depth_class_extent, 'depth_class_extent_table_height': depth_class_extent_table_height, 
                 'geomorphology_extent': geomorphology_extent, 'geomorphology_extent_table_height': geomorphology_extent_table_height,
-                'substrate_percs': substrate_percs, 'substrate_colors': substrate_colors }
+                'substrate_jpercs': substrate_jpercs, 'substrate_percs': substrate_percs, 'substrate_colors': substrate_colors }
     return context
    
 def get_substrate_extent_stats(scenario):    
     substrate_dict = simplejson.loads(scenario.output_substrate_stats)
-    substrate_stats = {}
+    substrate_stats = []
     for key,value in substrate_dict.items():
         perc = int(value / substrate_extent[key] * 100 + .5)
         if perc > 0:
-            substrate_stats[substrate_names[key]] = perc
+            substrate_stats.append( (perc, substrate_names[key]) )
     substrate_jstats = simplejson.dumps(substrate_stats)
-    substrate_table_height = 40 * len(substrate_stats.keys()) + 40     
+    substrate_table_height = 40 * len(substrate_stats) + 40     
     return substrate_jstats, substrate_table_height
     
 def get_depth_class_extent_stats(scenario):   
@@ -80,19 +80,21 @@ def get_geomorphology_extent_stats(scenario):
     
 def get_substrate_percs(scenario):
     substrate_dict = simplejson.loads(scenario.output_substrate_stats)    
-    substrate_percs = {}
+    substrate_percs = []
     for key,value in substrate_dict.items():
         perc = int(value / scenario.output_area * 100 + .5)
         if perc > 0:
-            substrate_percs[substrate_names[key]] = perc
+            substrate_percs.append( (perc, substrate_names[key]) )
+    substrate_percs.sort()
+    substrate_percs.reverse()
     substrate_jpercs = simplejson.dumps(substrate_percs)  
-    return substrate_jpercs
+    return substrate_jpercs, substrate_percs
 
 def get_substrate_colors(scenario, substrate_percs):
     substrate_dict = simplejson.loads(substrate_percs)
-    substrate_colors = {}
-    for key,value in substrate_dict.items():
-        substrate_colors[key] = Substrate.objects.get(name=key).color
+    substrate_colors = []
+    for key,value in substrate_dict:
+        substrate_colors.append( (value, Substrate.objects.get(name=value).color) )
     substrate_jcolors = simplejson.dumps(substrate_colors)
     return substrate_jcolors
         
