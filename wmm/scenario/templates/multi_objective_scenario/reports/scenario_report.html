@@ -21,12 +21,32 @@ lingcod.onShow(function() {
     //console.log('obj_short_name is ' + obj_short_name);
     
     //TODO: not sure if the ordering for substrate data and coloring are guaranteed to match here...maybe order by area?
+    //I believe ordering is working now for substrate data...need to verify...
+    //console.log(substrate_extent);
+    $.each(substrate_extent, function( index, extent_tuple) {
+        substrate_data[0].push( [extent_tuple[0], extent_tuple[1]] );
+        $.each(substrate_colors, function( index, color_tuple ) {
+            if (color_tuple[0] == extent_tuple[1]) {
+                substrate_series.push( color_tuple[1] );
+            }
+        });
+    });
+    //console.log(substrate_data);
+    //console.log(substrate_series);
+    /*
     for (var key in substrate_extent) {
         if (!substrate_extent.hasOwnProperty(key)) { //not sure what this actually does...
             continue;
         }
         substrate_data[0].push([substrate_extent[key],key]);
     }
+    */
+    //console.log(substrate_colors);
+    $.each(substrate_colors, function( index, tuple) {
+        series_object_array.push( { label: tuple[0], color: tuple[1] } );
+    });
+    //console.log(series_object_array);
+    /*
     for (var key in substrate_colors) {
         if (!substrate_colors.hasOwnProperty(key)) { //not sure what this actually does...
             continue;
@@ -34,6 +54,7 @@ lingcod.onShow(function() {
         series_object_array.push({ label: key, color: substrate_colors[key] });
         substrate_series.push(substrate_colors[key]);
     }
+    */
     for (var key in depth_class_extent) {
         if (!depth_class_extent.hasOwnProperty(key)) { //not sure what this actually does...
             continue;
@@ -114,16 +135,21 @@ lingcod.onShow(function() {
     };
     
     /*** THE SUBSTRATE REPORTS ***/
-    var substrate_percs = {{ substrate_percs|safe }};
+    var substrate_percs = {{ substrate_jpercs|safe }};
     var substrate_perc_data = [];
-    
+    //console.log(substrate_percs);
+    $.each(substrate_percs, function( index, tuple) {
+        substrate_perc_data.push( [ [tuple[0], '1'] ] );
+    });
+    //console.log(substrate_perc_data);
+    /*
     for (var key in substrate_percs) {
         if (!substrate_percs.hasOwnProperty(key)) { //not sure what this actually does...
             continue;
         }
         substrate_perc_data.push([ [substrate_percs[key],'1'] ]);
     }
-    
+    */
     //substrate_series = [{ label: 'Sand', color: '#ffeeaa' }, { label: 'Mud', color: 'green' }, { label: 'Rock', color: 'blue' }];
     //console.log(substrate_percs);
     //console.log(substrate_perc_data);
@@ -207,7 +233,9 @@ function toggleReports(obj_id, src_id) {
   
 </script>
 
-<h2>{{scenario.input_objective.name}} Report</h2>
+<h2>Extent Reports
+<small><small>(<a id="toggle_extent_reports" href="javascript:toggleReports('extent_reports', 'toggle_extent_reports');">Hide Reports</a>)</small></small></h2>
+<div id="extent_reports">
 
 <h3>Substrates (as a percentage of the Extent) 
 <small>(<a id="toggle_substrate_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_substrates', 'toggle_substrate_report');">Hide Report</a>)</small></h3>
@@ -225,20 +253,32 @@ function toggleReports(obj_id, src_id) {
 <p></p>
 
 <h3>&nbsp;</h3>
+</div>
 
-<h3>Substrate Reports
-<small>(<a id="toggle_substrate_reports" href="javascript:toggleReports('substrate_percentages', 'toggle_substrate_reports');">Show Reports</a>)</small></h3>
+<h2>Substrate Reports
+
+<h3>Substrates (as a percentage of the Scenario) 
+<small>(<a id="toggle_substrate_reports" href="javascript:toggleReport('substrate_percentages', 'toggle_substrate_reports');">Hide Report</a>)</small></h3>
 <div id="substrate_percentages" class="jqPlot" style="height:80px;width:400px"></div>
+<div>
+{% for perc, substrate in substrate_percs %}
+<p>{{perc}}% of your {{scenario.input_objective.name}} scenario is {{substrate}}.</p>
+<p><h3>{{substrate}} -- Depth Classes
+<small>(<a id="toggle_{{substrate}}_depth_class" href="javascript:toggleReport('{{substrate}}_depth_classes', 'toggle_{{substrate}}_depth_class');">Hide Report</a>)</small></h3>
+<div id="{{substrate}}_depth_classes" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px"></div>
+<div></p>
+<p><h3>{{substrate}} -- Geomorphology
+<small>(<a id="toggle_{{substrate}}_geomorphology" href="javascript:toggleReport('{{substrate}}_geomorphologies', 'toggle_{{substrate}}_geomorphology');">Hide Report</a>)</small></h3>
+<div id="{{substrate}}_geomorphologies" class="jqPlot" style="height:{{geomorphology_extent_table_height}}px;width:400px"></div>
+<div></p>
+{% endfor %}
+<p></p>
+</div>
+
+<h2>Depth Class Reports</h2>
 <p></p>
 
-<h3>Depth Class Reports
-<small>(<a id="toggle_depth_class_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_depth_class_reports', 'toggle_depth_class_reports');">Show Reports</a>)</small></h3>
-<div id="{{scenario.input_objective.short_name}}_depth_class_reports" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px;display:none"></div>
-<p></p>
-
-<h3>Geomorphology Reports
-<small>(<a id="toggle_geomorphology_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_geomorphology_reports', 'toggle_geomorphology_reports');">Show Reports</a>)</small></h3>
-<div id="{{scenario.input_objective.short_name}}_geomorphology_reports" class="jqPlot" style="height:{{geomorphology_extent_table_height}}px;width:400px;display:none"></div>
+<h2>Geomorphology Reports</h2>
 <p></p>
 
 
