@@ -7,22 +7,24 @@
 <script type="text/javascript" charset="utf-8">
 lingcod.onShow(function() {
 
+    var obj_short_name = "{{ scenario.input_objective.short_name }}";
+    var bar_height = {{ bar_height }};
+    
+    
     /*** THE EXTENT REPORTS ***/
-    var substrate_extent = {{ substrate_extent|safe }};
+    
+    var substrate_extent = {{ substrate_jextent|safe }};
     var substrate_data = [[]];
-    var substrate_colors = {{ substrate_colors|safe }};
+    var substrate_colors = {{ substrate_jcolors|safe }};
     var series_object_array = [];
     var substrate_series = [];
-    var depth_class_extent = {{ depth_class_extent|safe }};
+    var depth_class_extent = {{ depth_class_jextent|safe }};
     var depth_class_data = [[]];
-    var geomorphology_extent = {{ geomorphology_extent|safe }};
+    var geomorphology_extent = {{ geomorphology_jextent|safe }};
     var geomorphology_data = [[]];
-    var obj_short_name = "{{ scenario.input_objective.short_name }}";
-    //console.log('obj_short_name is ' + obj_short_name);
     
-    //TODO: not sure if the ordering for substrate data and coloring are guaranteed to match here...maybe order by area?
+    //Not sure if the ordering for substrate data and coloring are guaranteed to match here...maybe order by area?
     //I believe ordering is working now for substrate data...need to verify...
-    //console.log(substrate_extent);
     $.each(substrate_extent, function( index, extent_tuple) {
         substrate_data[0].push( [extent_tuple[0], extent_tuple[1]] );
         $.each(substrate_colors, function( index, color_tuple ) {
@@ -31,30 +33,9 @@ lingcod.onShow(function() {
             }
         });
     });
-    //console.log(substrate_data);
-    //console.log(substrate_series);
-    /*
-    for (var key in substrate_extent) {
-        if (!substrate_extent.hasOwnProperty(key)) { //not sure what this actually does...
-            continue;
-        }
-        substrate_data[0].push([substrate_extent[key],key]);
-    }
-    */
-    //console.log(substrate_colors);
     $.each(substrate_colors, function( index, tuple) {
         series_object_array.push( { label: tuple[0], color: tuple[1] } );
     });
-    //console.log(series_object_array);
-    /*
-    for (var key in substrate_colors) {
-        if (!substrate_colors.hasOwnProperty(key)) { //not sure what this actually does...
-            continue;
-        }
-        series_object_array.push({ label: key, color: substrate_colors[key] });
-        substrate_series.push(substrate_colors[key]);
-    }
-    */
     for (var key in depth_class_extent) {
         if (!depth_class_extent.hasOwnProperty(key)) { //not sure what this actually does...
             continue;
@@ -74,16 +55,94 @@ lingcod.onShow(function() {
     var depth_class_div = obj_short_name+'_depth_classes';
     var geomorphology_div = obj_short_name+'_geomorphologies';
     var extent_divs = [substrate_div, depth_class_div, geomorphology_div];
-    
+    //TODO:  no need for the loop here anymore...
     for (i=0; i<3; i++) {
         if (extent_divs[i] == obj_short_name+'_substrates') {
-            series_array = substrate_series;
+            series_colors = substrate_series;
             varyColor = true;
         } else {
-            series_array = [ '#4bb2c5' ];
+            series_colors = [ '#4bb2c5' ];
             varyColor = false;
         }
-        chart = $.jqplot(extent_divs[i], extent_data[i], {
+        chart = createChart(extent_divs[i], extent_data[i], series_colors);
+    };
+    
+    
+    /*** THE SUBSTRATE REPORTS ***/
+    
+    // Substrate Percentages
+    var substrate_percs = {{ substrate_jpercs|safe }};
+    var substrate_perc_data = [[]];
+    series_colors = [];
+    //console.log(substrate_percs);
+    $.each(substrate_percs, function( index, tuple) {
+        substrate_perc_data[0].push( [tuple[0], tuple[1]] );
+        $.each(substrate_colors, function( index, color_tuple ) {
+            if (color_tuple[0] == tuple[1]) {
+                series_colors.push( color_tuple[1] );
+            }
+        });
+    });
+    chart = createChart(obj_short_name+'_substrate_percentages', substrate_perc_data, series_colors);
+    
+    
+    // Substrate Depth Class 
+    var substrate_dc_stats = {{ substrate_dc_jstats|safe }};
+    var substrate_dc_data = [];
+    var substrate_dc_divs = [];
+    var substrate_dc_len = 0;
+    for (var sub in substrate_dc_stats) {
+        if (!substrate_dc_stats.hasOwnProperty(sub)) { //not sure what this actually does...
+            continue;
+        }
+        dc_data = [[]];
+        for (var dc in substrate_dc_stats[sub]) {
+            if (!substrate_dc_stats[sub].hasOwnProperty(dc)) {
+                continue;
+            }
+            dc_data[0].push( [substrate_dc_stats[sub][dc], dc] );
+        }
+        substrate_dc_data.push(dc_data);
+        substrate_dc_divs.push(obj_short_name+'_'+sub+'_dc');
+        substrate_dc_len++;
+    }  
+    for (i=0; i<substrate_dc_len; i++) {
+        series_colors = [ '#4bb2c5' ];
+        chart = createChart(substrate_dc_divs[i], substrate_dc_data[i], series_colors);
+    };
+    
+    
+    // Substrate Geomorphology 
+    var substrate_geo_stats = {{ substrate_geo_jstats|safe }};
+    var substrate_geo_data = [];
+    var substrate_geo_divs = [];
+    var substrate_geo_len = 0;
+    for (var sub in substrate_geo_stats) {
+        if (!substrate_geo_stats.hasOwnProperty(sub)) { //not sure what this actually does...
+            continue;
+        }
+        geo_data = [[]];
+        for (var geo in substrate_geo_stats[sub]) {
+            if (!substrate_geo_stats[sub].hasOwnProperty(geo)) {
+                continue;
+            }
+            geo_data[0].push( [substrate_geo_stats[sub][geo], geo] );
+        }
+        substrate_geo_data.push(geo_data);
+        substrate_geo_divs.push(obj_short_name+'_'+sub+'_geo');
+        substrate_geo_len++;
+    }  
+    for (i=0; i<substrate_geo_len; i++) {
+        var height = bar_height * substrate_geo_data[i][0].length + bar_height;
+        $('#'+substrate_geo_divs[i]).height(height);
+        series_colors = [ '#4bb2c5' ];
+        chart = createChart(substrate_geo_divs[i], substrate_geo_data[i], series_colors);
+    };
+    
+    
+    //Chart drawing function 
+    function createChart(div, data, series_colors) {
+        chart = $.jqplot(div, data, {
             animate: true,
             animateReplot: true,
             seriesDefaults: {
@@ -98,32 +157,34 @@ lingcod.onShow(function() {
                                 formatString: '%s'
                 },
                 // Rotate the bar shadow as if bar is lit from top right.
-                shadowAngle: 135,
+                shadowAngle: 145,
                 // Here's where we tell the chart to orient horizontally.
                 rendererOptions: {  animation: { 
-                                        speed: 1200 
+                                        speed: 1500 
                                     },
                                     barWidth: 25,
+                                    barPadding: 20,
+                                    barMargin: 1,
                                     barDirection: 'horizontal',
-                                    varyBarColor: varyColor
+                                    varyBarColor: true
                 }
             },
-            seriesColors: series_array,
+            seriesColors: series_colors,
             axes: {
                 yaxis: {
                     renderer: $.jqplot.CategoryAxisRenderer,
                     rendererOptions: {  tickRenderer: $.jqplot.AxisTickRenderer, 
                                         tickOptions: {  mark: null,
-                                                        fontSize: 12,
-                                                        formatString: '%s',
-                                                        showLabel: false
-                                                     } 
+                                                        fontSize: 12
+                                        } 
                     }                                    
                 },
                 xaxis: {
                     min: 0,
                     max: 100,
-                    numberTicks: 6
+                    numberTicks: 6,
+                    tickRenderer: $.jqplot.AxisTickRenderer, 
+                    tickOptions: {  fontSize: 10 } 
                 }
             },
             grid: {
@@ -132,154 +193,95 @@ lingcod.onShow(function() {
                 shadow: false
             }
         });
-    };
-    
-    /*** THE SUBSTRATE REPORTS ***/
-    var substrate_percs = {{ substrate_jpercs|safe }};
-    var substrate_perc_data = [];
-    //console.log(substrate_percs);
-    $.each(substrate_percs, function( index, tuple) {
-        substrate_perc_data.push( [ [tuple[0], '1'] ] );
-    });
-    //console.log(substrate_perc_data);
-    /*
-    for (var key in substrate_percs) {
-        if (!substrate_percs.hasOwnProperty(key)) { //not sure what this actually does...
-            continue;
-        }
-        substrate_perc_data.push([ [substrate_percs[key],'1'] ]);
+        return chart;
     }
-    */
-    //substrate_series = [{ label: 'Sand', color: '#ffeeaa' }, { label: 'Mud', color: 'green' }, { label: 'Rock', color: 'blue' }];
-    //console.log(substrate_percs);
-    //console.log(substrate_perc_data);
-    //console.log(substrate_series);
-    //console.log(series_object_array);
-    var substrate_perc_chart = $.jqplot('substrate_percentages', substrate_perc_data, {
-        animate: true,
-        animateReplot: true,
-        stackSeries: true,
-        seriesDefaults: {
-            renderer:$.jqplot.BarRenderer,
-            // Show point labels to the right ('e'ast) of each bar.
-            // edgeTolerance allows labels to flow outside the grid
-            //pointLabels: {  //show: false, 
-                            //location: 'e', 
-                            //edgeTolerance: -25,
-                            //formatString: '%s'
-            //},
-            // Rotate the bar shadow as if bar is lit from top right.
-            shadowAngle: 135,
-            // Here's where we tell the chart to orient horizontally.
-            rendererOptions: {  animation: { 
-                                    speed: 1200 
-                                },
-                                barWidth: 25,
-                                //barPadding: 25,
-                                barDirection: 'horizontal',
-                                //varyBarColor: true
-            }
-        },
-        series: series_object_array,
-        axes: {
-            yaxis: {
-                renderer: $.jqplot.CategoryAxisRenderer,
-                rendererOptions: {  tickRenderer: $.jqplot.AxisTickRenderer, 
-                                    tickOptions: {  mark: null,
-                                                    fontSize: 12,
-                                                    //showLabel: false,
-                                                    //formatString: 'test'
-                                                 }
-                },
-                //label: 'Substrates'
-            },
-            xaxis: {
-                min: 0,
-                max: 100,
-                numberTicks: 6
-            }
-        },
-        grid: {
-            drawGridlines: false,
-            drawBorder: false,
-            shadow: false
-        },
-        legend: {
-          show: true,
-          location: 'e',
-          placement: 'outside'
-        }  
-    });
     
+    
+    //toggleReports(obj_short_name+'_extent_reports', 'toggle_extent_reports');
+    toggleReports(obj_short_name+'_substrate_reports', 'toggle_substrate_reports');
+    toggleReports(obj_short_name+'_depth_class_reports', 'toggle_depth_class_reports');
+    toggleReports(obj_short_name+'_geomorphology_reports', 'toggle_geomorphology_reports');
 }); 
 
 function toggleReport(obj_id, src_id) {
     $("#"+obj_id).fadeToggle(100); //slideToggle
-    if ($("#"+src_id).text() == 'Show Report') { 
-        $("#"+src_id).text('Hide Report'); 
+    if ($("#"+src_id).text() == 'Show') { 
+        $("#"+src_id).text('Hide'); 
     } else { 
-        $("#"+src_id).text('Show Report'); 
+        $("#"+src_id).text('Show'); 
     }
 }; 
   
 function toggleReports(obj_id, src_id) {
     $("#"+obj_id).fadeToggle(100); //slideToggle
-    if ($("#"+src_id).text() == 'Show Reports') { 
-        $("#"+src_id).text('Hide Reports'); 
+    if ($("#"+src_id).text() == 'Show') { 
+        $("#"+src_id).text('Hide'); 
     } else { 
-        $("#"+src_id).text('Show Reports'); 
+        $("#"+src_id).text('Show'); 
     }
 }; 
+
+
   
 </script>
 
-<h2>Extent Reports
-<small><small>(<a id="toggle_extent_reports" href="javascript:toggleReports('extent_reports', 'toggle_extent_reports');">Hide Reports</a>)</small></small></h2>
-<div id="extent_reports">
+<h2>Extent 
+<small><small>[<a id="toggle_extent_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_extent_reports', 'toggle_extent_reports');">Hide</a>]</small></small></h2>
+<div id="{{scenario.input_objective.short_name}}_extent_reports">
 
 <h3>Substrates (as a percentage of the Extent) 
-<small>(<a id="toggle_substrate_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_substrates', 'toggle_substrate_report');">Hide Report</a>)</small></h3>
+<small><small>[<a id="toggle_substrate_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_substrates', 'toggle_substrate_report');">Hide</a>]</small></small></h3>
 <div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style="height:{{substrate_extent_table_height}}px;width:400px;display "></div>
 <p></p>
 
 <h3>Depth Classes (as a percentage of the Extent) 
-<small>(<a id="toggle_depth_class_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_depth_classes', 'toggle_depth_class_report');">Hide Report</a>)</small></h3>
+<small><small>[<a id="toggle_depth_class_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_depth_classes', 'toggle_depth_class_report');">Hide</a>]</small></small></h3>
 <div id="{{scenario.input_objective.short_name}}_depth_classes" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px;display "></div>
 <p></p>
 
 <h3>Geomorphologies (as a percentage of the Extent)  
-<small>(<a id="toggle_geomorphology_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_geomorphologies', 'toggle_geomorphology_report');">Hide Report</a>)</small></h3>
+<small><small>[<a id="toggle_geomorphology_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_geomorphologies', 'toggle_geomorphology_report');">Hide</a>]</small></small></h3>
 <div id="{{scenario.input_objective.short_name}}_geomorphologies" class="jqPlot" style="height:{{geomorphology_extent_table_height}}px;width:400px;display "></div>
 <p></p>
 
 <h3>&nbsp;</h3>
 </div>
 
-<h2>Substrate Reports
+
+<h2>Substrate 
+<small><small>[<a id="toggle_substrate_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_substrate_reports', 'toggle_substrate_reports');">Hide</a>]</small></small></h2>
+<div id="{{scenario.input_objective.short_name}}_substrate_reports">
 
 <h3>Substrates (as a percentage of the Scenario) 
-<small>(<a id="toggle_substrate_reports" href="javascript:toggleReport('substrate_percentages', 'toggle_substrate_reports');">Hide Report</a>)</small></h3>
-<div id="substrate_percentages" class="jqPlot" style="height:80px;width:400px"></div>
-<div>
-{% for perc, substrate in substrate_percs %}
-<p>{{perc}}% of your {{scenario.input_objective.name}} scenario is {{substrate}}.</p>
-<p><h3>{{substrate}} -- Depth Classes
-<small>(<a id="toggle_{{substrate}}_depth_class" href="javascript:toggleReport('{{substrate}}_depth_classes', 'toggle_{{substrate}}_depth_class');">Hide Report</a>)</small></h3>
-<div id="{{substrate}}_depth_classes" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px"></div>
-<div></p>
-<p><h3>{{substrate}} -- Geomorphology
-<small>(<a id="toggle_{{substrate}}_geomorphology" href="javascript:toggleReport('{{substrate}}_geomorphologies', 'toggle_{{substrate}}_geomorphology');">Hide Report</a>)</small></h3>
-<div id="{{substrate}}_geomorphologies" class="jqPlot" style="height:{{geomorphology_extent_table_height}}px;width:400px"></div>
-<div></p>
+<small><small>[<a id="toggle_substrate_reports" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_substrate_percentages', 'toggle_substrate_reports');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_substrate_percentages" class="jqPlot" style="height:{{substrate_extent_table_height}}px;width:400px"></div>
+
+{% for substrate in substrate_r %}
+<h3>{{substrate}} -- Depth Classes
+<small><small>[<a id="toggle_{{substrate}}_depth_class" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{substrate}}_dc', 'toggle_{{substrate}}_depth_class');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_{{substrate}}_dc" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px"></div>
+
+<h3>{{substrate}} -- Geomorphology
+<small><small>[<a id="toggle_{{substrate}}_geomorphology" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{substrate}}_geo', 'toggle_{{substrate}}_geomorphology');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_{{substrate}}_geo" class="jqPlot" style="height:{{geomorphology_extent_table_height}}px;width:400px"></div>
+
 {% endfor %}
 <p></p>
 </div>
 
-<h2>Depth Class Reports</h2>
-<p></p>
 
-<h2>Geomorphology Reports</h2>
+<h2>Depth Class 
+<small><small>[<a id="toggle_depth_class_reports" href="javascript:toggleReports('depth_class_reports', 'toggle_depth_class_reports');">Hide</a>]</small></small></h2>
+<div id="depth_class_reports">
 <p></p>
+</div>
+
+
+<h2>Geomorphology 
+<small><small>[<a id="toggle_geomorphology_reports" href="javascript:toggleReports('geomorphology_reports', 'toggle_geomorphology_reports');">Hide</a>]</small></small></h2>
+<div id="geomorphology_reports">
+<p></p>
+</div>
 
 
 

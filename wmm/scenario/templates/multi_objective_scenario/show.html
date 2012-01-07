@@ -1,10 +1,11 @@
 {% extends 'common/panel.html' %}
 {% block title %}{{instance.name}}{% endblock title %}
 {% block panel %}
-<h1>Results for "{{instance.name}}"</h1>
+<!--<h1>Results for "{{instance.name}}"</h1>-->
+<h1><small><small>Multi-Objective Scenario: </small></small> {{instance.name}}</h1>
     <div class="tabs">
         <ul>
-            <li><a href="#Inputs"><span>Inputs</span></a></li>
+            <li><a href="#Inputs"><span>Attributes</span></a></li>
             {% for scenario in instance.scenarios.all %}
             <li><a href="{% url scenario_report instance.pk scenario.pk %}"><span>{{scenario.input_objective}} Report</span></a></li>
             {% endfor %}
@@ -20,10 +21,10 @@
                 <li class="modified">Modified {{instance.date_modified|date:"d M, Y P"}}</li>
                 <br class="clear" />
             </ul>
-            
+            <!--
             <h2>Feature Type</h2>
                 <p>Multi-Objective Scenario</p>
-                
+            -->    
             <h2>Description</h2>
                 {% if instance.description %}
                 <p>{{instance.description}}</p>
