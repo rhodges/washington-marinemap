@@ -437,6 +437,13 @@ class Scenario(Analysis):
     output_depth_class_stats = models.TextField(max_length=360, null=True, blank=True)
     output_geomorphology_stats = models.TextField(max_length=360, null=True, blank=True)
     
+    output_substrate_depth_class_stats = models.TextField(max_length=360, null=True, blank=True)
+    output_substrate_geomorphology_stats = models.TextField(max_length=360, null=True, blank=True)
+    #output_depth_class_substrate_stats = models.TextField(max_length=360, null=True, blank=True)
+    #output_depth_class_geomorphology_stats = models.TextField(max_length=360, null=True, blank=True)
+    #output_geomorphology_substrate_stats = models.TextField(max_length=360, null=True, blank=True)
+    #output_geomorphology_depth_class_stats = models.TextField(max_length=360, null=True, blank=True)
+    
     geometry_final = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Final Scenario Geometry")
     
     def run(self):
@@ -516,11 +523,12 @@ class Scenario(Analysis):
         substrate_stats = g.run('r.stats -an input=subresult')
         substrate_split = substrate_stats.split()
         #cast the area elements to integers (no need for the decimal value when dealing with meters)
-        substrate_ints = [int(float(x)) for x in substrate_split]
+        substrate_ints = [int(float(x)+.5) for x in substrate_split]
         #note: we are now dealing with int areas rather than float strings 
         substrate_dict = dict(zip(substrate_ints[::2], substrate_ints[1::2])) 
+        substrate_name_dict = dict( map( lambda(key, value): (Substrate.objects.get(id=key).name, value), substrate_dict.items()))
         #use dumps to save and loads to extract
-        self.output_substrate_stats = simplejson.dumps(substrate_dict)
+        self.output_substrate_stats = simplejson.dumps(substrate_name_dict)
         
         #depth class stats
         depth_class_result = """r.mapcalc "dcresult = if(rresult==1,depth_class,null())" """
@@ -528,11 +536,12 @@ class Scenario(Analysis):
         depth_class_stats = g.run('r.stats -an input=dcresult')
         depth_class_split = depth_class_stats.split()
         #cast the area elements to integers (no need for the decimal value when dealing with meters)
-        depth_class_ints = [int(float(x)) for x in depth_class_split]
+        depth_class_ints = [int(float(x)+.5) for x in depth_class_split]
         #generate dictionary result
         depth_class_dict = dict(zip(depth_class_ints[::2], depth_class_ints[1::2])) 
+        depth_class_name_dict = dict( map( lambda(key, value): (DepthClass.objects.get(id=key).name, value), depth_class_dict.items()))
         #use dumps to save and loads to extract
-        self.output_depth_class_stats = simplejson.dumps(depth_class_dict)
+        self.output_depth_class_stats = simplejson.dumps(depth_class_name_dict)
         
         #geomorphology stats
         geomorphology_result = """r.mapcalc "georesult = if(rresult==1,geomorphology,null())" """
@@ -540,11 +549,53 @@ class Scenario(Analysis):
         geomorphology_stats = g.run('r.stats -an input=georesult')
         geomorphology_split = geomorphology_stats.split()
         #cast the area elements to integers (no need for the decimal value when dealing with meters)
-        geomorphology_ints = [int(float(x)) for x in geomorphology_split]
+        geomorphology_ints = [int(float(x)+.5) for x in geomorphology_split]
         #generate dictionary result
         geomorphology_dict = dict(zip(geomorphology_ints[::2], geomorphology_ints[1::2])) 
+        geomorphology_name_dict = dict( map( lambda(key, value): (Geomorphology.objects.get(id=key).name, value), geomorphology_dict.items()))
         #use dumps to save and loads to extract
-        self.output_geomorphology_stats = simplejson.dumps(geomorphology_dict)
+        self.output_geomorphology_stats = simplejson.dumps(geomorphology_name_dict)
+        
+        #substrate depth_class stats -- collecting area (in meters) of each depth class in each substrate 
+        sub_ids = substrate_dict.keys()
+        substrate_dc_dict = {}
+        for sub_id in sub_ids:
+            substrate_result = """r.mapcalc "subresult_%s = if(substrate==%s,subresult,null())" """ % (sub_id, sub_id)
+            g.run(substrate_result)
+            #substrate_stats = g.run('r.stats -an input=subresult_%s' %sub_id) #used to verify mapcalc above...
+            dc_result = """r.mapcalc "substrate_%s_dcresult = if(subresult_%s==%s,depth_class,null())" """ %(sub_id, sub_id, sub_id)
+            g.run(dc_result)
+            dc_stats = g.run('r.stats -an input=substrate_%s_dcresult' %sub_id)
+            dc_split = dc_stats.split()
+            dc_ints = [int(float(x)+.5) for x in dc_split]
+            dc_dict = dict(zip(dc_ints[::2], dc_ints[1::2])) 
+            dc_name_dict = dict( map( lambda(key, value): (DepthClass.objects.get(id=key).name, value), dc_dict.items()))
+            substrate_dc_dict[Substrate.objects.get(id=sub_id).name] = dc_name_dict
+        self.output_substrate_depth_class_stats = simplejson.dumps(substrate_dc_dict)
+        #import pdb 
+        #pdb.set_trace() 
+        substrate_geo_dict = {}
+        for sub_id in sub_ids:
+            #substrate_result = """r.mapcalc "subresult_%s = if(substrate==%s,subresult,null())" """ % (sub_id, sub_id)
+            #g.run(substrate_result)
+            #substrate_stats = g.run('r.stats -an input=subresult_%s' %sub_id) #used to verify mapcalc above...
+            geo_result = """r.mapcalc "substrate_%s_georesult = if(subresult_%s==%s,geomorphology,null())" """ %(sub_id, sub_id, sub_id)
+            g.run(geo_result)
+            geo_stats = g.run('r.stats -an input=substrate_%s_georesult' %sub_id)
+            geo_split = geo_stats.split()
+            geo_ints = [int(float(x)+.5) for x in geo_split]
+            geo_dict = dict(zip(geo_ints[::2], geo_ints[1::2])) 
+            geo_name_dict = dict( map( lambda(key, value): (Geomorphology.objects.get(id=key).name, value), geo_dict.items()))
+            substrate_geo_dict[Substrate.objects.get(id=sub_id).name] = geo_name_dict
+        self.output_substrate_geomorphology_stats = simplejson.dumps(substrate_geo_dict)
+        
+        #depth_class_ids = depth_class_dict.keys()
+        #for dc_id in depth_class_ids:
+        #    depth_class_result = """r.mapcalc "subresult_%s_dcresult_%s = if(depth_class==%s,subresult_%s,null())" """ %(sub_id, dc_id, dc_id, sub_id)
+        #    g.run(depth_class_result)
+                
+                
+        #self.output_substrate_depth_class_stats = simplejson.dumps(substrate_depth_class_dict)
         
         g.run('r.to.vect input=rresult output=rresult_vect feature=area')
 
