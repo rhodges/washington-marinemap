@@ -354,7 +354,7 @@ class MOS(Feature):
                 <bgColor>ffeeeeee</bgColor>
                 <text> <![CDATA[
                     <font color="#1A3752">
-                    <p><strong>Multi-Objective Scenario:</strong> $[mos_name]</p>
+                    <p><strong>Scenario:</strong> $[mos_name]</p>
                     $[desc]
                     <p><strong>Objective:</strong> $[obj]</p> 
                     <p>$[params]</p>
@@ -408,7 +408,7 @@ class MOS(Feature):
         """ % (self.model_uid())
         
     class Options:
-        verbose_name = 'Multi-Objective Scenario'
+        verbose_name = 'Scenario'
         icon_url = 'wmm/img/multi.png'
         form = 'scenario.forms.MOSForm'
         form_template = 'multi_objective_scenario/form.html'
@@ -433,12 +433,15 @@ class Scenario(Analysis):
     output_mapcalc = models.CharField(max_length=360, null=True, blank=True)
     output_area = models.FloatField(verbose_name="Total Area (sq km)", null=True, blank=True)
     
+    #TODO will want to replace individual output stats field with a single field (as output stats will differ based on objective)
+    #output_stats = models.TextField(null=True, blank=True) 
     output_substrate_stats = models.TextField(max_length=360, null=True, blank=True)
     output_depth_class_stats = models.TextField(max_length=360, null=True, blank=True)
     output_geomorphology_stats = models.TextField(max_length=360, null=True, blank=True)
     
     output_substrate_depth_class_stats = models.TextField(max_length=360, null=True, blank=True)
     output_substrate_geomorphology_stats = models.TextField(max_length=360, null=True, blank=True)
+    
     #output_depth_class_substrate_stats = models.TextField(max_length=360, null=True, blank=True)
     #output_depth_class_geomorphology_stats = models.TextField(max_length=360, null=True, blank=True)
     #output_geomorphology_substrate_stats = models.TextField(max_length=360, null=True, blank=True)
@@ -1104,6 +1107,79 @@ class WindEnergySite(PolygonFeature):
         show_template = 'wind/show.html'
         icon_url = 'wmm/img/wind.png'
 
+@register
+class SMPSite(PolygonFeature):
+    description = models.TextField(null=True,blank=True)
+    
+    @property
+    def kml(self):
+        return """
+        <Placemark id="%s">
+            <visibility>1</visibility>
+            <name>%s</name>
+            <styleUrl>#%s-default</styleUrl>
+            <ExtendedData>
+                <Data name="name"><value>%s</value></Data>
+                <Data name="user"><value>%s</value></Data>
+                <Data name="desc"><value>%s</value></Data>
+                <Data name="type"><value>%s</value></Data>
+                <Data name="modified"><value>%s</value></Data>
+            </ExtendedData>
+            %s 
+        </Placemark>
+        """ % (self.uid, escape(self.name), self.model_uid(), 
+               escape(self.name), self.user, escape(self.description), self.Options.verbose_name, self.date_modified.replace(microsecond=0), 
+               self.geom_kml)
+
+    @property
+    def kml_style(self):
+        return """
+        <Style id="%s-default">
+            <BalloonStyle>
+                <bgColor>ffeeeeee</bgColor>
+                <text> <![CDATA[
+                    <font color="#1A3752"><strong>$[name]</strong></font><br />
+                    <p>$[desc]</p>
+                    <font size=1>$[type] created by $[user] on $[modified]</font>
+                ]]> </text>
+            </BalloonStyle>
+            <PolyStyle>
+                <color>%s</color>
+            </PolyStyle>
+            <LineStyle>
+                <color>ffffffff</color>
+            </LineStyle>
+        </Style>
+        """ % (self.model_uid(), self.color())
+
+    @classmethod
+    def mapnik_style(self):
+        import mapnik
+        polygon_style = mapnik.Style()
+        
+        ps = mapnik.PolygonSymbolizer(mapnik.Color('#DC640C'))
+        ps.fill_opacity = 0.6
+        ls = mapnik.LineSymbolizer(mapnik.Color('#ff0000'),0.2)
+        ls.stroke_opacity = 1.0
+        
+        r = mapnik.Rule()
+        r.symbols.append(ps)
+        r.symbols.append(ls)
+        
+        polygon_style.rules.append(r)
+        return polygon_style        
+
+    @classmethod
+    def color(self):
+        return '778B1A55'             
+
+    class Options:
+        verbose_name = 'SMP Characterization Site'
+        form = 'scenario.forms.SMPSiteForm'
+        form_template = 'smp/form.html'
+        show_template = 'smp/show.html'
+        icon_url = 'wmm/img/smp.png'
+        
 
 @register
 class AOI(PolygonFeature):
@@ -1171,7 +1247,7 @@ class AOI(PolygonFeature):
         return '778B1A55'              
 
     class Options:
-        verbose_name = 'Area of Interest'
+        verbose_name = 'Area'
         form = 'scenario.forms.AoiForm'
         form_template = 'aoi/form.html'
         show_template = 'aoi/show.html'
@@ -1200,7 +1276,7 @@ class POI(PointFeature):
         return polygon_style                
 
     class Options:
-        verbose_name = 'Point of Interest'
+        verbose_name = 'Point'
         form = 'scenario.forms.PoiForm'
         icon_url = 'wmm/img/poi.png'
 
@@ -1226,7 +1302,7 @@ class LOI(LineFeature):
         return polygon_style                
 
     class Options:
-        verbose_name = 'Line of Interest'
+        verbose_name = 'Line'
         form = 'scenario.forms.LoiForm'
         icon_url = 'wmm/img/loi.png'
 
