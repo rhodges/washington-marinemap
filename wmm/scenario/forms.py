@@ -253,10 +253,12 @@ class MOSForm(FeatureForm):
                                                             widget=DualSliderWidget('input_min_depth_offshore_conservation','input_max_depth_offshore_conservation',min=0,max=5000,step=10),
                                                             label="Depth Range (feet)", required=False)
     input_substrate_offshore_conservation = ModelMultipleChoiceField(   queryset=Substrate.objects.all().order_by('id'), 
-                                                                        widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
+                                                                        #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
+                                                                        widget=forms.CheckboxSelectMultiple(),
                                                                         label="Include areas with the following Substrate Types", required=False) 
     input_depth_class_offshore_conservation = ModelMultipleChoiceField( queryset=DepthClass.objects.all().order_by('id'), 
-                                                                        widget=forms.SelectMultiple(attrs={'size':4}), initial="1",
+                                                                        #widget=forms.SelectMultiple(attrs={'size':4}), initial="1",
+                                                                        widget=forms.CheckboxSelectMultiple(),
                                                                         label="Include areas with the following Depth Classes", required=False)     
     input_geomorphology_offshore_conservation = ModelMultipleChoiceField(   queryset=Geomorphology.objects.all().order_by('id'), 
                                                                             #widget=forms.SelectMultiple(attrs={'size':4}), initial="1",
