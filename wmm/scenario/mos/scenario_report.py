@@ -28,57 +28,69 @@ def display_scenario_report(request, mos, scenario, template='multi_objective_sc
 def get_scenario_context(mos, scenario): 
     #get context from cache or from running analysis
     
-    # Extent Report Context
-    substrate_jextent, substrate_extent_table_height = get_substrate_extent_stats(scenario)
-    depth_class_jextent, depth_class_extent_table_height = get_depth_class_extent_stats(scenario)
-    geomorphology_jextent, geomorphology_extent_table_height = get_geomorphology_extent_stats(scenario)
+    # Scenario Context
+    substrate_jextent, substrate_names_reverse = get_substrate_scenario_stats(scenario)
+    depth_class_jextent = get_depth_class_scenario_stats(scenario)
+    geomorphology_jextent = get_geomorphology_scenario_stats(scenario)
     
-    # Substrate Report Context
-    substrate_jpercs, substrate_percs, substrate_r = get_substrate_percs(scenario)
+    # Substrate Context
+    #substrate_jpercs, substrate_percs, substrate_r = get_substrate_percs(scenario)
     substrate_dc_jstats = get_substrate_dc_stats(scenario)
     substrate_geo_jstats = get_substrate_geo_stats(scenario)
-    substrate_jcolors = get_substrate_colors(scenario, substrate_jpercs)
+    #substrate_jcolors = get_substrate_colors(scenario, substrate_jpercs)
     
     context = { 'default_value': default_value, 'bar_height': bar_height, 'mos': mos, 'scenario': scenario, 
-                'substrate_jextent': substrate_jextent, 'substrate_extent_table_height': substrate_extent_table_height, 
-                'depth_class_jextent': depth_class_jextent, 'depth_class_extent_table_height': depth_class_extent_table_height, 
-                'geomorphology_jextent': geomorphology_jextent, 'geomorphology_extent_table_height': geomorphology_extent_table_height,
-                'substrate_jpercs': substrate_jpercs, 'substrate_percs': substrate_percs, 'substrate_r': substrate_r, 
-                'substrate_dc_jstats': substrate_dc_jstats, 'substrate_geo_jstats': substrate_geo_jstats, 'substrate_jcolors': substrate_jcolors }
+                'substrate_jextent': substrate_jextent, 'substrate_names_reverse': substrate_names_reverse, 
+                'depth_class_jextent': depth_class_jextent, 
+                'geomorphology_jextent': geomorphology_jextent, 
+                #'substrate_jpercs': substrate_jpercs, 'substrate_percs': substrate_percs, 'substrate_r': substrate_r, 
+                'substrate_dc_jstats': substrate_dc_jstats, 'substrate_geo_jstats': substrate_geo_jstats } #, 'substrate_jcolors': substrate_jcolors }
     return context
    
-def get_substrate_extent_stats(scenario):    
+def get_substrate_scenario_stats(scenario):    
     substrate_dict = simplejson.loads(scenario.output_substrate_stats)
-    substrate_stats = [] #array not dict as ordering matters for coloration (at least for now...)
+    scenario_area = scenario.output_area
+    substrate_stats = {} #array not dict as ordering matters for coloration (at least for now...)
     for key,value in substrate_dict.items():
-        perc = int(value / substrate_area_extent[key] * 100 + .5)
+        perc = int(value / scenario_area * 100 + .5)
         if perc > 0:
-            substrate_stats.append( (perc, key) )
-    substrate_jstats = simplejson.dumps(substrate_stats)
-    substrate_table_height = bar_height * len(substrate_stats) + bar_height     
-    return substrate_jstats, substrate_table_height
+            substrate_stats[key] = perc
+    sorted_substrate_tuples, substrate_names_reverse = sort_substrate_dict(substrate_stats)
+    substrate_jstats = simplejson.dumps(sorted_substrate_tuples) 
+    return substrate_jstats, substrate_names_reverse
     
-def get_depth_class_extent_stats(scenario):   
+def sort_substrate_dict(substrate_dict):
+    substrates = Substrate.objects.order_by('id')
+    sorted_tuples = []
+    substrate_names = []
+    for substrate in substrates:        
+        if substrate.name in substrate_dict.keys():
+            sorted_tuples.append( (substrate_dict[substrate.name], substrate.name) )
+            substrate_names.append(substrate.name)
+    substrate_names.reverse()
+    return sorted_tuples, substrate_names
+    
+def get_depth_class_scenario_stats(scenario):   
     depth_class_dict = simplejson.loads(scenario.output_depth_class_stats)
+    scenario_area = scenario.output_area
     depth_class_stats = {}
     for key,value in depth_class_dict.items():
-        perc = int(value / depth_class_area_extent[key] * 100 + .5)
+        perc = int(value / scenario_area * 100 + .5)
         if perc > 0:
             depth_class_stats[key] = perc
     depth_class_jstats = simplejson.dumps(depth_class_stats)
-    depth_class_table_height = bar_height * len(depth_class_stats.keys()) + bar_height   
-    return depth_class_jstats, depth_class_table_height
+    return depth_class_jstats
     
-def get_geomorphology_extent_stats(scenario):   
+def get_geomorphology_scenario_stats(scenario):   
     geomorphology_dict = simplejson.loads(scenario.output_geomorphology_stats)
+    scenario_area = scenario.output_area
     geomorphology_stats = {}
     for key,value in geomorphology_dict.items():
-        perc = int(value / geomorphology_area_extent[key] * 100 + .5)
+        perc = int(value / scenario_area * 100 + .5)
         if perc > 0:
             geomorphology_stats[key] = perc
     geomorphology_jstats = simplejson.dumps(geomorphology_stats)
-    geomorphology_table_height = bar_height * len(geomorphology_stats.keys()) + bar_height   
-    return geomorphology_jstats, geomorphology_table_height
+    return geomorphology_jstats
     
 def get_substrate_percs(scenario):
     substrate_dict = simplejson.loads(scenario.output_substrate_stats)    
