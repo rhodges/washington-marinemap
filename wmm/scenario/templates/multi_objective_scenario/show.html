@@ -2,7 +2,7 @@
 {% block title %}{{instance.name}}{% endblock title %}
 {% block panel %}
 <!--<h1>Results for "{{instance.name}}"</h1>-->
-<h1><small><small>Multi-Objective Scenario: </small></small> {{instance.name}}</h1>
+<h1><small><small>Scenario: </small></small> {{instance.name}}</h1>
     <div class="tabs">
         <ul>
             <li><a href="#Inputs"><span>Attributes</span></a></li>
@@ -32,7 +32,7 @@
                 <p><i>No Description</i></p>
                 {% endif %}
                 
-            <h2>Scenarios</h2>     
+            <h2>Objectives</h2>     
                 {% for scenario in instance.scenarios.all %}
                 <p>{{scenario.input_objective}}</p>
                 <!--

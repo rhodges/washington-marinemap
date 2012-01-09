@@ -53,11 +53,12 @@ def get_scenario_context(mos, scenario):
 def get_substrate_scenario_stats(scenario):    
     substrate_dict = simplejson.loads(scenario.output_substrate_stats)
     scenario_area = scenario.output_area
-    substrate_stats = {} #array not dict as ordering matters for coloration (at least for now...)
+    substrate_stats = {} 
     for key,value in substrate_dict.items():
         perc = int(value / scenario_area * 100 + .5)
         if perc > 0:
             substrate_stats[key] = perc
+    #arrays not dicts as ordering matters for coloration (at least for now...)
     sorted_substrate_tuples, substrate_names_reverse = sort_substrate_dict(substrate_stats)
     substrate_jstats = simplejson.dumps(sorted_substrate_tuples) 
     return substrate_jstats, substrate_names_reverse

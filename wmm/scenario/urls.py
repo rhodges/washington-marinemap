@@ -6,6 +6,7 @@ urlpatterns = patterns('',
     url(r'form/list-params', list_params), #called from the scenario creation wizard
     
     #feature reports
+    url(r'smp/(\d+)/(\w+)', smp_analysis, name='smp_analysis'), #user requested smp analysis 
     url(r'conservation/(\d+)/(\w+)', conservation_analysis, name='conservation_analysis'), #user requested conservation analysis 
     url(r'wind/(\d+)/(\w+)', wind_analysis, name='wind_analysis'), #user requested wind energy analysis 
     
