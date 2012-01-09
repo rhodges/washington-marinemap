@@ -20,8 +20,11 @@ bar_height = 32
 '''
 '''
 def display_scenario_report(request, mos, scenario, template='multi_objective_scenario/reports/scenario_report.html'):
-    context = get_scenario_context(mos, scenario)
-    return render_to_response(template, RequestContext(request, context)) 
+    if scenario.input_objective.short_name == 'offshore_conservation':
+        context = get_scenario_context(mos, scenario)
+        return render_to_response(template, RequestContext(request, context)) 
+    else:
+        return HttpResponse(scenario.input_objective.name + ' Report coming soon...')
 
 '''
 '''    
