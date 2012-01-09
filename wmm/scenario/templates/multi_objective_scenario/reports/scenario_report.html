@@ -266,11 +266,11 @@ function toggleReports(obj_id, src_id) {
 <div id="{{scenario.input_objective.short_name}}_substrate_percentages" class="jqPlot" style="height:{{substrate_extent_table_height}}px;width:400px"></div>
 -->
 {% for substrate in substrate_names_reverse %}
-<h3>{{substrate}} -- Depth Classes
+<h3>Depth Classes (as a percentage of <b>{{substrate}}</b>)
 <small><small>[<a id="toggle_{{substrate}}_depth_class" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{substrate}}_dc', 'toggle_{{substrate}}_depth_class');">Hide</a>]</small></small></h3>
 <div id="{{scenario.input_objective.short_name}}_{{substrate}}_dc" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px"></div>
 
-<h3>{{substrate}} -- Geomorphology
+<h3>Geomorphology (as a percentage of <b>{{substrate}}</b>)
 <small><small>[<a id="toggle_{{substrate}}_geomorphology" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{substrate}}_geo', 'toggle_{{substrate}}_geomorphology');">Hide</a>]</small></small></h3>
 <div id="{{scenario.input_objective.short_name}}_{{substrate}}_geo" class="jqPlot" style="height:{{geomorphology_extent_table_height}}px;width:400px"></div>
 
@@ -280,16 +280,16 @@ function toggleReports(obj_id, src_id) {
 
 
 <h2>Depth Class 
-<small><small>[<a id="toggle_depth_class_reports" href="javascript:toggleReports('depth_class_reports', 'toggle_depth_class_reports');">Hide</a>]</small></small></h2>
-<div id="depth_class_reports">
-<p></p>
+<small><small>[<a id="toggle_depth_class_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_depth_class_reports', 'toggle_depth_class_reports');">Hide</a>]</small></small></h2>
+<div id="{{scenario.input_objective.short_name}}_depth_class_reports">
+<p>Coming Soon...</p>
 </div>
 
 
 <h2>Geomorphology 
-<small><small>[<a id="toggle_geomorphology_reports" href="javascript:toggleReports('geomorphology_reports', 'toggle_geomorphology_reports');">Hide</a>]</small></small></h2>
-<div id="geomorphology_reports">
-<p></p>
+<small><small>[<a id="toggle_geomorphology_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_geomorphology_reports', 'toggle_geomorphology_reports');">Hide</a>]</small></small></h2>
+<div id="{{scenario.input_objective.short_name}}_geomorphology_reports">
+<p>Coming Soon...</p>
 </div>
 
 
