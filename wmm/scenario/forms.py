@@ -283,7 +283,7 @@ class MOSForm(FeatureForm):
     input_depth_nearshore_conservation = forms.FloatField(  min_value=0, max_value=5000, initial=0,
                                                             widget=DualSliderWidget('input_min_depth_nearshore_conservation','input_max_depth_nearshore_conservation',min=0,max=5000,step=10),
                                                             label="Depth Range (feet)", required=False)
-    input_substrate_nearshore_conservation = ModelMultipleChoiceField(  queryset=Substrate.objects.all().order_by('id'), 
+    input_substrate_nearshore_conservation = ModelMultipleChoiceField(  queryset=NearshoreSubstrate.objects.all().order_by('id'), 
                                                                         #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
                                                                         widget=forms.CheckboxSelectMultiple(),
                                                                         label="Include areas with the following Substrate Types", required=False) 
@@ -310,7 +310,15 @@ class MOSForm(FeatureForm):
                                                                             #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
                                                                             widget=forms.CheckboxSelectMultiple(),
                                                                             label="Include areas with the following Substrate Types", required=False) 
-               
+    input_upwelling_water_column_conservation = ModelMultipleChoiceField(   queryset=Upwelling.objects.all().order_by('id'), 
+                                                                            #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
+                                                                            widget=forms.CheckboxSelectMultiple(),
+                                                                            label="Include areas with the following Upwelling Classes", required=False) 
+    input_chlorophyl_water_column_conservation = ModelMultipleChoiceField(  queryset=Chlorophyl.objects.all().order_by('id'), 
+                                                                            #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
+                                                                            widget=forms.CheckboxSelectMultiple(),
+                                                                            label="Include areas with the following Chlorophyl Classes", required=False) 
+                  
         
     # CATEGORY:  DEVELOPMENT 
     input_objectives_development = forms.ModelMultipleChoiceField(  queryset=DevelopmentObjective.objects.all().order_by('id'), 

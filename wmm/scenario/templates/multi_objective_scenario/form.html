@@ -15,13 +15,13 @@
                             'development': ['shoreside_development'] };
                             
         //parameters_dict parameters ordering needs to match the ordering found in each <objective>parameter table in the db                     
-        parameters_list = [ 'distance_shore', 'distance_port', 'depth', 'substrate', 'depth_class', 'geomorphology'];
+        parameters_list = [ 'distance_shore', 'distance_port', 'depth', 'substrate', 'depth_class', 'geomorphology', 'exposure', 'ecosystem', 'upwelling', 'chlorophyl'];
         parameters_dict = { 'tidal_energy': ['distance_shore', 'distance_port', 'depth', 'substrate'],
                             'wave_energy': ['distance_shore', 'distance_port', 'depth', 'substrate'],
                             'wind_energy': ['distance_shore', 'distance_port', 'depth', 'substrate'],
                             'offshore_conservation': ['substrate', 'depth_class', 'geomorphology'],
                             'nearshore_conservation': ['substrate'],
-                            'water_column_conservation': ['depth_class'],
+                            'water_column_conservation': ['upwelling', 'chlorophyl'],
                             'offshore_fishing': ['distance_port', 'depth', 'substrate'],
                             'shellfish_aquaculture': ['distance_shore', 'depth', 'substrate'],
                             'shoreside_development': ['distance_shore'] };
@@ -737,6 +737,20 @@ span.form-image > img { width:46px; height:46px; }
                     {{ form.input_depth_class_water_column_conservation.label_tag }}
                     {{ form.input_depth_class_water_column_conservation.errors }}
                     <p>{{ form.input_depth_class_water_column_conservation }} </p>
+                </div>
+            </div>
+            <div id="upwelling_water_column_conservation_widget" class="inputfield">
+                <div class="field required">
+                    {{ form.input_upwelling_water_column_conservation.label_tag }}
+                    {{ form.input_upwelling_water_column_conservation.errors }}
+                    <p>{{ form.input_upwelling_water_column_conservation }} </p>
+                </div>
+            </div>
+            <div id="chlorophyl_water_column_conservation_widget" class="inputfield">
+                <div class="field required">
+                    {{ form.input_chlorophyl_water_column_conservation.label_tag }}
+                    {{ form.input_chlorophyl_water_column_conservation.errors }}
+                    <p>{{ form.input_chlorophyl_water_column_conservation }} </p>
                 </div>
             </div>
         </div>
