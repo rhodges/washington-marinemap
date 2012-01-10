@@ -108,6 +108,21 @@ class GeomorphologyAdmin(admin.ModelAdmin):
     fields = ['name']
 admin.site.register(Geomorphology, GeomorphologyAdmin)
 
+class NearshoreSubstrateAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id', 'color']
+    fields = ['name', 'color']
+admin.site.register(NearshoreSubstrate, NearshoreSubstrateAdmin)
+
+class UpwellingAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id']
+    fields = ['name']
+admin.site.register(Upwelling, UpwellingAdmin)
+
+class ChlorophylAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id']
+    fields = ['name']
+admin.site.register(Chlorophyl, ChlorophylAdmin)
+
 class ConservationSiteAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'user', 'date_created', 'date_modified')
     list_filter = ['date_modified', 'date_created']

@@ -19,27 +19,30 @@ bar_height = 32
  
 '''
 '''
-def display_scenario_report(request, mos, scenario, template='multi_objective_scenario/reports/scenario_report.html'):
+def display_offshore_conservation_report(request, mos, scenario, template='multi_objective_scenario/reports/offshore_conservation_report.html'):
     if scenario.input_objective.short_name == 'offshore_conservation':
-        context = get_scenario_context(mos, scenario)
+        context = get_offshore_conservation_context(mos, scenario)
         return render_to_response(template, RequestContext(request, context)) 
     else:
         return HttpResponse(scenario.input_objective.name + ' Report coming soon...')
 
 '''
 '''    
-def get_scenario_context(mos, scenario): 
+def get_offshore_conservation_context(mos, scenario): 
+    #get report dictionary from scenario
+    report = simplejson.loads(scenario.output_report)
+    
     #get context from cache or from running analysis
     
     # Scenario Context
-    substrate_jextent, substrate_names_reverse = get_substrate_scenario_stats(scenario)
-    depth_class_jextent = get_depth_class_scenario_stats(scenario)
-    geomorphology_jextent = get_geomorphology_scenario_stats(scenario)
+    substrate_jextent, substrate_names_reverse = get_substrate_scenario_stats(scenario, report)
+    depth_class_jextent = get_depth_class_scenario_stats(scenario, report)
+    geomorphology_jextent = get_geomorphology_scenario_stats(scenario, report)
     
     # Substrate Context
     #substrate_jpercs, substrate_percs, substrate_r = get_substrate_percs(scenario)
-    substrate_dc_jstats = get_substrate_dc_stats(scenario)
-    substrate_geo_jstats = get_substrate_geo_stats(scenario)
+    substrate_dc_jstats = get_substrate_dc_stats(scenario, report)
+    substrate_geo_jstats = get_substrate_geo_stats(scenario, report)
     #substrate_jcolors = get_substrate_colors(scenario, substrate_jpercs)
     
     context = { 'default_value': default_value, 'bar_height': bar_height, 'mos': mos, 'scenario': scenario, 
@@ -50,14 +53,15 @@ def get_scenario_context(mos, scenario):
                 'substrate_dc_jstats': substrate_dc_jstats, 'substrate_geo_jstats': substrate_geo_jstats } #, 'substrate_jcolors': substrate_jcolors }
     return context
    
-def get_substrate_scenario_stats(scenario):    
-    substrate_dict = simplejson.loads(scenario.output_substrate_stats)
+def get_substrate_scenario_stats(scenario, report):   
+    substrate_dict = report['substrate']
+    #substrate_dict = simplejson.loads(scenario.output_substrate_stats)
     scenario_area = scenario.output_area
     substrate_stats = {} 
     for key,value in substrate_dict.items():
-        perc = int(value / scenario_area * 100 + .5)
+        perc = value / scenario_area * 100
         if perc > 0:
-            substrate_stats[key] = perc
+            substrate_stats[key] = int(perc + .5)
     #arrays not dicts as ordering matters for coloration (at least for now...)
     sorted_substrate_tuples, substrate_names_reverse = sort_substrate_dict(substrate_stats)
     substrate_jstats = simplejson.dumps(sorted_substrate_tuples) 
@@ -74,35 +78,38 @@ def sort_substrate_dict(substrate_dict):
     substrate_names.reverse()
     return sorted_tuples, substrate_names
     
-def get_depth_class_scenario_stats(scenario):   
-    depth_class_dict = simplejson.loads(scenario.output_depth_class_stats)
+def get_depth_class_scenario_stats(scenario, report):  
+    depth_class_dict = report['depth_class'] 
+    #depth_class_dict = simplejson.loads(scenario.output_depth_class_stats)
     scenario_area = scenario.output_area
     depth_class_stats = {}
     for key,value in depth_class_dict.items():
-        perc = int(value / scenario_area * 100 + .5)
+        perc = value / scenario_area * 100 
         if perc > 0:
-            depth_class_stats[key] = perc
+            depth_class_stats[key] = int(perc + .5)
     depth_class_jstats = simplejson.dumps(depth_class_stats)
     return depth_class_jstats
     
-def get_geomorphology_scenario_stats(scenario):   
-    geomorphology_dict = simplejson.loads(scenario.output_geomorphology_stats)
+def get_geomorphology_scenario_stats(scenario, report):   
+    geomorphology_dict = report['geomorphology']  
+    #geomorphology_dict = simplejson.loads(scenario.output_geomorphology_stats)
     scenario_area = scenario.output_area
     geomorphology_stats = {}
     for key,value in geomorphology_dict.items():
-        perc = int(value / scenario_area * 100 + .5)
+        perc = value / scenario_area * 100 
         if perc > 0:
-            geomorphology_stats[key] = perc
+            geomorphology_stats[key] = int(perc + .5)
     geomorphology_jstats = simplejson.dumps(geomorphology_stats)
     return geomorphology_jstats
     
-def get_substrate_percs(scenario):
-    substrate_dict = simplejson.loads(scenario.output_substrate_stats)    
+def get_substrate_percs(scenario, report):  
+    substrate_dict = report['substrate']
+    #substrate_dict = simplejson.loads(scenario.output_substrate_stats)    
     substrate_percs = []
     for key,value in substrate_dict.items():
-        perc = int(value / scenario.output_area * 100 + .5)
+        perc = value / scenario.output_area * 100
         if perc > 0:
-            substrate_percs.append( (perc, key) )
+            substrate_percs.append( (int(perc + .5), key) )
     substrate_percs.sort()
     substrate_jpercs = simplejson.dumps(substrate_percs)  
     substrate_r = [y for x,y in substrate_percs]
@@ -117,8 +124,9 @@ def get_substrate_colors(scenario, substrate_percs):
     substrate_jcolors = simplejson.dumps(substrate_colors)
     return substrate_jcolors
     
-def get_substrate_dc_stats(scenario):
-    substrate_dc_dict = simplejson.loads(scenario.output_substrate_depth_class_stats)
+def get_substrate_dc_stats(scenario, report):  
+    substrate_dc_dict = report['substrate_depth_class']
+    #substrate_dc_dict = simplejson.loads(scenario.output_substrate_depth_class_stats)
     substrate_dc_stats = {}
     for sub, dc_dict in substrate_dc_dict.items():
         substrate = sub
@@ -130,8 +138,9 @@ def get_substrate_dc_stats(scenario):
     substrate_dc_jstats = simplejson.dumps(substrate_dc_stats)
     return substrate_dc_jstats
         
-def get_substrate_geo_stats(scenario):
-    substrate_geo_dict = simplejson.loads(scenario.output_substrate_geomorphology_stats)
+def get_substrate_geo_stats(scenario, report):
+    substrate_geo_dict = report['substrate_geomorphology']
+    #substrate_geo_dict = simplejson.loads(scenario.output_substrate_geomorphology_stats)
     substrate_geo_stats = {}
     for sub, geo_dict in substrate_geo_dict.items():
         substrate = sub
