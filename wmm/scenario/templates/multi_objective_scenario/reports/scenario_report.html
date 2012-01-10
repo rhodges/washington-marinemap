@@ -26,7 +26,7 @@ lingcod.onShow(function() {
     //Not sure if the ordering for substrate data and coloring are guaranteed to match here...maybe order by area?
     //I believe ordering is working now for substrate data...need to verify...
     $.each(substrate_extent, function( index, extent_tuple) {
-        substrate_data[0].push( [extent_tuple[0], extent_tuple[1]] );
+        substrate_data[0].push( [extent_tuple[0], extent_tuple[1], 'test data'] );
         //$.each(substrate_colors, function( index, color_tuple ) {
         //    if (color_tuple[0] == extent_tuple[1]) {
         //        substrate_series.push( color_tuple[1] );
@@ -179,6 +179,14 @@ lingcod.onShow(function() {
                 }
             },
             //seriesColors: series_colors,
+            highlighter: {
+                //show: true,
+                tooltipOffset: 8,
+                tooltipAxes: 'x',
+                xvalues: 3,
+                formatString: '%s percent of your scenario is %s and this is part 3: %s',
+                showMarker: false
+            },
             axes: {
                 yaxis: {
                     renderer: $.jqplot.CategoryAxisRenderer,
@@ -238,17 +246,17 @@ function toggleReports(obj_id, src_id) {
 <small><small>[<a id="toggle_extent_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_extent_reports', 'toggle_extent_reports');">Hide</a>]</small></small></h2>
 <div id="{{scenario.input_objective.short_name}}_extent_reports">
 
-<h3>Substrates (as a percentage of the Scenario) 
+<h3>Substrates (as a percentage of the scenario output) 
 <small><small>[<a id="toggle_substrate_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_substrates', 'toggle_substrate_report');">Hide</a>]</small></small></h3>
 <div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style="height:{{substrate_extent_table_height}}px;width:400px;display "></div>
 <p></p>
 
-<h3>Depth Classes (as a percentage of the Scenario) 
+<h3>Depth Classes (as a percentage of the scenario output) 
 <small><small>[<a id="toggle_depth_class_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_depth_classes', 'toggle_depth_class_report');">Hide</a>]</small></small></h3>
 <div id="{{scenario.input_objective.short_name}}_depth_classes" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px;display "></div>
 <p></p>
 
-<h3>Geomorphologies (as a percentage of the Scenario)  
+<h3>Geomorphologies (as a percentage of the scenario output)  
 <small><small>[<a id="toggle_geomorphology_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_geomorphologies', 'toggle_geomorphology_report');">Hide</a>]</small></small></h3>
 <div id="{{scenario.input_objective.short_name}}_geomorphologies" class="jqPlot" style="height:{{geomorphology_extent_table_height}}px;width:400px;display "></div>
 <p></p>
