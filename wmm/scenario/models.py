@@ -64,69 +64,69 @@ class MOS(Feature):
         
     # Renewable Energy Parameters
     input_objectives_energy = models.ManyToManyField("EnergyObjective", null=True, blank=True)
-    
+    # Tidal
     input_parameters_tidal_energy = models.ManyToManyField("TidalEnergyParameter", null=True, blank=True)
     input_dist_shore_tidal_energy = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
     input_dist_port_tidal_energy = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
     input_min_depth_tidal_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_tidal_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_tidal_energy = models.ManyToManyField("Substrate", related_name="MOSTidalEnergySubstrate", null=True, blank=True)
-    input_depth_class_tidal_energy = models.ManyToManyField("DepthClass", related_name="MOSTidalEnergyDepthClass", null=True, blank=True)    
-    input_geomorphology_tidal_energy = models.ManyToManyField("Geomorphology", related_name="MOSTidalEnergyGeomorphology", null=True, blank=True)
-    
+    #input_depth_class_tidal_energy = models.ManyToManyField("DepthClass", related_name="MOSTidalEnergyDepthClass", null=True, blank=True)    
+    #input_geomorphology_tidal_energy = models.ManyToManyField("Geomorphology", related_name="MOSTidalEnergyGeomorphology", null=True, blank=True)
+    # Wind
     input_parameters_wind_energy = models.ManyToManyField("WindEnergyParameter")
     input_dist_shore_wind_energy = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
     input_dist_port_wind_energy = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
     input_min_depth_wind_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_wind_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_wind_energy = models.ManyToManyField("Substrate", related_name="MOSWindEnergySubstrate", null=True, blank=True)
-    input_depth_class_wind_energy = models.ManyToManyField("DepthClass", related_name="MOSWindEnergyDepthClass", null=True, blank=True)    
-    input_geomorphology_wind_energy = models.ManyToManyField("Geomorphology", related_name="MOSWindEnergyGeomorphology", null=True, blank=True)
-    
+    #input_depth_class_wind_energy = models.ManyToManyField("DepthClass", related_name="MOSWindEnergyDepthClass", null=True, blank=True)    
+    #input_geomorphology_wind_energy = models.ManyToManyField("Geomorphology", related_name="MOSWindEnergyGeomorphology", null=True, blank=True)
+    # Wave
     input_parameters_wave_energy = models.ManyToManyField("WaveEnergyParameter")
     input_dist_shore_wave_energy = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
     input_dist_port_wave_energy = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
     input_min_depth_wave_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_wave_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_wave_energy = models.ManyToManyField("Substrate", related_name="MOSWaveEnergySubstrate", null=True, blank=True)
-    input_depth_class_wave_energy = models.ManyToManyField("DepthClass", related_name="MOSWaveEnergyDepthClass", null=True, blank=True)    
-    input_geomorphology_wave_energy = models.ManyToManyField("Geomorphology", related_name="MOSWaveEnergyGeomorphology", null=True, blank=True)
+    #input_depth_class_wave_energy = models.ManyToManyField("DepthClass", related_name="MOSWaveEnergyDepthClass", null=True, blank=True)    
+    #input_geomorphology_wave_energy = models.ManyToManyField("Geomorphology", related_name="MOSWaveEnergyGeomorphology", null=True, blank=True)
     
     # Conservation Parameters
     
     input_objectives_conservation = models.ManyToManyField("ConservationObjective", null=True, blank=True)
     # Offshore 
     input_parameters_offshore_conservation = models.ManyToManyField("OffshoreConservationParameter")
-    input_dist_shore_offshore_conservation = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
-    input_dist_port_offshore_conservation = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
-    input_min_depth_offshore_conservation = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
-    input_max_depth_offshore_conservation = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
+    #input_dist_shore_offshore_conservation = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
+    #input_dist_port_offshore_conservation = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    #input_min_depth_offshore_conservation = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
+    #input_max_depth_offshore_conservation = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_offshore_conservation = models.ManyToManyField("Substrate", related_name="MOSOffshoreConservationSubstrate", null=True, blank=True)
     input_depth_class_offshore_conservation = models.ManyToManyField("DepthClass", related_name="MOSOffshoreConservationDepthClass", null=True, blank=True)    
     input_geomorphology_offshore_conservation = models.ManyToManyField("Geomorphology", related_name="MOSOffshoreConservationGeomorphology", null=True, blank=True)
     # Nearshore
     input_parameters_nearshore_conservation = models.ManyToManyField("NearshoreConservationParameter")
-    input_dist_shore_nearshore_conservation = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
-    input_dist_port_nearshore_conservation = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
-    input_min_depth_nearshore_conservation = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
-    input_max_depth_nearshore_conservation = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
+    #input_dist_shore_nearshore_conservation = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
+    #input_dist_port_nearshore_conservation = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    #input_min_depth_nearshore_conservation = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
+    #input_max_depth_nearshore_conservation = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_nearshore_conservation = models.ManyToManyField("NearshoreSubstrate", null=True, blank=True)
-    input_depth_class_nearshore_conservation = models.ManyToManyField("DepthClass", related_name="MOSNearshoreConservationDepthClass", null=True, blank=True)    
-    input_geomorphology_nearshore_conservation = models.ManyToManyField("Geomorphology", related_name="MOSNearshoreConservationGeomorphology", null=True, blank=True)
+    #input_depth_class_nearshore_conservation = models.ManyToManyField("DepthClass", related_name="MOSNearshoreConservationDepthClass", null=True, blank=True)    
+    #input_geomorphology_nearshore_conservation = models.ManyToManyField("Geomorphology", related_name="MOSNearshoreConservationGeomorphology", null=True, blank=True)
     # Water Column
     input_parameters_water_column_conservation = models.ManyToManyField("WaterColumnConservationParameter")
-    input_dist_shore_water_column_conservation = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
-    input_dist_port_water_column_conservation = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
-    input_min_depth_water_column_conservation = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
-    input_max_depth_water_column_conservation = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
-    input_substrate_water_column_conservation = models.ManyToManyField("Substrate", related_name="MOSWaterColumnConservationSubstrate", null=True, blank=True)
-    input_depth_class_water_column_conservation = models.ManyToManyField("DepthClass", related_name="MOSWaterColumnConservationDepthClass", null=True, blank=True)    
-    input_geomorphology_water_column_conservation = models.ManyToManyField("Geomorphology", related_name="MOSWaterColumnConservationGeomorphology", null=True, blank=True)
+    #input_dist_shore_water_column_conservation = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
+    #input_dist_port_water_column_conservation = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    #input_min_depth_water_column_conservation = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
+    #input_max_depth_water_column_conservation = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
+    #input_substrate_water_column_conservation = models.ManyToManyField("Substrate", related_name="MOSWaterColumnConservationSubstrate", null=True, blank=True)
+    #input_depth_class_water_column_conservation = models.ManyToManyField("DepthClass", related_name="MOSWaterColumnConservationDepthClass", null=True, blank=True)    
+    #input_geomorphology_water_column_conservation = models.ManyToManyField("Geomorphology", related_name="MOSWaterColumnConservationGeomorphology", null=True, blank=True)
     input_upwelling_water_column_conservation = models.ManyToManyField("Upwelling", null=True, blank=True)
     input_chlorophyl_water_column_conservation = models.ManyToManyField("Chlorophyl", null=True, blank=True)
     
     # Development Parameters
-    
+    '''
     input_objectives_development = models.ManyToManyField("DevelopmentObjective", null=True, blank=True)
     
     input_parameters_shoreside_development = models.ManyToManyField("ShoresideDevelopmentParameter")
@@ -137,11 +137,11 @@ class MOS(Feature):
     input_substrate_shoreside_development = models.ManyToManyField("Substrate", related_name="MOSShoresideDevelopmentSubstrate", null=True, blank=True)
     input_depth_class_shoreside_development = models.ManyToManyField("DepthClass", related_name="MOSShoresideDevelopmentDepthClass", null=True, blank=True)    
     input_geomorphology_shoreside_development = models.ManyToManyField("Geomorphology", related_name="MOSShoresideDevelopmentGeomorphology", null=True, blank=True)
-    
+    '''
     # Fisheries Parameters
-    
+    '''
     input_objectives_fisheries = models.ManyToManyField("FisheriesObjective", null=True, blank=True)
-    
+    # Shellfish
     input_parameters_shellfish_aquaculture = models.ManyToManyField("ShellfishAquacultureParameter")
     input_dist_shore_shellfish_aquaculture = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
     input_dist_port_shellfish_aquaculture = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
@@ -150,7 +150,7 @@ class MOS(Feature):
     input_substrate_shellfish_aquaculture = models.ManyToManyField("Substrate", related_name="MOSShellfishAquacultureSubstrate", null=True, blank=True)
     input_depth_class_shellfish_aquaculture = models.ManyToManyField("DepthClass", related_name="MOSShellfishAquacultureDepthClass", null=True, blank=True)    
     input_geomorphology_shellfish_aquaculture = models.ManyToManyField("Geomorphology", related_name="MOSShellfishAquacultureGeomorphology", null=True, blank=True)
-    
+    # Offshore
     input_parameters_offshore_fishing = models.ManyToManyField("OffshoreFishingParameter")
     input_dist_shore_offshore_fishing = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
     input_dist_port_offshore_fishing = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
@@ -159,7 +159,7 @@ class MOS(Feature):
     input_substrate_offshore_fishing = models.ManyToManyField("Substrate", related_name="MOSOffshoreFishingSubstrate", null=True, blank=True)
     input_depth_class_offshore_fishing = models.ManyToManyField("DepthClass", related_name="MOSOffshoreFishingDepthClass", null=True, blank=True)    
     input_geomorphology_offshore_fishing = models.ManyToManyField("Geomorphology", related_name="MOSOffshoreFishingGeomorphology", null=True, blank=True)
-        
+    '''    
     description = models.TextField(null=True, blank=True)
     support_file = models.FileField(upload_to='scenarios/files/', null=True, blank=True)
        
@@ -178,10 +178,12 @@ class MOS(Feature):
             super(MOS, self).save(form=form)
             
             #accumulate input objectives into single field
-            energy_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_energy']]
-            conservation_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_conservation']]
-            development_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_development']]
-            fisheries_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_fisheries']]
+            #accumulate energy_objectives
+            [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_energy']]
+            #accumulate conservation_objectives
+            [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_conservation']]
+            #development_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_development']]
+            #fisheries_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_fisheries']]
 
             #run analysis on scenarios only when necessary
             for obj in self.input_objectives.all():
@@ -194,7 +196,8 @@ class MOS(Feature):
                 input_params = [param.parameter for param in params]
                 
                 #do we need to grab these from the form or are they already stored in the MOS fields?
-                #probably stored in the fields already, but we do this to keep the code re-usable for all objectives
+                #already in the MOS fields, but the following keeps the code re-usable for all objectives
+                '''
                 dist_shore = form_data['input_dist_shore_%s'%obj_short_name]
                 dist_port = form_data['input_dist_port_%s'%obj_short_name]
                 min_depth = form_data['input_min_depth_%s'%obj_short_name]
@@ -204,6 +207,16 @@ class MOS(Feature):
                 geomorphologies = form_data['input_geomorphology_%s'%obj_short_name]
                 upwellings = form_data['input_upwelling_%s'%obj_short_name]
                 chlorophyls = form_data['input_chlorophyl_%s'%obj_short_name]
+                '''
+                dist_shore = self.get_form_data(form_data, 'input_dist_shore_%s'%obj_short_name)
+                dist_port = self.get_form_data(form_data, 'input_dist_port_%s'%obj_short_name)
+                min_depth = self.get_form_data(form_data, 'input_min_depth_%s'%obj_short_name)
+                max_depth = self.get_form_data(form_data, 'input_max_depth_%s'%obj_short_name)
+                substrates = self.get_form_data(form_data, 'input_substrate_%s'%obj_short_name)
+                depth_classes = self.get_form_data(form_data, 'input_depth_class_%s'%obj_short_name)
+                geomorphologies = self.get_form_data(form_data, 'input_geomorphology_%s'%obj_short_name)
+                upwellings = self.get_form_data(form_data, 'input_upwelling_%s'%obj_short_name)
+                chlorophyls = self.get_form_data(form_data, 'input_chlorophyl_%s'%obj_short_name)
                 
                 scenarios = self.scenarios.filter(mos=self.id, input_objective=obj)
                 if len(scenarios) > 1: #not expecting this case to ever happen -- might want to log this event if it does...
@@ -249,6 +262,16 @@ class MOS(Feature):
         
     def support_filename(self):
         return os.path.basename(self.support_file.name)
+    
+    def get_form_data(self, form_data, index):
+        try:
+            data = form_data[index]
+        except:
+            if 'dist_shore' in index or 'dist_port' in index or 'min_depth' in index or 'max_depth' in index:
+                data = 0
+            else:
+                data = []
+        return data            
     
     @property
     def objective_ids(self):
