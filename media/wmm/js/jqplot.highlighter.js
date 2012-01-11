@@ -332,6 +332,10 @@
             str = opts.tooltipContentEditor(str, neighbor.seriesIndex, neighbor.pointIndex, plot);
         }
         elem.html(str);
+        
+        //Added on 1/11/2012 by Scott Fletcher to enable specialized tooltip output
+        elem.html(neighbor.data[2]);
+        
         var gridpos = {x:neighbor.gridData[0], y:neighbor.gridData[1]};
         var ms = 0;
         var fact = 0.707;
