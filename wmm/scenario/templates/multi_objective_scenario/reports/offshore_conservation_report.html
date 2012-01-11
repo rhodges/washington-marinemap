@@ -26,7 +26,8 @@ lingcod.onShow(function() {
     //Not sure if the ordering for substrate data and coloring are guaranteed to match here...maybe order by area?
     //I believe ordering is working now for substrate data...need to verify...
     $.each(substrate_extent, function( index, extent_tuple) {
-        substrate_data[0].push( [extent_tuple[0], extent_tuple[1], 'test data'] );
+        console.log(extent_tuple);
+        substrate_data[0].push( [extent_tuple[0], extent_tuple[1], extent_tuple[2]] );
         //$.each(substrate_colors, function( index, color_tuple ) {
         //    if (color_tuple[0] == extent_tuple[1]) {
         //        substrate_series.push( color_tuple[1] );
@@ -40,13 +41,13 @@ lingcod.onShow(function() {
         if (!depth_class_extent.hasOwnProperty(key)) { //not sure what this actually does...
             continue;
         }
-        depth_class_data[0].push([depth_class_extent[key],key]);
+        depth_class_data[0].push([depth_class_extent[key][0], key, depth_class_extent[key][1]]);
     }  
     for (var key in geomorphology_extent) {
         if (!geomorphology_extent.hasOwnProperty(key)) { //not sure what this actually does...
             continue;
         }
-        geomorphology_data[0].push([geomorphology_extent[key],key]);
+        geomorphology_data[0].push([geomorphology_extent[key][0], key, geomorphology_extent[key][1]]);
     }
     var scenario_data = [substrate_data,depth_class_data, geomorphology_data];
         
@@ -106,7 +107,7 @@ lingcod.onShow(function() {
             if (!substrate_dc_stats[sub].hasOwnProperty(dc)) {
                 continue;
             }
-            dc_data[0].push( [substrate_dc_stats[sub][dc], dc] );
+            dc_data[0].push( [substrate_dc_stats[sub][dc][0], dc, substrate_dc_stats[sub][dc][1]] );
         }
         substrate_dc_data.push(dc_data);
         substrate_dc_divs.push(obj_short_name+'_'+sub+'_dc');
@@ -134,7 +135,7 @@ lingcod.onShow(function() {
             if (!substrate_geo_stats[sub].hasOwnProperty(geo)) {
                 continue;
             }
-            geo_data[0].push( [substrate_geo_stats[sub][geo], geo] );
+            geo_data[0].push( [substrate_geo_stats[sub][geo][0], geo, substrate_geo_stats[sub][geo][1]] );
         }
         substrate_geo_data.push(geo_data);
         substrate_geo_divs.push(obj_short_name+'_'+sub+'_geo');
@@ -150,6 +151,10 @@ lingcod.onShow(function() {
     
     //Chart drawing function 
     function createChart(div, data ) { //, series_colors) {
+        //console.log(div);
+        //console.log(data);
+        tooltip_output = 'current output...';
+        //console.log(tooltip_output);
         chart = $.jqplot(div, data, {
             animate: true,
             animateReplot: true,
@@ -179,11 +184,10 @@ lingcod.onShow(function() {
             },
             //seriesColors: series_colors,
             highlighter: {
-                //show: true,
-                tooltipOffset: 8,
-                tooltipAxes: 'x',
-                xvalues: 3,
-                formatString: '%s percent of your scenario is %s and this is part 3: %s',
+                show: true,
+                tooltipOffset: 7,
+                tooltipLocation: 'n',
+                formatString: tooltip_output,
                 showMarker: false
             },
             axes: {

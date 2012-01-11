@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from scenario.models import *
 from settings import *
-from scenario.utils import default_value
+from scenario.utils import default_value, sq_meters_to_sq_miles
 from django.utils import simplejson
     
 #areas (in meters) of each substrate in our current dataset   
@@ -61,7 +61,7 @@ def get_substrate_scenario_stats(scenario, report):
     for key,value in substrate_dict.items():
         perc = value / scenario_area * 100
         if perc > 0:
-            substrate_stats[key] = int(perc + .5)
+            substrate_stats[key] = (int(perc + .5), sq_meters_to_sq_miles(value))
     #arrays not dicts as ordering matters for coloration (at least for now...)
     sorted_substrate_tuples, substrate_names_reverse = sort_substrate_dict(substrate_stats)
     substrate_jstats = simplejson.dumps(sorted_substrate_tuples) 
@@ -73,10 +73,14 @@ def sort_substrate_dict(substrate_dict):
     substrate_names = []
     for substrate in substrates:        
         if substrate.name in substrate_dict.keys():
-            sorted_tuples.append( (substrate_dict[substrate.name], substrate.name) )
+            tooltip_text = "Total Area: %.2f sq miles" %substrate_dict[substrate.name][1]
+            sorted_tuples.append( [substrate_dict[substrate.name][0], substrate.name, tooltip_text] )
             substrate_names.append(substrate.name)
     substrate_names.reverse()
     return sorted_tuples, substrate_names
+    
+def get_tooltip_text(area):
+    return "%.2f sq miles" %area
     
 def get_depth_class_scenario_stats(scenario, report):  
     depth_class_dict = report['depth_class'] 
@@ -86,7 +90,8 @@ def get_depth_class_scenario_stats(scenario, report):
     for key,value in depth_class_dict.items():
         perc = value / scenario_area * 100 
         if perc > 0:
-            depth_class_stats[key] = int(perc + .5)
+            tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(value)
+            depth_class_stats[key] = [int(perc + .5), tooltip_text]
     depth_class_jstats = simplejson.dumps(depth_class_stats)
     return depth_class_jstats
     
@@ -98,7 +103,8 @@ def get_geomorphology_scenario_stats(scenario, report):
     for key,value in geomorphology_dict.items():
         perc = value / scenario_area * 100 
         if perc > 0:
-            geomorphology_stats[key] = int(perc + .5)
+            tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(value)
+            geomorphology_stats[key] = [int(perc + .5), tooltip_text]
     geomorphology_jstats = simplejson.dumps(geomorphology_stats)
     return geomorphology_jstats
     
@@ -133,7 +139,8 @@ def get_substrate_dc_stats(scenario, report):
         substrate_area = float( sum( [area for dc, area in dc_dict.items()] ) )
         dc_perc_dict = {}
         for dc, area in dc_dict.items():
-            dc_perc_dict[dc] = int(area / substrate_area * 100 + .5)
+            tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(area)
+            dc_perc_dict[dc] = [int(area / substrate_area * 100 + .5), tooltip_text]
         substrate_dc_stats[sub] = dc_perc_dict
     substrate_dc_jstats = simplejson.dumps(substrate_dc_stats)
     return substrate_dc_jstats
@@ -147,7 +154,8 @@ def get_substrate_geo_stats(scenario, report):
         substrate_area = float( sum( [area for geo, area in geo_dict.items()] ) )
         geo_perc_dict = {}
         for geo, area in geo_dict.items():
-            geo_perc_dict[geo] = int(area / substrate_area * 100 + .5)
+            tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(area)
+            geo_perc_dict[geo] = [int(area / substrate_area * 100 + .5), tooltip_text]
         substrate_geo_stats[sub] = geo_perc_dict
     substrate_geo_jstats = simplejson.dumps(substrate_geo_stats)
     return substrate_geo_jstats
