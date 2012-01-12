@@ -268,6 +268,14 @@ class MOSForm(FeatureForm):
                                                                         #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
                                                                         widget=forms.CheckboxSelectMultiple(),
                                                                         label="Include areas with the following Substrate Types", required=False) 
+    input_exposure_nearshore_conservation = ModelMultipleChoiceField(  queryset=NearshoreExposure.objects.all().order_by('id'), 
+                                                                        #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
+                                                                        widget=forms.CheckboxSelectMultiple(),
+                                                                        label="Include areas with the following Exposure Types", required=False) 
+    input_ecosystem_nearshore_conservation = ModelMultipleChoiceField(  queryset=NearshoreEcosystem.objects.all().order_by('id'), 
+                                                                        #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
+                                                                        widget=forms.CheckboxSelectMultiple(),
+                                                                        label="Include areas with the following Ecosystem Types", required=False) 
     
     
     # Objective 9 - Water Column Conservation
