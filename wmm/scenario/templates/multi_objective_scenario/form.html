@@ -15,10 +15,10 @@
                             'development': ['shoreside_development'] };
                             
         //parameters_dict parameters ordering needs to match the ordering found in each <objective>parameter table in the db                     
-        parameters_list = [ 'distance_shore', 'distance_port', 'depth', 'substrate', 'depth_class', 'geomorphology', 'exposure', 'ecosystem', 'upwelling', 'chlorophyl'];
+        parameters_list = [ 'distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential', 'depth_class', 'geomorphology', 'exposure', 'ecosystem', 'upwelling', 'chlorophyl'];
         parameters_dict = { 'tidal_energy': ['distance_shore', 'distance_port', 'depth', 'substrate'],
                             'wave_energy': ['distance_shore', 'distance_port', 'depth', 'substrate'],
-                            'wind_energy': ['distance_shore', 'distance_port', 'depth', 'substrate'],
+                            'wind_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential'],
                             'offshore_conservation': ['substrate', 'depth_class', 'geomorphology'],
                             'nearshore_conservation': ['substrate'],
                             'water_column_conservation': ['upwelling', 'chlorophyl'],
@@ -578,6 +578,13 @@ span.form-image > img { width:46px; height:46px; }
                     {{ form.input_substrate_wind_energy.label_tag }}
                     {{ form.input_substrate_wind_energy.errors }}
                     <p>{{ form.input_substrate_wind_energy }} </p>
+                </div>
+            </div>
+            <div id="wind_potential_wind_energy_widget" class="inputfield">
+                <div class="field required">
+                    {{ form.input_wind_potential_wind_energy.label_tag }}
+                    {{ form.input_wind_potential_wind_energy.errors }}
+                    <p>{{ form.input_wind_potential_wind_energy }} </p>
                 </div>
             </div>
         </div>

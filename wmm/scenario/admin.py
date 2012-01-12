@@ -98,6 +98,11 @@ class SubstrateAdmin(admin.ModelAdmin):
     fields = ['name', 'color']
 admin.site.register(Substrate, SubstrateAdmin)
 
+class WindPotentialAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id', 'density', 'speed']
+    fields = ['name', 'density', 'speed']
+admin.site.register(WindPotential, WindPotentialAdmin)
+
 class DepthClassAdmin(admin.ModelAdmin):
     list_display = ['name', 'id']
     fields = ['name']
