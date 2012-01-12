@@ -118,6 +118,16 @@ class NearshoreSubstrateAdmin(admin.ModelAdmin):
     fields = ['name', 'color']
 admin.site.register(NearshoreSubstrate, NearshoreSubstrateAdmin)
 
+class NearshoreExposureAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id']
+    fields = ['name']
+admin.site.register(NearshoreExposure, NearshoreExposureAdmin)
+
+class NearshoreEcosystemAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id']
+    fields = ['name']
+admin.site.register(NearshoreEcosystem, NearshoreEcosystemAdmin)
+
 class UpwellingAdmin(admin.ModelAdmin):
     list_display = ['name', 'id']
     fields = ['name']

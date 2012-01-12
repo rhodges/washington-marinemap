@@ -97,6 +97,8 @@ class MOS(Feature):
     # Nearshore
     input_parameters_nearshore_conservation = models.ManyToManyField("NearshoreConservationParameter")
     input_substrate_nearshore_conservation = models.ManyToManyField("NearshoreSubstrate", null=True, blank=True)
+    input_exposure_nearshore_conservation = models.ManyToManyField("NearshoreExposure", null=True, blank=True)
+    input_ecosystem_nearshore_conservation = models.ManyToManyField("NearshoreEcosystem", null=True, blank=True)
     # Water Column
     input_parameters_water_column_conservation = models.ManyToManyField("WaterColumnConservationParameter")
     input_upwelling_water_column_conservation = models.ManyToManyField("Upwelling", null=True, blank=True)
@@ -143,6 +145,8 @@ class MOS(Feature):
                 min_depth = self.get_form_data(form_data, 'input_min_depth_%s'%obj_short_name)
                 max_depth = self.get_form_data(form_data, 'input_max_depth_%s'%obj_short_name)
                 substrates = self.get_form_data(form_data, 'input_substrate_%s'%obj_short_name)
+                exposures = self.get_form_data(form_data, 'input_exposure_%s'%obj_short_name)
+                ecosystems = self.get_form_data(form_data, 'input_ecosystem_%s'%obj_short_name)
                 wind_potentials = self.get_form_data(form_data, 'input_wind_potential_%s'%obj_short_name)
                 depth_classes = self.get_form_data(form_data, 'input_depth_class_%s'%obj_short_name)
                 geomorphologies = self.get_form_data(form_data, 'input_geomorphology_%s'%obj_short_name)
@@ -165,13 +169,15 @@ class MOS(Feature):
                     scenario = Scenario(user=user, name=scenario_name, input_objective=obj, input_dist_shore=dist_shore, input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth)            
                 scenario.save(rerun=False)
                 
-                if set(scenario.input_parameters.all()) != set(input_params) or set(scenario.input_wind_potential.all()) != set(wind_potentials) or set(scenario.input_substrate.all()) != set(substrates) or set(scenario.input_depth_class.all()) != set(depth_classes) or set(scenario.input_geomorphology.all()) != set(geomorphologies):
+                if set(scenario.input_parameters.all()) != set(input_params) or set(scenario.input_wind_potential.all()) != set(wind_potentials) or (set(scenario.input_substrate.all()) != set(substrates) and set(scenario.input_nearshore_substrate.all()) != set(substrates)) or set(scenario.input_exposure.all()) != set(exposures) or set(scenario.input_ecosystem.all()) != set(ecosystems) or set(scenario.input_depth_class.all()) != set(depth_classes) or set(scenario.input_geomorphology.all()) != set(geomorphologies):
                     rerun = True   
                 scenario.input_parameters = input_params 
                 if obj_short_name == 'nearshore_conservation':
                     scenario.input_nearshore_substrate = substrates
                 else:
-                    scenario.input_substrate = substrates                    
+                    scenario.input_substrate = substrates                  
+                scenario.input_nearshore_ecosystem = ecosystems                   
+                scenario.input_nearshore_exposure = exposures                     
                 scenario.input_depth_class = depth_classes                    
                 scenario.input_wind_potential = wind_potentials                    
                 scenario.input_geomorphology = geomorphologies             
@@ -246,6 +252,14 @@ class MOS(Feature):
         if 7 in parameter_ids:
             html += "<p><strong> Geomorphologies:</strong>  "
             html += ", ".join(scenario.input_geomorphology_names)
+            html += " </p>"
+        if 8 in parameter_ids:
+            html += "<p><strong> Exposures:</strong>  "
+            html += ", ".join(scenario.input_exposure_names)
+            html += " </p>"
+        if 9 in parameter_ids:
+            html += "<p><strong> Ecosystems:</strong>  "
+            html += ", ".join(scenario.input_ecosystem_names)
             html += " </p>"
         if 10 in parameter_ids:
             html += "<p><strong> Upwelling:</strong>  "
@@ -375,9 +389,12 @@ class Scenario(Analysis):
     
     input_wind_potential = models.ManyToManyField("WindPotential", null=True, blank=True)  
     input_substrate = models.ManyToManyField("Substrate", null=True, blank=True)  
-    input_nearshore_substrate = models.ManyToManyField("NearshoreSubstrate", null=True, blank=True)
     input_depth_class = models.ManyToManyField("DepthClass", null=True, blank=True)    
     input_geomorphology = models.ManyToManyField("Geomorphology", null=True, blank=True)
+    
+    input_nearshore_substrate = models.ManyToManyField("NearshoreSubstrate", null=True, blank=True)
+    input_nearshore_exposure = models.ManyToManyField("NearshoreExposure", null=True, blank=True)
+    input_nearshore_ecosystem = models.ManyToManyField("NearshoreEcosystem", null=True, blank=True)
     
     input_upwelling = models.ManyToManyField("Upwelling", null=True, blank=True)
     input_chlorophyl = models.ManyToManyField("Chlorophyl", null=True, blank=True)
@@ -420,10 +437,10 @@ class Scenario(Analysis):
         
         g.run('g.region rast=bathy')  #sets extent 
         #g.run('g.region rast=geomorphology')
-        #if self.input_objective.short_name == 'nearshore_conservation':
-        #    g.run('g.region nsres=90 ewres=90')  #sets cell size
-        #else:
-        g.run('g.region nsres=180 ewres=180')  #sets cell size
+        if self.input_objective.short_name == 'nearshore_conservation':
+            g.run('g.region nsres=90 ewres=90')  #sets cell size
+        else:
+            g.run('g.region nsres=180 ewres=180')  #sets cell size
         rasts = g.list()['rast']
 
         outdir = settings.GRASS_TMP #'/tmp'
@@ -476,6 +493,18 @@ class Scenario(Analysis):
         else:   
             geomorphology = 1
         
+        if 8 in input_params:
+            exposure_formula = ' || '.join(['exposure==%s' % exposure.id for exposure in self.input_nearshore_exposure.all()])
+            exposure = 'if(%s)' %exposure_formula
+        else:   
+            exposure = 1
+        
+        if 9 in input_params:
+            ecosystem_formula = ' || '.join(['vegetation==%s' % ecosystem.id for ecosystem in self.input_nearshore_ecosystem.all()])
+            ecosystem = 'if(%s)' %ecosystem_formula
+        else:   
+            ecosystem = 1
+        
         if 10 in input_params:
             upwelling_formula = ' || '.join(['upwelling==%s' % upwelling.id for upwelling in self.input_upwelling.all()])
             upwelling = 'if(%s)' %upwelling_formula
@@ -494,7 +523,7 @@ class Scenario(Analysis):
         else:   
             wind = 1
         
-        mapcalc = """r.mapcalc "rresult = if((%s + %s + %s + %s + %s + %s + %s + %s + %s)==9,1,null())" """ % (port_buffer, shoreline_buffer, depth, substrate, depth_class, geomorphology, upwelling, chlorophyl, wind)
+        mapcalc = """r.mapcalc "rresult = if((%s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s)==11,1,null())" """ % (port_buffer, shoreline_buffer, depth, substrate, depth_class, geomorphology, exposure, ecosystem, upwelling, chlorophyl, wind)
         #mapcalc = """r.mapcalc "rresult = if((if(shoreline_rast_buffer==2) + if(port_buffer_rast) + if(bathy>%s && bathy<%s) + if(%s))==4,1,null())" """ % (self.input_min_depth, self.input_max_depth, substrate_formula) 
         g.run(mapcalc)
         self.output_mapcalc = mapcalc
@@ -557,6 +586,8 @@ class Scenario(Analysis):
                     #will return the same list (regardless of whether we use orig or self)
                     orig_substrates = set(getattr(orig, 'input_substrate').all())
                     orig_nearshore_substrates = set(getattr(orig, 'input_nearshore_substrate').all())
+                    orig_nearshore_exposures = set(getattr(orig, 'input_nearshore_exposure').all())
+                    orig_nearshore_ecosystems = set(getattr(orig, 'input_nearshore_ecosystem').all())
                     orig_depth_classes = set(getattr(orig, 'input_depth_class').all())
                     orig_geomorphologies = set(getattr(orig, 'input_geomorphology').all())
                     orig_upwellings = set(getattr(orig, 'input_upwelling').all())
@@ -564,11 +595,13 @@ class Scenario(Analysis):
                     super(Scenario, self).save(rerun=False, *args, **kwargs)
                     new_substrates = set(getattr(self, 'input_substrate').all())
                     new_nearshore_substrates = set(getattr(self, 'input_nearshore_substrate').all())
+                    new_nearshore_exposures = set(getattr(self, 'input_nearshore_exposure').all())
+                    new_nearshore_ecosystems = set(getattr(self, 'input_nearshore_ecosystem').all())
                     new_depth_classes = set(getattr(self, 'input_depth_class').all())
                     new_geomorphologies = set(getattr(self, 'input_geomorphology').all())
                     new_upwellings = set(getattr(self, 'input_upwelling').all())
                     new_chlorophyls = set(getattr(self, 'input_chlorophyl').all())
-                    if orig_substrates != new_substrates or orig_nearshore_substrates != new_nearshore_substrates or orig_depth_classes != new_depth_classes or orig_geomorphologies != new_geomorphologies or orig_upwellings != new_upwellings or orig_chlorophyls != new_chlorophyls:
+                    if orig_substrates != new_substrates or orig_nearshore_substrates != new_nearshore_substrates or orig_nearshore_exposures != new_nearshore_exposures or orig_nearshore_ecosystems != new_nearshore_ecosystems or orig_depth_classes != new_depth_classes or orig_geomorphologies != new_geomorphologies or orig_upwellings != new_upwellings or orig_chlorophyls != new_chlorophyls:
                         rerun = True                    
             super(Scenario, self).save(rerun=rerun, *args, **kwargs)
         else: #editing a scenario and rerun is provided 
@@ -742,6 +775,16 @@ class Scenario(Analysis):
         else: 
             substrate_names = [substrate.name for substrate in self.input_substrate.all()]
         return substrate_names
+    
+    @property
+    def input_exposure_names(self):
+        exposure_names = [exposure.name for exposure in self.input_nearshore_exposure.all()]
+        return exposure_names
+    
+    @property
+    def input_ecosystem_names(self):
+        ecosystem_names = [ecosystem.name for ecosystem in self.input_nearshore_ecosystem.all()]
+        return ecosystem_names
     
     @property
     def input_depth_class_names(self):
@@ -989,13 +1032,13 @@ class NearshoreSubstrate(models.Model):
     def __unicode__(self):
         return u'%s' %self.name
         
-class Exposure(models.Model):
+class NearshoreExposure(models.Model):
     name = models.CharField(max_length=30)
     
     def __unicode__(self):
         return u'%s' %self.name
         
-class Ecosystem(models.Model):
+class NearshoreEcosystem(models.Model):
     name = models.CharField(max_length=30)
     
     def __unicode__(self):

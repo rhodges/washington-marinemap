@@ -20,7 +20,7 @@
                             'wave_energy': ['distance_shore', 'distance_port', 'depth', 'substrate'],
                             'wind_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential'],
                             'offshore_conservation': ['substrate', 'depth_class', 'geomorphology'],
-                            'nearshore_conservation': ['substrate'],
+                            'nearshore_conservation': ['substrate', 'exposure', 'ecosystem'],
                             'water_column_conservation': ['upwelling', 'chlorophyl'],
                             'offshore_fishing': ['distance_port', 'depth', 'substrate'],
                             'shellfish_aquaculture': ['distance_shore', 'depth', 'substrate'],
@@ -132,8 +132,8 @@
                     $.each(obj_params, function(index, param) {
                         //console.log('objective parameter: ' + param.name);
                         if (param.checked) {
-                            console.log(param.name + ' is checked');
-                            console.log('pushing ' + obj + ' ' + param.value + ' from parameters_dict');
+                            //console.log(param.name + ' is checked');
+                            //console.log('pushing ' + obj + ' ' + param.value + ' from parameters_dict');
                             param_list.push(parameters_dict[obj][param.value-1]);
                         }
                     });
@@ -141,9 +141,9 @@
                 });
             });
             //console.log('Leaving get_selected_params...');
-            $.each(selected_params, function(obj, param_list) {
-                console.log('returning ' + param_list + ' from get_selected_params');
-            });
+            //$.each(selected_params, function(obj, param_list) {
+                //console.log('returning ' + param_list + ' from get_selected_params');
+            //});
             return selected_params;
         };
         
@@ -197,6 +197,7 @@
                     });
                     $.each(selected_objectives, function(key, value) {
                         $.each(value, function(index, obj) {
+                            //console.log(obj);
                             $('#'+obj+'_params_header').show();
                             $('#'+obj+'_params').show();
                             $.each($('input.parameters_'+obj), function() {
@@ -236,9 +237,9 @@
                     //show only those widgets and widget headers that have been selected by the user
                     $.each(selected_params, function(obj, param_list) {
                         $('#'+obj+'_widgets_header').show();
-                        console.log('showing ' + param_list);
+                        //console.log('showing ' + param_list);
                         $(param_list).each( function(index, param) {
-                            console.log('showing #'+param+'_'+obj);
+                            //console.log('showing #'+param+'_'+obj);
                             $('#'+param+'_'+obj+'_widget').show();
                         });
                     });
@@ -689,6 +690,20 @@ span.form-image > img { width:46px; height:46px; }
                     {{ form.input_substrate_nearshore_conservation.label_tag }}
                     {{ form.input_substrate_nearshore_conservation.errors }}
                     <p>{{ form.input_substrate_nearshore_conservation }} </p>
+                </div>
+            </div>
+            <div id="exposure_nearshore_conservation_widget" class="inputfield">
+                <div class="field required">
+                    {{ form.input_exposure_nearshore_conservation.label_tag }}
+                    {{ form.input_exposure_nearshore_conservation.errors }}
+                    <p>{{ form.input_exposure_nearshore_conservation }} </p>
+                </div>
+            </div>
+            <div id="ecosystem_nearshore_conservation_widget" class="inputfield">
+                <div class="field required">
+                    {{ form.input_ecosystem_nearshore_conservation.label_tag }}
+                    {{ form.input_ecosystem_nearshore_conservation.errors }}
+                    <p>{{ form.input_ecosystem_nearshore_conservation }} </p>
                 </div>
             </div>
             <div id="depth_class_nearshore_conservation_widget" class="inputfield">
