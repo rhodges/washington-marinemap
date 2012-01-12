@@ -78,6 +78,7 @@ class MOS(Feature):
     input_min_depth_wind_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_wind_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_wind_energy = models.ManyToManyField("Substrate", related_name="MOSWindEnergySubstrate", null=True, blank=True)
+    input_wind_potential_wind_energy = models.ManyToManyField("WindPotential", null=True, blank=True)
     # Wave
     input_parameters_wave_energy = models.ManyToManyField("WaveEnergyParameter")
     input_dist_shore_wave_energy = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
@@ -142,6 +143,7 @@ class MOS(Feature):
                 min_depth = self.get_form_data(form_data, 'input_min_depth_%s'%obj_short_name)
                 max_depth = self.get_form_data(form_data, 'input_max_depth_%s'%obj_short_name)
                 substrates = self.get_form_data(form_data, 'input_substrate_%s'%obj_short_name)
+                wind_potentials = self.get_form_data(form_data, 'input_wind_potential_%s'%obj_short_name)
                 depth_classes = self.get_form_data(form_data, 'input_depth_class_%s'%obj_short_name)
                 geomorphologies = self.get_form_data(form_data, 'input_geomorphology_%s'%obj_short_name)
                 upwellings = self.get_form_data(form_data, 'input_upwelling_%s'%obj_short_name)
@@ -163,7 +165,7 @@ class MOS(Feature):
                     scenario = Scenario(user=user, name=scenario_name, input_objective=obj, input_dist_shore=dist_shore, input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth)            
                 scenario.save(rerun=False)
                 
-                if set(scenario.input_parameters.all()) != set(input_params) or set(scenario.input_substrate.all()) != set(substrates) or set(scenario.input_depth_class.all()) != set(depth_classes) or set(scenario.input_geomorphology.all()) != set(geomorphologies):
+                if set(scenario.input_parameters.all()) != set(input_params) or set(scenario.input_wind_potential.all()) != set(wind_potentials) or set(scenario.input_substrate.all()) != set(substrates) or set(scenario.input_depth_class.all()) != set(depth_classes) or set(scenario.input_geomorphology.all()) != set(geomorphologies):
                     rerun = True   
                 scenario.input_parameters = input_params 
                 if obj_short_name == 'nearshore_conservation':
@@ -171,6 +173,7 @@ class MOS(Feature):
                 else:
                     scenario.input_substrate = substrates                    
                 scenario.input_depth_class = depth_classes                    
+                scenario.input_wind_potential = wind_potentials                    
                 scenario.input_geomorphology = geomorphologies             
                 scenario.input_upwelling = upwellings             
                 scenario.input_chlorophyl = chlorophyls
@@ -251,6 +254,10 @@ class MOS(Feature):
         if 11 in parameter_ids:
             html += "<p><strong> Chlorophyl:</strong>  "
             html += ", ".join(scenario.input_chlorophyl_names)
+            html += " </p>"
+        if 12 in parameter_ids:
+            html += "<p><strong> Wind Potential:</strong>  "
+            html += ", ".join(scenario.input_wind_potential_names)
             html += " </p>"
         return html 
         
@@ -366,6 +373,7 @@ class Scenario(Analysis):
     input_min_depth = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     
+    input_wind_potential = models.ManyToManyField("WindPotential", null=True, blank=True)  
     input_substrate = models.ManyToManyField("Substrate", null=True, blank=True)  
     input_nearshore_substrate = models.ManyToManyField("NearshoreSubstrate", null=True, blank=True)
     input_depth_class = models.ManyToManyField("DepthClass", null=True, blank=True)    
@@ -480,7 +488,13 @@ class Scenario(Analysis):
         else:   
             chlorophyl = 1
         
-        mapcalc = """r.mapcalc "rresult = if((%s + %s + %s + %s + %s + %s + %s + %s)==8,1,null())" """ % (port_buffer, shoreline_buffer, depth, substrate, depth_class, geomorphology, upwelling, chlorophyl)
+        if 12 in input_params:
+            wind_formula = ' || '.join(['wind==%s' % wind.id for wind in self.input_wind_potential.all()])
+            wind = 'if(%s)' %wind_formula
+        else:   
+            wind = 1
+        
+        mapcalc = """r.mapcalc "rresult = if((%s + %s + %s + %s + %s + %s + %s + %s + %s)==9,1,null())" """ % (port_buffer, shoreline_buffer, depth, substrate, depth_class, geomorphology, upwelling, chlorophyl, wind)
         #mapcalc = """r.mapcalc "rresult = if((if(shoreline_rast_buffer==2) + if(port_buffer_rast) + if(bathy>%s && bathy<%s) + if(%s))==4,1,null())" """ % (self.input_min_depth, self.input_max_depth, substrate_formula) 
         g.run(mapcalc)
         self.output_mapcalc = mapcalc
@@ -748,7 +762,12 @@ class Scenario(Analysis):
     def input_chlorophyl_names(self):
         chlorophyl_names = [chlorophyl.name for chlorophyl in self.input_chlorophyl.all()]
         return chlorophyl_names
-            
+                
+    @property
+    def input_wind_potential_names(self):
+        wind_names = [wind.name for wind in self.input_wind_potential.all()]
+        return wind_names
+                       
     @property
     def get_id(self):
         return self.id
@@ -942,6 +961,14 @@ class Substrate(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.name
+        
+class WindPotential(models.Model): 
+    name = models.CharField(max_length=30)  
+    density = models.CharField(max_length=30)
+    speed = models.CharField(max_length=30)
+
+    def __unicode__(self):
+        return u'%s (%s, %s)' %(self.name, self.density, self.speed)     
         
 class DepthClass(models.Model):
     name = models.CharField(max_length=30)

@@ -224,6 +224,10 @@ class MOSForm(FeatureForm):
                                                             #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
                                                             widget=forms.CheckboxSelectMultiple(),
                                                             label="Include areas with the following Substrate Types", required=False) 
+    input_wind_potential_wind_energy = ModelMultipleChoiceField(queryset=WindPotential.objects.all().order_by('id'), 
+                                                                #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
+                                                                widget=forms.CheckboxSelectMultiple(),
+                                                                label="Include areas with the following Wind Potential Characterizations", required=False) 
     
     
     # CATEGORY:  CONSERVATION 
