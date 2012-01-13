@@ -14,8 +14,11 @@ def scenario_report(request, mos_id, scenario_id):
         return response
     scenario_obj = get_object_or_404(Scenario, pk=scenario_id)
     
-    from mos.scenario_report import display_scenario_report
-    return display_scenario_report(request, mos_obj, scenario_obj)
+    if scenario_obj.input_objective.short_name == 'offshore_conservation':
+        from mos.offshore_conservation import display_offshore_conservation_report
+        return display_offshore_conservation_report(request, mos_obj, scenario_obj)
+    else:
+        return HttpResponse(scenario_obj.input_objective.name + ' Report coming soon...')
     
 '''
 '''

@@ -10,3 +10,6 @@ def miles_to_meters(miles):
     
 def feet_to_meters(feet):
     return int(feet * .3048)
+    
+def sq_meters_to_sq_miles(sq_meters):
+    return sq_meters * .000000386102159

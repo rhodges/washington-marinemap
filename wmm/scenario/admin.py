@@ -6,7 +6,7 @@ admin.site.register(Permission)
 from wmm.scenario.models import *
 
 class MOSAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'user', 'date_created', 'date_modified')
+    list_display = ('name', 'id', 'user', 'date_created', 'date_modified')
     list_filter = ['date_modified', 'date_created']
     search_fields = ('name', 'user__username', 'id')
     fields = ['name', 'description', 'user', 'scenarios', 'support_file'] 
@@ -94,9 +94,14 @@ class OffshoreFishingParameterAdmin(admin.ModelAdmin):
 admin.site.register(OffshoreFishingParameter, OffshoreFishingParameterAdmin)
 
 class SubstrateAdmin(admin.ModelAdmin):
-    list_display = ['name', 'id', 'color']
-    fields = ['name', 'color']
+    list_display = ['name', 'id', 'short_name', 'color']
+    fields = ['name', 'short_name', 'color']
 admin.site.register(Substrate, SubstrateAdmin)
+
+class WindPotentialAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id', 'density', 'speed']
+    fields = ['name', 'density', 'speed']
+admin.site.register(WindPotential, WindPotentialAdmin)
 
 class DepthClassAdmin(admin.ModelAdmin):
     list_display = ['name', 'id']
@@ -107,6 +112,31 @@ class GeomorphologyAdmin(admin.ModelAdmin):
     list_display = ['name', 'id']
     fields = ['name']
 admin.site.register(Geomorphology, GeomorphologyAdmin)
+
+class NearshoreSubstrateAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id', 'color']
+    fields = ['name', 'color']
+admin.site.register(NearshoreSubstrate, NearshoreSubstrateAdmin)
+
+class NearshoreExposureAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id']
+    fields = ['name']
+admin.site.register(NearshoreExposure, NearshoreExposureAdmin)
+
+class NearshoreEcosystemAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id']
+    fields = ['name']
+admin.site.register(NearshoreEcosystem, NearshoreEcosystemAdmin)
+
+class UpwellingAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id']
+    fields = ['name']
+admin.site.register(Upwelling, UpwellingAdmin)
+
+class ChlorophylAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id']
+    fields = ['name']
+admin.site.register(Chlorophyl, ChlorophylAdmin)
 
 class ConservationSiteAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'user', 'date_created', 'date_modified')
