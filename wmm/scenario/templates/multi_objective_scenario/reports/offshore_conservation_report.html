@@ -113,13 +113,13 @@ lingcod.onShow(function() {
         substrate_dc_divs.push(obj_short_name+'_'+sub+'_dc');
         substrate_dc_len++;
     }  
+    console.log(substrate_dc_divs);
     for (i=0; i<substrate_dc_len; i++) {
         //series_colors = [ '#4bb2c5' ];
         var height = bar_height * substrate_dc_data[i][0].length + bar_height;
         $('#'+substrate_dc_divs[i]).height(height);
         chart = createChart(substrate_dc_divs[i], substrate_dc_data[i]); //, series_colors);
     };
-    
     
     // Substrate Geomorphology 
     var substrate_geo_stats = {{ substrate_geo_jstats|safe }};
@@ -146,6 +146,60 @@ lingcod.onShow(function() {
         $('#'+substrate_geo_divs[i]).height(height);
         //series_colors = [ '#4bb2c5' ];
         chart = createChart(substrate_geo_divs[i], substrate_geo_data[i]); //, series_colors);
+    };
+    
+    /** THE DEPTH CLASS REPORTS **/
+    
+    // Depth Class Substrates 
+    var depth_class_sub_stats = {{ depth_class_sub_jstats|safe }};
+    var depth_class_sub_data = [];
+    var depth_class_sub_divs = [];
+    var depth_class_sub_len = 0;
+    for (var dc in depth_class_sub_stats) {
+        if (!depth_class_sub_stats.hasOwnProperty(dc)) { //not sure what this actually does...
+            continue;
+        }
+        dc_data = [[]];
+        for (var sub in depth_class_sub_stats[dc]) {
+            if (!depth_class_sub_stats[dc].hasOwnProperty(sub)) {
+                continue;
+            }
+            dc_data[0].push( [depth_class_sub_stats[dc][sub][0], sub, depth_class_sub_stats[dc][sub][1]] );
+        }
+        depth_class_sub_data.push(dc_data);
+        depth_class_sub_divs.push(obj_short_name+'_'+dc+'_sub');
+        depth_class_sub_len++;
+    }  
+    for (i=0; i<depth_class_sub_len; i++) {
+        var height = bar_height * depth_class_sub_data[i][0].length + bar_height;
+        $('#'+depth_class_sub_divs[i]).height(height);
+        chart = createChart(depth_class_sub_divs[i], depth_class_sub_data[i]); 
+    };
+    
+    // Depth Class Geomorphologies 
+    var depth_class_geo_stats = {{ depth_class_geo_jstats|safe }};
+    var depth_class_geo_data = [];
+    var depth_class_geo_divs = [];
+    var depth_class_geo_len = 0;
+    for (var dc in depth_class_geo_stats) {
+        if (!depth_class_geo_stats.hasOwnProperty(dc)) { //not sure what this actually does...
+            continue;
+        }
+        dc_data = [[]];
+        for (var geo in depth_class_geo_stats[dc]) {
+            if (!depth_class_geo_stats[dc].hasOwnProperty(geo)) {
+                continue;
+            }
+            dc_data[0].push( [depth_class_geo_stats[dc][geo][0], geo, depth_class_geo_stats[dc][geo][1]] );
+        }
+        depth_class_geo_data.push(dc_data);
+        depth_class_geo_divs.push(obj_short_name+'_'+dc+'_geo');
+        depth_class_geo_len++;
+    }  
+    for (i=0; i<depth_class_geo_len; i++) {
+        var height = bar_height * depth_class_geo_data[i][0].length + bar_height;
+        $('#'+depth_class_geo_divs[i]).height(height);
+        chart = createChart(depth_class_geo_divs[i], depth_class_geo_data[i]); 
     };
     
     
@@ -276,14 +330,14 @@ function toggleReports(obj_id, src_id) {
 <small><small>[<a id="toggle_substrate_reports" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_substrate_percentages', 'toggle_substrate_reports');">Hide</a>]</small></small></h3>
 <div id="{{scenario.input_objective.short_name}}_substrate_percentages" class="jqPlot" style="height:{{substrate_extent_table_height}}px;width:400px"></div>
 -->
-{% for substrate in substrate_names_reverse %}
-<h3>Depth Classes (as a percentage of <b>{{substrate}}</b>)
+{% for substrate in substrate_list_reverse %}
+<h3>Depth Classes (as a percentage of <b>{{substrate.name}}</b>)
 <small><small>[<a id="toggle_{{substrate}}_depth_class" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{substrate}}_dc', 'toggle_{{substrate}}_depth_class');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{substrate}}_dc" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{substrate.short_name}}_dc" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px"></div>
 
-<h3>Geomorphology (as a percentage of <b>{{substrate}}</b>)
+<h3>Geomorphology (as a percentage of <b>{{substrate.name}}</b>)
 <small><small>[<a id="toggle_{{substrate}}_geomorphology" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{substrate}}_geo', 'toggle_{{substrate}}_geomorphology');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{substrate}}_geo" class="jqPlot" style="height:{{geomorphology_extent_table_height}}px;width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{substrate.short_name}}_geo" class="jqPlot" style="height:{{geomorphology_extent_table_height}}px;width:400px"></div>
 
 {% endfor %}
 <p></p>
@@ -293,7 +347,18 @@ function toggleReports(obj_id, src_id) {
 <h2>Depth Class 
 <small><small>[<a id="toggle_depth_class_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_depth_class_reports', 'toggle_depth_class_reports');">Hide</a>]</small></small></h2>
 <div id="{{scenario.input_objective.short_name}}_depth_class_reports">
-<p>Coming Soon...</p>
+
+{% for depth_class in depth_class_list_reverse %}
+<h3>Substrates (as a percentage of <b>{{depth_class.name}}</b>)
+<small><small>[<a id="toggle_{{depth_class}}_substrate" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{depth_class}}_sub', 'toggle_{{depth_class}}_substrate');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_{{depth_class.name}}_sub" class="jqPlot" style="width:400px"></div>
+
+<h3>Geomorphology (as a percentage of <b>{{depth_class.name}}</b>)
+<small><small>[<a id="toggle_{{depth_class}}_geomorphology" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{depth_class}}_geo', 'toggle_{{depth_class}}_geomorphology');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_{{depth_class.name}}_geo" class="jqPlot" style="width:400px"></div>
+
+{% endfor %}
+<p></p>
 </div>
 
 

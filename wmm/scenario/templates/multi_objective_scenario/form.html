@@ -424,7 +424,7 @@ span.form-image > img { width:46px; height:46px; }
             <p>{{ form.input_parameters_water_column_conservation }} </p>
         </div>
     
-        <!-- Fisheries Objectives -->
+        <!-- Fisheries Objectives 
         <div id="offshore_fishing_params_header" style="text-indent:1em">
             <p><strong>Offshore Fishing</strong>  
             (<a id="showParams_offshore_fishing" href="javascript:toggleParams('offshore_fishing_params', 'showParams_offshore_fishing');">Hide Parameters</a>)</p>
@@ -440,8 +440,8 @@ span.form-image > img { width:46px; height:46px; }
         <div id="shellfish_aquaculture_params">
             <p>{{ form.input_parameters_shellfish_aquaculture }} </p>
         </div>
-    
-        <!-- Development Objectives -->
+        -->
+        <!-- Development Objectives 
         <div id="shoreside_development_params_header" style="text-indent:1em">
             <p><strong>Shoreside Development</strong>  
             (<a id="showParams_shoreside_development" href="javascript:toggleParams('shoreside_development_params', 'showParams_shoreside_development');">Hide Parameters</a>)</p>
@@ -449,7 +449,7 @@ span.form-image > img { width:46px; height:46px; }
         <div id="shoreside_development_params">
             <p>{{ form.input_parameters_shoreside_development }} </p>
         </div>
-    
+        -->
         <!--  can also use style="display: none" to hide the div contents -->
     </div>
   </div>
@@ -604,32 +604,6 @@ span.form-image > img { width:46px; height:46px; }
             (<a id="showWidgets_conservation" href="javascript:toggleParams('offshore_conservation_widgets', 'showWidgets_conservation');">Hide Parameters</a>):</p>
         </div>
         <div id="offshore_conservation_widgets">
-            <div id="distance_shore_offshore_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_dist_shore_offshore_conservation.label_tag }}
-                    {{ form.input_dist_shore_offshore_conservation.errors }}
-                    {{ form.input_dist_shore_offshore_conservation }}            
-                </div>
-            </div>
-            <div id="distance_port_offshore_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_dist_port_offshore_conservation.label_tag }}
-                    {{ form.input_dist_port_offshore_conservation.errors }}
-                    {{ form.input_dist_port_offshore_conservation }}            
-                </div>
-            </div>
-            <div id="depth_offshore_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_depth_offshore_conservation.label_tag }} 
-                    {{ form.input_depth_offshore_conservation.errors }}
-                    
-                    {{ form.input_min_depth_offshore_conservation }}            
-                    to
-                    {{ form.input_max_depth_offshore_conservation }}            
-
-                    {{ form.input_depth_offshore_conservation }}            
-                </div>
-            </div>
             <div id="substrate_offshore_conservation_widget" class="inputfield">
                 <div class="field required">
                     {{ form.input_substrate_offshore_conservation.label_tag }}
@@ -659,32 +633,6 @@ span.form-image > img { width:46px; height:46px; }
             (<a id="showWidgets_nearshore_conservation" href="javascript:toggleParams('nearshore_conservation_widgets', 'showWidgets_nearshore_conservation');">Hide Parameters</a>):</p>
         </div>
         <div id="nearshore_conservation_widgets">
-            <div id="distance_shore_nearshore_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_dist_shore_nearshore_conservation.label_tag }}
-                    {{ form.input_dist_shore_nearshore_conservation.errors }}
-                    {{ form.input_dist_shore_nearshore_conservation }}            
-                </div>
-            </div>
-            <div id="distance_port_nearshore_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_dist_port_nearshore_conservation.label_tag }}
-                    {{ form.input_dist_port_nearshore_conservation.errors }}
-                    {{ form.input_dist_port_nearshore_conservation }}            
-                </div>
-            </div>
-            <div id="depth_nearshore_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_depth_nearshore_conservation.label_tag }} 
-                    {{ form.input_depth_nearshore_conservation.errors }}
-                    
-                    {{ form.input_min_depth_nearshore_conservation }}            
-                    to
-                    {{ form.input_max_depth_nearshore_conservation }}            
-
-                    {{ form.input_depth_nearshore_conservation }}            
-                </div>
-            </div>
             <div id="substrate_nearshore_conservation_widget" class="inputfield">
                 <div class="field required">
                     {{ form.input_substrate_nearshore_conservation.label_tag }}
@@ -706,13 +654,6 @@ span.form-image > img { width:46px; height:46px; }
                     <p>{{ form.input_ecosystem_nearshore_conservation }} </p>
                 </div>
             </div>
-            <div id="depth_class_nearshore_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_depth_class_nearshore_conservation.label_tag }}
-                    {{ form.input_depth_class_nearshore_conservation.errors }}
-                    <p>{{ form.input_depth_class_nearshore_conservation }} </p>
-                </div>
-            </div>
         </div>
     
         <!-- Water Column Conservation -->
@@ -721,46 +662,6 @@ span.form-image > img { width:46px; height:46px; }
             (<a id="showWidgets_water_column_conservation" href="javascript:toggleParams('water_column_conservation_widgets', 'showWidgets_water_column_conservation');">Hide Parameters</a>):</p>
         </div>
         <div id="water_column_conservation_widgets">
-            <div id="distance_shore_water_column_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_dist_shore_water_column_conservation.label_tag }}
-                    {{ form.input_dist_shore_water_column_conservation.errors }}
-                    {{ form.input_dist_shore_water_column_conservation }}            
-                </div>
-            </div>
-            <div id="distance_port_water_column_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_dist_port_water_column_conservation.label_tag }}
-                    {{ form.input_dist_port_water_column_conservation.errors }}
-                    {{ form.input_dist_port_water_column_conservation }}            
-                </div>
-            </div>
-            <div id="depth_water_column_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_depth_water_column_conservation.label_tag }} 
-                    {{ form.input_depth_water_column_conservation.errors }}
-                    
-                    {{ form.input_min_depth_water_column_conservation }}            
-                    to
-                    {{ form.input_max_depth_water_column_conservation }}            
-
-                    {{ form.input_depth_water_column_conservation }}            
-                </div>
-            </div>
-            <div id="substrate_water_column_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_substrate_water_column_conservation.label_tag }}
-                    {{ form.input_substrate_water_column_conservation.errors }}
-                    <p>{{ form.input_substrate_water_column_conservation }} </p>
-                </div>
-            </div>
-            <div id="depth_class_water_column_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_depth_class_water_column_conservation.label_tag }}
-                    {{ form.input_depth_class_water_column_conservation.errors }}
-                    <p>{{ form.input_depth_class_water_column_conservation }} </p>
-                </div>
-            </div>
             <div id="upwelling_water_column_conservation_widget" class="inputfield">
                 <div class="field required">
                     {{ form.input_upwelling_water_column_conservation.label_tag }}
@@ -777,7 +678,7 @@ span.form-image > img { width:46px; height:46px; }
             </div>
         </div>
         
-        <!-- Offshore Fishing -->
+        <!-- Offshore Fishing 
         <div id="offshore_fishing_widgets_header" style="text-indent:1em">
             <p><strong>Offshore Fishing</strong>  
             (<a id="showWidgets_offshore_fishing" href="javascript:toggleParams('offshore_fishing_widgets', 'showWidgets_offshore_fishing');">Hide Parameters</a>):</p>
@@ -817,8 +718,8 @@ span.form-image > img { width:46px; height:46px; }
                 </div>
             </div>
         </div>
-        
-        <!-- Shellfish Aquaculture -->
+        -->
+        <!-- Shellfish Aquaculture 
         <div id="shellfish_aquaculture_widgets_header" style="text-indent:1em">
             <p><strong>Shellfish Aquaculture</strong>  
             (<a id="showWidgets_shellfish_aquaculture" href="javascript:toggleParams('shellfish_aquaculture_widgets', 'showWidgets_shellfish_aquaculture');">Hide Parameters</a>):</p>
@@ -858,8 +759,8 @@ span.form-image > img { width:46px; height:46px; }
                 </div>
             </div>
         </div>
-        
-        <!-- Shoreside Development -->
+        -->
+        <!-- Shoreside Development 
         <div id="shoreside_development_widgets_header" style="text-indent:1em">
             <p><strong>Shoreside Development</strong>  
             (<a id="showWidgets_shoreside_development" href="javascript:toggleParams('shoreside_development_widgets', 'showWidgets_shoreside_development');">Hide Parameters</a>):</p>
@@ -899,7 +800,7 @@ span.form-image > img { width:46px; height:46px; }
                 </div>
             </div>
         </div>
-    
+        -->
         
     </div>
   </div>

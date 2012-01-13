@@ -169,7 +169,7 @@ class MOS(Feature):
                     scenario = Scenario(user=user, name=scenario_name, input_objective=obj, input_dist_shore=dist_shore, input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth)            
                 scenario.save(rerun=False)
                 
-                if set(scenario.input_parameters.all()) != set(input_params) or set(scenario.input_wind_potential.all()) != set(wind_potentials) or (set(scenario.input_substrate.all()) != set(substrates) and set(scenario.input_nearshore_substrate.all()) != set(substrates)) or set(scenario.input_exposure.all()) != set(exposures) or set(scenario.input_ecosystem.all()) != set(ecosystems) or set(scenario.input_depth_class.all()) != set(depth_classes) or set(scenario.input_geomorphology.all()) != set(geomorphologies):
+                if set(scenario.input_parameters.all()) != set(input_params) or set(scenario.input_wind_potential.all()) != set(wind_potentials) or (set(scenario.input_substrate.all()) != set(substrates) and set(scenario.input_nearshore_substrate.all()) != set(substrates)) or set(scenario.input_nearshore_exposure.all()) != set(exposures) or set(scenario.input_nearshore_ecosystem.all()) != set(ecosystems) or set(scenario.input_depth_class.all()) != set(depth_classes) or set(scenario.input_geomorphology.all()) != set(geomorphologies):
                     rerun = True   
                 scenario.input_parameters = input_params 
                 if obj_short_name == 'nearshore_conservation':
@@ -632,6 +632,8 @@ class Scenario(Analysis):
     def offshore_conservation_report(self, g):
         offshore_report = {}
         
+        # Scenario 
+        
         #substrate stats -- collecting area (in meters) for each substrate represented in the resulting scenario
         substrate_result = """r.mapcalc "subresult = if(rresult==1,substrate,null())" """
         g.run(substrate_result)
@@ -675,6 +677,8 @@ class Scenario(Analysis):
         #self.output_geomorphology_stats = simplejson.dumps(geomorphology_name_dict)
         offshore_report['geomorphology']=geomorphology_name_dict
         
+        # Substrate 
+        
         #substrate depth_class stats -- collecting area (in meters) of each depth class in each substrate 
         sub_ids = substrate_dict.keys()
         substrate_dc_dict = {}
@@ -689,10 +693,12 @@ class Scenario(Analysis):
             dc_ints = [int(float(x)+.5) for x in dc_split]
             dc_dict = dict(zip(dc_ints[::2], dc_ints[1::2])) 
             dc_name_dict = dict( map( lambda(key, value): (DepthClass.objects.get(id=key).name, value), dc_dict.items()))
-            substrate_dc_dict[Substrate.objects.get(id=sub_id).name] = dc_name_dict
+            #the following key uses Substrate.short_name to prevent html iregularities when assigning div names in report template
+            substrate_dc_dict[Substrate.objects.get(id=sub_id).short_name] = dc_name_dict
         #self.output_substrate_depth_class_stats = simplejson.dumps(substrate_dc_dict)
         offshore_report['substrate_depth_class']=substrate_dc_dict
         
+        #substrate geomorphology stats -- collecting area (in meters) of each geomorphology in each substrate 
         substrate_geo_dict = {}
         for sub_id in sub_ids:
             #substrate_result = """r.mapcalc "subresult_%s = if(substrate==%s,subresult,null())" """ % (sub_id, sub_id)
@@ -705,14 +711,56 @@ class Scenario(Analysis):
             geo_ints = [int(float(x)+.5) for x in geo_split]
             geo_dict = dict(zip(geo_ints[::2], geo_ints[1::2])) 
             geo_name_dict = dict( map( lambda(key, value): (Geomorphology.objects.get(id=key).name, value), geo_dict.items()))
-            substrate_geo_dict[Substrate.objects.get(id=sub_id).name] = geo_name_dict
+            #the following key uses Substrate.short_name to prevent html iregularities when assigning div names in report template
+            substrate_geo_dict[Substrate.objects.get(id=sub_id).short_name] = geo_name_dict
         #self.output_substrate_geomorphology_stats = simplejson.dumps(substrate_geo_dict)
         offshore_report['substrate_geomorphology']=substrate_geo_dict
         
-        #depth_class_ids = depth_class_dict.keys()
-        #for dc_id in depth_class_ids:
-        #    depth_class_result = """r.mapcalc "subresult_%s_dcresult_%s = if(depth_class==%s,subresult_%s,null())" """ %(sub_id, dc_id, dc_id, sub_id)
-        #    g.run(depth_class_result)
+        # Depth Class
+        
+        #depth class substrate stats -- collecting area (in meters) of each substrate in each depth class 
+        depth_class_sub_dict = {}
+        dc_ids = depth_class_dict.keys()
+        for dc_id in dc_ids:
+            depth_class_result = """r.mapcalc "dcresult_%s = if(depth_class==%s,dcresult,null())" """ % (dc_id, dc_id)
+            g.run(depth_class_result)
+            depth_class_stats = g.run('r.stats -an input=dcresult_%s' %dc_id) #used to verify mapcalc above...
+            dc_result = """r.mapcalc "depth_class_%s_subresult = if(dcresult_%s==%s,substrate,null())" """ %(dc_id, dc_id, dc_id)
+            g.run(dc_result)
+            dc_stats = g.run('r.stats -an input=depth_class_%s_subresult' %dc_id)
+            #dc_stats is something like the following: '3 1360911.649924\n6 2940800464.852541\n'
+            dc_split = dc_stats.split()
+            #dc_split becomes: ['2', '1360911.649924', '4', '2940800464.852541']
+            dc_ints = [int(float(x)+.5) for x in dc_split]
+            #dc_ints becomes: [3, 1360911, 6, 2940800464]
+            dc_dict = dict(zip(dc_ints[::2], dc_ints[1::2])) 
+            #dc_dict becoms: {3: 1360911, 6: 2940800464}
+            dc_name_dict = dict( map( lambda(key, value): (Substrate.objects.get(id=key).name, value), dc_dict.items()))
+            #dc_name_dict finally becomes: {'Innershelf': 1360911, 'Midshelf': 2940800464}
+            depth_class_sub_dict[DepthClass.objects.get(id=dc_id).name] = dc_name_dict
+        offshore_report['depth_class_substrate']=depth_class_sub_dict
+        
+        #depth class geomorphology stats -- collecting area (in meters) of each geomorphology in each depth class 
+        depth_class_geo_dict = {}
+        for dc_id in dc_ids:
+            #depth_class_result = """r.mapcalc "dcresult_%s = if(depth_class==%s,dcresult,null())" """ % (dc_id, dc_id)
+            #g.run(depth_class_result)
+            #depth_class_stats = g.run('r.stats -an input=dcresult_%s' %dc_id) #used to verify mapcalc above...
+            dc_result = """r.mapcalc "depth_class_%s_georesult = if(dcresult_%s==%s,geomorphology,null())" """ %(dc_id, dc_id, dc_id)
+            g.run(dc_result)
+            dc_stats = g.run('r.stats -an input=depth_class_%s_georesult' %dc_id)
+            #dc_stats is something like the following: '3 1360911.649924\n6 2940800464.852541\n'
+            dc_split = dc_stats.split()
+            #dc_split becomes: ['2', '1360911.649924', '4', '2940800464.852541']
+            dc_ints = [int(float(x)+.5) for x in dc_split]
+            #dc_ints becomes: [3, 1360911, 6, 2940800464]
+            dc_dict = dict(zip(dc_ints[::2], dc_ints[1::2])) 
+            #dc_dict becoms: {3: 1360911, 6: 2940800464}
+            dc_name_dict = dict( map( lambda(key, value): (Geomorphology.objects.get(id=key).name, value), dc_dict.items()))
+            #dc_name_dict finally becomes: {'Innershelf': 1360911, 'Midshelf': 2940800464}
+            depth_class_geo_dict[DepthClass.objects.get(id=dc_id).name] = dc_name_dict
+        offshore_report['depth_class_geomorphology']=depth_class_geo_dict
+        
                 
                 
         #self.output_substrate_depth_class_stats = simplejson.dumps(substrate_depth_class_dict)
@@ -1000,6 +1048,7 @@ class OffshoreFishingParameter(models.Model):
         
 class Substrate(models.Model):
     name = models.CharField(max_length=30)  
+    short_name = models.CharField(max_length=30, default='none')    
     color = models.CharField(max_length=8, default='778B1A55')
 
     def __unicode__(self):
