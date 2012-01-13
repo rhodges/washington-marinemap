@@ -761,12 +761,55 @@ class Scenario(Analysis):
             depth_class_geo_dict[DepthClass.objects.get(id=dc_id).name] = dc_name_dict
         offshore_report['depth_class_geomorphology']=depth_class_geo_dict
         
-                
+        # Geomorphology
+
+        #geomorphology substrate stats -- collecting area (in meters) of each substrate in each geomorphology
+        geomorphology_sub_dict = {}
+        geo_ids = geomorphology_dict.keys()
+        for geo_id in geo_ids:
+            geomorphology_result = """r.mapcalc "georesult_%s = if(geomorphology==%s,georesult,null())" """ % (geo_id, geo_id)
+            g.run(geomorphology_result)
+            #geomorphology_stats = g.run('r.stats -an input=georesult_%s' %geo_id) #used to verify mapcalc above...
+            geo_result = """r.mapcalc "geomorphology_%s_subresult = if(georesult_%s==%s,substrate,null())" """ %(geo_id, geo_id, geo_id)
+            g.run(geo_result)
+            geo_stats = g.run('r.stats -an input=geomorphology_%s_subresult' %geo_id)
+            geo_name_dict = self.get_dict_from_stats(geo_stats, Substrate)
+            #dc_name_dict finally becomes: {'Flat': 1360911, 'Slope': 2940800464}
+            geomorphology_sub_dict[Geomorphology.objects.get(id=geo_id).name] = geo_name_dict
+        offshore_report['geomorphology_substrate']=geomorphology_sub_dict
+        
+        #geomorphology depth_class stats -- collecting area (in meters) of each depth_class in each geomorphology
+        geomorphology_dc_dict = {}
+        #geo_ids = geomorphology_dict.keys()
+        for geo_id in geo_ids:
+            #geomorphology_result = """r.mapcalc "georesult_%s = if(geomorphology==%s,georesult,null())" """ % (geo_id, geo_id)
+            #g.run(geomorphology_result)
+            #geomorphology_stats = g.run('r.stats -an input=georesult_%s' %geo_id) #used to verify mapcalc above...
+            geo_result = """r.mapcalc "geomorphology_%s_dcresult = if(georesult_%s==%s,depth_class,null())" """ %(geo_id, geo_id, geo_id)
+            g.run(geo_result)
+            geo_stats = g.run('r.stats -an input=geomorphology_%s_dcresult' %geo_id)
+            geo_name_dict = self.get_dict_from_stats(geo_stats, DepthClass)
+            #dc_name_dict finally becomes: {'Flat': 1360911, 'Slope': 2940800464}
+            geomorphology_dc_dict[Geomorphology.objects.get(id=geo_id).name] = geo_name_dict
+        offshore_report['geomorphology_depth_class']=geomorphology_dc_dict
+        
+        
                 
         #self.output_substrate_depth_class_stats = simplejson.dumps(substrate_depth_class_dict)
         
         return simplejson.dumps(offshore_report)
 
+    def get_dict_from_stats(self, stats, model_class):    
+        #stats is something like the following: '2 1360911.649924\n4 2940800464.852541\n'
+        stats_list = stats.split()
+        #stats_list becomes: ['2', '1360911.649924', '4', '2940800464.852541']
+        int_list = [int(float(x)+.5) for x in stats_list]
+        #int_list becomes: [2, 1360911, 4, 2940800464]
+        stats_dict = dict(zip(int_list[::2], int_list[1::2])) 
+        #stats_dict becoms: {2: 1360911, 4: 2940800464}
+        name_dict = dict( map( lambda(key, value): (model_class.objects.get(id=key).name, value), stats_dict.items()))
+        #name_dict finally becomes: {'Flat': 1360911, 'Slope': 2940800464}
+        return name_dict
     
     @classmethod
     def mapnik_geomfield(self):

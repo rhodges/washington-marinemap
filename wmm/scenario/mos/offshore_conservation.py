@@ -37,7 +37,7 @@ def get_offshore_conservation_context(mos, scenario):
     # Scenario Context
     substrate_jextent, substrate_list_reverse = get_substrate_scenario_stats(scenario, report)
     depth_class_jextent, depth_class_list_reverse = get_depth_class_scenario_stats(scenario, report)
-    geomorphology_jextent = get_geomorphology_scenario_stats(scenario, report)
+    geomorphology_jextent, geomorphology_list_reverse = get_geomorphology_scenario_stats(scenario, report)
     
     # Substrate Context
     #substrate_jpercs, substrate_percs, substrate_r = get_substrate_percs(scenario)
@@ -50,14 +50,18 @@ def get_offshore_conservation_context(mos, scenario):
     depth_class_geo_jstats = get_depth_class_stats(scenario, report['depth_class_geomorphology'])
     #depth_class_geo_jstats = get_depth_class_geo_stats(scenario, report)
     
+    #Geomorphology Context
+    geomorphology_sub_jstats = get_drill_down_stats(scenario, report['geomorphology_substrate'])
+    geomorphology_dc_jstats = get_drill_down_stats(scenario, report['geomorphology_depth_class'])
+    
     context = { 'default_value': default_value, 'bar_height': bar_height, 'mos': mos, 'scenario': scenario, 
                 'substrate_jextent': substrate_jextent, 'substrate_list_reverse': substrate_list_reverse, 
-                'depth_class_jextent': depth_class_jextent, 
-                'geomorphology_jextent': geomorphology_jextent, 
+                'depth_class_jextent': depth_class_jextent, 'depth_class_list_reverse': depth_class_list_reverse,
+                'geomorphology_jextent': geomorphology_jextent, 'geomorphology_list_reverse': geomorphology_list_reverse,
                 #'substrate_jpercs': substrate_jpercs, 'substrate_percs': substrate_percs, 'substrate_r': substrate_r, 
                 'substrate_dc_jstats': substrate_dc_jstats, 'substrate_geo_jstats': substrate_geo_jstats,  #, 'substrate_jcolors': substrate_jcolors }
-                'depth_class_sub_jstats': depth_class_sub_jstats, 'depth_class_list_reverse': depth_class_list_reverse,
-                'depth_class_geo_jstats': depth_class_geo_jstats }
+                'depth_class_sub_jstats': depth_class_sub_jstats, 'depth_class_geo_jstats': depth_class_geo_jstats,
+                'geomorphology_sub_jstats': geomorphology_sub_jstats, 'geomorphology_dc_jstats': geomorphology_dc_jstats }
     return context
    
 def get_substrate_scenario_stats(scenario, report):   
@@ -98,21 +102,21 @@ def get_depth_class_scenario_stats(scenario, report):
         perc = value / scenario_area * 100 
         if perc > 0:
             tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(value)
-            depth_class_stats[key] = (int(perc*10 + .5) / 10., sq_meters_to_sq_miles(value))
-    sorted_depth_class_tuples, depth_class_list_reverse = dict_to_sorted_array(depth_class_stats, DepthClass.objects.order_by('id'))
+            depth_class_stats[key] = (int(perc*10 + .5) / 10., tooltip_text)
+    depth_class_list_reverse = dict_to_rsorted_arrays(depth_class_stats, DepthClass.objects.order_by('id'))
     depth_class_jstats = simplejson.dumps(depth_class_stats)
     return depth_class_jstats, depth_class_list_reverse
     
-def dict_to_sorted_array(some_dict, objects):
-    sorted_tuples = []
+def dict_to_rsorted_arrays(some_dict, objects):
+    #sorted_tuples = []
     object_list = []
     for object in objects:        
         if object.name in some_dict.keys():
-            tooltip_text = "Total Area: %.2f sq miles" %some_dict[object.name][1]
-            sorted_tuples.append( [some_dict[object.name][0], object.name, tooltip_text] )
+            #tooltip_text = "Total Area: %.2f sq miles" %some_dict[object.name][1]
+            #sorted_tuples.append( [some_dict[object.name][0], object.name] )
             object_list.append(object)
     object_list.reverse()
-    return sorted_tuples, object_list
+    return object_list
     
 def get_geomorphology_scenario_stats(scenario, report):   
     geomorphology_dict = report['geomorphology']  
@@ -124,8 +128,9 @@ def get_geomorphology_scenario_stats(scenario, report):
         if perc > 0:
             tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(value)
             geomorphology_stats[key] = [int(perc*10 + .5) / 10., tooltip_text]
+    geomorphology_list_reverse = dict_to_rsorted_arrays(geomorphology_stats, Geomorphology.objects.order_by('id'))
     geomorphology_jstats = simplejson.dumps(geomorphology_stats)
-    return geomorphology_jstats
+    return geomorphology_jstats, geomorphology_list_reverse
     
 def get_substrate_percs(scenario, report):  
     substrate_dict = report['substrate']
@@ -173,3 +178,15 @@ def get_depth_class_stats(scenario, dc_dict):
     depth_class_jstats = simplejson.dumps(dc_stats)
     return depth_class_jstats
                 
+def get_drill_down_stats(scenario, dictionary):  
+    stats = {}
+    for name, param_dict in dictionary.items():
+        total_area = float( sum( [area for param, area in param_dict.items()] ) )
+        param_perc_dict = {}
+        for param, area in param_dict.items():
+            tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(area)
+            param_perc_dict[param] = [int(area / total_area * 1000 + .5) / 10., tooltip_text]
+        stats[name] = param_perc_dict
+    jstats = simplejson.dumps(stats)
+    return jstats
+              

@@ -26,7 +26,7 @@ lingcod.onShow(function() {
     //Not sure if the ordering for substrate data and coloring are guaranteed to match here...maybe order by area?
     //I believe ordering is working now for substrate data...need to verify...
     $.each(substrate_extent, function( index, extent_tuple) {
-        console.log(extent_tuple);
+        //console.log(extent_tuple);
         substrate_data[0].push( [extent_tuple[0], extent_tuple[1], extent_tuple[2]] );
         //$.each(substrate_colors, function( index, color_tuple ) {
         //    if (color_tuple[0] == extent_tuple[1]) {
@@ -113,7 +113,7 @@ lingcod.onShow(function() {
         substrate_dc_divs.push(obj_short_name+'_'+sub+'_dc');
         substrate_dc_len++;
     }  
-    console.log(substrate_dc_divs);
+    //console.log(substrate_dc_divs);
     for (i=0; i<substrate_dc_len; i++) {
         //series_colors = [ '#4bb2c5' ];
         var height = bar_height * substrate_dc_data[i][0].length + bar_height;
@@ -140,7 +140,7 @@ lingcod.onShow(function() {
         substrate_geo_data.push(geo_data);
         substrate_geo_divs.push(obj_short_name+'_'+sub+'_geo');
         substrate_geo_len++;
-    }  
+    }   
     for (i=0; i<substrate_geo_len; i++) {
         var height = bar_height * substrate_geo_data[i][0].length + bar_height;
         $('#'+substrate_geo_divs[i]).height(height);
@@ -200,6 +200,62 @@ lingcod.onShow(function() {
         var height = bar_height * depth_class_geo_data[i][0].length + bar_height;
         $('#'+depth_class_geo_divs[i]).height(height);
         chart = createChart(depth_class_geo_divs[i], depth_class_geo_data[i]); 
+    };
+    
+    /** THE GEOMORPHOLOGY REPORTS **/
+    
+    // Geomorphology Substrates 
+    var stats = {{ geomorphology_sub_jstats|safe }};
+    var data = [];
+    var divs = [];
+    var len = 0;
+    for (var key in stats) {
+        if (!stats.hasOwnProperty(key)) { //not sure what this actually does...
+            continue;
+        }
+        series_data = [[]];
+        for (var inner_key in stats[key]) {
+            if (!stats[key].hasOwnProperty(inner_key)) {
+                continue;
+            }
+            series_data[0].push( [stats[key][inner_key][0], inner_key, stats[key][inner_key][1]] );
+        }
+        data.push(series_data);
+        divs.push(obj_short_name+'_'+key+'_sub');
+        len++;
+    }  
+    //console.log(divs);  
+    for (i=0; i<len; i++) {
+        var height = bar_height * data[i][0].length + bar_height;
+        $('#'+divs[i]).height(height);
+        chart = createChart(divs[i], data[i]); 
+    };
+    
+    // Geomorphology Depth Classes 
+    var stats = {{ geomorphology_dc_jstats|safe }};
+    var data = [];
+    var divs = [];
+    var len = 0;
+    for (var key in stats) {
+        if (!stats.hasOwnProperty(key)) { //not sure what this actually does...
+            continue;
+        }
+        series_data = [[]];
+        for (var inner_key in stats[key]) {
+            if (!stats[key].hasOwnProperty(inner_key)) {
+                continue;
+            }
+            series_data[0].push( [stats[key][inner_key][0], inner_key, stats[key][inner_key][1]] );
+        }
+        data.push(series_data);
+        divs.push(obj_short_name+'_'+key+'_dc'); //the only difference between Geo Sub and Geo DC is this line...
+        len++;
+    }  
+    //console.log(divs);  
+    for (i=0; i<len; i++) {
+        var height = bar_height * data[i][0].length + bar_height;
+        $('#'+divs[i]).height(height);
+        chart = createChart(divs[i], data[i]); 
     };
     
     
@@ -365,7 +421,18 @@ function toggleReports(obj_id, src_id) {
 <h2>Geomorphology 
 <small><small>[<a id="toggle_geomorphology_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_geomorphology_reports', 'toggle_geomorphology_reports');">Hide</a>]</small></small></h2>
 <div id="{{scenario.input_objective.short_name}}_geomorphology_reports">
-<p>Coming Soon...</p>
+
+{% for geomorphology in geomorphology_list_reverse %}
+<h3>Substrates (as a percentage of <b>{{geomorphology.name}}</b>)
+<small><small>[<a id="toggle_{{geomorphology}}_substrate" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{geomorphology}}_sub', 'toggle_{{geomorphology}}_substrate');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_{{geomorphology.name}}_sub" class="jqPlot" style="width:400px"></div>
+
+<h3>Depth Classes (as a percentage of <b>{{geomorphology.name}}</b>)
+<small><small>[<a id="toggle_{{geomorphology}}_depth_class" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{geomorphology}}_dc', 'toggle_{{geomorphology}}_depth_class');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_{{geomorphology.name}}_dc" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px"></div>
+
+{% endfor %}
+<p></p>
 </div>
 
 
