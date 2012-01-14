@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     
     #multi-objective scenario reports
     url(r'mos/view-report/(\d+)/(\d+)', scenario_report, name='scenario_report'), #user requested multi-objective scenario report
+    url(r'mos/view-report/(\d+)', overlap_report, name='overlap_report'), #user requested multi-objective overlap report
     
     #tradeoff analysis
     #url(r'tradeoff/(\d+)', tradeoff_analysis, name='tradeoff_analysis'), #user requested tradeoff analysis

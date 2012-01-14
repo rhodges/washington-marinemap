@@ -9,6 +9,7 @@
             {% for scenario in instance.scenarios.all %}
             <li><a href="{% url scenario_report instance.pk scenario.pk %}"><span>{{scenario.input_objective}} Report</span></a></li>
             {% endfor %}
+            <li><a href="{% url overlap_report instance.pk %}"><span>Overlap Report</span></a></li>
         </ul>
         <div id="Inputs">
             <ul class="metadata">

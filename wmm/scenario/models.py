@@ -106,6 +106,8 @@ class MOS(Feature):
     
     description = models.TextField(null=True, blank=True)
     support_file = models.FileField(upload_to='scenarios/files/', null=True, blank=True)
+    
+    overlap_geom = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Scenario Area of Overlap")
        
     
     def delete(self, *args, **kwargs):
@@ -192,7 +194,18 @@ class MOS(Feature):
         scenarios = self.scenarios.exclude(input_objective__in=objs)
         scenarios.delete()
         
-        #TODO:  why are we running analysis twice when creating scenarios initially???
+        #generate overlapping geometry
+        scenario_geoms = [s.geometry_final for s in self.scenarios.all()]
+        scenario_areas = [s.area for s in scenario_geoms]
+        if len(scenario_geoms) > 1:
+            overlap = scenario_geoms[0]
+            for geom in scenario_geoms[1:]:
+                overlap = overlap.intersection(geom).buffer(0)
+            self.overlap_geom = overlap
+        else:
+            self.overlap_geom = None
+        
+        #TODO:  why are we running analysis twice when creating scenarios initially? -- is this still happening...?
         super(MOS, self).save(*args, **kwargs)
 
     def __unicode__(self):
@@ -281,7 +294,9 @@ class MOS(Feature):
         #mos_name = escape(self.name)
         #print 'mos_name = %s' %mos_name
         for scenario in self.scenarios.all():
-            obj = scenario.input_objective.name
+            header = '<strong>Scenario:</strong> %s' %self.name
+            obj_name = scenario.input_objective.name
+            objective = '<strong>Objective:</strong> %s' %obj_name
             #name = scenario.mos_set.all()[0].name #why is this not working...?
             kml =   """
                     %s
@@ -290,8 +305,8 @@ class MOS(Feature):
                         <name>%s</name>
                         <styleUrl>#%s-default</styleUrl>
                         <ExtendedData>
-                            <Data name="mos_name"><value>%s</value></Data>
-                            <Data name="obj"><value>%s</value></Data>
+                            <Data name="header"><value>%s</value></Data>
+                            <Data name="objective"><value>%s</value></Data>
                             <Data name="user"><value>%s</value></Data>
                             <Data name="desc"><value>%s</value></Data>
                             <Data name="params"><value>%s</value></Data>
@@ -302,14 +317,48 @@ class MOS(Feature):
                         %s
                         </MultiGeometry>
                     </Placemark>
-                    """ % ( self.scenario_style(scenario.color), obj, self.model_uid(),
-                            self.name, obj, self.user, escape(self.description_html), escape(self.parameter_html(scenario)),
+                    """ % ( self.scenario_style(scenario.color), obj_name, self.model_uid(),
+                            header, objective, self.user, escape(self.description_html), escape(self.parameter_html(scenario)),
                             self.Options.verbose_name, self.date_modified.replace(microsecond=0), 
                             asKml(scenario.output_geom.transform( settings.GEOMETRY_CLIENT_SRID, clone=True)) )
             combined_kml += kml
+        if self.overlap_geom is not None:
+            combined_kml += self.overlap_kml
         combined_kml += "</Folder>"
         return combined_kml
-    
+        
+    @property
+    def overlap_kml(self):
+        header = '<strong>Area of Overlap</strong>'
+        color = '501478B4'
+        obj_name = 'Area of Overlap'
+        objective = ''
+        description = ''
+        #name = scenario.mos_set.all()[0].name #why is this not working...?
+        kml =   """
+                %s
+                <Placemark>
+                    <visibility>1</visibility>
+                    <name>%s</name>
+                    <styleUrl>#%s-default</styleUrl>
+                    <ExtendedData>
+                        <Data name="header"><value>%s</value></Data>
+                        <Data name="objective"><value>%s</value></Data>
+                        <Data name="user"><value>%s</value></Data>
+                        <Data name="desc"><value>%s</value></Data>
+                        <Data name="params"><value>%s</value></Data>
+                        <Data name="modified"><value>%s</value></Data>
+                    </ExtendedData>
+                    <MultiGeometry>
+                    %s
+                    </MultiGeometry>
+                </Placemark>
+                """ % ( color, obj_name, self.model_uid(),
+                        header, objective, self.user, escape(self.description_html), description,
+                        self.date_modified.replace(microsecond=0), 
+                        asKml(self.overlap_geom.transform( settings.GEOMETRY_CLIENT_SRID, clone=True)) )
+        return kml
+
     def scenario_style(self, color='778B1A55'):
         return """
         <Style id="%s-default">
@@ -317,9 +366,9 @@ class MOS(Feature):
                 <bgColor>ffeeeeee</bgColor>
                 <text> <![CDATA[
                     <font color="#1A3752">
-                    <p><strong>Scenario:</strong> $[mos_name]</p>
+                    <p>$[header]</p>
                     $[desc]
-                    <p><strong>Objective:</strong> $[obj]</p> 
+                    <p>$[objective]</p> 
                     <p>$[params]</p>
                     <p>
                     </font>                    

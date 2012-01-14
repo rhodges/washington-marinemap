@@ -22,6 +22,17 @@ def scenario_report(request, mos_id, scenario_id):
     
 '''
 '''
+def overlap_report(request, mos_id):
+    mos_obj = get_object_or_404(MOS, pk=mos_id)
+    #check permissions
+    viewable, response = mos_obj.is_viewable(request.user)
+    if not viewable:
+        return response
+            
+    return HttpResponse('Overlap Report coming soon...')
+    
+'''
+'''
 def tradeoff_analysis(request):
     if (request.POST):
         x_axis = request.POST.getlist('selected_x')[0]
