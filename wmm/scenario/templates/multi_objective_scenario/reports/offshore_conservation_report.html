@@ -23,10 +23,10 @@ lingcod.onShow(function() {
     var geomorphology_extent = {{ geomorphology_jextent|safe }};
     var geomorphology_data = [[]];
     
+    // Substrate Scenario Chart
     //Not sure if the ordering for substrate data and coloring are guaranteed to match here...maybe order by area?
     //I believe ordering is working now for substrate data...need to verify...
     $.each(substrate_extent, function( index, extent_tuple) {
-        //console.log(extent_tuple);
         substrate_data[0].push( [extent_tuple[0], extent_tuple[1], extent_tuple[2]] );
         //$.each(substrate_colors, function( index, color_tuple ) {
         //    if (color_tuple[0] == extent_tuple[1]) {
@@ -37,34 +37,36 @@ lingcod.onShow(function() {
     //$.each(substrate_colors, function( index, tuple) {
     //    series_object_array.push( { label: tuple[0], color: tuple[1] } );
     //});
+    //var substrate_data = [[[30,'Rock'],[25,'Mud'],[40,'Sand']]];
+    
+    var substrate_div = obj_short_name+'_substrates';
+    var height = bar_height * substrate_data[0].length + bar_height;
+    $('#'+substrate_div).height(height);
+    chart = createChart(substrate_div, substrate_data); //, series_colors);
+    
+    // Depth Class Scenario Chart
     $.each(depth_class_extent, function( index, extent_tuple) {
         depth_class_data[0].push( [extent_tuple[0], extent_tuple[1], extent_tuple[2]] );
     });
+        
+    var depth_class_div = obj_short_name+'_depth_classes';
+    height = bar_height * depth_class_data[0].length + bar_height;
+    $('#'+depth_class_div).height(height);
+    chart = createChart(depth_class_div, depth_class_data); //, series_colors);
+    
+    // Geomorphology Scenario Chart
     $.each(geomorphology_extent, function( index, extent_tuple) {
         geomorphology_data[0].push( [extent_tuple[0], extent_tuple[1], extent_tuple[2]] );
     });
-    /*
-    for (var key in depth_class_extent) {
-        if (!depth_class_extent.hasOwnProperty(key)) { //not sure what this actually does...
-            continue;
-        }
-        depth_class_data[0].push([depth_class_extent[key][0], key, depth_class_extent[key][1]]);
-    }  
-    for (var key in geomorphology_extent) {
-        if (!geomorphology_extent.hasOwnProperty(key)) { //not sure what this actually does...
-            continue;
-        }
-        geomorphology_data[0].push([geomorphology_extent[key][0], key, geomorphology_extent[key][1]]);
-    }
-    */
-    var scenario_data = [substrate_data,depth_class_data, geomorphology_data];
-        
-    //var substrate_data = [[[30,'Rock'],[25,'Mud'],[40,'Sand']]];
-    var substrate_div = obj_short_name+'_substrates';
-    var depth_class_div = obj_short_name+'_depth_classes';
     var geomorphology_div = obj_short_name+'_geomorphologies';
+    height = bar_height * geomorphology_data[0].length + bar_height;
+    $('#'+geomorphology_div).height(height);
+    chart = createChart(geomorphology_div, geomorphology_data); //, series_colors);
+    
+    
+    /*
+    var scenario_data = [substrate_data,depth_class_data, geomorphology_data];
     var scenario_divs = [substrate_div, depth_class_div, geomorphology_div];
-    //TODO:  no need for the loop here anymore...
     for (i=0; i<3; i++) {
         //if (scenario_divs[i] == obj_short_name+'_substrates') {
         //    series_colors = substrate_series;
@@ -75,196 +77,79 @@ lingcod.onShow(function() {
         //}
         var height = bar_height * scenario_data[i][0].length + bar_height;
         $('#'+scenario_divs[i]).height(height);
-        //console.log('setting ' + scenario_divs[i] + ' to ' + height);
         chart = createChart(scenario_divs[i], scenario_data[i]); //, series_colors);
     };
+    */
     
     
     /*** THE SUBSTRATE REPORTS ***/
-    /*
-    // Substrate Percentages
-    var substrate_percs = {{ substrate_jpercs|safe }};
-    var substrate_perc_data = [[]];
-    series_colors = [];
-    //console.log(substrate_percs);
-    $.each(substrate_percs, function( index, tuple) {
-        substrate_perc_data[0].push( [tuple[0], tuple[1]] );
-        $.each(substrate_colors, function( index, color_tuple ) {
-            if (color_tuple[0] == tuple[1]) {
-                series_colors.push( color_tuple[1] );
-            }
-        });
-    });
-    var height = bar_height * substrate_perc_data[0].length + bar_height;
-    $('#'+obj_short_name+'_substrate_percentages').height(height);
-    //console.log('setting ' + obj_short_name+'_substrate_percentages' + ' to ' + height);
-    chart = createChart(obj_short_name+'_substrate_percentages', substrate_perc_data, series_colors);
-    */
     
     // Substrate Depth Class 
     var substrate_dc_stats = {{ substrate_dc_jstats|safe }};
-    var substrate_dc_data = [];
-    var substrate_dc_divs = [];
-    var substrate_dc_len = 0;
-    for (var sub in substrate_dc_stats) {
-        if (!substrate_dc_stats.hasOwnProperty(sub)) { //not sure what this actually does...
-            continue;
-        }
-        dc_data = [[]];
-        for (var dc in substrate_dc_stats[sub]) {
-            if (!substrate_dc_stats[sub].hasOwnProperty(dc)) {
-                continue;
-            }
-            dc_data[0].push( [substrate_dc_stats[sub][dc][0], dc, substrate_dc_stats[sub][dc][1]] );
-        }
-        substrate_dc_data.push(dc_data);
-        substrate_dc_divs.push(obj_short_name+'_'+sub+'_dc');
-        substrate_dc_len++;
-    }  
-    //console.log(substrate_dc_divs);
-    for (i=0; i<substrate_dc_len; i++) {
-        //series_colors = [ '#4bb2c5' ];
-        var height = bar_height * substrate_dc_data[i][0].length + bar_height;
-        $('#'+substrate_dc_divs[i]).height(height);
-        chart = createChart(substrate_dc_divs[i], substrate_dc_data[i]); //, series_colors);
-    };
+    div_suffix = 'dc';
+    process_stats_and_create_charts(substrate_dc_stats, div_suffix);
     
     // Substrate Geomorphology 
     var substrate_geo_stats = {{ substrate_geo_jstats|safe }};
-    var substrate_geo_data = [];
-    var substrate_geo_divs = [];
-    var substrate_geo_len = 0;
-    for (var sub in substrate_geo_stats) {
-        if (!substrate_geo_stats.hasOwnProperty(sub)) { //not sure what this actually does...
-            continue;
-        }
-        geo_data = [[]];
-        for (var geo in substrate_geo_stats[sub]) {
-            if (!substrate_geo_stats[sub].hasOwnProperty(geo)) {
-                continue;
-            }
-            geo_data[0].push( [substrate_geo_stats[sub][geo][0], geo, substrate_geo_stats[sub][geo][1]] );
-        }
-        substrate_geo_data.push(geo_data);
-        substrate_geo_divs.push(obj_short_name+'_'+sub+'_geo');
-        substrate_geo_len++;
-    }   
-    for (i=0; i<substrate_geo_len; i++) {
-        var height = bar_height * substrate_geo_data[i][0].length + bar_height;
-        $('#'+substrate_geo_divs[i]).height(height);
-        //series_colors = [ '#4bb2c5' ];
-        chart = createChart(substrate_geo_divs[i], substrate_geo_data[i]); //, series_colors);
-    };
+    div_suffix = 'geo';
+    process_stats_and_create_charts(substrate_geo_stats, div_suffix);
+    
     
     /** THE DEPTH CLASS REPORTS **/
     
     // Depth Class Substrates 
     var depth_class_sub_stats = {{ depth_class_sub_jstats|safe }};
-    var depth_class_sub_data = [];
-    var depth_class_sub_divs = [];
-    var depth_class_sub_len = 0;
-    for (var dc in depth_class_sub_stats) {
-        if (!depth_class_sub_stats.hasOwnProperty(dc)) { //not sure what this actually does...
-            continue;
-        }
-        dc_data = [[]];
-        for (var sub in depth_class_sub_stats[dc]) {
-            if (!depth_class_sub_stats[dc].hasOwnProperty(sub)) {
-                continue;
-            }
-            dc_data[0].push( [depth_class_sub_stats[dc][sub][0], sub, depth_class_sub_stats[dc][sub][1]] );
-        }
-        depth_class_sub_data.push(dc_data);
-        depth_class_sub_divs.push(obj_short_name+'_'+dc+'_sub');
-        depth_class_sub_len++;
-    }  
-    for (i=0; i<depth_class_sub_len; i++) {
-        var height = bar_height * depth_class_sub_data[i][0].length + bar_height;
-        $('#'+depth_class_sub_divs[i]).height(height);
-        chart = createChart(depth_class_sub_divs[i], depth_class_sub_data[i]); 
-    };
+    div_suffix = 'sub';
+    process_stats_and_create_charts(depth_class_sub_stats, div_suffix);
     
     // Depth Class Geomorphologies 
     var depth_class_geo_stats = {{ depth_class_geo_jstats|safe }};
-    var depth_class_geo_data = [];
-    var depth_class_geo_divs = [];
-    var depth_class_geo_len = 0;
-    for (var dc in depth_class_geo_stats) {
-        if (!depth_class_geo_stats.hasOwnProperty(dc)) { //not sure what this actually does...
-            continue;
-        }
-        dc_data = [[]];
-        for (var geo in depth_class_geo_stats[dc]) {
-            if (!depth_class_geo_stats[dc].hasOwnProperty(geo)) {
-                continue;
-            }
-            dc_data[0].push( [depth_class_geo_stats[dc][geo][0], geo, depth_class_geo_stats[dc][geo][1]] );
-        }
-        depth_class_geo_data.push(dc_data);
-        depth_class_geo_divs.push(obj_short_name+'_'+dc+'_geo');
-        depth_class_geo_len++;
-    }  
-    for (i=0; i<depth_class_geo_len; i++) {
-        var height = bar_height * depth_class_geo_data[i][0].length + bar_height;
-        $('#'+depth_class_geo_divs[i]).height(height);
-        chart = createChart(depth_class_geo_divs[i], depth_class_geo_data[i]); 
-    };
+    div_suffix = 'geo';
+    process_stats_and_create_charts(depth_class_geo_stats, div_suffix);
+    
     
     /** THE GEOMORPHOLOGY REPORTS **/
     
     // Geomorphology Substrates 
-    var stats = {{ geomorphology_sub_jstats|safe }};
-    var data = [];
-    var divs = [];
-    var len = 0;
-    for (var key in stats) {
-        if (!stats.hasOwnProperty(key)) { //not sure what this actually does...
-            continue;
-        }
-        series_data = [[]];
-        for (var inner_key in stats[key]) {
-            if (!stats[key].hasOwnProperty(inner_key)) {
-                continue;
-            }
-            series_data[0].push( [stats[key][inner_key][0], inner_key, stats[key][inner_key][1]] );
-        }
-        data.push(series_data);
-        divs.push(obj_short_name+'_'+key+'_sub');
-        len++;
-    }  
-    //console.log(divs);  
-    for (i=0; i<len; i++) {
-        var height = bar_height * data[i][0].length + bar_height;
-        $('#'+divs[i]).height(height);
-        chart = createChart(divs[i], data[i]); 
-    };
+    var geomorphology_sub_stats = {{ geomorphology_sub_jstats|safe }};
+    div_suffix = 'sub';
+    process_stats_and_create_charts(geomorphology_sub_stats, div_suffix);
     
     // Geomorphology Depth Classes 
-    var stats = {{ geomorphology_dc_jstats|safe }};
-    var data = [];
-    var divs = [];
-    var len = 0;
-    for (var key in stats) {
-        if (!stats.hasOwnProperty(key)) { //not sure what this actually does...
-            continue;
-        }
-        series_data = [[]];
-        for (var inner_key in stats[key]) {
-            if (!stats[key].hasOwnProperty(inner_key)) {
+    var geomorphology_dc_stats = {{ geomorphology_dc_jstats|safe }};
+    div_suffix = 'dc';
+    process_stats_and_create_charts(geomorphology_dc_stats, div_suffix);
+    
+    
+    /** CHART FUNCTIONS **/
+    
+    //creates array of series data, array of div names, and generates bar charts
+    function process_stats_and_create_charts(stats, div_suffix) {
+        var data = [];
+        var divs = [];
+        var len = 0;
+        for (var key in stats) {
+            if (!stats.hasOwnProperty(key)) { //not sure what this actually does...
                 continue;
             }
-            series_data[0].push( [stats[key][inner_key][0], inner_key, stats[key][inner_key][1]] );
-        }
-        data.push(series_data);
-        divs.push(obj_short_name+'_'+key+'_dc'); //the only difference between Geo Sub and Geo DC is this line...
-        len++;
-    }  
-    //console.log(divs);  
-    for (i=0; i<len; i++) {
-        var height = bar_height * data[i][0].length + bar_height;
-        $('#'+divs[i]).height(height);
-        chart = createChart(divs[i], data[i]); 
-    };
+            series_data = [[]];
+            for (var inner_key in stats[key]) {
+                if (!stats[key].hasOwnProperty(inner_key)) {
+                    continue;
+                }
+                series_data[0].push( [stats[key][inner_key][0], inner_key, stats[key][inner_key][1]] );
+            }
+            data.push(series_data);
+            divs.push(obj_short_name+'_'+key+'_'+div_suffix); 
+            len++;
+        };
+        //console.log(divs);  
+        for (i=0; i<len; i++) {
+            var height = bar_height * data[i][0].length + bar_height;
+            $('#'+divs[i]).height(height);
+            chart = createChart(divs[i], data[i]); 
+        };
+    }
     
     
     //Chart drawing function 
