@@ -320,7 +320,7 @@ class Migration(SchemaMigration):
             'color': ('django.db.models.fields.CharField', [], {'default': "'778B1A55'", 'max_length': '8'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
-            'short_name': ('django.db.models.fields.CharField', [], {'default': "'none'", 'max_length': '30'})
+            'short_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'null': 'True', 'blank': 'True'})
         },
         'scenario.tidalenergyparameter': {
             'Meta': {'object_name': 'TidalEnergyParameter'},
