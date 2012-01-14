@@ -9,7 +9,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         
         # Changing field 'Substrate.short_name'
-        db.alter_column('scenario_substrate', 'short_name', self.gf('django.db.models.fields.CharField')(max_length=30))
+        db.alter_column('scenario_substrate', 'short_name', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True, null=True))
 
 
     def backwards(self, orm):
