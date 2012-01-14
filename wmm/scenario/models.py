@@ -991,14 +991,14 @@ class Scenario(Analysis):
 
 class Category(models.Model):
     name = models.CharField(max_length=70)
-    short_name = models.CharField(max_length=70)
+    short_name = models.CharField(max_length=70, null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' %self.name
         
 class Objective(models.Model):
     name = models.CharField(max_length=70)
-    short_name = models.CharField(max_length=70)
+    short_name = models.CharField(max_length=70, null=True, blank=True)
     color = models.CharField(max_length=8, default='778B1A55')
     
     def __unicode__(self):
@@ -1030,7 +1030,7 @@ class DevelopmentObjective(models.Model):
 
 class Parameter(models.Model):
     name = models.CharField(max_length=70)
-    short_name = models.CharField(max_length=70)
+    short_name = models.CharField(max_length=70, null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.name
@@ -1091,7 +1091,7 @@ class OffshoreFishingParameter(models.Model):
         
 class Substrate(models.Model):
     name = models.CharField(max_length=30)  
-    short_name = models.CharField(max_length=30, default='none')    
+    short_name = models.CharField(max_length=30, null=True, blank=True)
     color = models.CharField(max_length=8, default='778B1A55')
 
     def __unicode__(self):
