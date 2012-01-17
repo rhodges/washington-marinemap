@@ -4,13 +4,13 @@ from django.db import models
 from django.conf import settings
 from django.contrib.gis.db import models
 from django.utils.html import escape
+from django.utils import simplejson
 from lingcod.analysistools.models import Analysis
 from lingcod.features import register, alternate
 from lingcod.common.utils import asKml
 from lingcod.features.models import Feature, PointFeature, LineFeature, PolygonFeature, FeatureCollection
 from lingcod.layers.models import PrivateLayerList
 from utils import miles_to_meters, feet_to_meters
-from django.utils import simplejson
 
 
 @register
@@ -1348,79 +1348,6 @@ class WindEnergySite(PolygonFeature):
         form_template = 'wind/form.html'
         show_template = 'wind/show.html'
         icon_url = 'wmm/img/wind.png'
-
-@register
-class SMPSite(PolygonFeature):
-    description = models.TextField(null=True,blank=True)
-    
-    @property
-    def kml(self):
-        return """
-        <Placemark id="%s">
-            <visibility>1</visibility>
-            <name>%s</name>
-            <styleUrl>#%s-default</styleUrl>
-            <ExtendedData>
-                <Data name="name"><value>%s</value></Data>
-                <Data name="user"><value>%s</value></Data>
-                <Data name="desc"><value>%s</value></Data>
-                <Data name="type"><value>%s</value></Data>
-                <Data name="modified"><value>%s</value></Data>
-            </ExtendedData>
-            %s 
-        </Placemark>
-        """ % (self.uid, escape(self.name), self.model_uid(), 
-               escape(self.name), self.user, escape(self.description), self.Options.verbose_name, self.date_modified.replace(microsecond=0), 
-               self.geom_kml)
-
-    @property
-    def kml_style(self):
-        return """
-        <Style id="%s-default">
-            <BalloonStyle>
-                <bgColor>ffeeeeee</bgColor>
-                <text> <![CDATA[
-                    <font color="#1A3752"><strong>$[name]</strong></font><br />
-                    <p>$[desc]</p>
-                    <font size=1>$[type] created by $[user] on $[modified]</font>
-                ]]> </text>
-            </BalloonStyle>
-            <PolyStyle>
-                <color>%s</color>
-            </PolyStyle>
-            <LineStyle>
-                <color>ffffffff</color>
-            </LineStyle>
-        </Style>
-        """ % (self.model_uid(), self.color())
-
-    @classmethod
-    def mapnik_style(self):
-        import mapnik
-        polygon_style = mapnik.Style()
-        
-        ps = mapnik.PolygonSymbolizer(mapnik.Color('#DC640C'))
-        ps.fill_opacity = 0.6
-        ls = mapnik.LineSymbolizer(mapnik.Color('#ff0000'),0.2)
-        ls.stroke_opacity = 1.0
-        
-        r = mapnik.Rule()
-        r.symbols.append(ps)
-        r.symbols.append(ls)
-        
-        polygon_style.rules.append(r)
-        return polygon_style        
-
-    @classmethod
-    def color(self):
-        return '778B1A55'             
-
-    class Options:
-        verbose_name = 'SMP Characterization Site'
-        form = 'scenario.forms.SMPSiteForm'
-        form_template = 'smp/form.html'
-        show_template = 'smp/show.html'
-        icon_url = 'wmm/img/smp.png'
         
 
 @register

@@ -16,10 +16,6 @@ class WindEnergySiteForm(SpatialFeatureForm):
     class Meta(SpatialFeatureForm.Meta):
         model = WindEnergySite
             
-class SMPSiteForm(SpatialFeatureForm):
-    class Meta(SpatialFeatureForm.Meta):
-        model = SMPSite
-            
 class AoiForm(SpatialFeatureForm):
     class Meta(SpatialFeatureForm.Meta):
         model = AOI
