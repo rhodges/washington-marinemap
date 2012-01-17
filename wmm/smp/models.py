@@ -103,7 +103,7 @@ class OverwaterStructure(models.Model):
     boat = models.CharField(max_length=3)
     os_detail = models.CharField(max_length=50)
     cart_cd = models.CharField(max_length=50)
-    navigabili = models.CharField(max_length=50)
+    navigability = models.CharField(max_length=50)
     county_nm = models.CharField(max_length=50)
     complexity = models.CharField(max_length=50)
     shape_leng = models.FloatField()
