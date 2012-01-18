@@ -110,7 +110,7 @@ class OverwaterStructure(models.Model):
     shape_area = models.FloatField()
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Overwater Structures")
     objects = models.GeoManager()
-
+    
 class LandUse(models.Model):
     landuse_cd = models.IntegerField()
     descr = models.CharField(max_length=72)

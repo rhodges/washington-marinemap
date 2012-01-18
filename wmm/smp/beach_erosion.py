@@ -8,33 +8,34 @@ from smp.models import *
 
 '''
 '''
-def display_smp_beach_erosion_analysis(request, smp_obj, template='reports/smp_beach_erosion_report.html'):
-    context = get_smp_beach_erosion_context(smp_obj)
+def display_smp_beach_erosion_analysis(request, smp, template='reports/smp_beach_erosion_report.html'):
+    context = get_smp_beach_erosion_context(smp)
     return render_to_response(template, RequestContext(request, context)) 
 
 '''
 '''    
-def get_smp_beach_erosion_context(smp_obj, type='beach_erosion'): 
+def get_smp_beach_erosion_context(smp): 
     #get context from cache or from running analysis
-    context = run_beach_erosion_analysis(smp_obj)   
+    context = run_beach_erosion_analysis(smp)   
     return context
     
 '''
 Run the analysis, create the cache, and return the results as a context dictionary so they may be rendered with template
 '''    
-def run_beach_erosion_analysis(smp_obj, type='beach_erosion'): 
-    area = smp_obj.geometry_final.area
-    min_slope, max_slope, avg_slope = get_slope(smp_obj)
-    structure_tuples = get_structures(smp_obj)
-    shoremod_perc = get_shoremod_avg(smp_obj)
-    sand = get_sand_perc(smp_obj)
-    exposed, very_exposed = get_exposure_percs(smp_obj)
-    seagrass, saltmarsh, surfgrass    = get_vegetation_percs(smp_obj)
+def run_beach_erosion_analysis(smp): 
     #compile context
-    context = { 'smp_obj': smp_obj, 'default_value': default_value, 'area': area, 'area_units': settings.DISPLAY_AREA_UNITS,
+    area = smp.geometry_final.area
+    min_slope, max_slope, avg_slope = get_slope(smp)
+    structure_tuples = get_structures(smp)
+    shoremod_perc = get_shoremod_avg(smp)
+    sand, sand_mud, sand_gravel = get_sand_perc(smp)
+    exposed, very_exposed = get_exposure_percs(smp)
+    seagrass, saltmarsh, surfgrass    = get_vegetation_percs(smp)
+    context = { 'smp': smp, 'default_value': default_value, 'area': area, 'area_units': settings.DISPLAY_AREA_UNITS,
                 'min_slope': min_slope, 'max_slope': max_slope, 'avg_slope': avg_slope,
                 'structure_tuples': structure_tuples, 'shoremod_perc': shoremod_perc, 
-                'sand': sand, 'exposed': exposed, 'very_exposed': very_exposed,
+                'sand': sand, 'sand_mud': sand_mud, 'sand_gravel': sand_gravel, 
+                'exposed': exposed, 'very_exposed': very_exposed,
                 'seagrass': seagrass, 'saltmarsh': saltmarsh, 'surfgrass': surfgrass }
     return context
     
@@ -53,7 +54,13 @@ def get_structures(smp):
     #    return structure_tuples
     #else:
     structures = OverwaterStructure.objects.filter(geometry__bboverlaps=smp.geometry_final)
-    structure_list = [structure.os_detail for structure in structures if structure.geometry.intersects(smp.geometry_final)]
+    structure_list = []
+    for structure in structures:
+        if structure.geometry.intersects(smp.geometry_final):
+            type = structure.complexity
+            if type in ['Other', 'Fill']:
+                type = structure.os_detail
+            structure_list.append(type)
     structure_dict = {}
     for type in structure_list:
         if type in structure_dict.keys():
@@ -86,7 +93,13 @@ def get_sand_perc(smp):
         sand_perc = []
         if 9 in substrate_dict.keys():
             sand_perc = [substrate_dict[9]/total_pixels]
-    return sand_perc
+        sand_mud_perc = []
+        if 4 in substrate_dict.keys():
+            sand_mud_perc = [substrate_dict[4]/total_pixels]
+        sand_gravel_perc = []
+        if 10 in substrate_dict.keys():
+            sand_gravel_perc = [substrate_dict[10]/total_pixels]
+    return sand_perc, sand_mud_perc, sand_gravel_perc
     
     
 def get_exposure_percs(smp):
