@@ -8,6 +8,9 @@ def kmlcolor_to_htmlcolor(kmlcolor):
 def miles_to_meters(miles):
     return int(miles * 1609.344)
     
+def meters_to_miles(meters):
+    return meters * 0.000621371192
+    
 def feet_to_meters(feet):
     return int(feet * .3048)
     
