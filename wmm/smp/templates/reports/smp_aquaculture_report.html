@@ -2,20 +2,25 @@
 
 {% block title %}SMP Characterization Site Report{% endblock %}
 {% block panel %}
+{% load humanize %}
 
-<h3>Aquaculture Analysis</h3>
 <div class='freetext'>
+<h3>General</h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
         <tr class="grey">
             <td></td>
-            <td><b>Aquatic Parcels</b></td>
+            <td><b>Oyster Tracts</b></td>
             <td></td>
         </tr>
         <tr>
             <td></td>
-            <td>{{default_value}}</td>
+            {% if oyster_tract == 0.0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{oyster_tract|intcomma}} acres</td>
+            {% endif %}
             <td></td>
         </tr>
     </tbody>
@@ -24,28 +29,68 @@
     <tbody>
         <tr class="grey">
             <td></td>
-            <td><b>Commercial Shellfish Areas</b></td>
+            <td><b>Oyster Reserves</b></td>
             <td></td>
         </tr>
         <tr>
             <td></td>
-            <td>{{default_value}}</td>
+            {% if oyster_reserves == 0.0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{oyster_reserves|intcomma}} acres</td>
+            {% endif %}
             <td></td>
         </tr>
+    </tbody>
+</table>
+<h3>Commercial</h3>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Growing Areas</b></td>
+            <td></td>
+        </tr>
+        {% if growing_areas.0 %}
+        {% for tuple in growing_areas %}
+        <tr>
+            <td></td>
+            <td>{{tuple.0}} ({{tuple.1|intcomma}} acres)</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
     </tbody>
 </table>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
         <tr class="grey">
             <td></td>
-            <td><b>Tideland Parcels</b></td>
+            <td><b>Harvest Sites</b></td>
             <td></td>
         </tr>
+        {% if harvest_sites.0 %}
+        {% for tuple in harvest_sites %}
         <tr>
             <td></td>
-            <td>{{default_value}}</td>
+            <td>{{tuple.0}} ({{tuple.1|intcomma}} acres)</td>
             <td></td>
         </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
     </tbody>
 </table>
 

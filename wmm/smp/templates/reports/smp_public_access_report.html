@@ -14,7 +14,8 @@
             <td></td>
         </tr>
         <tr>
-            <td></td>{% if undeveloped_area == 0.0 %}
+            <td></td>
+            {% if undeveloped_area == 0.0 %}
             <td>None Found</td>
             {% else %}
             <td>{{undeveloped_area|floatformat:2}} sq miles</td>
