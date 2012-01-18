@@ -7,7 +7,7 @@ from scenario.utils import default_value
 
 '''
 '''
-def display_smp_public_access_analysis(request, smp_obj, template='smp/reports/smp_public_access_report.html'):
+def display_smp_public_access_analysis(request, smp_obj, template='reports/smp_public_access_report.html'):
     context = get_smp_public_access_context(smp_obj)
     return render_to_response(template, RequestContext(request, context)) 
 

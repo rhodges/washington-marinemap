@@ -7,7 +7,7 @@ from scenario.utils import default_value
 
 '''
 '''
-def display_smp_shoreline_use_analysis(request, smp_obj, template='smp/reports/smp_shoreline_use_report.html'):
+def display_smp_shoreline_use_analysis(request, smp_obj, template='reports/smp_shoreline_use_report.html'):
     context = get_smp_shoreline_use_context(smp_obj)
     return render_to_response(template, RequestContext(request, context)) 
 
