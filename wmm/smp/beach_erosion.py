@@ -27,22 +27,23 @@ def run_beach_erosion_analysis(smp_obj, type='beach_erosion'):
     min_slope, max_slope, avg_slope = get_slope(smp_obj)
     structure_tuples = get_structures(smp_obj)
     shoremod_perc = get_shoremod_avg(smp_obj)
+    sand = get_sand_perc(smp_obj)
     exposed, very_exposed = get_exposure_percs(smp_obj)
     seagrass, saltmarsh, surfgrass    = get_vegetation_percs(smp_obj)
     #compile context
     context = { 'smp_obj': smp_obj, 'default_value': default_value, 'area': area, 'area_units': settings.DISPLAY_AREA_UNITS,
                 'min_slope': min_slope, 'max_slope': max_slope, 'avg_slope': avg_slope,
                 'structure_tuples': structure_tuples, 'shoremod_perc': shoremod_perc, 
-                'exposed': exposed, 'very_exposed': very_exposed,
+                'sand': sand, 'exposed': exposed, 'very_exposed': very_exposed,
                 'seagrass': seagrass, 'saltmarsh': saltmarsh, 'surfgrass': surfgrass }
     return context
     
 def get_slope(smp):
     slope_geom = RasterDataset.objects.get(name='slope')
     slope_stats = zonal_stats(smp.geometry_final, slope_geom)
-    min_slope = slope_stats.min / 100
-    max_slope = slope_stats.max / 100
-    avg_slope = slope_stats.avg / 100
+    min_slope = slope_stats.min 
+    max_slope = slope_stats.max 
+    avg_slope = slope_stats.avg 
     return min_slope, max_slope, avg_slope
     
 def get_structures(smp):
@@ -71,6 +72,23 @@ def get_shoremod_avg(smp):
     avg_modification = shoremod_stats.avg / 100
     return avg_modification
     
+def get_sand_perc(smp):
+    substrate_geom = RasterDataset.objects.get(name='substrate')
+    substrate_stats = zonal_stats(smp.geometry_final, substrate_geom)
+    if substrate_stats.pixels:
+        total_pixels = 0.0
+        categories = substrate_stats.categories.all()
+        substrate_dict = {}
+        for cat in categories:
+            if cat.category in range(1,15):
+                substrate_dict[cat.category] = cat.count
+                total_pixels += cat.count
+        sand_perc = []
+        if 9 in substrate_dict.keys():
+            sand_perc = [substrate_dict[9]/total_pixels]
+    return sand_perc
+    
+    
 def get_exposure_percs(smp):
     exposure_geom = RasterDataset.objects.get(name='exposure')
     exposure_stats = zonal_stats(smp.geometry_final, exposure_geom)
@@ -79,7 +97,7 @@ def get_exposure_percs(smp):
         categories = exposure_stats.categories.all()
         exposure_dict = {}
         for cat in categories:
-            if cat.category in [1,2,3,4,5]:
+            if cat.category in range(1,6):
                 exposure_dict[cat.category] = cat.count
                 total_pixels += cat.count
         exposed = []
@@ -98,7 +116,7 @@ def get_vegetation_percs(smp):
         categories = veg_stats.categories.all()
         veg_dict = {}
         for cat in categories:
-            if cat.category in [1,2,3,4,5,6,7,8,9,10]:
+            if cat.category in range(1,11):
                 veg_dict[cat.category] = cat.count
                 total_pixels += cat.count
         seagrass = []
