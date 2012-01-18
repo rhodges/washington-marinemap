@@ -7,22 +7,22 @@ from scenario.utils import default_value
 
 '''
 '''
-def display_smp_aquaculture_analysis(request, smp_obj, template='reports/smp_aquaculture_report.html'):
-    context = get_smp_aquaculture_context(smp_obj)
+def display_smp_aquaculture_analysis(request, smp, template='reports/smp_aquaculture_report.html'):
+    context = get_smp_aquaculture_context(smp)
     return render_to_response(template, RequestContext(request, context)) 
 
 '''
 '''    
-def get_smp_aquaculture_context(smp_obj, type='aquaculture'): 
+def get_smp_aquaculture_context(smp): 
     #get context from cache or from running analysis
-    context = run_aquaculture_analysis(smp_obj)   
+    context = run_aquaculture_analysis(smp)   
     return context
     
 '''
 Run the analysis, create the cache, and return the results as a context dictionary so they may be rendered with template
 '''    
-def run_aquaculture_analysis(smp_obj, type='aquaculture'): 
-    area = smp_obj.geometry_final.area
+def run_aquaculture_analysis(smp): 
+    area = smp.geometry_final.area
     #compile context
-    context = {'smp_obj': smp_obj, 'default_value': default_value, 'area': area, 'area_units': settings.DISPLAY_AREA_UNITS}
+    context = {'smp': smp, 'default_value': default_value, 'area': area, 'area_units': settings.DISPLAY_AREA_UNITS}
     return context
