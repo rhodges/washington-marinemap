@@ -39,6 +39,7 @@ def run_shoreline_use_analysis(smp):
                 'cultural_area': cultural_area, 'structure_tuples': structure_tuples, 'access_sites': access_sites }
     return context
     
+#TODO:  will need to improve the accuracy here to account for parcels that are only partially overlapped  
 def get_landuse_area(smp, model_class):
     areas = model_class.objects.filter(geometry__bboverlaps=smp.geometry_final)
     total_area = sum([area.geometry.area for area in areas if area.geometry.intersects(smp.geometry_final)])

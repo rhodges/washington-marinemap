@@ -6,7 +6,10 @@
 {% block panel %}
 
 <div class='freetext'>
-<h3>Slope</h3>
+<h3>Slope <small><small>[<a id="slope_link" href="javascript:toggleDiv('slope', 'slope_link');">Learn More</a>]</small></small></h3>
+<div id="slope" style="display: none">
+    <p>This is where we would talk about how Slope affects beach erosion...
+</div>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
@@ -126,4 +129,19 @@
 <p></p>
 
 </div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script type="text/javascript">
+function toggleDiv(divId, srcId) {
+   $("#"+divId).toggle();
+    if ($("#"+srcId).text() == 'Learn More') { 
+        $("#"+srcId).text('Hide Text'); 
+    } else { 
+        $("#"+srcId).text('Learn More'); 
+    }
+}
+
+</script>
+
 {% endblock %}
