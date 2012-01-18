@@ -16,9 +16,9 @@
             <td><b>Max Slope</b></td>
         </tr>
         <tr>
-            <td>{{min_slope|percentage:2}}</td>
-            <td>{{max_slope|percentage:2}}</td>
-            <td>{{avg_slope|percentage:2}}</td>
+            <td>{{min_slope|floatformat:2}}&deg;</td>
+            <td>{{max_slope|floatformat:2}}&deg;</td>
+            <td>{{avg_slope|floatformat:2}}&deg;</td>
         </tr>
     </tbody>
 </table>
@@ -54,12 +54,12 @@
     <tbody>
         <tr class="grey">
             <td></td>
-            <td><b>Percentage of Shoreline Modification</b></td>
+            <td><b>Estimated Percentage of Shoreline Modification</b></td>
             <td></td>
         </tr>
         <tr>
             <td></td>
-            <td>{{default_value}}</td>
+            <td>{{shoremod_perc|percentage:0}} </td>
             <td></td>
         </tr>
     </tbody>
@@ -73,8 +73,8 @@
         </tr>
         <tr>
             <td>{{default_value}}</td>
-            <td>{{default_value}}</td>
-            <td>{{default_value}}</td>
+            <td>{% if exposed.0 %}{{exposed.0|percentage:2}}{% else %}None Found{% endif %}</td>
+            <td>{% if very_exposed.0 %}{{very_exposed.0|percentage:2}}{% else %}None Found{% endif %}</td>
         </tr>
     </tbody>
 </table>
@@ -86,12 +86,14 @@
             <td><b>Percent Surfgrass</b></td>
         </tr>
         <tr>
-            <td>{{default_value}}</td>
-            <td>{{default_value}}</td>
-            <td>{{default_value}}</td>
+            <td>{% if seagrass.0 %}{{seagrass.0|percentage:1}}{% else %}None Found{% endif %}</td>
+            <td>{% if saltmarsh.0 %}{{saltmarsh.0|percentage:1}}{% else %}None Found{% endif %}</td>
+            <td>{% if surfgrass.0 %}{{surfgrass.0|percentage:1}}{% else %}None Found{% endif %}</td>
         </tr>
     </tbody>
 </table>
+
+<p></p>
 
 </div>
 {% endblock %}
