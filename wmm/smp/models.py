@@ -159,7 +159,33 @@ class PublicAccess(models.Model):
     geometry = models.PointField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Public Access Sites")
     objects = models.GeoManager()    
     
+class HarvestSite(models.Model):
+    acres = models.FloatField()
+    company = models.CharField(max_length=64)
+    geometry = models.PointField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Harvest Sites")
+    objects = models.GeoManager()
     
-    
+class CommercialGrowingArea(models.Model):
+    status = models.CharField(max_length=20)
+    acres = models.FloatField()
+    name = models.CharField(max_length=60)
+    shape_leng = models.FloatField()
+    shape_area = models.FloatField()
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Commercial Growing Areas")
+    objects = models.GeoManager()
+
+class OysterReserve(models.Model):
+    shape_leng = models.FloatField()
+    shape_area = models.FloatField()
+    area_acres = models.FloatField()
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Oyster Reserves")
+    objects = models.GeoManager()
+
+class OysterTract(models.Model):
+    app_no = models.CharField(max_length=10, null=True, blank=True)
+    orig_id = models.IntegerField()
+    area_acres = models.FloatField()
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Oyster Tracts")
+    objects = models.GeoManager()    
     
     
