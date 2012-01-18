@@ -5,8 +5,8 @@
 {% block title %}SMP Characterization Site Report{% endblock %}
 {% block panel %}
 
-<h3>Beach Erosion Analysis</h3>
 <div class='freetext'>
+<h3>Slope</h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
@@ -22,6 +22,8 @@
         </tr>
     </tbody>
 </table>
+<h3>Structures</h3>
+<p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
         <tr class="grey">
@@ -29,6 +31,7 @@
             <td><b>Number of Structures by Type</b></td>
             <td></td>
         </tr>
+        {% if structure_tuples.0 %}
         {% for tuple in structure_tuples %}
         <tr>
             <td></td>
@@ -36,8 +39,17 @@
             <td></td>
         </tr>
         {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
     </tbody>
 </table>
+<h3>Drift</h3>
+<p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
         <tr class="grey">
@@ -64,17 +76,35 @@
         </tr>
     </tbody>
 </table>
+<h3>Exposure</h3>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td><b>Percent Exposed</b></td>
+            <td></td>
+            <td><b>Percent Very Exposed</b></td>
+        </tr>
+        <tr>
+            <td>{% if exposed.0 %}{{exposed.0|percentage:1}}{% else %}None Found{% endif %}</td>
+            <td></td>
+            <td>{% if very_exposed.0 %}{{very_exposed.0|percentage:1}}{% else %}None Found{% endif %}</td>
+        </tr>
+    </tbody>
+</table>
+<h3>Substrate/Vegetation</h3>
+<p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
         <tr class="grey">
             <td><b>Percent Sand</b></td>
-            <td><b>Percent Exposed</b></td>
-            <td><b>Percent Very Exposed</b></td>
+            <td><b>Percent Sand/Mud</b></td>
+            <td><b>Percent Sand/Gravel</b></td>
         </tr>
         <tr>
             <td>{% if sand.0 %}{{sand.0|percentage:1}}{% else %}None Found{% endif %}</td>
-            <td>{% if exposed.0 %}{{exposed.0|percentage:1}}{% else %}None Found{% endif %}</td>
-            <td>{% if very_exposed.0 %}{{very_exposed.0|percentage:1}}{% else %}None Found{% endif %}</td>
+            <td>{% if sand_mud.0 %}{{sand_mud.0|percentage:1}}{% else %}None Found{% endif %}</td>
+            <td>{% if sand_gravel.0 %}{{sand_gravel.0|percentage:1}}{% else %}None Found{% endif %}</td>
         </tr>
     </tbody>
 </table>

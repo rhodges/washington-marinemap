@@ -111,3 +111,55 @@ class OverwaterStructure(models.Model):
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Overwater Structures")
     objects = models.GeoManager()
     
+class LandUse(models.Model):
+    landuse_cd = models.IntegerField()
+    descr = models.CharField(max_length=72)
+    source = models.CharField(max_length=24)
+    area = models.FloatField()
+    lu_code = models.FloatField()
+    lu_class = models.CharField(max_length=254)
+    shape_leng = models.FloatField()
+    shape_area = models.FloatField()
+    objects = models.GeoManager()   
+    
+    class Meta:
+        abstract = True 
+    
+class LandUseCultural(LandUse):
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Cultural Land Use")
+    
+class LandUseManufacturing(LandUse):
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Manufacturing Land Use")
+
+class LandUseResidential(LandUse):
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Residential Land Use")
+
+class LandUseServices(LandUse):
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Services Land Use")
+
+class LandUseTrade(LandUse):
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Trade Land Use")
+
+class LandUseTransportation(LandUse):
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Transportation Land Use")
+
+class LandUseUndeveloped(LandUse):
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Undeveloped Land Use")
+    
+class PublicAccess(models.Model):
+    objectid = models.IntegerField()
+    beach_name = models.CharField(max_length=150)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    class_desc = models.CharField(max_length=254, null=True, blank=True)
+    beach_name_caps = models.CharField(max_length=254, null=True, blank=True)
+    owner = models.CharField(max_length=254, null=True, blank=True)
+    length = models.FloatField()
+    rep_name = models.CharField(max_length=254, null=True, blank=True)
+    geometry = models.PointField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Public Access Sites")
+    objects = models.GeoManager()    
+    
+    
+    
+    
+    
