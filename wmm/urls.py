@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     (r'', include('lingcod.common.urls')),
     (r'^bookmark/', include('lingcod.bookmarks.urls')),
     (r'^scenario/', include('scenario.urls')),
+    (r'^smp/', include('smp.urls')),
 )
