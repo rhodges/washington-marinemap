@@ -1,0 +1,113 @@
+{% extends 'common/panel.html' %}
+{% load jsonify %}
+{% block title %}Tradeoff Analysis Report{% endblock %}
+
+{% block panel %}
+<script type="text/javascript" charset="utf-8">
+
+    var xaxis = "{{x_axis}}";
+    var xaxis_label = "{{x_label}}";
+    var xaxis_colors = {{conservation_colors|safe}};
+    var xaxis_sites = {{conservation_sites|safe}};
+    
+    var yaxis = "{{y_axis}}";
+    var yaxis_label = "{{y_label}}"; 
+    var yaxis_colors = {{windenergy_colors|safe}};
+    yaxis_sites = {{windenergy_sites|safe}};
+     
+    var plot1 = $.jqplot('chartdiv', [xaxis_sites, yaxis_sites], {        
+        title: {
+            text: 'Sample Report', 
+            fontSize: '26px',
+            fontFamily: ["Lucida Grande","Lucida Sans Unicode","Arial","Verdana","sans-serif"]
+        },
+        grid: { 
+            //drawBorder: false,
+            //shadow: false
+        },
+        //seriesColors: [ "#4bb2c5", "#c5b47f" ],
+        seriesDefaults:{
+            renderer: $.jqplot.BubbleRenderer,
+            rendererOptions: {
+                bubbleAlpha: 0.6,
+                highlightAlpha: 1,
+                //bubbleGradients: true,
+                autoscaleBubbles: false,
+                showLabels: false //prevents labels from showing up on the graph
+            },              
+            shadow: true,
+            shadowAlpha: 0.05
+        },
+        series: [
+            {
+                seriesColors: xaxis_colors,
+                color: xaxis_colors[0] //used in the legend
+            }, 
+            {
+                seriesColors: yaxis_colors,
+                color: yaxis_colors[0] //used in the legend
+            }
+        ],
+        axes: {
+            xaxis: {min: 0, max: 100, label: xaxis_label, numberTicks: 11, 
+                    labelOptions: { fontFamily: ["Lucida Grande","Lucida Sans Unicode","Arial","Verdana","sans-serif"] }
+                   },
+            yaxis: {min: 0, max: 100, label: yaxis_label, numberTicks: 11, 
+                    labelRenderer: $.jqplot.CanvasAxisLabelRenderer, 
+                    labelOptions: {
+                        fontFamily: ["Lucida Grande","Lucida Sans Unicode","Arial","Verdana","sans-serif"]
+                    }
+                    //labelOptions: { fontFamily: ["Lucida Grande","Lucida Sans Unicode","Arial","Verdana","sans-serif"] }
+                   }                
+        },  
+        legend: {
+            renderer: $.jqplot.EnhancedLegendRenderer,
+            show: true,
+            showLabels: true,
+            location: 'sw',
+            fontSize: '10px',
+            fontFamily: ["Lucida Grande","Lucida Sans Unicode","Arial","Verdana","sans-serif"],
+            //fontFamily: 'verdana',
+            labels: ['Conservation Sites', 'Wind Energy Sites'],
+            rendererOptions: {
+                numberRows: 2
+            }
+        }
+    });
+    
+    $('#chartdiv').bind('jqplotDataHighlight',
+        function(ev, seriesIndex, pointIndex, data, radius) { 
+            var x = plot1.axes.xaxis.u2p(data[0])-radius-60,  // convert x axis units to pixels
+                y = plot1.axes.yaxis.u2p(data[1])-radius-90;  // convert y axis units to pixels
+            if ( x > 350 ) { x = 350; }
+            if ( x < 50 ) { x = 50; }
+            if ( y < 50 ) { y = y + radius * 2 + 94; }
+            //NOTE:  might want to base tooltip output on seriesIndex    
+            var fontfamily = 'Lucida Grande,Lucida Sans Unicode,Arial,Verdana,sans-serif';
+            //if (seriesIndex == 0) { color = '#4bb2c5'; }
+            //else { color = '#c5b47f'; } //'rgb(50%,50%,100%)';  
+            color = plot1.series[seriesIndex].color;
+            $('.jqplot-highlighter-tooltip').css({left:x, top:y, 'background-color':'#fafaf5', 'opacity':.8});
+            $('.jqplot-highlighter-tooltip').html('<span style="font-family:' + fontfamily + ';font-size:14px;font-weight:bold;color:' +
+                color + ';">' + data[3] + '</span><span style="font-family:' + fontfamily + ';font-size:12px;"><br />' + xaxis_label + ': ' 
+                + data[0] + '<br />' + yaxis_label + ': ' + data[1] + '<br />' + 'Area: ' + data[2]/4 + ' sq miles</span>');
+            //$('.jqplot-highlighter-tooltip').html('<span>'+ x + ' ' + y + ' ' + seriesIndex + ' ' + pointIndex + ' ' + data + '</span>');
+            $('.jqplot-highlighter-tooltip').show();
+        }
+    );
+    $('#chartdiv').bind('jqplotDataUnhighlight',
+        function (ev) {
+            //$('.jqplot-highlighter-tooltip').fadeOut();
+            $('.jqplot-highlighter-tooltip').empty();
+            $('.jqplot-highlighter-tooltip').hide();
+            //$('.jqplot-highlighter-tooltip').html('');
+        }
+    );
+ 
+</script>
+
+
+<p>
+<div id="chartdiv" class="chart" style="height:400px;width:400px; "></div>
+
+{% endblock %}

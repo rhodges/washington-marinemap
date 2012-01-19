@@ -1,0 +1,131 @@
+{% extends 'common/panel.html' %}
+
+{% block title %}SMP Characterization Site Report{% endblock %}
+{% block panel %}
+
+<div class='freetext'>
+<h3>Land Use <small><small>[<a id="landuse_su_link" href="javascript:toggleDiv('landuse_su', 'landuse_su_link');">Learn More</a>]</small></small></h3>
+<div id="landuse_su" style="display: none">
+    <p>This is where we would talk about how Land Uses relates to shoreline use...
+</div>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td><b>Undeveloped</b></td>
+            <td></td>
+            <td><b>Residential</b></td>
+        </tr>
+        <tr>
+            {% if undeveloped_area == 0.0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{undeveloped_area|floatformat:2}} sq miles</td>
+            {% endif %}
+            <td></td>
+            {% if residential_area == 0.0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{residential_area|floatformat:2}} sq miles</td>
+            {% endif %}
+        </tr>
+    </tbody>
+</table>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td><b>Manufacturing</b></td>
+            <td><b>Transportation</b></td>
+            <td><b>Trade</b></td>
+        </tr>
+        <tr>
+            {% if manufacturing_area == 0.0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{manufacturing_area|floatformat:2}} sq miles</td>
+            {% endif %}
+            {% if transportation_area == 0.0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{transportation_area|floatformat:2}} sq miles</td>
+            {% endif %}
+            {% if trade_area == 0.0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{trade_area|floatformat:2}} sq miles</td>
+            {% endif %}
+        </tr>
+    </tbody>
+</table>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td><b>Services</b></td>
+            <td></td>
+            <td><b>Cultural</b></td>
+        </tr>
+        <tr>
+            {% if service_area == 0.0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{service_area|floatformat:2}} sq miles</td>
+            {% endif %}
+            <td></td>
+            {% if cultural_area == 0.0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{cultural_area|floatformat:2}} sq miles</td>
+            {% endif %}
+        </tr>
+    </tbody>
+</table>
+<h3>Marine Infrastructure <small><small>[<a id="infrastructure_link" href="javascript:toggleDiv('infrastructure', 'infrastructure_link');">Learn More</a>]</small></small></h3>
+<div id="infrastructure" style="display: none">
+    <p>This is where we would talk about how Marine Infrastructure relates to shoreline use...
+</div>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Number of Structures by Type</b></td>
+            <td></td>
+        </tr>
+        {% if structure_tuples.0 %}
+        {% for tuple in structure_tuples %}
+        <tr>
+            <td></td>
+            <td>{{tuple.0}} ({{tuple.1}})</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Nearest Public Access Site</b></td>
+            <td></td>
+        </tr>
+        {% for site in access_sites %}
+        <tr>
+            <td></td>
+            <td>{{site.1}} ({{site.0|floatformat:1}} miles)</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p></p>
+
+</div>
+{% endblock %}

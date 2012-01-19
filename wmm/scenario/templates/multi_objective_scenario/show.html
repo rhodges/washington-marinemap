@@ -1,0 +1,116 @@
+{% extends 'common/panel.html' %}
+{% block title %}{{instance.name}}{% endblock title %}
+{% block panel %}
+<!--<h1>Results for "{{instance.name}}"</h1>-->
+<h1><small><small>Scenario: </small></small> {{instance.name}}</h1>
+    <div class="tabs">
+        <ul>
+            <li><a href="#Inputs"><span>Attributes</span></a></li>
+            {% for scenario in instance.scenarios.all %}
+            <li><a href="{% url scenario_report instance.pk scenario.pk %}"><span>{{scenario.input_objective}} Report</span></a></li>
+            {% endfor %}
+            {% if instance.overlap_geom %}
+            <li><a href="{% url overlap_report instance.pk %}"><span>Overlap Report</span></a></li>
+            {% endif %}
+        </ul>
+        <div id="Inputs">
+            <ul class="metadata">
+              {% if instance.user.first_name and instance.user.last_name %} 
+                <li class="creator">Created By {{instance.user.first_name}} {{instance.user.last_name}}</li>
+              {% else %}
+                <li class="creator">Created By {{instance.user.username}}</li>
+              {% endif %}
+                <li class="created">Created {{instance.date_created|date:"d M, Y P"}}</li>
+                <li class="modified">Modified {{instance.date_modified|date:"d M, Y P"}}</li>
+                <br class="clear" />
+            </ul>
+            <!--
+            <h2>Feature Type</h2>
+                <p>Multi-Objective Scenario</p>
+            -->    
+            <h2>Description</h2>
+                {% if instance.description %}
+                <p>{{instance.description}}</p>
+                {% else %}
+                <p><i>No Description</i></p>
+                {% endif %}
+                
+            <h2>Objectives</h2>     
+                {% for scenario in instance.scenarios.all %}
+                <p>{{scenario.input_objective}}</p>
+                <!--
+                <div class="box species" id="temp">
+                    <h3>Objective: </h3>
+                        <div>
+                            <p>{{scenario.input_objective}}</p>
+                        </div>
+                    <h3>Parameters</h3>
+                        <div>
+                            {% if 1 in scenario.input_parameter_ids %}
+                            <p> Distance to Shore <= {{ scenario.input_dist_shore }} miles</p>
+                            {% endif %}
+                            {% if 2 in scenario.input_parameter_ids %}
+                            <p> Distance to Port <= {{ scenario.input_dist_port }} miles</p>
+                            {% endif %}
+                            {% if 3 in scenario.input_parameter_ids %}
+                            <p> Depth Range: {{scenario.input_min_depth|floatformat:0}} to {{scenario.input_max_depth|floatformat:0}} feet</p>
+                            {% endif %}
+                            {% if 5 in scenario.input_parameter_ids %}
+                            <p> Substrates: </p>
+                            <ul>
+                            {% for substrate in scenario.input_substrate_names %}
+                                <li> {{substrate}} </li>
+                            {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if 6 in scenario.input_parameter_ids %}
+                            <p> Depth Classes: </p>
+                            <ul>
+                            {% for depth_class in scenario.input_depth_class_names %}
+                                <li> {{depth_class}} </li>
+                            {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if 7 in scenario.input_parameter_ids %}
+                            <p> Geomorphologies: </p>
+                            <ul>
+                            {% for geomorphology in scenario.input_geomorphology_names %}
+                                <li> {{geomorphology}} </li>
+                            {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                </div>
+                -->
+                {% endfor %}
+            <h2>Support File</h2>
+                <!--<div class="box species">-->
+                <div>
+                    {% if instance.support_file %}
+                    <p><a href="{{instance.support_file.url}}" target="_blank">{{instance.support_filename}}</a></p>
+                    {% else %}
+                    <p><i>No Attachments</i></p>
+                    {% endif %}
+                </div>
+        </div>
+        
+        {% if instance.done %}
+        <div id="reports">
+           <h3>Multipolygon with {{instance.output_geom|length}} individual polygons</h3>
+           <h3>Total Area</h3>
+           <p>{{ instance.output_area|floatformat }} sq. km</p>
+           <h3>Mapcalc equation</h3>
+           <pre>{{ instance.output_mapcalc }}</pre>
+        </div>
+        {% endif %}
+        
+        {% if instance.done %}
+        {% for scenario in instance.scenarios.all %}
+        <div id="{{scenario.input_objective.short_name}}_report">
+            <p>{{scenario.input_objective}} Reports coming soon...</p>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+{% endblock panel %}
