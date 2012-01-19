@@ -111,6 +111,19 @@ class OverwaterStructure(models.Model):
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Overwater Structures")
     objects = models.GeoManager()
     
+class DriftCell(models.Model):
+    objectid = models.IntegerField()
+    ws_llid_nr = models.CharField(max_length=13, null=True, blank=True)
+    ws_begin_a = models.FloatField()
+    ws_end_ad = models.FloatField()
+    dc_ds_path = models.CharField(max_length=64, null=True, blank=True)
+    dcell_nr = models.CharField(max_length=20)
+    cell_type = models.CharField(max_length=4)
+    description = models.CharField(max_length=64)
+    shape_leng = models.FloatField()
+    geometry = models.MultiLineStringField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Drift Cells")
+    objects = models.GeoManager()    
+    
 class LandUse(models.Model):
     landuse_cd = models.IntegerField()
     descr = models.CharField(max_length=72)
