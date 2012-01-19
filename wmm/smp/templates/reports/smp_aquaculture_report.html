@@ -5,7 +5,10 @@
 {% load humanize %}
 
 <div class='freetext'>
-<h3>General</h3>
+<h3>General <small><small>[<a id="general_link" href="javascript:toggleDiv('general', 'general_link');">Learn More</a>]</small></small></h3>
+<div id="general" style="display: none">
+    <p>This is where we would talk about how General relates to aquaculture...
+</div>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
@@ -43,7 +46,10 @@
         </tr>
     </tbody>
 </table>
-<h3>Commercial</h3>
+<h3>Commercial <small><small>[<a id="commercial_link" href="javascript:toggleDiv('commercial', 'commercial_link');">Learn More</a>]</small></small></h3>
+<div id="commercial" style="display: none">
+    <p>This is where we would talk about how Commercial relates to aquaculture...
+</div>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
