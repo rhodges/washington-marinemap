@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from lingcod.raster_stats.models import RasterDataset, zonal_stats
 from settings import *
-from scenario.utils import default_value
+from scenario.utils import default_value, meters_to_miles
 from smp.models import *
 
 '''
@@ -26,14 +26,16 @@ def run_beach_erosion_analysis(smp):
     #compile context
     area = smp.geometry_final.area
     min_slope, max_slope, avg_slope = get_slope(smp)
+    drift_cell_tuples = get_drift_cell_tuples(smp)
     structure_tuples = get_structures(smp)
     shoremod_perc = get_shoremod_avg(smp)
     sand, sand_mud, sand_gravel = get_sand_perc(smp)
     exposed, very_exposed = get_exposure_percs(smp)
     seagrass, saltmarsh, surfgrass    = get_vegetation_percs(smp)
     context = { 'smp': smp, 'default_value': default_value, 'area': area, 'area_units': settings.DISPLAY_AREA_UNITS,
-                'min_slope': min_slope, 'max_slope': max_slope, 'avg_slope': avg_slope,
-                'structure_tuples': structure_tuples, 'shoremod_perc': shoremod_perc, 
+                'min_slope': min_slope, 'max_slope': max_slope, 'avg_slope': avg_slope, 
+                'drift_cell_tuples': drift_cell_tuples, 'structure_tuples': structure_tuples, 
+                'shoremod_perc': shoremod_perc, 
                 'sand': sand, 'sand_mud': sand_mud, 'sand_gravel': sand_gravel, 
                 'exposed': exposed, 'very_exposed': very_exposed,
                 'seagrass': seagrass, 'saltmarsh': saltmarsh, 'surfgrass': surfgrass }
@@ -46,6 +48,21 @@ def get_slope(smp):
     max_slope = slope_stats.max 
     avg_slope = slope_stats.avg 
     return min_slope, max_slope, avg_slope
+    
+def get_drift_cell_tuples(smp):
+    drift_cells = DriftCell.objects.filter(geometry__bboverlaps=smp.geometry_final)
+    dc_dict = {}
+    for dc in drift_cells:
+        if dc.geometry.intersects(smp.geometry_final):
+            length = dc.geometry.intersection(smp.geometry_final).length
+            description = dc.description
+            if description not in dc_dict.keys():
+                dc_dict[description] = length
+            else:
+                dc_dict[description] += length
+    dc_list = [(meters_to_miles(length), description) for description, length in dc_dict.items()]
+    dc_list.sort(reverse=True)
+    return dc_list        
     
 def get_structures(smp):
     #the following might be incorporated for all get_ functions 
