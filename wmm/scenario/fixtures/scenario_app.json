@@ -1,4 +1,4 @@
-[ 
+[
     {
         "pk": 4, 
         "model": "scenario.category", 
@@ -272,6 +272,38 @@
         }
     }, 
     {
+        "pk": 13, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Mean Tidal Energy", 
+            "short_name": "tidalmean"
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Max Tidal Energy", 
+            "short_name": "tidalmax"
+        }
+    }, 
+    {
+        "pk": 16, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Winter Wave Energy", 
+            "short_name": "wavewinter"
+        }
+    }, 
+    {
+        "pk": 15, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Summer Wave Energy", 
+            "short_name": "wavesummer"
+        }
+    }, 
+    {
         "pk": 1, 
         "model": "scenario.tidalenergyparameter", 
         "fields": {
@@ -297,6 +329,20 @@
         "model": "scenario.tidalenergyparameter", 
         "fields": {
             "parameter": 5
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.tidalenergyparameter", 
+        "fields": {
+            "parameter": 13
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.tidalenergyparameter", 
+        "fields": {
+            "parameter": 14
         }
     }, 
     {
@@ -360,6 +406,20 @@
         "model": "scenario.waveenergyparameter", 
         "fields": {
             "parameter": 5
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.waveenergyparameter", 
+        "fields": {
+            "parameter": 15
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.waveenergyparameter", 
+        "fields": {
+            "parameter": 16
         }
     }, 
     {

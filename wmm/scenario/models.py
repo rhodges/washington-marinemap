@@ -10,7 +10,7 @@ from lingcod.features import register, alternate
 from lingcod.common.utils import asKml
 from lingcod.features.models import Feature, PointFeature, LineFeature, PolygonFeature, FeatureCollection
 from lingcod.layers.models import PrivateLayerList
-from utils import miles_to_meters, feet_to_meters
+from utils import miles_to_meters, feet_to_meters, intcomma
 
 
 @register
@@ -90,6 +90,10 @@ class MOS(Feature):
     input_min_depth_wave_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_wave_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_wave_energy = models.ManyToManyField("Substrate", related_name="MOSWaveEnergySubstrate", null=True, blank=True)
+    input_min_wavesummer_wave_energy = models.FloatField(verbose_name='Minimum Wave-Summer', null=True, blank=True)
+    input_max_wavesummer_wave_energy = models.FloatField(verbose_name='Maximum Wave-Summer', null=True, blank=True)
+    input_min_wavewinter_wave_energy = models.FloatField(verbose_name='Minimum Wave-Winter', null=True, blank=True)
+    input_max_wavewinter_wave_energy = models.FloatField(verbose_name='Maximum Wave-Winter', null=True, blank=True)
     
     # Conservation Parameters
     input_objectives_conservation = models.ManyToManyField("ConservationObjective", null=True, blank=True)
@@ -134,7 +138,7 @@ class MOS(Feature):
             [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_conservation']]
             #development_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_development']]
             #fisheries_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_fisheries']]
-
+            
             #run analysis on scenarios only when necessary
             for obj in self.input_objectives.all():
                 rerun = None
@@ -158,6 +162,10 @@ class MOS(Feature):
                 max_tidalmean = self.get_form_data(form_data, 'input_max_tidalmean_%s'%obj_short_name)
                 min_tidalmax = self.get_form_data(form_data, 'input_min_tidalmax_%s'%obj_short_name)
                 max_tidalmax = self.get_form_data(form_data, 'input_max_tidalmax_%s'%obj_short_name)
+                min_wavesummer = self.get_form_data(form_data, 'input_min_wavesummer_%s'%obj_short_name)
+                max_wavesummer = self.get_form_data(form_data, 'input_max_wavesummer_%s'%obj_short_name)
+                min_wavewinter = self.get_form_data(form_data, 'input_min_wavewinter_%s'%obj_short_name)
+                max_wavewinter = self.get_form_data(form_data, 'input_max_wavewinter_%s'%obj_short_name)
                 depth_classes = self.get_form_data(form_data, 'input_depth_class_%s'%obj_short_name)
                 geomorphologies = self.get_form_data(form_data, 'input_geomorphology_%s'%obj_short_name)
                 upwellings = self.get_form_data(form_data, 'input_upwelling_%s'%obj_short_name)
@@ -170,13 +178,13 @@ class MOS(Feature):
                         scenario.delete()
                     scenarios = []
                 if len(scenarios) == 1:
-                    scenario = scenarios[0]
-                    scenario_dict = {'user': user, 'name': scenario_name, 'input_parameters': input_params, 'input_objective': obj, 'input_dist_shore': dist_shore, 'input_dist_port': dist_port, 'input_min_depth': min_depth, 'input_max_depth': max_depth, 'input_min_tidalmean': min_tidalmean, 'input_max_tidalmean': max_tidalmean, 'input_min_tidalmax': min_tidalmax, 'input_max_tidalmax': max_tidalmax}
+                    scenario = scenarios[0]  
+                    scenario_dict = {'user': user, 'name': scenario_name, 'input_parameters': input_params, 'input_objective': obj, 'input_dist_shore': dist_shore, 'input_dist_port': dist_port, 'input_min_depth': min_depth, 'input_max_depth': max_depth, 'input_min_tidalmean': min_tidalmean, 'input_max_tidalmean': max_tidalmean, 'input_min_tidalmax': min_tidalmax, 'input_max_tidalmax': max_tidalmax, 'input_min_wavesummer': min_wavesummer, 'input_max_wavesummer': max_wavesummer, 'input_min_wavewinter': min_wavewinter, 'input_max_wavewinter': max_wavewinter}
                     if scenario.needs_rerun(scenario_dict):
                         rerun = True
                     scenario.__dict__.update(scenario_dict)
                 else:
-                    scenario = Scenario(user=user, name=scenario_name, input_objective=obj, input_dist_shore=dist_shore, input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth, input_min_tidalmean=min_tidalmean, input_max_tidalmean=max_tidalmean, input_min_tidalmax=min_tidalmax, input_max_tidalmax=max_tidalmax)            
+                    scenario = Scenario(user=user, name=scenario_name, input_objective=obj, input_dist_shore=dist_shore, input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth, input_min_tidalmean=min_tidalmean, input_max_tidalmean=max_tidalmean, input_min_tidalmax=min_tidalmax, input_max_tidalmax=max_tidalmax, input_min_wavesummer=min_wavesummer, input_max_wavesummer=max_wavesummer, input_min_wavewinter=min_wavewinter, input_max_wavewinter=max_wavewinter)            
                 scenario.save(rerun=False)
                 
                 if set(scenario.input_parameters.all()) != set(input_params) or set(scenario.input_wind_potential.all()) != set(wind_potentials) or (set(scenario.input_substrate.all()) != set(substrates) and set(scenario.input_nearshore_substrate.all()) != set(substrates)) or set(scenario.input_nearshore_exposure.all()) != set(exposures) or set(scenario.input_nearshore_ecosystem.all()) != set(ecosystems) or set(scenario.input_depth_class.all()) != set(depth_classes) or set(scenario.input_geomorphology.all()) != set(geomorphologies):
@@ -226,7 +234,7 @@ class MOS(Feature):
         try:
             data = form_data[index]
         except:
-            if 'dist_shore' in index or 'dist_port' in index or 'min_depth' in index or 'max_depth' in index:
+            if 'dist_shore' in index or 'dist_port' in index or 'min_depth' in index or 'max_depth' in index or 'min_tidalmean' in index or 'max_tidalmean' in index or 'min_tidalmax' in index or 'max_tidalmax' in index or 'min_wavesummer' in index or 'max_wavesummer' in index or 'min_wavewinter' in index or 'max_wavewinter' in index:
                 data = 0
             else:
                 data = []
@@ -295,9 +303,13 @@ class MOS(Feature):
             html += ", ".join(scenario.input_wind_potential_names)
             html += " </p>"
         if 13 in parameter_ids:
-            html += "<p><strong> Mean Tidal Energy:</strong> %s to %s Watts per m2</p>" % (scenario.input_min_tidalmean, scenario.input_max_tidalmean)
+            html += "<p><strong> Mean Tidal Energy:</strong> %s to %s W/m2</p>" % (intcomma(int(scenario.input_min_tidalmean)), intcomma(int(scenario.input_max_tidalmean)))
         if 14 in parameter_ids:
-            html += "<p><strong> Max Tidal Energy:</strong> %s to %s Watts per m2</p>" % (scenario.input_min_tidalmax, scenario.input_max_tidalmax)
+            html += "<p><strong> Max Tidal Energy:</strong> %s to %s W/m2</p>" % (intcomma(int(scenario.input_min_tidalmax)), intcomma(int(scenario.input_max_tidalmax)))
+        if 15 in parameter_ids:
+            html += "<p><strong> Summer Wave Energy:</strong> %s to %s kW/m of shoreline</p>" % (intcomma(int(scenario.input_min_wavesummer)), intcomma(int(scenario.input_max_wavesummer)))
+        if 16 in parameter_ids:
+            html += "<p><strong> Winter Wave Energy:</strong> %s to %s kW/m of shoreline</p>" % (intcomma(int(scenario.input_min_wavewinter)), intcomma(int(scenario.input_max_wavewinter)))
         return html 
         
     @property 
@@ -453,6 +465,10 @@ class Scenario(Analysis):
     input_max_tidalmean = models.FloatField(verbose_name='Maximum TidalMax', null=True, blank=True)
     input_min_tidalmax = models.FloatField(verbose_name='Minimum TidalMax', null=True, blank=True)
     input_max_tidalmax = models.FloatField(verbose_name='Maximum TidalMax', null=True, blank=True)
+    input_min_wavesummer = models.FloatField(verbose_name='Minimum Wave-Summer', null=True, blank=True)
+    input_max_wavesummer = models.FloatField(verbose_name='Maximum Wave-Summer', null=True, blank=True)
+    input_min_wavewinter = models.FloatField(verbose_name='Minimum Wave-Winter', null=True, blank=True)
+    input_max_wavewinter = models.FloatField(verbose_name='Maximum Wave-Winter', null=True, blank=True)
     
     input_substrate = models.ManyToManyField("Substrate", null=True, blank=True)  
     input_depth_class = models.ManyToManyField("DepthClass", null=True, blank=True)    
@@ -599,7 +615,17 @@ class Scenario(Analysis):
         else:
             tidalmax = 1
         
-        mapcalc = """r.mapcalc "rresult = if((%s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s)==13,1,null())" """ % (port_buffer, shoreline_buffer, depth, substrate, depth_class, geomorphology, exposure, ecosystem, upwelling, chlorophyl, wind, tidalmean, tidalmax)
+        if 15 in input_params:
+            wavesummer = 'if(wave_summer >= %s && wave_summer <= %s)' % (self.input_min_wavesummer, self.input_max_wavesummer)
+        else:
+            wavesummer = 1
+        
+        if 16 in input_params:
+            wavewinter = 'if(wave_winter >= %s && wave_winter <= %s)' % (self.input_min_wavewinter, self.input_max_wavewinter)
+        else:
+            wavewinter = 1
+        
+        mapcalc = """r.mapcalc "rresult = if((%s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s)==15,1,null())" """ % (port_buffer, shoreline_buffer, depth, substrate, depth_class, geomorphology, exposure, ecosystem, upwelling, chlorophyl, wind, tidalmean, tidalmax, wavesummer, wavewinter)
         #mapcalc = """r.mapcalc "rresult = if((if(shoreline_rast_buffer==2) + if(port_buffer_rast) + if(bathy>%s && bathy<%s) + if(%s))==4,1,null())" """ % (self.input_min_depth, self.input_max_depth, substrate_formula) 
         g.run(mapcalc)
         self.output_mapcalc = mapcalc
