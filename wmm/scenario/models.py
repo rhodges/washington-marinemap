@@ -71,6 +71,10 @@ class MOS(Feature):
     input_min_depth_tidal_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_tidal_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_tidal_energy = models.ManyToManyField("Substrate", related_name="MOSTidalEnergySubstrate", null=True, blank=True)
+    input_min_tidalmean_tidal_energy = models.FloatField(verbose_name='Minimum TidalMax', null=True, blank=True)
+    input_max_tidalmean_tidal_energy = models.FloatField(verbose_name='Maximum TidalMax', null=True, blank=True)
+    input_min_tidalmax_tidal_energy = models.FloatField(verbose_name='Minimum TidalMax', null=True, blank=True)
+    input_max_tidalmax_tidal_energy = models.FloatField(verbose_name='Maximum TidalMax', null=True, blank=True)
     # Wind
     input_parameters_wind_energy = models.ManyToManyField("WindEnergyParameter")
     input_dist_shore_wind_energy = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
@@ -150,6 +154,10 @@ class MOS(Feature):
                 exposures = self.get_form_data(form_data, 'input_exposure_%s'%obj_short_name)
                 ecosystems = self.get_form_data(form_data, 'input_ecosystem_%s'%obj_short_name)
                 wind_potentials = self.get_form_data(form_data, 'input_wind_potential_%s'%obj_short_name)
+                min_tidalmean = self.get_form_data(form_data, 'input_min_tidalmean_%s'%obj_short_name)
+                max_tidalmean = self.get_form_data(form_data, 'input_max_tidalmean_%s'%obj_short_name)
+                min_tidalmax = self.get_form_data(form_data, 'input_min_tidalmax_%s'%obj_short_name)
+                max_tidalmax = self.get_form_data(form_data, 'input_max_tidalmax_%s'%obj_short_name)
                 depth_classes = self.get_form_data(form_data, 'input_depth_class_%s'%obj_short_name)
                 geomorphologies = self.get_form_data(form_data, 'input_geomorphology_%s'%obj_short_name)
                 upwellings = self.get_form_data(form_data, 'input_upwelling_%s'%obj_short_name)
@@ -163,12 +171,12 @@ class MOS(Feature):
                     scenarios = []
                 if len(scenarios) == 1:
                     scenario = scenarios[0]
-                    scenario_dict = {'user': user, 'name': scenario_name, 'input_parameters': input_params, 'input_objective': obj, 'input_dist_shore': dist_shore, 'input_dist_port': dist_port, 'input_min_depth': min_depth, 'input_max_depth': max_depth}
+                    scenario_dict = {'user': user, 'name': scenario_name, 'input_parameters': input_params, 'input_objective': obj, 'input_dist_shore': dist_shore, 'input_dist_port': dist_port, 'input_min_depth': min_depth, 'input_max_depth': max_depth, 'input_min_tidalmean': min_tidalmean, 'input_max_tidalmean': max_tidalmean, 'input_min_tidalmax': min_tidalmax, 'input_max_tidalmax': max_tidalmax}
                     if scenario.needs_rerun(scenario_dict):
                         rerun = True
                     scenario.__dict__.update(scenario_dict)
                 else:
-                    scenario = Scenario(user=user, name=scenario_name, input_objective=obj, input_dist_shore=dist_shore, input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth)            
+                    scenario = Scenario(user=user, name=scenario_name, input_objective=obj, input_dist_shore=dist_shore, input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth, input_min_tidalmean=min_tidalmean, input_max_tidalmean=max_tidalmean, input_min_tidalmax=min_tidalmax, input_max_tidalmax=max_tidalmax)            
                 scenario.save(rerun=False)
                 
                 if set(scenario.input_parameters.all()) != set(input_params) or set(scenario.input_wind_potential.all()) != set(wind_potentials) or (set(scenario.input_substrate.all()) != set(substrates) and set(scenario.input_nearshore_substrate.all()) != set(substrates)) or set(scenario.input_nearshore_exposure.all()) != set(exposures) or set(scenario.input_nearshore_ecosystem.all()) != set(ecosystems) or set(scenario.input_depth_class.all()) != set(depth_classes) or set(scenario.input_geomorphology.all()) != set(geomorphologies):
@@ -286,6 +294,10 @@ class MOS(Feature):
             html += "<p><strong> Wind Potential:</strong>  "
             html += ", ".join(scenario.input_wind_potential_names)
             html += " </p>"
+        if 13 in parameter_ids:
+            html += "<p><strong> Mean Tidal Energy:</strong> %s to %s Watts per m2</p>" % (scenario.input_min_tidalmean, scenario.input_max_tidalmean)
+        if 14 in parameter_ids:
+            html += "<p><strong> Max Tidal Energy:</strong> %s to %s Watts per m2</p>" % (scenario.input_min_tidalmax, scenario.input_max_tidalmax)
         return html 
         
     @property 
@@ -437,6 +449,11 @@ class Scenario(Analysis):
     input_max_depth = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     
     input_wind_potential = models.ManyToManyField("WindPotential", null=True, blank=True)  
+    input_min_tidalmean = models.FloatField(verbose_name='Minimum TidalMax', null=True, blank=True)
+    input_max_tidalmean = models.FloatField(verbose_name='Maximum TidalMax', null=True, blank=True)
+    input_min_tidalmax = models.FloatField(verbose_name='Minimum TidalMax', null=True, blank=True)
+    input_max_tidalmax = models.FloatField(verbose_name='Maximum TidalMax', null=True, blank=True)
+    
     input_substrate = models.ManyToManyField("Substrate", null=True, blank=True)  
     input_depth_class = models.ManyToManyField("DepthClass", null=True, blank=True)    
     input_geomorphology = models.ManyToManyField("Geomorphology", null=True, blank=True)
@@ -572,7 +589,17 @@ class Scenario(Analysis):
         else:   
             wind = 1
         
-        mapcalc = """r.mapcalc "rresult = if((%s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s)==11,1,null())" """ % (port_buffer, shoreline_buffer, depth, substrate, depth_class, geomorphology, exposure, ecosystem, upwelling, chlorophyl, wind)
+        if 13 in input_params:
+            tidalmean = 'if(tidal_mean >= %s && tidal_mean <= %s)' % (self.input_min_tidalmean, self.input_max_tidalmean)
+        else:
+            tidalmean = 1
+        
+        if 14 in input_params:
+            tidalmax = 'if(tidal_max >= %s && tidal_max <= %s)' % (self.input_min_tidalmax, self.input_max_tidalmax)
+        else:
+            tidalmax = 1
+        
+        mapcalc = """r.mapcalc "rresult = if((%s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s)==13,1,null())" """ % (port_buffer, shoreline_buffer, depth, substrate, depth_class, geomorphology, exposure, ecosystem, upwelling, chlorophyl, wind, tidalmean, tidalmax)
         #mapcalc = """r.mapcalc "rresult = if((if(shoreline_rast_buffer==2) + if(port_buffer_rast) + if(bathy>%s && bathy<%s) + if(%s))==4,1,null())" """ % (self.input_min_depth, self.input_max_depth, substrate_formula) 
         g.run(mapcalc)
         self.output_mapcalc = mapcalc

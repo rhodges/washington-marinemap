@@ -168,12 +168,25 @@ class MOSForm(FeatureForm):
     input_min_depth_tidal_energy = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
     input_max_depth_tidal_energy = forms.FloatField(initial=500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
     input_depth_tidal_energy = forms.FloatField(min_value=0, max_value=5000, initial=0,
-                                                widget=DualSliderWidget('input_min_depth_tidal_energy','input_max_depth_tidal_energy',min=0,max=5000,step=10),
+                                                widget=DualSliderWidget('input_min_depth_tidal_energy','input_max_depth_tidal_energy',
+                                                                        min=0,max=5000,step=10),
                                                 label="Depth Range (feet)", required=False)
     input_substrate_tidal_energy = ModelMultipleChoiceField(queryset=Substrate.objects.all().order_by('id'), 
                                                             #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
                                                             widget=forms.CheckboxSelectMultiple(attrs={'class': 'substrate_tidal_energy'}),
                                                             label="Include areas with the following Substrate Types", required=False) 
+    input_min_tidalmean_tidal_energy = forms.FloatField(initial=200, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_max_tidalmean_tidal_energy = forms.FloatField(initial=1200, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_tidalmean_tidal_energy = forms.FloatField(min_value=0, max_value=1750, initial=0,
+                                                    widget=DualSliderWidget('input_min_tidalmean_tidal_energy','input_max_tidalmean_tidal_energy',
+                                                                            min=0,max=1750,step=50),
+                                                    label="Mean Tidal Energy (W/m2)", required=False)
+    input_min_tidalmax_tidal_energy = forms.FloatField(initial=3000, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_max_tidalmax_tidal_energy = forms.FloatField(initial=13000, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_tidalmax_tidal_energy = forms.FloatField( min_value=0, max_value=15000, initial=0,
+                                                    widget=DualSliderWidget('input_min_tidalmax_tidal_energy','input_max_tidalmax_tidal_energy',
+                                                                            min=0,max=15000,step=500),
+                                                    label="Max Tidal Energy (W/m2)", required=False)
     
     # Objective 7 - Wave Energy
     # NOTE:  The input parameters must be ordered by id 
