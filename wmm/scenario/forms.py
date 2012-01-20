@@ -210,6 +210,18 @@ class MOSForm(FeatureForm):
                                                                 #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
                                                                 widget=forms.CheckboxSelectMultiple(),
                                                                 label="Include areas with the following Substrate Types", required=False) 
+    input_min_wavesummer_wave_energy = forms.FloatField(initial=15, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_max_wavesummer_wave_energy = forms.FloatField(initial=20, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_wavesummer_wave_energy = forms.FloatField(min_value=0, max_value=25, initial=0,
+                                                    widget=DualSliderWidget('input_min_wavesummer_wave_energy','input_max_wavesummer_wave_energy',
+                                                                            min=0,max=25,step=1),
+                                                    label="Summer Wave Energy (kW/m of shoreline)", required=False)
+    input_min_wavewinter_wave_energy = forms.FloatField(initial=45, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_max_wavewinter_wave_energy = forms.FloatField(initial=65, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_wavewinter_wave_energy = forms.FloatField(min_value=0, max_value=76, initial=0,
+                                                    widget=DualSliderWidget('input_min_wavewinter_wave_energy','input_max_wavewinter_wave_energy',
+                                                                            min=0,max=76,step=1),
+                                                    label="Winter Wave Energy (kW/m of shoreline)", required=False)
     
     # Objective 2 - Wind Energy
     # NOTE:  The input parameters must be ordered by id 
@@ -246,7 +258,7 @@ class MOSForm(FeatureForm):
                                                                     required=False, 
                                                                     label="")
                                      
-    # Objective 3 - Offshore Conservation
+    # Objective 3 - Offshore Conservation (Benthic)
     # NOTE:  The input parameters must be ordered by id 
     input_parameters_offshore_conservation = forms.ModelMultipleChoiceField(queryset=OffshoreConservationParameter.objects.all().order_by('id'),
                                                                             widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_offshore_conservation'}),
@@ -287,7 +299,7 @@ class MOSForm(FeatureForm):
                                                                         label="Include areas with the following Ecosystem Types", required=False) 
     
     
-    # Objective 9 - Water Column Conservation
+    # Objective 9 - Water Column Conservation (Pelagic)
     # NOTE:  The input parameters must be ordered by id 
     input_parameters_water_column_conservation = forms.ModelMultipleChoiceField(queryset=WaterColumnConservationParameter.objects.all().order_by('id'),
                                                                                 widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_water_column_conservation'}),

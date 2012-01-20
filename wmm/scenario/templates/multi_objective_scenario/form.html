@@ -15,9 +15,9 @@
                             'development': ['shoreside_development'] };
                             
         //parameters_dict parameters ordering needs to match the ordering found in each <objective>parameter table in the db                     
-        parameters_list = [ 'distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential', 'tidalmean', 'tidalmax', 'depth_class', 'geomorphology', 'exposure', 'ecosystem', 'upwelling', 'chlorophyl'];
+        parameters_list = [ 'distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential', 'tidalmean', 'tidalmax', 'wavesummer', 'wavewinter', 'depth_class', 'geomorphology', 'exposure', 'ecosystem', 'upwelling', 'chlorophyl'];
         parameters_dict = { 'tidal_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'tidalmean', 'tidalmax'],
-                            'wave_energy': ['distance_shore', 'distance_port', 'depth', 'substrate'],
+                            'wave_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'wavesummer', 'wavewinter'],
                             'wind_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential'],
                             'offshore_conservation': ['substrate', 'depth_class', 'geomorphology'],
                             'nearshore_conservation': ['substrate', 'exposure', 'ecosystem'],
@@ -536,6 +536,30 @@ span.form-image > img { width:46px; height:46px; }
                     {{ form.input_substrate_wave_energy.label_tag }}
                     {{ form.input_substrate_wave_energy.errors }}
                     <p>{{ form.input_substrate_wave_energy }} </p>
+                </div>
+            </div>
+            <div id="wavesummer_wave_energy_widget" class="inputfield">
+                <div class="field required">
+                    {{ form.input_wavesummer_wave_energy.label_tag }} 
+                    {{ form.input_wavesummer_wave_energy.errors }}
+                    
+                    {{ form.input_min_wavesummer_wave_energy }}            
+                    to
+                    {{ form.input_max_wavesummer_wave_energy }}            
+
+                    {{ form.input_wavesummer_wave_energy }}            
+                </div>
+            </div>
+            <div id="wavewinter_wave_energy_widget" class="inputfield">
+                <div class="field required">
+                    {{ form.input_wavewinter_wave_energy.label_tag }} 
+                    {{ form.input_wavewinter_wave_energy.errors }}
+                    
+                    {{ form.input_min_wavewinter_wave_energy }}            
+                    to
+                    {{ form.input_max_wavewinter_wave_energy }}            
+
+                    {{ form.input_wavewinter_wave_energy }}            
                 </div>
             </div>
         </div>
