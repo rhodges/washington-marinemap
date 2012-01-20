@@ -1,4 +1,4 @@
-[    
+[ 
     {
         "pk": 4, 
         "model": "scenario.category", 
@@ -32,33 +32,6 @@
         }
     }, 
     {
-        "pk": 3, 
-        "model": "scenario.objective", 
-        "fields": {
-            "color": "77C5B24B", 
-            "name": "Offshore Conservation", 
-            "short_name": "offshore_conservation"
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "scenario.objective", 
-        "fields": {
-            "color": "777F9722", 
-            "name": "Tidal Energy", 
-            "short_name": "tidal_energy"
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "scenario.objective", 
-        "fields": {
-            "color": "777FB4C5", 
-            "name": "Wind Energy", 
-            "short_name": "wind_energy"
-        }
-    }, 
-    {
         "pk": 4, 
         "model": "scenario.objective", 
         "fields": {
@@ -86,12 +59,12 @@
         }
     }, 
     {
-        "pk": 7, 
+        "pk": 3, 
         "model": "scenario.objective", 
         "fields": {
-            "color": "778B1A55", 
-            "name": "Wave Energy", 
-            "short_name": "wave_energy"
+            "color": "77C5B24B", 
+            "name": "Benthic", 
+            "short_name": "offshore_conservation"
         }
     }, 
     {
@@ -99,7 +72,7 @@
         "model": "scenario.objective", 
         "fields": {
             "color": "778B1A55", 
-            "name": "Nearshore Conservation", 
+            "name": "Nearshore", 
             "short_name": "nearshore_conservation"
         }
     }, 
@@ -108,8 +81,35 @@
         "model": "scenario.objective", 
         "fields": {
             "color": "778B1A55", 
-            "name": "Water Column Conservation", 
+            "name": "Pelagic", 
             "short_name": "water_column_conservation"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Wave", 
+            "short_name": "wave_energy"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "777FB4C5", 
+            "name": "Wind", 
+            "short_name": "wind_energy"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "777F9722", 
+            "name": "Tidal", 
+            "short_name": "tidal_energy"
         }
     }, 
     {
