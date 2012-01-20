@@ -15,8 +15,8 @@
                             'development': ['shoreside_development'] };
                             
         //parameters_dict parameters ordering needs to match the ordering found in each <objective>parameter table in the db                     
-        parameters_list = [ 'distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential', 'depth_class', 'geomorphology', 'exposure', 'ecosystem', 'upwelling', 'chlorophyl'];
-        parameters_dict = { 'tidal_energy': ['distance_shore', 'distance_port', 'depth', 'substrate'],
+        parameters_list = [ 'distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential', 'tidalmean', 'tidalmax', 'depth_class', 'geomorphology', 'exposure', 'ecosystem', 'upwelling', 'chlorophyl'];
+        parameters_dict = { 'tidal_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'tidalmean', 'tidalmax'],
                             'wave_energy': ['distance_shore', 'distance_port', 'depth', 'substrate'],
                             'wind_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential'],
                             'offshore_conservation': ['substrate', 'depth_class', 'geomorphology'],
@@ -471,6 +471,30 @@ span.form-image > img { width:46px; height:46px; }
                     {{ form.input_substrate_tidal_energy.label_tag }}
                     {{ form.input_substrate_tidal_energy.errors }}
                     <p>{{ form.input_substrate_tidal_energy }} </p>
+                </div>
+            </div>
+            <div id="tidalmean_tidal_energy_widget" class="inputfield">
+                <div class="field required">
+                    {{ form.input_tidalmean_tidal_energy.label_tag }} 
+                    {{ form.input_tidalmean_tidal_energy.errors }}
+                    
+                    {{ form.input_min_tidalmean_tidal_energy }}            
+                    to
+                    {{ form.input_max_tidalmean_tidal_energy }}            
+
+                    {{ form.input_tidalmean_tidal_energy }}            
+                </div>
+            </div>
+            <div id="tidalmax_tidal_energy_widget" class="inputfield">
+                <div class="field required">
+                    {{ form.input_tidalmax_tidal_energy.label_tag }} 
+                    {{ form.input_tidalmax_tidal_energy.errors }}
+                    
+                    {{ form.input_min_tidalmax_tidal_energy }}            
+                    to
+                    {{ form.input_max_tidalmax_tidal_energy }}            
+
+                    {{ form.input_tidalmax_tidal_energy }}            
                 </div>
             </div>
         </div>
