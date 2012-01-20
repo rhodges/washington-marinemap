@@ -125,22 +125,17 @@ def get_drill_down_stats(scenario, dictionary, outer_class, inner_class):  #add 
         outer_name = outer_class.objects.get(short_name=outer_short_name).name
         total_area = float( sum( [area for param, area in param_dict.items()] ) )
         param_perc_dict = {}
-        for param, area in param_dict.items():
-            inner_short_name = inner_class.objects.get(name=param).short_name
+        for inner_short_name, area in param_dict.items():
+            inner_name = inner_class.objects.get(short_name=inner_short_name).name
             drill_down_name = '%s_%s' %(outer_short_name, inner_short_name)
-            try:
-                total_param_area = OffshoreConservationParameterArea.objects.get(name=drill_down_name).area
-            except:
-                import pdb
-                pdb.set_trace()
-                total_param_area = None
+            total_param_area = OffshoreConservationParameterArea.objects.get(name=drill_down_name).area
             if total_param_area is not None:
-                perc = param_dict[param] / total_param_area * 100
-                tooltip_text = "%.2f%s of available %s/%s" %(perc, '%', param, outer_name)
+                perc = param_dict[inner_short_name] / total_param_area * 100
+                tooltip_text = "%.2f%s of available %s/%s" %(perc, '%', inner_name, outer_name)
             else:
                 tooltip_text = "Data Unavailable"
             #tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(area)
-            param_perc_dict[param] = [int(area / total_area * 1000 + .5) / 10., tooltip_text]
+            param_perc_dict[inner_name] = [int(area / total_area * 1000 + .5) / 10., tooltip_text]
         stats[outer_short_name] = param_perc_dict
     jstats = simplejson.dumps(stats)
     return jstats
