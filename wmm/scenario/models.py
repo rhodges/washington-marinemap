@@ -733,9 +733,10 @@ class Scenario(Analysis):
         sub_ids = substrate_dict.keys()
         substrate_dc_dict = {}
         for sub_id in sub_ids:
+            #generate substrate raster
             substrate_result = """r.mapcalc "subresult_%s = if(substrate==%s,subresult,null())" """ % (sub_id, sub_id)
             g.run(substrate_result)
-            #substrate_stats = g.run('r.stats -an input=subresult_%s' %sub_id) #used to verify mapcalc above...
+            #generate depthclass results for current substrate
             dc_result = """r.mapcalc "substrate_%s_dcresult = if(subresult_%s==%s,depth_class,null())" """ %(sub_id, sub_id, sub_id)
             g.run(dc_result)
             dc_stats = g.run('r.stats -an input=substrate_%s_dcresult' %sub_id)
@@ -748,9 +749,7 @@ class Scenario(Analysis):
         #substrate geomorphology stats -- collecting area (in meters) of each geomorphology in each substrate 
         substrate_geo_dict = {}
         for sub_id in sub_ids:
-            #substrate_result = """r.mapcalc "subresult_%s = if(substrate==%s,subresult,null())" """ % (sub_id, sub_id)
-            #g.run(substrate_result)
-            #substrate_stats = g.run('r.stats -an input=subresult_%s' %sub_id) #used to verify mapcalc above...
+            #generate geomorphology results for current substrate
             geo_result = """r.mapcalc "substrate_%s_georesult = if(subresult_%s==%s,geomorphology,null())" """ %(sub_id, sub_id, sub_id)
             g.run(geo_result)
             geo_stats = g.run('r.stats -an input=substrate_%s_georesult' %sub_id)
@@ -760,32 +759,16 @@ class Scenario(Analysis):
         #self.output_substrate_geomorphology_stats = simplejson.dumps(substrate_geo_dict)
         offshore_report['substrate_geomorphology']=substrate_geo_dict
         
-        #TODO:  All we really need to process at this point is Depth Class - Geomorphology stats (the rest are redundant)
-        #       fix this to improve execution time...
-        
         # Depth Class
-        
-        #depth class substrate stats -- collecting area (in meters) of each substrate in each depth class 
-        depth_class_sub_dict = {}
-        dc_ids = depth_class_dict.keys()
-        for dc_id in dc_ids:
-            depth_class_result = """r.mapcalc "dcresult_%s = if(depth_class==%s,dcresult,null())" """ % (dc_id, dc_id)
-            g.run(depth_class_result)
-            depth_class_stats = g.run('r.stats -an input=dcresult_%s' %dc_id) #used to verify mapcalc above...
-            dc_result = """r.mapcalc "depth_class_%s_subresult = if(dcresult_%s==%s,substrate,null())" """ %(dc_id, dc_id, dc_id)
-            g.run(dc_result)
-            dc_stats = g.run('r.stats -an input=depth_class_%s_subresult' %dc_id)
-            dc_name_dict = self.get_dict_from_stats(dc_stats, Substrate)
-            #dc_name_dict finally becomes: {'Innershelf': 1360911, 'Midshelf': 2940800464}
-            depth_class_sub_dict[DepthClass.objects.get(id=dc_id).short_name] = dc_name_dict
-        offshore_report['depth_class_substrate']=depth_class_sub_dict
         
         #depth class geomorphology stats -- collecting area (in meters) of each geomorphology in each depth class 
         depth_class_geo_dict = {}
+        dc_ids = depth_class_dict.keys()
         for dc_id in dc_ids:
-            #depth_class_result = """r.mapcalc "dcresult_%s = if(depth_class==%s,dcresult,null())" """ % (dc_id, dc_id)
-            #g.run(depth_class_result)
-            #depth_class_stats = g.run('r.stats -an input=dcresult_%s' %dc_id) #used to verify mapcalc above...
+            #generate depthclass raster
+            depth_class_result = """r.mapcalc "dcresult_%s = if(depth_class==%s,dcresult,null())" """ % (dc_id, dc_id)
+            g.run(depth_class_result)
+            #generate geomorphology results for current depthclass
             dc_result = """r.mapcalc "depth_class_%s_georesult = if(dcresult_%s==%s,geomorphology,null())" """ %(dc_id, dc_id, dc_id)
             g.run(dc_result)
             dc_stats = g.run('r.stats -an input=depth_class_%s_georesult' %dc_id)
@@ -793,39 +776,37 @@ class Scenario(Analysis):
             depth_class_geo_dict[DepthClass.objects.get(id=dc_id).short_name] = dc_name_dict
         offshore_report['depth_class_geomorphology']=depth_class_geo_dict
         
+        #depth class substrate stats -- collecting area (in meters) of each substrate in each depth class 
+        depth_class_sub_dict = {}
+        for sub, dc_dict in substrate_dc_dict.items():
+            for dc, area in dc_dict.items():
+                if dc not in depth_class_sub_dict.keys():
+                    depth_class_sub_dict[dc] = {sub: area}
+                else:
+                    depth_class_sub_dict[dc][sub] = area
+        offshore_report['depth_class_substrate']=depth_class_sub_dict
+        
         # Geomorphology
-
+        
         #geomorphology substrate stats -- collecting area (in meters) of each substrate in each geomorphology
         geomorphology_sub_dict = {}
-        geo_ids = geomorphology_dict.keys()
-        for geo_id in geo_ids:
-            geomorphology_result = """r.mapcalc "georesult_%s = if(geomorphology==%s,georesult,null())" """ % (geo_id, geo_id)
-            g.run(geomorphology_result)
-            #geomorphology_stats = g.run('r.stats -an input=georesult_%s' %geo_id) #used to verify mapcalc above...
-            geo_result = """r.mapcalc "geomorphology_%s_subresult = if(georesult_%s==%s,substrate,null())" """ %(geo_id, geo_id, geo_id)
-            g.run(geo_result)
-            geo_stats = g.run('r.stats -an input=geomorphology_%s_subresult' %geo_id)
-            geo_name_dict = self.get_dict_from_stats(geo_stats, Substrate)
-            #dc_name_dict finally becomes: {'Flat': 1360911, 'Slope': 2940800464}
-            geomorphology_sub_dict[Geomorphology.objects.get(id=geo_id).short_name] = geo_name_dict
+        for sub, geo_dict in substrate_geo_dict.items():
+            for geo, area in geo_dict.items():
+                if geo not in geomorphology_sub_dict.keys():
+                    geomorphology_sub_dict[geo] = {sub: area}
+                else:
+                    geomorphology_sub_dict[geo][sub] = area
         offshore_report['geomorphology_substrate']=geomorphology_sub_dict
         
         #geomorphology depth_class stats -- collecting area (in meters) of each depth_class in each geomorphology
         geomorphology_dc_dict = {}
-        #geo_ids = geomorphology_dict.keys()
-        for geo_id in geo_ids:
-            #geomorphology_result = """r.mapcalc "georesult_%s = if(geomorphology==%s,georesult,null())" """ % (geo_id, geo_id)
-            #g.run(geomorphology_result)
-            #geomorphology_stats = g.run('r.stats -an input=georesult_%s' %geo_id) #used to verify mapcalc above...
-            geo_result = """r.mapcalc "geomorphology_%s_dcresult = if(georesult_%s==%s,depth_class,null())" """ %(geo_id, geo_id, geo_id)
-            g.run(geo_result)
-            geo_stats = g.run('r.stats -an input=geomorphology_%s_dcresult' %geo_id)
-            geo_name_dict = self.get_dict_from_stats(geo_stats, DepthClass)
-            #dc_name_dict finally becomes: {'Flat': 1360911, 'Slope': 2940800464}
-            geomorphology_dc_dict[Geomorphology.objects.get(id=geo_id).short_name] = geo_name_dict
+        for dc, geo_dict in depth_class_geo_dict.items():
+            for geo, area in geo_dict.items():
+                if geo not in geomorphology_dc_dict.keys():
+                    geomorphology_dc_dict[geo] = {dc: area}
+                else:
+                    geomorphology_dc_dict[geo][dc] = area
         offshore_report['geomorphology_depth_class']=geomorphology_dc_dict
-                
-        #self.output_substrate_depth_class_stats = simplejson.dumps(substrate_depth_class_dict)
         
         return simplejson.dumps(offshore_report)
 
@@ -837,7 +818,7 @@ class Scenario(Analysis):
         #int_list becomes: [2, 1360911, 4, 2940800464]
         stats_dict = dict(zip(int_list[::2], int_list[1::2])) 
         #stats_dict becoms: {2: 1360911, 4: 2940800464}
-        name_dict = dict( map( lambda(key, value): (model_class.objects.get(id=key).name, value), stats_dict.items()))
+        name_dict = dict( map( lambda(key, value): (model_class.objects.get(id=key).short_name, value), stats_dict.items()))
         #name_dict finally becomes: {'Flat': 1360911, 'Slope': 2940800464}
         return name_dict
     
