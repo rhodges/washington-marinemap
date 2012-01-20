@@ -104,13 +104,13 @@ class WindPotentialAdmin(admin.ModelAdmin):
 admin.site.register(WindPotential, WindPotentialAdmin)
 
 class DepthClassAdmin(admin.ModelAdmin):
-    list_display = ['name', 'id']
-    fields = ['name']
+    list_display = ['name', 'id', 'short_name']
+    fields = ['name', 'short_name']
 admin.site.register(DepthClass, DepthClassAdmin)
 
 class GeomorphologyAdmin(admin.ModelAdmin):
-    list_display = ['name', 'id']
-    fields = ['name']
+    list_display = ['name', 'id', 'short_name']
+    fields = ['name', 'short_name']
 admin.site.register(Geomorphology, GeomorphologyAdmin)
 
 class NearshoreSubstrateAdmin(admin.ModelAdmin):
@@ -137,6 +137,11 @@ class ChlorophylAdmin(admin.ModelAdmin):
     list_display = ['name', 'id']
     fields = ['name']
 admin.site.register(Chlorophyl, ChlorophylAdmin)
+
+class OffshoreConservationParameterAreaAdmin(admin.ModelAdmin):
+    list_display = ['name', 'area']
+    fields = ['name', 'area']
+admin.site.register(OffshoreConservationParameterArea, OffshoreConservationParameterAreaAdmin)
 
 class ConservationSiteAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'user', 'date_created', 'date_modified')

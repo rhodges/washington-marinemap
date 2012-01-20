@@ -1,18 +1,4 @@
-[
-    {
-        "pk": 1, 
-        "model": "scenario.folder", 
-        "fields": {
-            "name": "stuff", 
-            "date_modified": "2011-10-04 13:17:44", 
-            "object_id": null, 
-            "user": 2, 
-            "content_type": null, 
-            "date_created": "2011-10-04 13:17:44", 
-            "sharing_groups": [], 
-            "description": null
-        }
-    }, 
+[    
     {
         "pk": 4, 
         "model": "scenario.category", 
@@ -617,59 +603,67 @@
         }
     }, 
     {
-        "pk": 1, 
+        "pk": 4, 
         "model": "scenario.depthclass", 
         "fields": {
-            "name": "Bathybenthal"
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "scenario.depthclass", 
-        "fields": {
-            "name": "Innershelf"
+            "name": "Midshelf", 
+            "short_name": "midshelf"
         }
     }, 
     {
         "pk": 3, 
         "model": "scenario.depthclass", 
         "fields": {
-            "name": "Mesobenthal"
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "scenario.depthclass", 
-        "fields": {
-            "name": "Midshelf"
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "scenario.geomorphology", 
-        "fields": {
-            "name": "Basin"
+            "name": "Mesobenthal", 
+            "short_name": "mesobenthal"
         }
     }, 
     {
         "pk": 2, 
+        "model": "scenario.depthclass", 
+        "fields": {
+            "name": "Innershelf", 
+            "short_name": "innershelf"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.depthclass", 
+        "fields": {
+            "name": "Bathybenthal", 
+            "short_name": "bathybenthal"
+        }
+    }, 
+    {
+        "pk": 4, 
         "model": "scenario.geomorphology", 
         "fields": {
-            "name": "Flat"
+            "name": "Slope", 
+            "short_name": "slope"
         }
     }, 
     {
         "pk": 3, 
         "model": "scenario.geomorphology", 
         "fields": {
-            "name": "Ridge"
+            "name": "Ridge", 
+            "short_name": "ridge"
         }
     }, 
     {
-        "pk": 4, 
+        "pk": 2, 
         "model": "scenario.geomorphology", 
         "fields": {
-            "name": "Slope"
+            "name": "Flat", 
+            "short_name": "flat"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.geomorphology", 
+        "fields": {
+            "name": "Basin", 
+            "short_name": "basin"
         }
     }, 
     {
@@ -915,6 +909,1182 @@
         "model": "scenario.chlorophyl", 
         "fields": {
             "name": "High"
+        }
+    }, 
+    {
+        "pk": 869, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_rock", 
+            "area": 102424803.0
+        }
+    }, 
+    {
+        "pk": 870, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_mud", 
+            "area": 5841324425.0
+        }
+    }, 
+    {
+        "pk": 871, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_sand", 
+            "area": 342820125.0
+        }
+    }, 
+    {
+        "pk": 872, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_island_rock", 
+            "area": 226819.0
+        }
+    }, 
+    {
+        "pk": 873, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_boulder", 
+            "area": 127569266.0
+        }
+    }, 
+    {
+        "pk": 874, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_shell", 
+            "area": 2106173.0
+        }
+    }, 
+    {
+        "pk": 875, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin_bathybenthal", 
+            "area": 4299087499.0
+        }
+    }, 
+    {
+        "pk": 876, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin_innershelf", 
+            "area": 1555328.0
+        }
+    }, 
+    {
+        "pk": 877, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin_mesobenthal", 
+            "area": 305492263.0
+        }
+    }, 
+    {
+        "pk": 878, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin_midshelf", 
+            "area": 60333750.0
+        }
+    }, 
+    {
+        "pk": 879, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_midshelf", 
+            "area": 12000130097.0
+        }
+    }, 
+    {
+        "pk": 880, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_innershelf", 
+            "area": 2974369619.0
+        }
+    }, 
+    {
+        "pk": 881, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_mesobenthal", 
+            "area": 2030966222.0
+        }
+    }, 
+    {
+        "pk": 882, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_bathybenthal", 
+            "area": 8180569538.0
+        }
+    }, 
+    {
+        "pk": 883, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_innershelf", 
+            "area": 73456826.0
+        }
+    }, 
+    {
+        "pk": 884, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_mesobenthal", 
+            "area": 886277511.0
+        }
+    }, 
+    {
+        "pk": 885, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_bathybenthal", 
+            "area": 3180191305.0
+        }
+    }, 
+    {
+        "pk": 886, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_midshelf", 
+            "area": 853518423.0
+        }
+    }, 
+    {
+        "pk": 887, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_midshelf", 
+            "area": 238094733.0
+        }
+    }, 
+    {
+        "pk": 888, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_innershelf", 
+            "area": 155532760.0
+        }
+    }, 
+    {
+        "pk": 889, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_mesobenthal", 
+            "area": 1256542687.0
+        }
+    }, 
+    {
+        "pk": 890, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_bathybenthal", 
+            "area": 4774142873.0
+        }
+    }, 
+    {
+        "pk": 744, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "boulder", 
+            "area": 377037332.0
+        }
+    }, 
+    {
+        "pk": 745, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "shell", 
+            "area": 5443647.0
+        }
+    }, 
+    {
+        "pk": 746, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mud", 
+            "area": 28679009642.0
+        }
+    }, 
+    {
+        "pk": 747, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "sand", 
+            "area": 11587320230.0
+        }
+    }, 
+    {
+        "pk": 748, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "rock", 
+            "area": 531533207.0
+        }
+    }, 
+    {
+        "pk": 749, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "gravel", 
+            "area": 88588868.0
+        }
+    }, 
+    {
+        "pk": 750, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "island_rock", 
+            "area": 1393314.0
+        }
+    }, 
+    {
+        "pk": 751, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "bathybenthal", 
+            "area": 20434120826.0
+        }
+    }, 
+    {
+        "pk": 752, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "midshelf", 
+            "area": 13152077003.0
+        }
+    }, 
+    {
+        "pk": 753, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "innershelf", 
+            "area": 3204946936.0
+        }
+    }, 
+    {
+        "pk": 754, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mesobenthal", 
+            "area": 4479278682.0
+        }
+    }, 
+    {
+        "pk": 755, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope", 
+            "area": 6424313054.0
+        }
+    }, 
+    {
+        "pk": 756, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat", 
+            "area": 25186067879.0
+        }
+    }, 
+    {
+        "pk": 757, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin", 
+            "area": 4666468840.0
+        }
+    }, 
+    {
+        "pk": 758, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge", 
+            "area": 4993444065.0
+        }
+    }, 
+    {
+        "pk": 759, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "boulder_innershelf", 
+            "area": 259221.0
+        }
+    }, 
+    {
+        "pk": 760, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "boulder_mesobenthal", 
+            "area": 109294167.0
+        }
+    }, 
+    {
+        "pk": 761, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "boulder_midshelf", 
+            "area": 267483945.0
+        }
+    }, 
+    {
+        "pk": 762, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "island_rock_innershelf", 
+            "area": 1360912.0
+        }
+    }, 
+    {
+        "pk": 763, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "island_rock_midshelf", 
+            "area": 32403.0
+        }
+    }, 
+    {
+        "pk": 764, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mud_midshelf", 
+            "area": 4452190060.0
+        }
+    }, 
+    {
+        "pk": 765, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mud_mesobenthal", 
+            "area": 3805238584.0
+        }
+    }, 
+    {
+        "pk": 766, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mud_bathybenthal", 
+            "area": 20415003258.0
+        }
+    }, 
+    {
+        "pk": 767, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mud_innershelf", 
+            "area": 6577740.0
+        }
+    }, 
+    {
+        "pk": 768, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "rock_innershelf", 
+            "area": 203747916.0
+        }
+    }, 
+    {
+        "pk": 769, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "rock_midshelf", 
+            "area": 245352929.0
+        }
+    }, 
+    {
+        "pk": 770, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "rock_mesobenthal", 
+            "area": 69665715.0
+        }
+    }, 
+    {
+        "pk": 771, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "rock_bathybenthal", 
+            "area": 12766647.0
+        }
+    }, 
+    {
+        "pk": 772, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "sand_bathybenthal", 
+            "area": 6350921.0
+        }
+    }, 
+    {
+        "pk": 773, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "sand_innershelf", 
+            "area": 2940800465.0
+        }
+    }, 
+    {
+        "pk": 774, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "sand_midshelf", 
+            "area": 8146870774.0
+        }
+    }, 
+    {
+        "pk": 775, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "sand_mesobenthal", 
+            "area": 493265668.0
+        }
+    }, 
+    {
+        "pk": 776, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "shell_midshelf", 
+            "area": 3531890.0
+        }
+    }, 
+    {
+        "pk": 777, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "shell_innershelf", 
+            "area": 1749744.0
+        }
+    }, 
+    {
+        "pk": 778, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "shell_mesobenthal", 
+            "area": 162013.0
+        }
+    }, 
+    {
+        "pk": 779, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "gravel_midshelf", 
+            "area": 36615004.0
+        }
+    }, 
+    {
+        "pk": 780, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "gravel_innershelf", 
+            "area": 50321328.0
+        }
+    }, 
+    {
+        "pk": 781, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "gravel_mesobenthal", 
+            "area": 1652536.0
+        }
+    }, 
+    {
+        "pk": 782, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "boulder_ridge", 
+            "area": 109196959.0
+        }
+    }, 
+    {
+        "pk": 783, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "boulder_basin", 
+            "area": 36031756.0
+        }
+    }, 
+    {
+        "pk": 784, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "boulder_slope", 
+            "area": 127569266.0
+        }
+    }, 
+    {
+        "pk": 785, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "boulder_flat", 
+            "area": 104239352.0
+        }
+    }, 
+    {
+        "pk": 786, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "island_rock_ridge", 
+            "area": 615651.0
+        }
+    }, 
+    {
+        "pk": 787, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "island_rock_slope", 
+            "area": 226819.0
+        }
+    }, 
+    {
+        "pk": 788, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "island_rock_flat", 
+            "area": 518443.0
+        }
+    }, 
+    {
+        "pk": 789, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "island_rock_basin", 
+            "area": 32403.0
+        }
+    }, 
+    {
+        "pk": 790, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mud_slope", 
+            "area": 5841324425.0
+        }
+    }, 
+    {
+        "pk": 791, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mud_flat", 
+            "area": 13880974803.0
+        }
+    }, 
+    {
+        "pk": 792, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mud_basin", 
+            "area": 4608306068.0
+        }
+    }, 
+    {
+        "pk": 793, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mud_ridge", 
+            "area": 4348274735.0
+        }
+    }, 
+    {
+        "pk": 794, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "rock_ridge", 
+            "area": 118528924.0
+        }
+    }, 
+    {
+        "pk": 795, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "rock_slope", 
+            "area": 102424803.0
+        }
+    }, 
+    {
+        "pk": 796, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "rock_flat", 
+            "area": 307339214.0
+        }
+    }, 
+    {
+        "pk": 797, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "rock_basin", 
+            "area": 3240266.0
+        }
+    }, 
+    {
+        "pk": 798, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "sand_ridge", 
+            "area": 416114938.0
+        }
+    }, 
+    {
+        "pk": 799, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "sand_flat", 
+            "area": 10809656430.0
+        }
+    }, 
+    {
+        "pk": 800, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "sand_basin", 
+            "area": 18696334.0
+        }
+    }, 
+    {
+        "pk": 801, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "sand_slope", 
+            "area": 342820125.0
+        }
+    }, 
+    {
+        "pk": 802, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "shell_ridge", 
+            "area": 162013.0
+        }
+    }, 
+    {
+        "pk": 803, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "shell_flat", 
+            "area": 3175461.0
+        }
+    }, 
+    {
+        "pk": 804, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "shell_slope", 
+            "area": 2106173.0
+        }
+    }, 
+    {
+        "pk": 805, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "gravel_slope", 
+            "area": 7841443.0
+        }
+    }, 
+    {
+        "pk": 806, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "gravel_basin", 
+            "area": 162013.0
+        }
+    }, 
+    {
+        "pk": 807, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "gravel_ridge", 
+            "area": 518443.0
+        }
+    }, 
+    {
+        "pk": 808, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "gravel_flat", 
+            "area": 80066969.0
+        }
+    }, 
+    {
+        "pk": 809, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "bathybenthal_rock", 
+            "area": 12766647.0
+        }
+    }, 
+    {
+        "pk": 810, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "bathybenthal_sand", 
+            "area": 6350921.0
+        }
+    }, 
+    {
+        "pk": 811, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "bathybenthal_mud", 
+            "area": 20415003258.0
+        }
+    }, 
+    {
+        "pk": 812, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "innershelf_island_rock", 
+            "area": 1360912.0
+        }
+    }, 
+    {
+        "pk": 813, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "innershelf_rock", 
+            "area": 203747916.0
+        }
+    }, 
+    {
+        "pk": 814, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "innershelf_sand", 
+            "area": 2940800465.0
+        }
+    }, 
+    {
+        "pk": 815, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "innershelf_shell", 
+            "area": 1749744.0
+        }
+    }, 
+    {
+        "pk": 816, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "innershelf_gravel", 
+            "area": 50321328.0
+        }
+    }, 
+    {
+        "pk": 817, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "innershelf_boulder", 
+            "area": 259221.0
+        }
+    }, 
+    {
+        "pk": 818, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "innershelf_mud", 
+            "area": 6577740.0
+        }
+    }, 
+    {
+        "pk": 819, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mesobenthal_shell", 
+            "area": 162013.0
+        }
+    }, 
+    {
+        "pk": 820, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mesobenthal_gravel", 
+            "area": 1652536.0
+        }
+    }, 
+    {
+        "pk": 821, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mesobenthal_rock", 
+            "area": 69665715.0
+        }
+    }, 
+    {
+        "pk": 822, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mesobenthal_sand", 
+            "area": 493265668.0
+        }
+    }, 
+    {
+        "pk": 823, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mesobenthal_mud", 
+            "area": 3805238584.0
+        }
+    }, 
+    {
+        "pk": 824, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mesobenthal_boulder", 
+            "area": 109294167.0
+        }
+    }, 
+    {
+        "pk": 825, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "midshelf_rock", 
+            "area": 245352929.0
+        }
+    }, 
+    {
+        "pk": 826, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "midshelf_island_rock", 
+            "area": 32403.0
+        }
+    }, 
+    {
+        "pk": 827, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "midshelf_gravel", 
+            "area": 36615004.0
+        }
+    }, 
+    {
+        "pk": 828, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "midshelf_mud", 
+            "area": 4452190060.0
+        }
+    }, 
+    {
+        "pk": 829, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "midshelf_sand", 
+            "area": 8146870774.0
+        }
+    }, 
+    {
+        "pk": 830, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "midshelf_boulder", 
+            "area": 267483945.0
+        }
+    }, 
+    {
+        "pk": 831, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "midshelf_shell", 
+            "area": 3531890.0
+        }
+    }, 
+    {
+        "pk": 832, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "bathybenthal_flat", 
+            "area": 8180569538.0
+        }
+    }, 
+    {
+        "pk": 833, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "bathybenthal_basin", 
+            "area": 4299087499.0
+        }
+    }, 
+    {
+        "pk": 834, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "bathybenthal_slope", 
+            "area": 4774142873.0
+        }
+    }, 
+    {
+        "pk": 835, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "bathybenthal_ridge", 
+            "area": 3180191305.0
+        }
+    }, 
+    {
+        "pk": 836, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "innershelf_slope", 
+            "area": 155532760.0
+        }
+    }, 
+    {
+        "pk": 837, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "innershelf_ridge", 
+            "area": 73456826.0
+        }
+    }, 
+    {
+        "pk": 838, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "innershelf_flat", 
+            "area": 2974369619.0
+        }
+    }, 
+    {
+        "pk": 839, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "innershelf_basin", 
+            "area": 1555328.0
+        }
+    }, 
+    {
+        "pk": 840, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mesobenthal_flat", 
+            "area": 2030966222.0
+        }
+    }, 
+    {
+        "pk": 841, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mesobenthal_ridge", 
+            "area": 886277511.0
+        }
+    }, 
+    {
+        "pk": 842, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mesobenthal_slope", 
+            "area": 1256542687.0
+        }
+    }, 
+    {
+        "pk": 843, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mesobenthal_basin", 
+            "area": 305492263.0
+        }
+    }, 
+    {
+        "pk": 844, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "midshelf_slope", 
+            "area": 238094733.0
+        }
+    }, 
+    {
+        "pk": 845, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "midshelf_ridge", 
+            "area": 853518423.0
+        }
+    }, 
+    {
+        "pk": 846, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "midshelf_flat", 
+            "area": 12000130097.0
+        }
+    }, 
+    {
+        "pk": 847, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "midshelf_basin", 
+            "area": 60333750.0
+        }
+    }, 
+    {
+        "pk": 848, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin_gravel", 
+            "area": 162013.0
+        }
+    }, 
+    {
+        "pk": 849, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin_mud", 
+            "area": 4608306068.0
+        }
+    }, 
+    {
+        "pk": 850, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin_sand", 
+            "area": 18696334.0
+        }
+    }, 
+    {
+        "pk": 851, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin_island_rock", 
+            "area": 32403.0
+        }
+    }, 
+    {
+        "pk": 852, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin_rock", 
+            "area": 3240266.0
+        }
+    }, 
+    {
+        "pk": 853, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin_boulder", 
+            "area": 36031756.0
+        }
+    }, 
+    {
+        "pk": 854, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_gravel", 
+            "area": 80066969.0
+        }
+    }, 
+    {
+        "pk": 855, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_mud", 
+            "area": 13880974803.0
+        }
+    }, 
+    {
+        "pk": 856, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_sand", 
+            "area": 10809656430.0
+        }
+    }, 
+    {
+        "pk": 857, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_island_rock", 
+            "area": 518443.0
+        }
+    }, 
+    {
+        "pk": 858, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_boulder", 
+            "area": 104239352.0
+        }
+    }, 
+    {
+        "pk": 859, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_shell", 
+            "area": 3175461.0
+        }
+    }, 
+    {
+        "pk": 860, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_rock", 
+            "area": 307339214.0
+        }
+    }, 
+    {
+        "pk": 861, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_island_rock", 
+            "area": 615651.0
+        }
+    }, 
+    {
+        "pk": 862, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_shell", 
+            "area": 162013.0
+        }
+    }, 
+    {
+        "pk": 863, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_boulder", 
+            "area": 109196959.0
+        }
+    }, 
+    {
+        "pk": 864, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_gravel", 
+            "area": 518443.0
+        }
+    }, 
+    {
+        "pk": 865, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_mud", 
+            "area": 4348274735.0
+        }
+    }, 
+    {
+        "pk": 866, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_sand", 
+            "area": 416114938.0
+        }
+    }, 
+    {
+        "pk": 867, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_rock", 
+            "area": 118528924.0
+        }
+    }, 
+    {
+        "pk": 868, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_gravel", 
+            "area": 7841443.0
         }
     }
 ]

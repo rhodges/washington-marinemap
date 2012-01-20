@@ -40,17 +40,17 @@ def get_offshore_conservation_context(mos, scenario):
     
     # Substrate Context
     #substrate_jpercs, substrate_percs, substrate_r = get_substrate_percs(scenario)
-    substrate_dc_jstats = get_drill_down_stats(scenario, report['substrate_depth_class'])
-    substrate_geo_jstats = get_drill_down_stats(scenario, report['substrate_geomorphology'])
+    substrate_dc_jstats = get_drill_down_stats(scenario, report['substrate_depth_class'], Substrate, DepthClass)
+    substrate_geo_jstats = get_drill_down_stats(scenario, report['substrate_geomorphology'], Substrate, Geomorphology)
     #substrate_jcolors = get_substrate_colors(scenario, substrate_jpercs)
     
     #Depth Class Context
-    depth_class_sub_jstats = get_drill_down_stats(scenario, report['depth_class_substrate'])
-    depth_class_geo_jstats = get_drill_down_stats(scenario, report['depth_class_geomorphology'])
+    depth_class_sub_jstats = get_drill_down_stats(scenario, report['depth_class_substrate'], DepthClass, Substrate)
+    depth_class_geo_jstats = get_drill_down_stats(scenario, report['depth_class_geomorphology'], DepthClass, Geomorphology)
     
     #Geomorphology Context
-    geomorphology_sub_jstats = get_drill_down_stats(scenario, report['geomorphology_substrate'])
-    geomorphology_dc_jstats = get_drill_down_stats(scenario, report['geomorphology_depth_class'])
+    geomorphology_sub_jstats = get_drill_down_stats(scenario, report['geomorphology_substrate'], Geomorphology, Substrate)
+    geomorphology_dc_jstats = get_drill_down_stats(scenario, report['geomorphology_depth_class'], Geomorphology, DepthClass)
     
     context = { 'default_value': default_value, 'bar_height': bar_height, 'mos': mos, 'scenario': scenario, 
                 'substrate_jextent': substrate_jextent, 'substrate_list_reverse': substrate_list_reverse, 
@@ -69,7 +69,8 @@ def get_scenario_stats(scenario, param_dict, model_class):
     for key,value in param_dict.items():
         perc = value / scenario_area * 100
         if perc > 0:
-            stats[key] = (int(perc*10 + .5) / 10., sq_meters_to_sq_miles(value))
+            #stats[key] = (int(perc*10 + .5) / 10., sq_meters_to_sq_miles(value))
+            stats[key] = (int(perc*10 + .5) / 10., value)
     #arrays not dicts as ordering matters for coloration (at least for now...)
     sorted_tuples, list_reverse = sort_dict(stats, model_class)
     jstats = simplejson.dumps(sorted_tuples) 
@@ -81,81 +82,21 @@ def sort_dict(param_dict, model_class):
     ordered_list = []
     for param in params:        
         if param.name in param_dict.keys():
-            tooltip_text = "Total Area: %.2f sq miles" %param_dict[param.name][1]
+            try:
+                total_param_area = OffshoreConservationParameterArea.objects.get(name=param.short_name).area
+            except:
+                total_param_area = None
+            if total_param_area is not None:
+                perc = param_dict[param.name][1] / total_param_area * 100
+                tooltip_text = "%.2f%s of available %s" %(perc, '%', param.name)
+            else:
+                tooltip_text = "Data Unavailable"
+            #tooltip_text = "Total Area: %.2f sq miles" %param_dict[param.name][1]
             sorted_tuples.append( [param_dict[param.name][0], param.name, tooltip_text] )
             ordered_list.append(param)
     ordered_list.reverse()
     return sorted_tuples, ordered_list
       
-'''   
-def get_substrate_scenario_stats(scenario, report):   
-    substrate_dict = report['substrate']
-    #substrate_dict = simplejson.loads(scenario.output_substrate_stats)
-    scenario_area = scenario.output_area
-    substrate_stats = {} 
-    for key,value in substrate_dict.items():
-        perc = value / scenario_area * 100
-        if perc > 0:
-            substrate_stats[key] = (int(perc*10 + .5) / 10., sq_meters_to_sq_miles(value))
-    #arrays not dicts as ordering matters for coloration (at least for now...)
-    sorted_substrate_tuples, substrate_list_reverse = sort_substrate_dict(substrate_stats)
-    substrate_jstats = simplejson.dumps(sorted_substrate_tuples) 
-    return substrate_jstats, substrate_list_reverse
-    
-def sort_substrate_dict(substrate_dict):
-    substrates = Substrate.objects.order_by('id')
-    sorted_tuples = []
-    substrate_list = []
-    for substrate in substrates:        
-        if substrate.name in substrate_dict.keys():
-            tooltip_text = "Total Area: %.2f sq miles" %substrate_dict[substrate.name][1]
-            sorted_tuples.append( [substrate_dict[substrate.name][0], substrate.name, tooltip_text] )
-            substrate_list.append(substrate)
-    substrate_list.reverse()
-    return sorted_tuples, substrate_list
-    
-def get_tooltip_text(area):
-    return "%.2f sq miles" %area
-    
-def get_depth_class_scenario_stats(scenario, report):  
-    depth_class_dict = report['depth_class'] 
-    #depth_class_dict = simplejson.loads(scenario.output_depth_class_stats)
-    scenario_area = scenario.output_area
-    depth_class_stats = {}
-    for key,value in depth_class_dict.items():
-        perc = value / scenario_area * 100 
-        if perc > 0:
-            tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(value)
-            depth_class_stats[key] = (int(perc*10 + .5) / 10., tooltip_text)
-    depth_class_list_reverse = dict_to_rsorted_array(depth_class_stats, DepthClass.objects.order_by('id'))
-    depth_class_jstats = simplejson.dumps(depth_class_stats)
-    return depth_class_jstats, depth_class_list_reverse
-    
-def dict_to_rsorted_array(some_dict, objects):
-    #sorted_tuples = []
-    object_list = []
-    for object in objects:        
-        if object.name in some_dict.keys():
-            #tooltip_text = "Total Area: %.2f sq miles" %some_dict[object.name][1]
-            #sorted_tuples.append( [some_dict[object.name][0], object.name] )
-            object_list.append(object)
-    object_list.reverse()
-    return object_list
-    
-def get_geomorphology_scenario_stats(scenario, report):   
-    geomorphology_dict = report['geomorphology']  
-    #geomorphology_dict = simplejson.loads(scenario.output_geomorphology_stats)
-    scenario_area = scenario.output_area
-    geomorphology_stats = {}
-    for key,value in geomorphology_dict.items():
-        perc = value / scenario_area * 100 
-        if perc > 0:
-            tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(value)
-            geomorphology_stats[key] = [int(perc*10 + .5) / 10., tooltip_text]
-    geomorphology_list_reverse = dict_to_rsorted_array(geomorphology_stats, Geomorphology.objects.order_by('id'))
-    geomorphology_jstats = simplejson.dumps(geomorphology_stats)
-    return geomorphology_jstats, geomorphology_list_reverse
-'''    
 def get_substrate_percs(scenario, report):  
     substrate_dict = report['substrate']
     #substrate_dict = simplejson.loads(scenario.output_substrate_stats)    
@@ -178,15 +119,29 @@ def get_substrate_colors(scenario, substrate_percs):
     substrate_jcolors = simplejson.dumps(substrate_colors)
     return substrate_jcolors
     
-def get_drill_down_stats(scenario, dictionary):  
+def get_drill_down_stats(scenario, dictionary, outer_class, inner_class):  #add model_class to this method call 
     stats = {}
-    for name, param_dict in dictionary.items():
+    for outer_short_name, param_dict in dictionary.items():
+        outer_name = outer_class.objects.get(short_name=outer_short_name).name
         total_area = float( sum( [area for param, area in param_dict.items()] ) )
         param_perc_dict = {}
         for param, area in param_dict.items():
-            tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(area)
+            inner_short_name = inner_class.objects.get(name=param).short_name
+            drill_down_name = '%s_%s' %(outer_short_name, inner_short_name)
+            try:
+                total_param_area = OffshoreConservationParameterArea.objects.get(name=drill_down_name).area
+            except:
+                import pdb
+                pdb.set_trace()
+                total_param_area = None
+            if total_param_area is not None:
+                perc = param_dict[param] / total_param_area * 100
+                tooltip_text = "%.2f%s of available %s/%s" %(perc, '%', param, outer_name)
+            else:
+                tooltip_text = "Data Unavailable"
+            #tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(area)
             param_perc_dict[param] = [int(area / total_area * 1000 + .5) / 10., tooltip_text]
-        stats[name] = param_perc_dict
+        stats[outer_short_name] = param_perc_dict
     jstats = simplejson.dumps(stats)
     return jstats
               

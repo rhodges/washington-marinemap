@@ -678,6 +678,7 @@ class Scenario(Analysis):
                 rerun = True
         return rerun
     
+    #TODO: much of the following can be factored out into helper methods...
     def offshore_conservation_report(self, g):
         offshore_report = {}
         
@@ -738,10 +739,7 @@ class Scenario(Analysis):
             dc_result = """r.mapcalc "substrate_%s_dcresult = if(subresult_%s==%s,depth_class,null())" """ %(sub_id, sub_id, sub_id)
             g.run(dc_result)
             dc_stats = g.run('r.stats -an input=substrate_%s_dcresult' %sub_id)
-            dc_split = dc_stats.split()
-            dc_ints = [int(float(x)+.5) for x in dc_split]
-            dc_dict = dict(zip(dc_ints[::2], dc_ints[1::2])) 
-            dc_name_dict = dict( map( lambda(key, value): (DepthClass.objects.get(id=key).name, value), dc_dict.items()))
+            dc_name_dict = self.get_dict_from_stats(dc_stats, DepthClass)
             #the following key uses Substrate.short_name to prevent html iregularities when assigning div names in report template
             substrate_dc_dict[Substrate.objects.get(id=sub_id).short_name] = dc_name_dict
         #self.output_substrate_depth_class_stats = simplejson.dumps(substrate_dc_dict)
@@ -756,14 +754,14 @@ class Scenario(Analysis):
             geo_result = """r.mapcalc "substrate_%s_georesult = if(subresult_%s==%s,geomorphology,null())" """ %(sub_id, sub_id, sub_id)
             g.run(geo_result)
             geo_stats = g.run('r.stats -an input=substrate_%s_georesult' %sub_id)
-            geo_split = geo_stats.split()
-            geo_ints = [int(float(x)+.5) for x in geo_split]
-            geo_dict = dict(zip(geo_ints[::2], geo_ints[1::2])) 
-            geo_name_dict = dict( map( lambda(key, value): (Geomorphology.objects.get(id=key).name, value), geo_dict.items()))
+            geo_name_dict = self.get_dict_from_stats(geo_stats, Geomorphology)
             #the following key uses Substrate.short_name to prevent html iregularities when assigning div names in report template
             substrate_geo_dict[Substrate.objects.get(id=sub_id).short_name] = geo_name_dict
         #self.output_substrate_geomorphology_stats = simplejson.dumps(substrate_geo_dict)
         offshore_report['substrate_geomorphology']=substrate_geo_dict
+        
+        #TODO:  All we really need to process at this point is Depth Class - Geomorphology stats (the rest are redundant)
+        #       fix this to improve execution time...
         
         # Depth Class
         
@@ -777,16 +775,9 @@ class Scenario(Analysis):
             dc_result = """r.mapcalc "depth_class_%s_subresult = if(dcresult_%s==%s,substrate,null())" """ %(dc_id, dc_id, dc_id)
             g.run(dc_result)
             dc_stats = g.run('r.stats -an input=depth_class_%s_subresult' %dc_id)
-            #dc_stats is something like the following: '3 1360911.649924\n6 2940800464.852541\n'
-            dc_split = dc_stats.split()
-            #dc_split becomes: ['2', '1360911.649924', '4', '2940800464.852541']
-            dc_ints = [int(float(x)+.5) for x in dc_split]
-            #dc_ints becomes: [3, 1360911, 6, 2940800464]
-            dc_dict = dict(zip(dc_ints[::2], dc_ints[1::2])) 
-            #dc_dict becoms: {3: 1360911, 6: 2940800464}
-            dc_name_dict = dict( map( lambda(key, value): (Substrate.objects.get(id=key).name, value), dc_dict.items()))
+            dc_name_dict = self.get_dict_from_stats(dc_stats, Substrate)
             #dc_name_dict finally becomes: {'Innershelf': 1360911, 'Midshelf': 2940800464}
-            depth_class_sub_dict[DepthClass.objects.get(id=dc_id).name] = dc_name_dict
+            depth_class_sub_dict[DepthClass.objects.get(id=dc_id).short_name] = dc_name_dict
         offshore_report['depth_class_substrate']=depth_class_sub_dict
         
         #depth class geomorphology stats -- collecting area (in meters) of each geomorphology in each depth class 
@@ -798,16 +789,8 @@ class Scenario(Analysis):
             dc_result = """r.mapcalc "depth_class_%s_georesult = if(dcresult_%s==%s,geomorphology,null())" """ %(dc_id, dc_id, dc_id)
             g.run(dc_result)
             dc_stats = g.run('r.stats -an input=depth_class_%s_georesult' %dc_id)
-            #dc_stats is something like the following: '3 1360911.649924\n6 2940800464.852541\n'
-            dc_split = dc_stats.split()
-            #dc_split becomes: ['2', '1360911.649924', '4', '2940800464.852541']
-            dc_ints = [int(float(x)+.5) for x in dc_split]
-            #dc_ints becomes: [3, 1360911, 6, 2940800464]
-            dc_dict = dict(zip(dc_ints[::2], dc_ints[1::2])) 
-            #dc_dict becoms: {3: 1360911, 6: 2940800464}
-            dc_name_dict = dict( map( lambda(key, value): (Geomorphology.objects.get(id=key).name, value), dc_dict.items()))
-            #dc_name_dict finally becomes: {'Innershelf': 1360911, 'Midshelf': 2940800464}
-            depth_class_geo_dict[DepthClass.objects.get(id=dc_id).name] = dc_name_dict
+            dc_name_dict = self.get_dict_from_stats(dc_stats, Geomorphology)
+            depth_class_geo_dict[DepthClass.objects.get(id=dc_id).short_name] = dc_name_dict
         offshore_report['depth_class_geomorphology']=depth_class_geo_dict
         
         # Geomorphology
@@ -824,7 +807,7 @@ class Scenario(Analysis):
             geo_stats = g.run('r.stats -an input=geomorphology_%s_subresult' %geo_id)
             geo_name_dict = self.get_dict_from_stats(geo_stats, Substrate)
             #dc_name_dict finally becomes: {'Flat': 1360911, 'Slope': 2940800464}
-            geomorphology_sub_dict[Geomorphology.objects.get(id=geo_id).name] = geo_name_dict
+            geomorphology_sub_dict[Geomorphology.objects.get(id=geo_id).short_name] = geo_name_dict
         offshore_report['geomorphology_substrate']=geomorphology_sub_dict
         
         #geomorphology depth_class stats -- collecting area (in meters) of each depth_class in each geomorphology
@@ -839,10 +822,8 @@ class Scenario(Analysis):
             geo_stats = g.run('r.stats -an input=geomorphology_%s_dcresult' %geo_id)
             geo_name_dict = self.get_dict_from_stats(geo_stats, DepthClass)
             #dc_name_dict finally becomes: {'Flat': 1360911, 'Slope': 2940800464}
-            geomorphology_dc_dict[Geomorphology.objects.get(id=geo_id).name] = geo_name_dict
+            geomorphology_dc_dict[Geomorphology.objects.get(id=geo_id).short_name] = geo_name_dict
         offshore_report['geomorphology_depth_class']=geomorphology_dc_dict
-        
-        
                 
         #self.output_substrate_depth_class_stats = simplejson.dumps(substrate_depth_class_dict)
         
@@ -1156,12 +1137,14 @@ class WindPotential(models.Model):
         
 class DepthClass(models.Model):
     name = models.CharField(max_length=30)
+    short_name = models.CharField(max_length=30, null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.name        
 
 class Geomorphology(models.Model):
     name = models.CharField(max_length=30)
+    short_name = models.CharField(max_length=30, null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.name        
@@ -1193,6 +1176,13 @@ class Upwelling(models.Model):
         
 class Chlorophyl(models.Model):
     name = models.CharField(max_length=30)
+    
+    def __unicode__(self):
+        return u'%s' %self.name
+        
+class OffshoreConservationParameterArea(models.Model):
+    name = models.CharField(max_length=70)
+    area = models.FloatField(null=True,blank=True, verbose_name="area in meters")
     
     def __unicode__(self):
         return u'%s' %self.name
