@@ -46,6 +46,7 @@ class Folder(FeatureCollection):
         valid_children = ( 'scenario.models.MOS', 
                            'scenario.models.ConservationSite',
                            'scenario.models.WindEnergySite',
+                           'smp.models.SMPSite',
                            'scenario.models.AOI', 
                            'scenario.models.POI', 
                            'scenario.models.LOI', 
