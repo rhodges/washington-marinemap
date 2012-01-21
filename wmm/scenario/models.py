@@ -214,13 +214,13 @@ class MOS(Feature):
         #generate overlapping geometry
         scenario_geoms = [s.geometry_final for s in self.scenarios.all()]
         scenario_areas = [s.area for s in scenario_geoms]
+        self.overlap_geom = None
         if len(scenario_geoms) > 1:
-            overlap = scenario_geoms[0]
+            overlap = scenario_geoms[0].buffer(0)
             for geom in scenario_geoms[1:]:
                 overlap = overlap.intersection(geom).buffer(0)
-            self.overlap_geom = overlap
-        else:
-            self.overlap_geom = None
+            if not overlap.empty:
+                self.overlap_geom = overlap
         
         #TODO:  why are we running analysis twice when creating scenarios initially? -- is this still happening...?
         super(MOS, self).save(*args, **kwargs)
