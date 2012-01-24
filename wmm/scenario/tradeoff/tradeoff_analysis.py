@@ -128,11 +128,11 @@ def get_conservation_site_attributes(folder_obj, x_axis, y_axis):
 '''    
 def get_valuation_list(type):
     conservation_valuation_list = [75, 65, 84, 50, 18, 67, 12]
-    wind_valuation_list = [23, 82, 10, 33, 67, 89, 73]
+    wind_valuation_list = [23, 32, 10, 33, 67, 89, 83]
     tidal_valuation_list = [14, 32, 24, 19, 18, 47, 25]
-    development_valuation_list = [30, 13, 84, 20, 49, 47, 38]
-    shellfish_valuation_list = [74, 32, 53, 28, 12, 14, 45]
-    fishing_valuation_list = [72, 67, 55, 83, 62, 43, 77]
+    development_valuation_list = [30, 13, 84, 80, 49, 47, 71]
+    shellfish_valuation_list = [74, 82, 53, 28, 12, 14, 45]
+    fishing_valuation_list = [72, 67, 55, 23, 62, 43, 77]
     if type == 'conservation':
         return conservation_valuation_list
     elif type == 'wind':
