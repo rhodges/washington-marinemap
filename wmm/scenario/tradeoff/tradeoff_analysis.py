@@ -11,7 +11,7 @@ conservation_colors = [ "#4bb2c5", "#4bb2c5", "#4bb2c5", "#4bb2c5" ]
 windenergy_colors = [ "#c5b47f", "#c5b47f", "#c5b47f" ]
 
 type_list = [ "tidal", "wind", "conservation", "development", "shellfish", "fishing" ]
-objective_list = [ "Tidal Energy", "Wind Energy", "Marine Conservation", "Shoreside Development", "Shellfish Aquaculture", "Offshore Fishing" ]
+objective_list = [ "Tidal Energy", "Wind Energy", "Benthic Conservation", "Nearshore Conservation", "Pelagic Conservation", "Wave Energy" ]
     
 '''
 '''
