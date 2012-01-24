@@ -78,7 +78,7 @@ span.form-image { float: left; margin-left: -66px; }
 span.form-image > img { width:46px; height:46px; }
 </style>
 
-<h1>Results for "{{instance.name}}"</h1>
+<h1><small><small>Folder: </small></small> {{instance.name}}</h1>
     <div class="tabs">
         <ul>
             <li><a href="#Inputs"><span>Attributes</span></a></li>
@@ -96,9 +96,6 @@ span.form-image > img { width:46px; height:46px; }
                 <br class="clear" />
             </ul>
             
-            <h2>Feature Type</h2>
-                <p>Folder</p>
-            
             <h2>Contents</h2>
                 {% if instance.num_scenarios > 0 %}
                 <p>Multi-Objective Scenarios: {{instance.num_scenarios}}</p>
@@ -109,12 +106,15 @@ span.form-image > img { width:46px; height:46px; }
                 {% if instance.num_windenergy_sites > 0 %}
                 <p>Wind Energy Sites: {{instance.num_windenergy_sites}}</p>
                 {% endif %}
+                {% if instance.num_scenarios == 0 and instance.num_conservation_sites == 0 and instance.num_windenergy_sites == 0 %}
+                <p><i>Currently empty</i></p>
+                {% endif %}
             
             <h2>Description</h2>
                 {% if instance.description %}
                 <p>{{instance.description}}</p>
                 {% else %}
-                <p>No description provided</p>
+                <p><i>No Description</i></p>
                 {% endif %}
             
             <h2>Hint</h2>
