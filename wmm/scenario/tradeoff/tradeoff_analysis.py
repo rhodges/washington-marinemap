@@ -130,8 +130,8 @@ def get_valuation_list(type):
     conservation_valuation_list = [75, 65, 84, 50, 18, 67, 12]
     wind_valuation_list = [23, 82, 10, 33, 67, 89, 73]
     tidal_valuation_list = [14, 32, 24, 19, 18, 47, 25]
-    development_valuation_list = [0, 0, 0, 0, 0, 0, 0]
-    shellfish_valuation_list = [0, 0, 0, 28, 12, 0, 0]
+    development_valuation_list = [30, 13, 84, 20, 49, 47, 38]
+    shellfish_valuation_list = [74, 32, 53, 28, 12, 14, 45]
     fishing_valuation_list = [72, 67, 55, 83, 62, 43, 77]
     if type == 'conservation':
         return conservation_valuation_list
@@ -189,11 +189,11 @@ def get_label(selection):
     elif selection == 'wind':
         return 'Wind Energy Value'
     elif selection == 'conservation':
-        return 'Marine Conservation Value'
+        return 'Benthic Conservation Value'
     elif selection == 'development':
-        return 'Shoreside Development Value'
+        return 'Nearshore Conservation Value'
     elif selection == 'shellfish':
-        return 'Shellfish Aquaculture Value'
+        return 'Pelagic Conservation Value'
     elif selection == 'fishing':
-        return 'Offshore Fishing Value'
+        return 'Wave Energy Value'
     
