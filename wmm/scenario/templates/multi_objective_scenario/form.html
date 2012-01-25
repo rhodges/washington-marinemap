@@ -10,9 +10,9 @@
         //currently ordered the same as on the form 
         objectives_list = [ 'tidal_energy', 'wave_energy', 'wind_energy', 'offshore_conservation', 'nearshore_conservation', 'water_column_conservation', 'offshore_fishing', 'shellfish_aquaculture', 'shoreside_development' ];
         objectives_dict = { 'energy': ['tidal_energy', 'wave_energy', 'wind_energy'],
-                            'conservation': ['offshore_conservation', 'nearshore_conservation', 'water_column_conservation'],
-                            'fisheries': ['offshore_fishing', 'shellfish_aquaculture'], 
-                            'development': ['shoreside_development'] };
+                            'conservation': ['offshore_conservation', 'nearshore_conservation', 'water_column_conservation'] };
+                            //'fisheries': ['offshore_fishing', 'shellfish_aquaculture'], 
+                            //'development': ['shoreside_development'] };
                             
         //parameters_dict parameters ordering needs to match the ordering found in each <objective>parameter table in the db                     
         parameters_list = [ 'distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential', 'tidalmean', 'tidalmax', 'wavesummer', 'wavewinter', 'depth_class', 'geomorphology', 'exposure', 'ecosystem', 'upwelling', 'chlorophyl'];
@@ -21,10 +21,10 @@
                             'wind_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential'],
                             'offshore_conservation': ['substrate', 'depth_class', 'geomorphology'],
                             'nearshore_conservation': ['substrate', 'exposure', 'ecosystem'],
-                            'water_column_conservation': ['upwelling', 'chlorophyl'],
-                            'offshore_fishing': ['distance_port', 'depth', 'substrate'],
-                            'shellfish_aquaculture': ['distance_shore', 'depth', 'substrate'],
-                            'shoreside_development': ['distance_shore'] };
+                            'water_column_conservation': ['upwelling', 'chlorophyl'] };
+                            //'offshore_fishing': ['distance_port', 'depth', 'substrate'],
+                            //'shellfish_aquaculture': ['distance_shore', 'depth', 'substrate'],
+                            //'shoreside_development': ['distance_shore'] };
         
         var step = 1;
         var max_step = 4;
@@ -98,7 +98,7 @@
                 }
             });
             selected_objectives['conservation'] = selected_conservation_objectives;
-            
+            /*
             var selected_development_objectives = [];
             var development_objectives = $('input.development_objectives');
             $.each(development_objectives, function(index, obj) {
@@ -116,7 +116,7 @@
                 }
             });
             selected_objectives['fisheries'] = selected_fisheries_objectives;
-            
+            */
             return selected_objectives;
         };
         
@@ -166,19 +166,61 @@
             if (step == 1) {
                 selected_objectives = get_selected_objectives();
                 //console.log(selected_objectives);
-                if (selected_objectives['energy'].length == 0 && selected_objectives['conservation'].length == 0 && selected_objectives['fisheries'].length == 0 && selected_objectives['development'].length == 0) {
+                //if (selected_objectives['energy'].length == 0 && selected_objectives['conservation'].length == 0 && selected_objectives['fisheries'].length == 0 && selected_objectives['development'].length == 0) {
+                //TODO use smarter loop here so hard coding of keys is not necessary  
+                if (selected_objectives['energy'].length == 0 && selected_objectives['conservation'].length == 0) {
                     alert("Select at least 1 Objective.");
                     return_value = false;
                 } 
             } else if (step == 2) {
-                selected_params = get_selected_params();
-                $.each(selected_objectives, function(key, value) {
-                    $.each(value, function(index, obj) {
+                selected_params = get_selected_params();               
+                $.each(selected_objectives, function(key, obj_list) {
+                    //console.log('obj_list: ' + obj_list);
+                    $.each(obj_list, function(index, obj) {
+                        //console.log('obj: ' + obj);
+                        //console.log('selected params [obj]: ' + selected_params[obj]);
                         if (selected_params[obj].length == 0) {
                             alert("Select at least 1 Parameter for each Objective.");
                             return_value = false;
                             return;
                         }
+                    });
+                });
+            } else if (step == 3) {
+                //console.log('validating step 3 with next...');
+                selected_params = get_selected_params();              
+                $.each(selected_objectives, function(key, obj_list) {
+                    //console.log('obj_list: ' + obj_list);
+                    $.each(obj_list, function(index, obj) {
+                        console.log('obj: ' + obj);
+                        //console.log('selected params [obj]: ' + selected_params[obj]);
+                        $.each(selected_params[obj], function(index, param) {
+                            console.log('param: ' + param);
+                            checkboxes = $('input.'+obj+'_'+param+'_checkboxes');
+                            console.log('checkboxes length: ' + checkboxes.length);
+                            checked = checkboxes.serializeArray();
+                            console.log('checked boxes: ' + checked);
+                            if(checkboxes.length > 0 && checked.length == 0) {
+                                if(return_value) {
+                                    return_value = false;
+                                    alert("Make sure each parameter has been assigned a value.");
+                                }
+                            }
+                            /*
+                            if (checkboxes.length > 0) {
+                                for (var i=0; i<checkboxes.length; i++) {
+                                    if(checkboxes[i].checked) {
+                                        console.log(checkboxes[i] + ' is checked.');
+                                        return;
+                                    } else {
+                                        console.log(checkboxes[i] + ' is not checked.');
+                                    }
+                                };
+                                return_value = false;
+                                alert("Make sure each parameter has been assigned a value.");
+                            }
+                            */
+                        });
                     });
                 });
             }
@@ -243,6 +285,11 @@
                             $('#'+param+'_'+obj+'_widget').show();
                         });
                     });
+                }
+            } else if (step == 3 && action == 'next') {
+                validated = validate(step);
+                if (validated) {
+                    step += 1;
                 }
             } else if (step < max_step && action == 'next') {
                 step += 1;
