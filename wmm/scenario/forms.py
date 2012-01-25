@@ -173,7 +173,7 @@ class MOSForm(FeatureForm):
                                                 label="Depth Range (feet)", required=False)
     input_substrate_tidal_energy = ModelMultipleChoiceField(queryset=Substrate.objects.all().order_by('id'), 
                                                             #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
-                                                            widget=forms.CheckboxSelectMultiple(attrs={'class': 'substrate_tidal_energy'}),
+                                                            widget=forms.CheckboxSelectMultiple(attrs={'class':'tidal_energy_substrate_checkboxes'}),
                                                             label="Include areas with the following Substrate Types", required=False) 
     input_min_tidalmean_tidal_energy = forms.FloatField(initial=200, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
     input_max_tidalmean_tidal_energy = forms.FloatField(initial=1200, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
@@ -208,7 +208,7 @@ class MOSForm(FeatureForm):
                                                 label="Depth Range (feet)", required=False)
     input_substrate_wave_energy = ModelMultipleChoiceField(   queryset=Substrate.objects.all().order_by('id'), 
                                                                 #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
-                                                                widget=forms.CheckboxSelectMultiple(),
+                                                                widget=forms.CheckboxSelectMultiple(attrs={'class':'wave_energy_substrate_checkboxes'}),
                                                                 label="Include areas with the following Substrate Types", required=False) 
     input_min_wavesummer_wave_energy = forms.FloatField(initial=15, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
     input_max_wavesummer_wave_energy = forms.FloatField(initial=20, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
@@ -243,11 +243,11 @@ class MOSForm(FeatureForm):
                                                 label="Depth Range (feet)", required=False)
     input_substrate_wind_energy = ModelMultipleChoiceField( queryset=Substrate.objects.all().order_by('id'), 
                                                             #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
-                                                            widget=forms.CheckboxSelectMultiple(),
+                                                            widget=forms.CheckboxSelectMultiple(attrs={'class':'wind_energy_substrate_checkboxes'}),
                                                             label="Include areas with the following Substrate Types", required=False) 
     input_wind_potential_wind_energy = ModelMultipleChoiceField(queryset=WindPotential.objects.all().order_by('id'), 
                                                                 #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
-                                                                widget=forms.CheckboxSelectMultiple(),
+                                                                widget=forms.CheckboxSelectMultiple(attrs={'class':'wind_energy_wind_potential_checkboxes'}),
                                                                 label="Include areas with the following Wind Potential Characterizations", required=False) 
     
     
@@ -267,15 +267,15 @@ class MOSForm(FeatureForm):
                                                                             label="")
     input_substrate_offshore_conservation = ModelMultipleChoiceField(   queryset=Substrate.objects.all().order_by('id'), 
                                                                         #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
-                                                                        widget=forms.CheckboxSelectMultiple(),
+                                                                        widget=forms.CheckboxSelectMultiple(attrs={'class':'offshore_conservation_substrate_checkboxes'}),
                                                                         label="Include areas with the following Substrate Types", required=False) 
     input_depth_class_offshore_conservation = ModelMultipleChoiceField( queryset=DepthClass.objects.all().order_by('id'), 
                                                                         #widget=forms.SelectMultiple(attrs={'size':4}), initial="1",
-                                                                        widget=forms.CheckboxSelectMultiple(),
+                                                                        widget=forms.CheckboxSelectMultiple(attrs={'class':'offshore_conservation_depth_class_checkboxes'}),
                                                                         label="Include areas with the following Depth Classes", required=False)     
     input_geomorphology_offshore_conservation = ModelMultipleChoiceField(   queryset=Geomorphology.objects.all().order_by('id'), 
                                                                             #widget=forms.SelectMultiple(attrs={'size':4}), initial="1",
-                                                                            widget=forms.CheckboxSelectMultiple(),
+                                                                            widget=forms.CheckboxSelectMultiple(attrs={'class':'offshore_conservation_geomorphology_checkboxes'}),
                                                                             label="Include areas with the following Geomorphologies", required=False)     
     
     # Objective 8 - Nearshore Conservation
@@ -287,15 +287,15 @@ class MOSForm(FeatureForm):
                                                                                 label="")
     input_substrate_nearshore_conservation = ModelMultipleChoiceField(  queryset=NearshoreSubstrate.objects.all().order_by('id'), 
                                                                         #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
-                                                                        widget=forms.CheckboxSelectMultiple(),
+                                                                        widget=forms.CheckboxSelectMultiple(attrs={'class':'nearshore_conservation_substrate_checkboxes'}),
                                                                         label="Include areas with the following Substrate Types", required=False) 
     input_exposure_nearshore_conservation = ModelMultipleChoiceField(  queryset=NearshoreExposure.objects.all().order_by('id'), 
                                                                         #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
-                                                                        widget=forms.CheckboxSelectMultiple(),
+                                                                        widget=forms.CheckboxSelectMultiple(attrs={'class':'nearshore_conservation_exposure_checkboxes'}),
                                                                         label="Include areas with the following Exposure Types", required=False) 
     input_ecosystem_nearshore_conservation = ModelMultipleChoiceField(  queryset=NearshoreEcosystem.objects.all().order_by('id'), 
                                                                         #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
-                                                                        widget=forms.CheckboxSelectMultiple(),
+                                                                        widget=forms.CheckboxSelectMultiple(attrs={'class':'nearshore_conservation_ecosystem_checkboxes'}),
                                                                         label="Include areas with the following Ecosystem Types", required=False) 
     
     
@@ -308,11 +308,11 @@ class MOSForm(FeatureForm):
                                                                                 label="")
     input_upwelling_water_column_conservation = ModelMultipleChoiceField(   queryset=Upwelling.objects.all().order_by('id'), 
                                                                             #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
-                                                                            widget=forms.CheckboxSelectMultiple(),
+                                                                            widget=forms.CheckboxSelectMultiple(attrs={'class':'water_column_conservation_upwelling_checkboxes'}),
                                                                             label="Include areas with the following Upwelling Classes", required=False) 
     input_chlorophyl_water_column_conservation = ModelMultipleChoiceField(  queryset=Chlorophyl.objects.all().order_by('id'), 
                                                                             #widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
-                                                                            widget=forms.CheckboxSelectMultiple(),
+                                                                            widget=forms.CheckboxSelectMultiple(attrs={'class':'water_column_conservation_chlorophyl_checkboxes'}),
                                                                             label="Include areas with the following Chlorophyl Classes", required=False) 
                   
     
