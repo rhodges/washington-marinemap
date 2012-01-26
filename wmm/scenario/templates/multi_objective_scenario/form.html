@@ -192,34 +192,20 @@
                 $.each(selected_objectives, function(key, obj_list) {
                     //console.log('obj_list: ' + obj_list);
                     $.each(obj_list, function(index, obj) {
-                        console.log('obj: ' + obj);
+                        //console.log('obj: ' + obj);
                         //console.log('selected params [obj]: ' + selected_params[obj]);
                         $.each(selected_params[obj], function(index, param) {
-                            console.log('param: ' + param);
+                            //console.log('param: ' + param);
                             checkboxes = $('input.'+obj+'_'+param+'_checkboxes');
-                            console.log('checkboxes length: ' + checkboxes.length);
+                            //console.log('checkboxes length: ' + checkboxes.length);
                             checked = checkboxes.serializeArray();
-                            console.log('checked boxes: ' + checked);
+                            //console.log('checked boxes: ' + checked);
                             if(checkboxes.length > 0 && checked.length == 0) {
                                 if(return_value) {
                                     return_value = false;
                                     alert("Make sure each parameter has been assigned a value.");
                                 }
                             }
-                            /*
-                            if (checkboxes.length > 0) {
-                                for (var i=0; i<checkboxes.length; i++) {
-                                    if(checkboxes[i].checked) {
-                                        console.log(checkboxes[i] + ' is checked.');
-                                        return;
-                                    } else {
-                                        console.log(checkboxes[i] + ' is not checked.');
-                                    }
-                                };
-                                return_value = false;
-                                alert("Make sure each parameter has been assigned a value.");
-                            }
-                            */
                         });
                     });
                 });
@@ -388,7 +374,7 @@ span.form-image > img { width:46px; height:46px; }
   
   <div class="step" id="step1">
     <h3> Step 1 of 4 </h3>
-    <p> <strong>Choose 1 or more Objective </strong> from the following categories. <strong>*</strong><p>
+    <p> <strong>Choose 1 or more Objective </strong> from the following categories. <p>
     <div id="objectives" class="inputfield">
         <p style="text-indent:1em"><strong>Renewable Energy</strong>     
         (<a id="toggle_energy_objectives" href="javascript:toggleObjectives('energy_objectives', 'toggle_energy_objectives');">Hide Objectives</a>)</p>
@@ -418,7 +404,7 @@ span.form-image > img { width:46px; height:46px; }
   <!-- Should step2 be moved to a separate template populated via a server call? -->
   <div class="step" id="step2">
     <h3> Step 2 of 4 </h3>
-    <p><strong>Select the Parameters </strong> from your chosen objectives. <strong>*</strong><p>
+    <p><strong>Select the Parameters </strong> from your chosen objectives. <p>
     <div id="step2_data">
     
         <!-- Renewable Energy Objectives-->
@@ -477,136 +463,118 @@ span.form-image > img { width:46px; height:46px; }
 
   <div class="step" id="step3">
     <h3> Step 3 of 4 </h3>
-    <p><strong>Provide suitable values </strong>for each of your chosen parameters. <strong>*</strong></p>
+    <p><strong>Provide suitable values </strong>for each of your chosen parameters. </p>
     <p></p>
     <div id="step3_data">
     
         <!-- Tidal Energy -->
         <div id="tidal_energy_widgets_header" style="text-indent:1em">
             <p><strong>Tidal</strong>  
-            (<a id="showWidgets_tidal_energy" href="javascript:toggleParams('tidal_energy_widgets', 'showWidgets_tidal_energy');">Hide Parameters</a>):</p>
-        </div>
-        <div id="tidal_energy_widgets">
-            <div id="distance_shore_tidal_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_dist_shore_tidal_energy.label_tag }}
-                    {{ form.input_dist_shore_tidal_energy.errors }}
-                    {{ form.input_dist_shore_tidal_energy }}            
+            <small>[<a id="showWidgets_tidal_energy" href="javascript:toggleParams('tidal_energy_widgets', 'showWidgets_tidal_energy');">Hide Parameters</a>]:</small>
+            <div id="tidal_energy_widgets">
+                <div id="distance_shore_tidal_energy_widget" class="inputfield">
+                    <div class="field required">
+                        <label class="param">Distance to Shore (miles) 
+                        {{ form.input_dist_shore_tidal_energy }}  </label>          
+                    </div>
                 </div>
-            </div>
-            <div id="distance_port_tidal_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_dist_port_tidal_energy.label_tag }}
-                    {{ form.input_dist_port_tidal_energy.errors }}
-                    {{ form.input_dist_port_tidal_energy }}            
+                <div id="distance_port_tidal_energy_widget" class="inputfield">
+                    <div class="field required">
+                        <label class="param">Distance to Port (miles) 
+                        {{ form.input_dist_port_tidal_energy }}  </label>               
+                    </div>
                 </div>
-            </div>
-            <div id="depth_tidal_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_depth_tidal_energy.label_tag }} 
-                    {{ form.input_depth_tidal_energy.errors }}
-                    
-                    {{ form.input_min_depth_tidal_energy }}            
-                    to
-                    {{ form.input_max_depth_tidal_energy }}            
+                <div id="depth_tidal_energy_widget" class="inputfield">
+                    <div class="field required">
+                        <label class="param">Depth Range (feet) 
+                        {{ form.input_min_depth_tidal_energy }}            
+                        to
+                        {{ form.input_max_depth_tidal_energy }}            
 
-                    {{ form.input_depth_tidal_energy }}            
+                        {{ form.input_depth_tidal_energy }}  </label>             
+                    </div>
                 </div>
-            </div>
-            <div id="substrate_tidal_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_substrate_tidal_energy.label_tag }}
-                    {{ form.input_substrate_tidal_energy.errors }}
-                    <p>{{ form.input_substrate_tidal_energy }} </p>
+                <div id="substrate_tidal_energy_widget" class="inputfield">
+                    <label class="param">Substrate Types </label>
+                    <div class="field required">
+                        <p>{{ form.input_substrate_tidal_energy }} </p>
+                    </div>
                 </div>
-            </div>
-            <div id="tidalmean_tidal_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_tidalmean_tidal_energy.label_tag }} 
-                    {{ form.input_tidalmean_tidal_energy.errors }}
-                    
-                    {{ form.input_min_tidalmean_tidal_energy }}            
-                    to
-                    {{ form.input_max_tidalmean_tidal_energy }}            
+                <div id="tidalmean_tidal_energy_widget" class="inputfield">
+                    <div class="field required">
+                        <label class="param">Mean Tidal Energy (W/m2) 
+                        {{ form.input_min_tidalmean_tidal_energy }}            
+                        to
+                        {{ form.input_max_tidalmean_tidal_energy }}            
 
-                    {{ form.input_tidalmean_tidal_energy }}            
+                        {{ form.input_tidalmean_tidal_energy }}  </label>          
+                    </div>
                 </div>
-            </div>
-            <div id="tidalmax_tidal_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_tidalmax_tidal_energy.label_tag }} 
-                    {{ form.input_tidalmax_tidal_energy.errors }}
-                    
-                    {{ form.input_min_tidalmax_tidal_energy }}            
-                    to
-                    {{ form.input_max_tidalmax_tidal_energy }}            
+                <div id="tidalmax_tidal_energy_widget" class="inputfield">
+                    <div class="field required">
+                        <label class="param">Max Tidal Energy (W/m2) 
+                        {{ form.input_min_tidalmax_tidal_energy }}            
+                        to
+                        {{ form.input_max_tidalmax_tidal_energy }}            
 
-                    {{ form.input_tidalmax_tidal_energy }}            
+                        {{ form.input_tidalmax_tidal_energy }}  </label>          
+                    </div>
                 </div>
             </div>
         </div>
-        
+                
         <!-- Wave Energy -->
         <div id="wave_energy_widgets_header" style="text-indent:1em">
             <p><strong>Wave</strong>  
-            (<a id="showWidgets_wave" href="javascript:toggleParams('wave_energy_widgets', 'showWidgets_wave');">Hide Parameters</a>):</p>
-        </div>
-        <div id="wave_energy_widgets">
-            <div id="distance_shore_wave_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_dist_shore_wave_energy.label_tag }}
-                    {{ form.input_dist_shore_wave_energy.errors }}
-                    {{ form.input_dist_shore_wave_energy }}            
+            <small>[<a id="showWidgets_wave" href="javascript:toggleParams('wave_energy_widgets', 'showWidgets_wave');">Hide Parameters</a>]:</small>
+            <div id="wave_energy_widgets">
+                <div id="distance_shore_wave_energy_widget" class="inputfield">
+                    <div class="field required">
+                        <label class="param">Distance to Shore (miles)
+                        {{ form.input_dist_shore_wave_energy }} </label>           
+                    </div>
                 </div>
-            </div>
-            <div id="distance_port_wave_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_dist_port_wave_energy.label_tag }}
-                    {{ form.input_dist_port_wave_energy.errors }}
-                    {{ form.input_dist_port_wave_energy }}            
+                <div id="distance_port_wave_energy_widget" class="inputfield">
+                    <div class="field required">
+                        <label class="param">Distance to Port (miles)
+                        {{ form.input_dist_port_wave_energy }} </label>           
+                    </div>
                 </div>
-            </div>
-            <div id="depth_wave_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_depth_wave_energy.label_tag }} 
-                    {{ form.input_depth_wave_energy.errors }}
-                    
-                    {{ form.input_min_depth_wave_energy }}            
-                    to
-                    {{ form.input_max_depth_wave_energy }}            
+                <div id="depth_wave_energy_widget" class="inputfield">
+                    <div class="field required">
+                        <label class="param">Depth Range (feet)
+                        {{ form.input_min_depth_wave_energy }}            
+                        to
+                        {{ form.input_max_depth_wave_energy }}            
 
-                    {{ form.input_depth_wave_energy }}            
+                        {{ form.input_depth_wave_energy }} </label>           
+                    </div>
                 </div>
-            </div>
-            <div id="substrate_wave_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_substrate_wave_energy.label_tag }}
-                    {{ form.input_substrate_wave_energy.errors }}
-                    <p>{{ form.input_substrate_wave_energy }} </p>
+                <div id="substrate_wave_energy_widget" class="inputfield">
+                    <label class="param">Substrate Types</label>
+                    <div class="field required">
+                        <p>{{ form.input_substrate_wave_energy }} </p>
+                    </div>
                 </div>
-            </div>
-            <div id="wavesummer_wave_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_wavesummer_wave_energy.label_tag }} 
-                    {{ form.input_wavesummer_wave_energy.errors }}
-                    
-                    {{ form.input_min_wavesummer_wave_energy }}            
-                    to
-                    {{ form.input_max_wavesummer_wave_energy }}            
+                <div id="wavesummer_wave_energy_widget" class="inputfield">
+                    <div class="field required">
+                        <label class="param">Summer Energy (kW/m of shoreline) 
+                        {{ form.input_min_wavesummer_wave_energy }}            
+                        to
+                        {{ form.input_max_wavesummer_wave_energy }}            
 
-                    {{ form.input_wavesummer_wave_energy }}            
+                        {{ form.input_wavesummer_wave_energy }}  </label>         
+                    </div>
                 </div>
-            </div>
-            <div id="wavewinter_wave_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_wavewinter_wave_energy.label_tag }} 
-                    {{ form.input_wavewinter_wave_energy.errors }}
-                    
-                    {{ form.input_min_wavewinter_wave_energy }}            
-                    to
-                    {{ form.input_max_wavewinter_wave_energy }}            
+                <div id="wavewinter_wave_energy_widget" class="inputfield"> 
+                    <div class="field required">
+                        <label class="param">Winter Energy (kW/m of shoreline) 
+                        {{ form.input_min_wavewinter_wave_energy }}            
+                        to
+                        {{ form.input_max_wavewinter_wave_energy }}            
 
-                    {{ form.input_wavewinter_wave_energy }}            
+                        {{ form.input_wavewinter_wave_energy }}  </label>      
+                    </div>
                 </div>
             </div>
         </div>
@@ -614,47 +582,41 @@ span.form-image > img { width:46px; height:46px; }
         <!-- Wind Energy -->
         <div id="wind_energy_widgets_header" style="text-indent:1em">
             <p><strong>Wind</strong>  
-            (<a id="showWidgets_wind" href="javascript:toggleParams('wind_energy_widgets', 'showWidgets_wind');">Hide Parameters</a>):</p>
-        </div>
-        <div id="wind_energy_widgets">
-            <div id="distance_shore_wind_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_dist_shore_wind_energy.label_tag }}
-                    {{ form.input_dist_shore_wind_energy.errors }}
-                    {{ form.input_dist_shore_wind_energy }}            
+            <small>[<a id="showWidgets_wind" href="javascript:toggleParams('wind_energy_widgets', 'showWidgets_wind');">Hide Parameters</a>]:</small>
+            <div id="wind_energy_widgets">
+                <div id="distance_shore_wind_energy_widget" class="inputfield">
+                    <div class="field required">
+                        <label class="param">Distance to Shore (miles) 
+                        {{ form.input_dist_shore_wind_energy }}  </label>          
+                    </div>
                 </div>
-            </div>
-            <div id="distance_port_wind_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_dist_port_wind_energy.label_tag }}
-                    {{ form.input_dist_port_wind_energy.errors }}
-                    {{ form.input_dist_port_wind_energy }}            
+                <div id="distance_port_wind_energy_widget" class="inputfield">
+                    <div class="field required">
+                        <label class="param">Distance to Port (miles) 
+                        {{ form.input_dist_port_wind_energy }} </label>           
+                    </div>
                 </div>
-            </div>
-            <div id="depth_wind_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_depth_wind_energy.label_tag }} 
-                    {{ form.input_depth_wind_energy.errors }}
-                    
-                    {{ form.input_min_depth_wind_energy }}            
-                    to
-                    {{ form.input_max_depth_wind_energy }}            
+                <div id="depth_wind_energy_widget" class="inputfield">
+                    <div class="field required">
+                        <label class="param">Depth Range (feet) 
+                        {{ form.input_min_depth_wind_energy }}            
+                        to
+                        {{ form.input_max_depth_wind_energy }}            
 
-                    {{ form.input_depth_wind_energy }}            
+                        {{ form.input_depth_wind_energy }} </label>           
+                    </div>
                 </div>
-            </div>
-            <div id="substrate_wind_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_substrate_wind_energy.label_tag }}
-                    {{ form.input_substrate_wind_energy.errors }}
-                    <p>{{ form.input_substrate_wind_energy }} </p>
+                <div id="substrate_wind_energy_widget" class="inputfield">
+                    <label class="param">Substrate Types </label>
+                    <div class="field required">
+                        <p>{{ form.input_substrate_wind_energy }} </p>
+                    </div>
                 </div>
-            </div>
-            <div id="wind_potential_wind_energy_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_wind_potential_wind_energy.label_tag }}
-                    {{ form.input_wind_potential_wind_energy.errors }}
-                    <p>{{ form.input_wind_potential_wind_energy }} </p>
+                <div id="wind_potential_wind_energy_widget" class="inputfield">
+                    <label class="param">Wind Potential </label>
+                    <div class="field required">
+                        <p>{{ form.input_wind_potential_wind_energy }} </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -670,89 +632,81 @@ span.form-image > img { width:46px; height:46px; }
         <!-- Offshore Conservation -->
         <div id="offshore_conservation_widgets_header" style="text-indent:1em">
             <p><strong>Benthic</strong>  
-            (<a id="showWidgets_conservation" href="javascript:toggleParams('offshore_conservation_widgets', 'showWidgets_conservation');">Hide Parameters</a>):</p>
-        </div>
-        <div id="offshore_conservation_widgets">
-            <div id="substrate_offshore_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_substrate_offshore_conservation.label_tag }}
-                    {{ form.input_substrate_offshore_conservation.errors }}
-                    <p>{{ form.input_substrate_offshore_conservation }} </p>
+            <small>[<a id="showWidgets_conservation" href="javascript:toggleParams('offshore_conservation_widgets', 'showWidgets_conservation');">Hide Parameters</a>]:</small>
+            <div id="offshore_conservation_widgets">
+                <div id="substrate_offshore_conservation_widget" class="inputfield">
+                    <label class="param">Substrate Types </label>
+                    <div class="field required">
+                        <p>{{ form.input_substrate_offshore_conservation }} </p>
+                    </div>
                 </div>
-            </div>
-            <div id="depth_class_offshore_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_depth_class_offshore_conservation.label_tag }}
-                    {{ form.input_depth_class_offshore_conservation.errors }}
-                    <p>{{ form.input_depth_class_offshore_conservation }} </p>
+                <div id="depth_class_offshore_conservation_widget" class="inputfield">
+                    <label class="param">Depth Classes </label>
+                    <div class="field required">
+                        <p>{{ form.input_depth_class_offshore_conservation }} </p>
+                    </div>
                 </div>
-            </div>
-            <div id="geomorphology_offshore_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_geomorphology_offshore_conservation.label_tag }}
-                    {{ form.input_geomorphology_offshore_conservation.errors }}
-                    <p>{{ form.input_geomorphology_offshore_conservation }} </p>
+                <div id="geomorphology_offshore_conservation_widget" class="inputfield">
+                    <label class="param">Geomorphologies </label>
+                    <div class="field required">
+                        <p>{{ form.input_geomorphology_offshore_conservation }} </p>
+                    </div>
                 </div>
             </div>
         </div>
-    
+        
         <!-- Nearshore Conservation -->
         <div id="nearshore_conservation_widgets_header" style="text-indent:1em">
             <p><strong>Nearshore</strong>  
-            (<a id="showWidgets_nearshore_conservation" href="javascript:toggleParams('nearshore_conservation_widgets', 'showWidgets_nearshore_conservation');">Hide Parameters</a>):</p>
-        </div>
-        <div id="nearshore_conservation_widgets">
-            <div id="substrate_nearshore_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_substrate_nearshore_conservation.label_tag }}
-                    {{ form.input_substrate_nearshore_conservation.errors }}
-                    <p>{{ form.input_substrate_nearshore_conservation }} </p>
+            <small>[<a id="showWidgets_nearshore_conservation" href="javascript:toggleParams('nearshore_conservation_widgets', 'showWidgets_nearshore_conservation');">Hide Parameters</a>]:</small>
+            <div id="nearshore_conservation_widgets">
+                <div id="substrate_nearshore_conservation_widget" class="inputfield">
+                    <label class="param">Substrate Types </label>
+                    <div class="field required">
+                        <p>{{ form.input_substrate_nearshore_conservation }} </p>
+                    </div>
                 </div>
-            </div>
-            <div id="exposure_nearshore_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_exposure_nearshore_conservation.label_tag }}
-                    {{ form.input_exposure_nearshore_conservation.errors }}
-                    <p>{{ form.input_exposure_nearshore_conservation }} </p>
+                <div id="exposure_nearshore_conservation_widget" class="inputfield">
+                    <label class="param">Exposure </label>
+                    <div class="field required">
+                        <p>{{ form.input_exposure_nearshore_conservation }} </p>
+                    </div>
                 </div>
-            </div>
-            <div id="ecosystem_nearshore_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_ecosystem_nearshore_conservation.label_tag }}
-                    {{ form.input_ecosystem_nearshore_conservation.errors }}
-                    <p>{{ form.input_ecosystem_nearshore_conservation }} </p>
+                <div id="ecosystem_nearshore_conservation_widget" class="inputfield">
+                    <label class="param">Ecosystems </label>
+                    <div class="field required">
+                        <p>{{ form.input_ecosystem_nearshore_conservation }} </p>
+                    </div>
                 </div>
             </div>
         </div>
-    
+            
         <!-- Water Column Conservation -->
         <div id="water_column_conservation_widgets_header" style="text-indent:1em">
-            <p><strong>Pelagic</strong>  
-            (<a id="showWidgets_water_column_conservation" href="javascript:toggleParams('water_column_conservation_widgets', 'showWidgets_water_column_conservation');">Hide Parameters</a>):</p>
+            <p><strong>Pelagic</strong>   
+            <small>[<a id="showWidgets_water_column_conservation" href="javascript:toggleParams('water_column_conservation_widgets', 'showWidgets_water_column_conservation');">Hide Parameters</a>]:</small>
+            <div id="water_column_conservation_widgets">
+                <div id="upwelling_water_column_conservation_widget" class="inputfield">
+                    <label class="param">Upwelling </label>
+                    <div class="field required">
+                        <p>{{ form.input_upwelling_water_column_conservation }} </p>
+                    </div>
+                </div>
+                <div id="chlorophyl_water_column_conservation_widget" class="inputfield">
+                    <label class="param">Chlorophyl </label>
+                    <div class="field required">
+                        <p>{{ form.input_chlorophyl_water_column_conservation }} </p>
+                    </div>
+                </div>
+            </div>        
         </div>
-        <div id="water_column_conservation_widgets">
-            <div id="upwelling_water_column_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_upwelling_water_column_conservation.label_tag }}
-                    {{ form.input_upwelling_water_column_conservation.errors }}
-                    <p>{{ form.input_upwelling_water_column_conservation }} </p>
-                </div>
-            </div>
-            <div id="chlorophyl_water_column_conservation_widget" class="inputfield">
-                <div class="field required">
-                    {{ form.input_chlorophyl_water_column_conservation.label_tag }}
-                    {{ form.input_chlorophyl_water_column_conservation.errors }}
-                    <p>{{ form.input_chlorophyl_water_column_conservation }} </p>
-                </div>
-            </div>
-        </div>        
         
     </div>
   </div>
 
 <div class="step" id="step4">
     <h3> Step 4 of 4 </h3>
-    <p> <strong>Provide a name</strong> to identify your scenario </p>
+    <p> <strong>Provide a name</strong> to identify your scenario *</p>
     <p></p>
     <div class="field required">
         {{ form.name.label_tag }}
@@ -789,5 +743,26 @@ span.form-image > img { width:46px; height:46px; }
     <a href="#" class="submit_button button" onclick="this.blur(); return false;"><span>Submit</span></a>
 </div>
 
+<style type="text/css">
+.marinemap-panel form label.param {
+    clear: both;
+    color: #344E63;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0 30px 10px;
+    padding: 0;
+    text-shadow: 0 1px 0 #FCFAFF;
+}
+.marinemap-panel form .required label:after {
+    content: "";
+}
+<!-- we might now remove the jquery-widgets.css file from washington... -->
+.slidervalue { 
+    width: 50px ! important;
+}
+.ui-slider { position:relative; text-align:left; left:30px; }
+
+</style>
 
 {% endblock %}
