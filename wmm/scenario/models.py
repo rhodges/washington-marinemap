@@ -484,7 +484,7 @@ class Scenario(Analysis):
     
     # All output fields should be allowed to be Null/Blank
     output_geom = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Scenario Geometry")
-    output_mapcalc = models.CharField(max_length=360, null=True, blank=True)
+    output_mapcalc = models.CharField(max_length=720, null=True, blank=True)
     output_area = models.FloatField(verbose_name="Total Area (sq km)", null=True, blank=True)
     
     #TODO will want to replace individual output stats field with a single field (as output stats will differ based on objective)
