@@ -22,34 +22,22 @@ def display_wind_energy_report(request, mos, scenario, template='multi_objective
 def get_wind_energy_context(mos, scenario): 
     #get report dictionary from scenario
     report = simplejson.loads(scenario.output_report)
-    #get context from cache or from running analysis -- actually generating the report data at creation time so report cache is no longer necessary
+    #get context from cache or from running analysis -- generating the report data at creation time so report cache is no longer necessary
     
     # Scenario Context
     substrate_jextent, substrate_list_reverse = get_scenario_stats(scenario, report['substrate'], Substrate)
     wind_potential_jextent, wind_potential_list_reverse = get_scenario_stats(scenario, report['wind_potential'], WindPotential)
-    #geomorphology_jextent, geomorphology_list_reverse = get_scenario_stats(scenario, report['geomorphology'], Geomorphology)
     
     # Substrate Context
-    #substrate_jpercs, substrate_percs, substrate_r = get_substrate_percs(scenario)
     substrate_wind_jstats = get_drill_down_stats(scenario, report['substrate_wind_potential'], Substrate, WindPotential)
-    #substrate_geo_jstats = get_drill_down_stats(scenario, report['substrate_geomorphology'], Substrate, Geomorphology)
-    #substrate_jcolors = get_substrate_colors(scenario, substrate_jpercs)
     
-    #Depth Class Context
-    #depth_class_sub_jstats = get_drill_down_stats(scenario, report['depth_class_substrate'], DepthClass, Substrate)
-    #depth_class_geo_jstats = get_drill_down_stats(scenario, report['depth_class_geomorphology'], DepthClass, Geomorphology)
-    
-    #Geomorphology Context
-    #geomorphology_sub_jstats = get_drill_down_stats(scenario, report['geomorphology_substrate'], Geomorphology, Substrate)
-    #geomorphology_dc_jstats = get_drill_down_stats(scenario, report['geomorphology_depth_class'], Geomorphology, DepthClass)
+    # Wind Potential Context
+    wind_substrate_jstats = get_drill_down_stats(scenario, report['wind_potential_substrate'], WindPotential, Substrate)    
     
     context = { 'default_value': default_value, 'bar_height': bar_height, 'mos': mos, 'scenario': scenario, 
                 'substrate_jextent': substrate_jextent, 'substrate_list_reverse': substrate_list_reverse,
                 'wind_potential_jextent': wind_potential_jextent, 'wind_potential_list_reverse': wind_potential_list_reverse,
-                #'substrate_jpercs': substrate_jpercs, 'substrate_percs': substrate_percs, 'substrate_r': substrate_r, 
-                'substrate_wind_jstats': substrate_wind_jstats }  #, 'substrate_jcolors': substrate_jcolors }
-                #'depth_class_sub_jstats': depth_class_sub_jstats, 'depth_class_geo_jstats': depth_class_geo_jstats,
-                #'geomorphology_sub_jstats': geomorphology_sub_jstats, 'geomorphology_dc_jstats': geomorphology_dc_jstats }
+                'substrate_wind_jstats': substrate_wind_jstats, 'wind_substrate_jstats': wind_substrate_jstats }
     return context
    
 
@@ -87,29 +75,7 @@ def sort_dict(param_dict, model_class):
     ordered_list.reverse()
     return sorted_tuples, ordered_list
       
-def get_substrate_percs(scenario, report):  
-    substrate_dict = report['substrate']
-    #substrate_dict = simplejson.loads(scenario.output_substrate_stats)    
-    substrate_percs = []
-    for key,value in substrate_dict.items():
-        perc = value / scenario.output_area * 100
-        if perc > 0:
-            substrate_percs.append( (int(perc*10 + .5) / 10., key) )
-    substrate_percs.sort()
-    substrate_jpercs = simplejson.dumps(substrate_percs)  
-    substrate_r = [y for x,y in substrate_percs]
-    substrate_r.reverse()
-    return substrate_jpercs, substrate_percs, substrate_r
-
-def get_substrate_colors(scenario, substrate_percs):
-    substrate_dict = simplejson.loads(substrate_percs)
-    substrate_colors = []
-    for key,value in substrate_dict:
-        substrate_colors.append( (value, Substrate.objects.get(name=value).color) )
-    substrate_jcolors = simplejson.dumps(substrate_colors)
-    return substrate_jcolors
-    
-def get_drill_down_stats(scenario, dictionary, outer_class, inner_class):  #add model_class to this method call 
+def get_drill_down_stats(scenario, dictionary, outer_class, inner_class):  
     stats = {}
     for outer_short_name, param_dict in dictionary.items():
         outer_name = outer_class.objects.get(short_name=outer_short_name).name
