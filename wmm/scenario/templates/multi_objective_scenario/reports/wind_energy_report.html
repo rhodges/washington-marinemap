@@ -95,13 +95,13 @@ lingcod.onShow(function() {
     process_stats_and_create_charts(substrate_geo_stats, div_suffix);
     */
     
-    /** THE DEPTH CLASS REPORTS **/
-    /*
-    // Depth Class Substrates 
-    var depth_class_sub_stats = {{ depth_class_sub_jstats|safe }};
-    div_suffix = 'sub';
-    process_stats_and_create_charts(depth_class_sub_stats, div_suffix);
+    /** THE WIND POTENTIAL REPORTS **/
     
+    // Depth Class Substrates 
+    var wind_substrate_stats = {{ wind_substrate_jstats|safe }};
+    div_suffix = 'sub';
+    process_stats_and_create_charts(wind_substrate_stats, div_suffix);
+    /*
     // Depth Class Geomorphologies 
     var depth_class_geo_stats = {{ depth_class_geo_jstats|safe }};
     div_suffix = 'geo';
@@ -222,8 +222,7 @@ lingcod.onShow(function() {
     
     //toggleReports(obj_short_name+'_extent_reports', 'toggle_extent_reports');
     toggleReports(obj_short_name+'_substrate_reports', 'toggle_substrate_reports');
-    toggleReports(obj_short_name+'_depth_class_reports', 'toggle_depth_class_reports');
-    toggleReports(obj_short_name+'_geomorphology_reports', 'toggle_geomorphology_reports');
+    toggleReports(obj_short_name+'_wind_reports', 'toggle_wind_reports');
 }); 
 
 function toggleReport(obj_id, src_id) {
@@ -274,8 +273,21 @@ function toggleReports(obj_id, src_id) {
 
 {% for substrate in substrate_list_reverse %}
 <h3>Wind Potentials (as a percentage of <b>{{substrate.name}}</b>)
-<small><small>[<a id="toggle_{{substrate}}_wind_potential" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{substrate.short_name}}_wind', 'toggle_{{substrate}}_wind_potential');">Hide</a>]</small></small></h3>
+<small><small>[<a id="toggle_{{substrate.short_name}}_wind_potential" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{substrate.short_name}}_wind', 'toggle_{{substrate.short_name}}_wind_potential');">Hide</a>]</small></small></h3>
 <div id="{{scenario.input_objective.short_name}}_{{substrate.short_name}}_wind" class="jqPlot" style="width:400px"></div>
+{% endfor %}
+
+<p></p>
+</div>
+
+<h2>Wind Potential 
+<small><small>[<a id="toggle_wind_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_wind_reports', 'toggle_wind_reports');">Hide</a>]</small></small></h2>
+<div id="{{scenario.input_objective.short_name}}_wind_reports">
+
+{% for wind in wind_potential_list_reverse %}
+<h3>Substrates (as a percentage of <b>{{wind.name}}</b>)
+<small><small>[<a id="toggle_{{wind.short_name}}_substrate" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{wind.short_name}}_sub', 'toggle_{{wind.short_name}}_substrate');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_{{wind.short_name}}_sub" class="jqPlot" style="width:400px"></div>
 {% endfor %}
 
 <p></p>
