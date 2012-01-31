@@ -20,24 +20,13 @@ lingcod.onShow(function() {
     var substrate_series = [];    
     var wind_potential_extent = {{ wind_potential_jextent|safe }};
     var wind_potential_data = [[]];
-    //var geomorphology_extent = {{ geomorphology_jextent|safe }};
-    //var geomorphology_data = [[]];
     
     // Substrate Scenario Chart
     //Not sure if the ordering for substrate data and coloring are guaranteed to match here...maybe order by area?
     //I believe ordering is working now for substrate data...need to verify...
     $.each(substrate_extent, function( index, extent_tuple) {
-        substrate_data[0].push( [extent_tuple[0], extent_tuple[1], extent_tuple[2]] );
-        //$.each(substrate_colors, function( index, color_tuple ) {
-        //    if (color_tuple[0] == extent_tuple[1]) {
-        //        substrate_series.push( color_tuple[1] );
-        //    }
-        //});
-    });
-    //$.each(substrate_colors, function( index, tuple) {
-    //    series_object_array.push( { label: tuple[0], color: tuple[1] } );
-    //});
-    //var substrate_data = [[[30,'Rock'],[25,'Mud'],[40,'Sand']]];
+        substrate_data[0].push( [extent_tuple[0], extent_tuple[1], extent_tuple[2]] );        
+    });    
     
     var substrate_div = obj_short_name+'_substrates';
     var height = bar_height * substrate_data[0].length + bar_height;
@@ -53,34 +42,7 @@ lingcod.onShow(function() {
     height = bar_height * wind_potential_data[0].length + bar_height;
     $('#'+wind_potential_div).height(height);
     chart = createChart(wind_potential_div, wind_potential_data); //, series_colors);
-    /*
-    // Geomorphology Scenario Chart
-    $.each(geomorphology_extent, function( index, extent_tuple) {
-        geomorphology_data[0].push( [extent_tuple[0], extent_tuple[1], extent_tuple[2]] );
-    });
-    var geomorphology_div = obj_short_name+'_geomorphologies';
-    height = bar_height * geomorphology_data[0].length + bar_height;
-    $('#'+geomorphology_div).height(height);
-    chart = createChart(geomorphology_div, geomorphology_data); //, series_colors);
-    */
-    
-    /*
-    var scenario_data = [substrate_data,depth_class_data, geomorphology_data];
-    var scenario_divs = [substrate_div, depth_class_div, geomorphology_div];
-    for (i=0; i<3; i++) {
-        //if (scenario_divs[i] == obj_short_name+'_substrates') {
-        //    series_colors = substrate_series;
-        //    varyColor = true;
-        //} else {
-        //    series_colors = [ '#4bb2c5' ];
-        //    varyColor = false;
-        //}
-        var height = bar_height * scenario_data[i][0].length + bar_height;
-        $('#'+scenario_divs[i]).height(height);
-        chart = createChart(scenario_divs[i], scenario_data[i]); //, series_colors);
-    };
-    */
-    
+        
     
     /*** THE SUBSTRATE REPORTS ***/
     
@@ -88,12 +50,7 @@ lingcod.onShow(function() {
     var substrate_wind_stats = {{ substrate_wind_jstats|safe }};
     div_suffix = 'wind';
     process_stats_and_create_charts(substrate_wind_stats, div_suffix);
-    /*
-    // Substrate Geomorphology 
-    var substrate_geo_stats = {{ substrate_geo_jstats|safe }};
-    div_suffix = 'geo';
-    process_stats_and_create_charts(substrate_geo_stats, div_suffix);
-    */
+    
     
     /** THE WIND POTENTIAL REPORTS **/
     
@@ -101,25 +58,7 @@ lingcod.onShow(function() {
     var wind_substrate_stats = {{ wind_substrate_jstats|safe }};
     div_suffix = 'sub';
     process_stats_and_create_charts(wind_substrate_stats, div_suffix);
-    /*
-    // Depth Class Geomorphologies 
-    var depth_class_geo_stats = {{ depth_class_geo_jstats|safe }};
-    div_suffix = 'geo';
-    process_stats_and_create_charts(depth_class_geo_stats, div_suffix);
-    */
     
-    /** THE GEOMORPHOLOGY REPORTS **/
-    /*
-    // Geomorphology Substrates 
-    var geomorphology_sub_stats = {{ geomorphology_sub_jstats|safe }};
-    div_suffix = 'sub';
-    process_stats_and_create_charts(geomorphology_sub_stats, div_suffix);
-    
-    // Geomorphology Depth Classes 
-    var geomorphology_dc_stats = {{ geomorphology_dc_jstats|safe }};
-    div_suffix = 'dc';
-    process_stats_and_create_charts(geomorphology_dc_stats, div_suffix);
-    */
     
     /** CHART FUNCTIONS **/
     
@@ -191,6 +130,7 @@ lingcod.onShow(function() {
                 tooltipOffset: 7,
                 tooltipLocation: 'n',
                 formatString: tooltip_output,
+                //fadeTooltip: false, //was hoping this would elimiate the sticky problem (tooltips aren't always removed), but no.
                 showMarker: false
             },
             axes: {
