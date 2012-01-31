@@ -633,6 +633,8 @@ class Scenario(Analysis):
         
         if self.input_objective.short_name == 'offshore_conservation':
             self.output_report = self.offshore_conservation_report(g)
+        elif self.input_objective.short_name == 'wind_energy':
+            self.output_report = self.wind_energy_report(g)
         else:
             self.output_report = simplejson.dumps({})
         
@@ -732,6 +734,48 @@ class Scenario(Analysis):
                 rerun = True
         return rerun
     
+    def wind_energy_report(self, g):
+        wind_report = {}
+        
+        # Scenario 
+        
+        #substrate stats -- collecting area (in meters) for each substrate represented in the resulting scenario
+        substrate_result = """r.mapcalc "subresult = if(rresult==1,substrate,null())" """
+        g.run(substrate_result)
+        #r.stats -an generates area stats with area totals (-a), while ignoring null values (-n) (those areas outside of overlap)
+        substrate_stats = g.run('r.stats -an input=subresult')
+        substrate_name_dict, substrate_dict = self.get_dict_from_stats(substrate_stats, Substrate)
+        wind_report['substrate']=substrate_name_dict
+                
+        #wind stats -- collecting area (in meters) for each wind energy class represented in the resulting scenario
+        wind_result = """r.mapcalc "windresult = if(rresult==1,wind,null())" """
+        g.run(wind_result)
+        #r.stats -an generates area stats with area totals (-a), while ignoring null values (-n) (those areas outside of overlap)
+        wind_stats = g.run('r.stats -an input=windresult')
+        wind_name_dict, wind_dict = self.get_dict_from_stats(wind_stats, WindPotential)
+        wind_report['wind_potential']=wind_name_dict
+        
+        # Substrate -- Drilling Down
+        
+        #substrate depth_class stats -- collecting area (in meters) of each depth class in each substrate 
+        sub_ids = substrate_dict.keys()
+        substrate_wind_dict = {}
+        for sub_id in sub_ids:
+            #generate substrate raster
+            substrate_result = """r.mapcalc "subresult_%s = if(substrate==%s,subresult,null())" """ % (sub_id, sub_id)
+            g.run(substrate_result)
+            #generate depthclass results for current substrate
+            wind_result = """r.mapcalc "substrate_%s_windresult = if(subresult_%s==%s,wind,null())" """ %(sub_id, sub_id, sub_id)
+            g.run(wind_result)
+            wind_stats = g.run('r.stats -an input=substrate_%s_windresult' %sub_id)
+            wind_name_dict, wind_dict = self.get_dict_from_stats(wind_stats, WindPotential)
+            #the following key uses Substrate.short_name to prevent html iregularities when assigning div names in report template
+            substrate_wind_dict[Substrate.objects.get(id=sub_id).short_name] = wind_name_dict
+        wind_report['substrate_wind_potential']=substrate_wind_dict
+                
+        return simplejson.dumps(wind_report)
+        
+    
     #TODO: much of the following can be factored out into helper methods...
     def offshore_conservation_report(self, g):
         offshore_report = {}
@@ -781,7 +825,7 @@ class Scenario(Analysis):
         #self.output_geomorphology_stats = simplejson.dumps(geomorphology_name_dict)
         offshore_report['geomorphology']=geomorphology_name_dict
         
-        # Substrate 
+        # Substrate -- Drilling Down
         
         #substrate depth_class stats -- collecting area (in meters) of each depth class in each substrate 
         sub_ids = substrate_dict.keys()
@@ -793,8 +837,8 @@ class Scenario(Analysis):
             #generate depthclass results for current substrate
             dc_result = """r.mapcalc "substrate_%s_dcresult = if(subresult_%s==%s,depth_class,null())" """ %(sub_id, sub_id, sub_id)
             g.run(dc_result)
-            dc_stats = g.run('r.stats -an input=substrate_%s_dcresult' %sub_id)
-            dc_name_dict = self.get_dict_from_stats(dc_stats, DepthClass)
+            sub_stats = g.run('r.stats -an input=substrate_%s_dcresult' %sub_id)
+            dc_name_dict, dc_dict = self.get_dict_from_stats(sub_stats, DepthClass)
             #the following key uses Substrate.short_name to prevent html iregularities when assigning div names in report template
             substrate_dc_dict[Substrate.objects.get(id=sub_id).short_name] = dc_name_dict
         #self.output_substrate_depth_class_stats = simplejson.dumps(substrate_dc_dict)
@@ -806,14 +850,14 @@ class Scenario(Analysis):
             #generate geomorphology results for current substrate
             geo_result = """r.mapcalc "substrate_%s_georesult = if(subresult_%s==%s,geomorphology,null())" """ %(sub_id, sub_id, sub_id)
             g.run(geo_result)
-            geo_stats = g.run('r.stats -an input=substrate_%s_georesult' %sub_id)
-            geo_name_dict = self.get_dict_from_stats(geo_stats, Geomorphology)
+            sub_stats = g.run('r.stats -an input=substrate_%s_georesult' %sub_id)
+            geo_name_dict, geo_dict = self.get_dict_from_stats(sub_stats, Geomorphology)
             #the following key uses Substrate.short_name to prevent html iregularities when assigning div names in report template
             substrate_geo_dict[Substrate.objects.get(id=sub_id).short_name] = geo_name_dict
         #self.output_substrate_geomorphology_stats = simplejson.dumps(substrate_geo_dict)
         offshore_report['substrate_geomorphology']=substrate_geo_dict
         
-        # Depth Class
+        # Depth Class -- Drilling Down
         
         #depth class geomorphology stats -- collecting area (in meters) of each geomorphology in each depth class 
         depth_class_geo_dict = {}
@@ -826,7 +870,7 @@ class Scenario(Analysis):
             dc_result = """r.mapcalc "depth_class_%s_georesult = if(dcresult_%s==%s,geomorphology,null())" """ %(dc_id, dc_id, dc_id)
             g.run(dc_result)
             dc_stats = g.run('r.stats -an input=depth_class_%s_georesult' %dc_id)
-            dc_name_dict = self.get_dict_from_stats(dc_stats, Geomorphology)
+            dc_name_dict, dc_dict = self.get_dict_from_stats(dc_stats, Geomorphology)
             depth_class_geo_dict[DepthClass.objects.get(id=dc_id).short_name] = dc_name_dict
         offshore_report['depth_class_geomorphology']=depth_class_geo_dict
         
@@ -840,7 +884,7 @@ class Scenario(Analysis):
                     depth_class_sub_dict[dc][sub] = area
         offshore_report['depth_class_substrate']=depth_class_sub_dict
         
-        # Geomorphology
+        # Geomorphology -- Drilling Down
         
         #geomorphology substrate stats -- collecting area (in meters) of each substrate in each geomorphology
         geomorphology_sub_dict = {}
@@ -868,13 +912,25 @@ class Scenario(Analysis):
         #stats is something like the following: '2 1360911.649924\n4 2940800464.852541\n'
         stats_list = stats.split()
         #stats_list becomes: ['2', '1360911.649924', '4', '2940800464.852541']
-        int_list = [int(float(x)+.5) for x in stats_list]
+        clean_list = self.clean_stats_list(stats_list)
+        int_list = [int(float(x)+.5) for x in clean_list]
         #int_list becomes: [2, 1360911, 4, 2940800464]
         stats_dict = dict(zip(int_list[::2], int_list[1::2])) 
         #stats_dict becoms: {2: 1360911, 4: 2940800464}
         name_dict = dict( map( lambda(key, value): (model_class.objects.get(id=key).short_name, value), stats_dict.items()))
         #name_dict finally becomes: {'Flat': 1360911, 'Slope': 2940800464}
-        return name_dict
+        return name_dict, stats_dict
+    
+    def clean_stats_list(self, list):
+        clean_list = []
+        #note the following '-' search is taking care to remove possible range values in stats list
+        for item in list:
+            if '-' in item:
+                clean_list.append( item[:item.find('-')] )
+            else:
+                clean_list.append(item)
+        return clean_list
+                
     
     @classmethod
     def mapnik_geomfield(self):
@@ -1164,6 +1220,7 @@ class Substrate(models.Model):
         
 class WindPotential(models.Model): 
     name = models.CharField(max_length=30)  
+    short_name = models.CharField(max_length=30, null=True, blank=True)
     density = models.CharField(max_length=30)
     speed = models.CharField(max_length=30)
 
@@ -1216,6 +1273,13 @@ class Chlorophyl(models.Model):
         return u'%s' %self.name
         
 class OffshoreConservationParameterArea(models.Model):
+    name = models.CharField(max_length=70)
+    area = models.FloatField(null=True,blank=True, verbose_name="area in meters")
+    
+    def __unicode__(self):
+        return u'%s' %self.name
+        
+class WindEnergyParameterArea(models.Model):
     name = models.CharField(max_length=70)
     area = models.FloatField(null=True,blank=True, verbose_name="area in meters")
     

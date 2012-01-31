@@ -99,8 +99,8 @@ class SubstrateAdmin(admin.ModelAdmin):
 admin.site.register(Substrate, SubstrateAdmin)
 
 class WindPotentialAdmin(admin.ModelAdmin):
-    list_display = ['name', 'id', 'density', 'speed']
-    fields = ['name', 'density', 'speed']
+    list_display = ['name', 'short_name', 'id', 'density', 'speed']
+    fields = ['name', 'short_name', 'density', 'speed']
 admin.site.register(WindPotential, WindPotentialAdmin)
 
 class DepthClassAdmin(admin.ModelAdmin):
@@ -142,6 +142,11 @@ class OffshoreConservationParameterAreaAdmin(admin.ModelAdmin):
     list_display = ['name', 'area']
     fields = ['name', 'area']
 admin.site.register(OffshoreConservationParameterArea, OffshoreConservationParameterAreaAdmin)
+
+class WindEnergyParameterAreaAdmin(admin.ModelAdmin):
+    list_display = ['name', 'area']
+    fields = ['name', 'area']
+admin.site.register(WindEnergyParameterArea, WindEnergyParameterAreaAdmin)
 
 class ConservationSiteAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'user', 'date_created', 'date_modified')
