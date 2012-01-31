@@ -1,4 +1,4 @@
-[
+[ 
     {
         "pk": 4, 
         "model": "scenario.category", 
@@ -605,6 +605,7 @@
         "fields": {
             "speed": "> 19.7 mph", 
             "name": "Superb", 
+            "short_name": "superb", 
             "density": "> 800 W/m2"
         }
     }, 
@@ -614,6 +615,7 @@
         "fields": {
             "speed": "17.9 - 19.7 mph", 
             "name": "Outstanding", 
+            "short_name": "outstanding", 
             "density": "600 - 800 W/m2"
         }
     }, 
@@ -623,6 +625,7 @@
         "fields": {
             "speed": "16.8 - 17.9 mph", 
             "name": "Excellent", 
+            "short_name": "excellent", 
             "density": "500 - 600 W/m2"
         }
     }, 
@@ -632,6 +635,7 @@
         "fields": {
             "speed": "15.7 - 16.8 mph", 
             "name": "Good", 
+            "short_name": "good", 
             "density": "400 - 500 W/m2"
         }
     }, 
@@ -641,6 +645,7 @@
         "fields": {
             "speed": "14.3 - 15.7 mph", 
             "name": "Fair", 
+            "short_name": "fair", 
             "density": "300 - 400 W/m2"
         }
     }, 
@@ -650,6 +655,7 @@
         "fields": {
             "speed": "12.5 - 14.3 mph", 
             "name": "Marginal", 
+            "short_name": "marginal", 
             "density": "200 - 300 W/m2"
         }
     }, 
@@ -659,6 +665,7 @@
         "fields": {
             "speed": "< 12.5 mph", 
             "name": "Poor", 
+            "short_name": "poor", 
             "density": "0 - 200 W/m2"
         }
     }, 
@@ -972,303 +979,7 @@
         }
     }, 
     {
-        "pk": 869, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "slope_rock", 
-            "area": 102424803.0
-        }
-    }, 
-    {
-        "pk": 870, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "slope_mud", 
-            "area": 5841324425.0
-        }
-    }, 
-    {
-        "pk": 871, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "slope_sand", 
-            "area": 342820125.0
-        }
-    }, 
-    {
-        "pk": 872, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "slope_island_rock", 
-            "area": 226819.0
-        }
-    }, 
-    {
-        "pk": 873, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "slope_boulder", 
-            "area": 127569266.0
-        }
-    }, 
-    {
-        "pk": 874, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "slope_shell", 
-            "area": 2106173.0
-        }
-    }, 
-    {
-        "pk": 875, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "basin_bathybenthal", 
-            "area": 4299087499.0
-        }
-    }, 
-    {
-        "pk": 876, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "basin_innershelf", 
-            "area": 1555328.0
-        }
-    }, 
-    {
-        "pk": 877, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "basin_mesobenthal", 
-            "area": 305492263.0
-        }
-    }, 
-    {
-        "pk": 878, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "basin_midshelf", 
-            "area": 60333750.0
-        }
-    }, 
-    {
-        "pk": 879, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "flat_midshelf", 
-            "area": 12000130097.0
-        }
-    }, 
-    {
-        "pk": 880, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "flat_innershelf", 
-            "area": 2974369619.0
-        }
-    }, 
-    {
-        "pk": 881, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "flat_mesobenthal", 
-            "area": 2030966222.0
-        }
-    }, 
-    {
-        "pk": 882, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "flat_bathybenthal", 
-            "area": 8180569538.0
-        }
-    }, 
-    {
-        "pk": 883, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "ridge_innershelf", 
-            "area": 73456826.0
-        }
-    }, 
-    {
-        "pk": 884, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "ridge_mesobenthal", 
-            "area": 886277511.0
-        }
-    }, 
-    {
-        "pk": 885, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "ridge_bathybenthal", 
-            "area": 3180191305.0
-        }
-    }, 
-    {
-        "pk": 886, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "ridge_midshelf", 
-            "area": 853518423.0
-        }
-    }, 
-    {
-        "pk": 887, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "slope_midshelf", 
-            "area": 238094733.0
-        }
-    }, 
-    {
-        "pk": 888, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "slope_innershelf", 
-            "area": 155532760.0
-        }
-    }, 
-    {
-        "pk": 889, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "slope_mesobenthal", 
-            "area": 1256542687.0
-        }
-    }, 
-    {
-        "pk": 890, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "slope_bathybenthal", 
-            "area": 4774142873.0
-        }
-    }, 
-    {
-        "pk": 744, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "boulder", 
-            "area": 377037332.0
-        }
-    }, 
-    {
-        "pk": 745, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "shell", 
-            "area": 5443647.0
-        }
-    }, 
-    {
-        "pk": 746, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "mud", 
-            "area": 28679009642.0
-        }
-    }, 
-    {
-        "pk": 747, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "sand", 
-            "area": 11587320230.0
-        }
-    }, 
-    {
-        "pk": 748, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "rock", 
-            "area": 531533207.0
-        }
-    }, 
-    {
-        "pk": 749, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "gravel", 
-            "area": 88588868.0
-        }
-    }, 
-    {
-        "pk": 750, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "island_rock", 
-            "area": 1393314.0
-        }
-    }, 
-    {
-        "pk": 751, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "bathybenthal", 
-            "area": 20434120826.0
-        }
-    }, 
-    {
-        "pk": 752, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "midshelf", 
-            "area": 13152077003.0
-        }
-    }, 
-    {
-        "pk": 753, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "innershelf", 
-            "area": 3204946936.0
-        }
-    }, 
-    {
-        "pk": 754, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "mesobenthal", 
-            "area": 4479278682.0
-        }
-    }, 
-    {
-        "pk": 755, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "slope", 
-            "area": 6424313054.0
-        }
-    }, 
-    {
-        "pk": 756, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "flat", 
-            "area": 25186067879.0
-        }
-    }, 
-    {
-        "pk": 757, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "basin", 
-            "area": 4666468840.0
-        }
-    }, 
-    {
-        "pk": 758, 
-        "model": "scenario.offshoreconservationparameterarea", 
-        "fields": {
-            "name": "ridge", 
-            "area": 4993444065.0
-        }
-    }, 
-    {
-        "pk": 759, 
+        "pk": 985, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "boulder_innershelf", 
@@ -1276,7 +987,7 @@
         }
     }, 
     {
-        "pk": 760, 
+        "pk": 986, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "boulder_mesobenthal", 
@@ -1284,7 +995,7 @@
         }
     }, 
     {
-        "pk": 761, 
+        "pk": 987, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "boulder_midshelf", 
@@ -1292,7 +1003,7 @@
         }
     }, 
     {
-        "pk": 762, 
+        "pk": 988, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "island_rock_innershelf", 
@@ -1300,7 +1011,7 @@
         }
     }, 
     {
-        "pk": 763, 
+        "pk": 989, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "island_rock_midshelf", 
@@ -1308,7 +1019,7 @@
         }
     }, 
     {
-        "pk": 764, 
+        "pk": 990, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mud_midshelf", 
@@ -1316,7 +1027,7 @@
         }
     }, 
     {
-        "pk": 765, 
+        "pk": 991, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mud_mesobenthal", 
@@ -1324,7 +1035,7 @@
         }
     }, 
     {
-        "pk": 766, 
+        "pk": 992, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mud_bathybenthal", 
@@ -1332,7 +1043,7 @@
         }
     }, 
     {
-        "pk": 767, 
+        "pk": 993, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mud_innershelf", 
@@ -1340,7 +1051,7 @@
         }
     }, 
     {
-        "pk": 768, 
+        "pk": 994, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "rock_innershelf", 
@@ -1348,7 +1059,7 @@
         }
     }, 
     {
-        "pk": 769, 
+        "pk": 995, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "rock_midshelf", 
@@ -1356,7 +1067,7 @@
         }
     }, 
     {
-        "pk": 770, 
+        "pk": 996, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "rock_mesobenthal", 
@@ -1364,7 +1075,7 @@
         }
     }, 
     {
-        "pk": 771, 
+        "pk": 997, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "rock_bathybenthal", 
@@ -1372,7 +1083,7 @@
         }
     }, 
     {
-        "pk": 772, 
+        "pk": 998, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "sand_bathybenthal", 
@@ -1380,7 +1091,7 @@
         }
     }, 
     {
-        "pk": 773, 
+        "pk": 999, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "sand_innershelf", 
@@ -1388,7 +1099,7 @@
         }
     }, 
     {
-        "pk": 774, 
+        "pk": 1000, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "sand_midshelf", 
@@ -1396,7 +1107,7 @@
         }
     }, 
     {
-        "pk": 775, 
+        "pk": 1001, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "sand_mesobenthal", 
@@ -1404,7 +1115,7 @@
         }
     }, 
     {
-        "pk": 776, 
+        "pk": 1002, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "shell_midshelf", 
@@ -1412,7 +1123,7 @@
         }
     }, 
     {
-        "pk": 777, 
+        "pk": 1003, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "shell_innershelf", 
@@ -1420,7 +1131,7 @@
         }
     }, 
     {
-        "pk": 778, 
+        "pk": 1004, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "shell_mesobenthal", 
@@ -1428,7 +1139,7 @@
         }
     }, 
     {
-        "pk": 779, 
+        "pk": 1005, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "gravel_midshelf", 
@@ -1436,7 +1147,7 @@
         }
     }, 
     {
-        "pk": 780, 
+        "pk": 1006, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "gravel_innershelf", 
@@ -1444,7 +1155,7 @@
         }
     }, 
     {
-        "pk": 781, 
+        "pk": 1007, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "gravel_mesobenthal", 
@@ -1452,7 +1163,7 @@
         }
     }, 
     {
-        "pk": 782, 
+        "pk": 1008, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "boulder_ridge", 
@@ -1460,7 +1171,7 @@
         }
     }, 
     {
-        "pk": 783, 
+        "pk": 1009, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "boulder_basin", 
@@ -1468,7 +1179,7 @@
         }
     }, 
     {
-        "pk": 784, 
+        "pk": 1010, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "boulder_slope", 
@@ -1476,7 +1187,7 @@
         }
     }, 
     {
-        "pk": 785, 
+        "pk": 1011, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "boulder_flat", 
@@ -1484,7 +1195,7 @@
         }
     }, 
     {
-        "pk": 786, 
+        "pk": 1012, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "island_rock_ridge", 
@@ -1492,7 +1203,7 @@
         }
     }, 
     {
-        "pk": 787, 
+        "pk": 1013, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "island_rock_slope", 
@@ -1500,7 +1211,7 @@
         }
     }, 
     {
-        "pk": 788, 
+        "pk": 1014, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "island_rock_flat", 
@@ -1508,7 +1219,7 @@
         }
     }, 
     {
-        "pk": 789, 
+        "pk": 1015, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "island_rock_basin", 
@@ -1516,7 +1227,7 @@
         }
     }, 
     {
-        "pk": 790, 
+        "pk": 1016, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mud_slope", 
@@ -1524,7 +1235,7 @@
         }
     }, 
     {
-        "pk": 791, 
+        "pk": 1017, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mud_flat", 
@@ -1532,7 +1243,7 @@
         }
     }, 
     {
-        "pk": 792, 
+        "pk": 1018, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mud_basin", 
@@ -1540,7 +1251,7 @@
         }
     }, 
     {
-        "pk": 793, 
+        "pk": 1019, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mud_ridge", 
@@ -1548,7 +1259,7 @@
         }
     }, 
     {
-        "pk": 794, 
+        "pk": 1020, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "rock_ridge", 
@@ -1556,7 +1267,7 @@
         }
     }, 
     {
-        "pk": 795, 
+        "pk": 1021, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "rock_slope", 
@@ -1564,7 +1275,7 @@
         }
     }, 
     {
-        "pk": 796, 
+        "pk": 1022, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "rock_flat", 
@@ -1572,7 +1283,7 @@
         }
     }, 
     {
-        "pk": 797, 
+        "pk": 1023, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "rock_basin", 
@@ -1580,7 +1291,7 @@
         }
     }, 
     {
-        "pk": 798, 
+        "pk": 1024, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "sand_ridge", 
@@ -1588,7 +1299,7 @@
         }
     }, 
     {
-        "pk": 799, 
+        "pk": 1025, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "sand_flat", 
@@ -1596,7 +1307,7 @@
         }
     }, 
     {
-        "pk": 800, 
+        "pk": 1026, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "sand_basin", 
@@ -1604,7 +1315,7 @@
         }
     }, 
     {
-        "pk": 801, 
+        "pk": 1027, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "sand_slope", 
@@ -1612,7 +1323,7 @@
         }
     }, 
     {
-        "pk": 802, 
+        "pk": 1028, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "shell_ridge", 
@@ -1620,7 +1331,7 @@
         }
     }, 
     {
-        "pk": 803, 
+        "pk": 1029, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "shell_flat", 
@@ -1628,7 +1339,7 @@
         }
     }, 
     {
-        "pk": 804, 
+        "pk": 1030, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "shell_slope", 
@@ -1636,7 +1347,7 @@
         }
     }, 
     {
-        "pk": 805, 
+        "pk": 1031, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "gravel_slope", 
@@ -1644,7 +1355,7 @@
         }
     }, 
     {
-        "pk": 806, 
+        "pk": 1032, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "gravel_basin", 
@@ -1652,7 +1363,7 @@
         }
     }, 
     {
-        "pk": 807, 
+        "pk": 1033, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "gravel_ridge", 
@@ -1660,7 +1371,7 @@
         }
     }, 
     {
-        "pk": 808, 
+        "pk": 1034, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "gravel_flat", 
@@ -1668,7 +1379,7 @@
         }
     }, 
     {
-        "pk": 809, 
+        "pk": 1035, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "bathybenthal_rock", 
@@ -1676,7 +1387,7 @@
         }
     }, 
     {
-        "pk": 810, 
+        "pk": 1036, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "bathybenthal_sand", 
@@ -1684,7 +1395,7 @@
         }
     }, 
     {
-        "pk": 811, 
+        "pk": 1037, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "bathybenthal_mud", 
@@ -1692,7 +1403,7 @@
         }
     }, 
     {
-        "pk": 812, 
+        "pk": 1038, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "innershelf_island_rock", 
@@ -1700,7 +1411,7 @@
         }
     }, 
     {
-        "pk": 813, 
+        "pk": 1039, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "innershelf_rock", 
@@ -1708,7 +1419,7 @@
         }
     }, 
     {
-        "pk": 814, 
+        "pk": 1040, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "innershelf_sand", 
@@ -1716,7 +1427,7 @@
         }
     }, 
     {
-        "pk": 815, 
+        "pk": 1041, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "innershelf_shell", 
@@ -1724,7 +1435,7 @@
         }
     }, 
     {
-        "pk": 816, 
+        "pk": 1042, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "innershelf_gravel", 
@@ -1732,7 +1443,7 @@
         }
     }, 
     {
-        "pk": 817, 
+        "pk": 1043, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "innershelf_boulder", 
@@ -1740,7 +1451,7 @@
         }
     }, 
     {
-        "pk": 818, 
+        "pk": 1044, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "innershelf_mud", 
@@ -1748,7 +1459,7 @@
         }
     }, 
     {
-        "pk": 819, 
+        "pk": 1045, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mesobenthal_shell", 
@@ -1756,7 +1467,7 @@
         }
     }, 
     {
-        "pk": 820, 
+        "pk": 1046, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mesobenthal_gravel", 
@@ -1764,7 +1475,7 @@
         }
     }, 
     {
-        "pk": 821, 
+        "pk": 1047, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mesobenthal_rock", 
@@ -1772,7 +1483,7 @@
         }
     }, 
     {
-        "pk": 822, 
+        "pk": 1048, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mesobenthal_sand", 
@@ -1780,7 +1491,7 @@
         }
     }, 
     {
-        "pk": 823, 
+        "pk": 1049, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mesobenthal_mud", 
@@ -1788,7 +1499,7 @@
         }
     }, 
     {
-        "pk": 824, 
+        "pk": 1050, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mesobenthal_boulder", 
@@ -1796,7 +1507,7 @@
         }
     }, 
     {
-        "pk": 825, 
+        "pk": 1051, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "midshelf_rock", 
@@ -1804,7 +1515,7 @@
         }
     }, 
     {
-        "pk": 826, 
+        "pk": 1052, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "midshelf_island_rock", 
@@ -1812,7 +1523,7 @@
         }
     }, 
     {
-        "pk": 827, 
+        "pk": 1053, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "midshelf_gravel", 
@@ -1820,7 +1531,7 @@
         }
     }, 
     {
-        "pk": 828, 
+        "pk": 1054, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "midshelf_mud", 
@@ -1828,7 +1539,7 @@
         }
     }, 
     {
-        "pk": 829, 
+        "pk": 1055, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "midshelf_sand", 
@@ -1836,7 +1547,7 @@
         }
     }, 
     {
-        "pk": 830, 
+        "pk": 1056, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "midshelf_boulder", 
@@ -1844,7 +1555,7 @@
         }
     }, 
     {
-        "pk": 831, 
+        "pk": 1057, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "midshelf_shell", 
@@ -1852,7 +1563,7 @@
         }
     }, 
     {
-        "pk": 832, 
+        "pk": 1058, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "bathybenthal_flat", 
@@ -1860,7 +1571,7 @@
         }
     }, 
     {
-        "pk": 833, 
+        "pk": 1059, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "bathybenthal_basin", 
@@ -1868,7 +1579,7 @@
         }
     }, 
     {
-        "pk": 834, 
+        "pk": 1060, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "bathybenthal_slope", 
@@ -1876,7 +1587,7 @@
         }
     }, 
     {
-        "pk": 835, 
+        "pk": 1061, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "bathybenthal_ridge", 
@@ -1884,7 +1595,7 @@
         }
     }, 
     {
-        "pk": 836, 
+        "pk": 1062, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "innershelf_slope", 
@@ -1892,7 +1603,7 @@
         }
     }, 
     {
-        "pk": 837, 
+        "pk": 1063, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "innershelf_ridge", 
@@ -1900,7 +1611,127 @@
         }
     }, 
     {
-        "pk": 838, 
+        "pk": 970, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "boulder", 
+            "area": 377037332.0
+        }
+    }, 
+    {
+        "pk": 971, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "shell", 
+            "area": 5443647.0
+        }
+    }, 
+    {
+        "pk": 972, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mud", 
+            "area": 28679009642.0
+        }
+    }, 
+    {
+        "pk": 973, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "sand", 
+            "area": 11587320230.0
+        }
+    }, 
+    {
+        "pk": 974, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "rock", 
+            "area": 531533207.0
+        }
+    }, 
+    {
+        "pk": 975, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "gravel", 
+            "area": 88588868.0
+        }
+    }, 
+    {
+        "pk": 976, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "island_rock", 
+            "area": 1393314.0
+        }
+    }, 
+    {
+        "pk": 977, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "bathybenthal", 
+            "area": 20434120826.0
+        }
+    }, 
+    {
+        "pk": 978, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "midshelf", 
+            "area": 13152077003.0
+        }
+    }, 
+    {
+        "pk": 979, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "innershelf", 
+            "area": 3204946936.0
+        }
+    }, 
+    {
+        "pk": 980, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "mesobenthal", 
+            "area": 4479278682.0
+        }
+    }, 
+    {
+        "pk": 981, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope", 
+            "area": 6424313054.0
+        }
+    }, 
+    {
+        "pk": 982, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat", 
+            "area": 25186067879.0
+        }
+    }, 
+    {
+        "pk": 983, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin", 
+            "area": 4666468840.0
+        }
+    }, 
+    {
+        "pk": 984, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge", 
+            "area": 4993444065.0
+        }
+    }, 
+    {
+        "pk": 1064, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "innershelf_flat", 
@@ -1908,7 +1739,7 @@
         }
     }, 
     {
-        "pk": 839, 
+        "pk": 1065, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "innershelf_basin", 
@@ -1916,7 +1747,7 @@
         }
     }, 
     {
-        "pk": 840, 
+        "pk": 1066, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mesobenthal_flat", 
@@ -1924,7 +1755,7 @@
         }
     }, 
     {
-        "pk": 841, 
+        "pk": 1067, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mesobenthal_ridge", 
@@ -1932,7 +1763,7 @@
         }
     }, 
     {
-        "pk": 842, 
+        "pk": 1068, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mesobenthal_slope", 
@@ -1940,7 +1771,7 @@
         }
     }, 
     {
-        "pk": 843, 
+        "pk": 1069, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "mesobenthal_basin", 
@@ -1948,7 +1779,7 @@
         }
     }, 
     {
-        "pk": 844, 
+        "pk": 1070, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "midshelf_slope", 
@@ -1956,7 +1787,7 @@
         }
     }, 
     {
-        "pk": 845, 
+        "pk": 1071, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "midshelf_ridge", 
@@ -1964,7 +1795,7 @@
         }
     }, 
     {
-        "pk": 846, 
+        "pk": 1072, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "midshelf_flat", 
@@ -1972,7 +1803,7 @@
         }
     }, 
     {
-        "pk": 847, 
+        "pk": 1073, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "midshelf_basin", 
@@ -1980,7 +1811,7 @@
         }
     }, 
     {
-        "pk": 848, 
+        "pk": 1074, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "basin_gravel", 
@@ -1988,7 +1819,7 @@
         }
     }, 
     {
-        "pk": 849, 
+        "pk": 1075, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "basin_mud", 
@@ -1996,7 +1827,7 @@
         }
     }, 
     {
-        "pk": 850, 
+        "pk": 1076, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "basin_sand", 
@@ -2004,7 +1835,7 @@
         }
     }, 
     {
-        "pk": 851, 
+        "pk": 1077, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "basin_island_rock", 
@@ -2012,7 +1843,7 @@
         }
     }, 
     {
-        "pk": 852, 
+        "pk": 1078, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "basin_rock", 
@@ -2020,7 +1851,7 @@
         }
     }, 
     {
-        "pk": 853, 
+        "pk": 1079, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "basin_boulder", 
@@ -2028,7 +1859,7 @@
         }
     }, 
     {
-        "pk": 854, 
+        "pk": 1080, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "flat_gravel", 
@@ -2036,7 +1867,7 @@
         }
     }, 
     {
-        "pk": 855, 
+        "pk": 1081, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "flat_mud", 
@@ -2044,7 +1875,7 @@
         }
     }, 
     {
-        "pk": 856, 
+        "pk": 1082, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "flat_sand", 
@@ -2052,7 +1883,7 @@
         }
     }, 
     {
-        "pk": 857, 
+        "pk": 1083, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "flat_island_rock", 
@@ -2060,7 +1891,7 @@
         }
     }, 
     {
-        "pk": 858, 
+        "pk": 1084, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "flat_boulder", 
@@ -2068,7 +1899,7 @@
         }
     }, 
     {
-        "pk": 859, 
+        "pk": 1085, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "flat_shell", 
@@ -2076,7 +1907,7 @@
         }
     }, 
     {
-        "pk": 860, 
+        "pk": 1086, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "flat_rock", 
@@ -2084,7 +1915,7 @@
         }
     }, 
     {
-        "pk": 861, 
+        "pk": 1087, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "ridge_island_rock", 
@@ -2092,7 +1923,7 @@
         }
     }, 
     {
-        "pk": 862, 
+        "pk": 1088, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "ridge_shell", 
@@ -2100,7 +1931,7 @@
         }
     }, 
     {
-        "pk": 863, 
+        "pk": 1089, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "ridge_boulder", 
@@ -2108,7 +1939,7 @@
         }
     }, 
     {
-        "pk": 864, 
+        "pk": 1090, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "ridge_gravel", 
@@ -2116,7 +1947,7 @@
         }
     }, 
     {
-        "pk": 865, 
+        "pk": 1091, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "ridge_mud", 
@@ -2124,7 +1955,7 @@
         }
     }, 
     {
-        "pk": 866, 
+        "pk": 1092, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "ridge_sand", 
@@ -2132,7 +1963,7 @@
         }
     }, 
     {
-        "pk": 867, 
+        "pk": 1093, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "ridge_rock", 
@@ -2140,11 +1971,819 @@
         }
     }, 
     {
-        "pk": 868, 
+        "pk": 1094, 
         "model": "scenario.offshoreconservationparameterarea", 
         "fields": {
             "name": "slope_gravel", 
             "area": 7841443.0
+        }
+    }, 
+    {
+        "pk": 1095, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_rock", 
+            "area": 102424803.0
+        }
+    }, 
+    {
+        "pk": 1096, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_mud", 
+            "area": 5841324425.0
+        }
+    }, 
+    {
+        "pk": 1097, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_sand", 
+            "area": 342820125.0
+        }
+    }, 
+    {
+        "pk": 1098, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_island_rock", 
+            "area": 226819.0
+        }
+    }, 
+    {
+        "pk": 1099, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_boulder", 
+            "area": 127569266.0
+        }
+    }, 
+    {
+        "pk": 1100, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_shell", 
+            "area": 2106173.0
+        }
+    }, 
+    {
+        "pk": 1101, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin_bathybenthal", 
+            "area": 4299087499.0
+        }
+    }, 
+    {
+        "pk": 1102, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin_innershelf", 
+            "area": 1555328.0
+        }
+    }, 
+    {
+        "pk": 1103, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin_mesobenthal", 
+            "area": 305492263.0
+        }
+    }, 
+    {
+        "pk": 1104, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "basin_midshelf", 
+            "area": 60333750.0
+        }
+    }, 
+    {
+        "pk": 1105, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_midshelf", 
+            "area": 12000130097.0
+        }
+    }, 
+    {
+        "pk": 1106, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_innershelf", 
+            "area": 2974369619.0
+        }
+    }, 
+    {
+        "pk": 1107, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_mesobenthal", 
+            "area": 2030966222.0
+        }
+    }, 
+    {
+        "pk": 1108, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "flat_bathybenthal", 
+            "area": 8180569538.0
+        }
+    }, 
+    {
+        "pk": 1109, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_innershelf", 
+            "area": 73456826.0
+        }
+    }, 
+    {
+        "pk": 1110, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_mesobenthal", 
+            "area": 886277511.0
+        }
+    }, 
+    {
+        "pk": 1111, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_bathybenthal", 
+            "area": 3180191305.0
+        }
+    }, 
+    {
+        "pk": 1112, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "ridge_midshelf", 
+            "area": 853518423.0
+        }
+    }, 
+    {
+        "pk": 1113, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_midshelf", 
+            "area": 238094733.0
+        }
+    }, 
+    {
+        "pk": 1114, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_innershelf", 
+            "area": 155532760.0
+        }
+    }, 
+    {
+        "pk": 1115, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_mesobenthal", 
+            "area": 1256542687.0
+        }
+    }, 
+    {
+        "pk": 1116, 
+        "model": "scenario.offshoreconservationparameterarea", 
+        "fields": {
+            "name": "slope_bathybenthal", 
+            "area": 4774142873.0
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "boulder", 
+            "area": 377037332.0
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "shell", 
+            "area": 5443647.0
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "mud", 
+            "area": 28679009642.0
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "sand", 
+            "area": 11587320230.0
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "rock", 
+            "area": 531533207.0
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "gravel", 
+            "area": 88588868.0
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "island_rock", 
+            "area": 1393314.0
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "poor", 
+            "area": 527774499.0
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "good", 
+            "area": 2017583924.0
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "fair", 
+            "area": 1380936493.0
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "outstanding", 
+            "area": 68596428.0
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "marginal", 
+            "area": 1622109479.0
+        }
+    }, 
+    {
+        "pk": 13, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "excellent", 
+            "area": 3542712246.0
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "boulder_fair", 
+            "area": 32403.0
+        }
+    }, 
+    {
+        "pk": 15, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "boulder_good", 
+            "area": 3920722.0
+        }
+    }, 
+    {
+        "pk": 16, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "boulder_excellent", 
+            "area": 60139334.0
+        }
+    }, 
+    {
+        "pk": 17, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "island_rock_fair", 
+            "area": 97208.0
+        }
+    }, 
+    {
+        "pk": 18, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "island_rock_excellent", 
+            "area": 97208.0
+        }
+    }, 
+    {
+        "pk": 19, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "island_rock_good", 
+            "area": 1134093.0
+        }
+    }, 
+    {
+        "pk": 20, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "mud_outstanding", 
+            "area": 12701842.0
+        }
+    }, 
+    {
+        "pk": 21, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "mud_marginal", 
+            "area": 3791111.0
+        }
+    }, 
+    {
+        "pk": 22, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "mud_excellent", 
+            "area": 241270194.0
+        }
+    }, 
+    {
+        "pk": 23, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "mud_poor", 
+            "area": 32403.0
+        }
+    }, 
+    {
+        "pk": 24, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "mud_good", 
+            "area": 72614357.0
+        }
+    }, 
+    {
+        "pk": 25, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "mud_fair", 
+            "area": 5314036.0
+        }
+    }, 
+    {
+        "pk": 26, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "rock_good", 
+            "area": 92282771.0
+        }
+    }, 
+    {
+        "pk": 27, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "rock_fair", 
+            "area": 42155858.0
+        }
+    }, 
+    {
+        "pk": 28, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "rock_excellent", 
+            "area": 18631529.0
+        }
+    }, 
+    {
+        "pk": 29, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "rock_marginal", 
+            "area": 24658423.0
+        }
+    }, 
+    {
+        "pk": 30, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "rock_poor", 
+            "area": 63185184.0
+        }
+    }, 
+    {
+        "pk": 31, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "sand_outstanding", 
+            "area": 55894586.0
+        }
+    }, 
+    {
+        "pk": 32, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "sand_fair", 
+            "area": 400432052.0
+        }
+    }, 
+    {
+        "pk": 33, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "sand_marginal", 
+            "area": 757476944.0
+        }
+    }, 
+    {
+        "pk": 34, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "sand_excellent", 
+            "area": 3150769691.0
+        }
+    }, 
+    {
+        "pk": 35, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "sand_poor", 
+            "area": 105924290.0
+        }
+    }, 
+    {
+        "pk": 36, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "sand_good", 
+            "area": 1406988230.0
+        }
+    }, 
+    {
+        "pk": 37, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "shell_good", 
+            "area": 518443.0
+        }
+    }, 
+    {
+        "pk": 38, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "shell_marginal", 
+            "area": 1944159.0
+        }
+    }, 
+    {
+        "pk": 39, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "shell_poor", 
+            "area": 1555328.0
+        }
+    }, 
+    {
+        "pk": 40, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "shell_fair", 
+            "area": 842469.0
+        }
+    }, 
+    {
+        "pk": 41, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "shell_excellent", 
+            "area": 259221.0
+        }
+    }, 
+    {
+        "pk": 42, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "gravel_fair", 
+            "area": 3791111.0
+        }
+    }, 
+    {
+        "pk": 43, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "gravel_good", 
+            "area": 28741158.0
+        }
+    }, 
+    {
+        "pk": 44, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "gravel_excellent", 
+            "area": 39790464.0
+        }
+    }, 
+    {
+        "pk": 45, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "gravel_marginal", 
+            "area": 9850408.0
+        }
+    }, 
+    {
+        "pk": 46, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "gravel_poor", 
+            "area": 1004482.0
+        }
+    }, 
+    {
+        "pk": 47, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "poor_gravel", 
+            "area": 1004482.0
+        }
+    }, 
+    {
+        "pk": 48, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "poor_rock", 
+            "area": 63185184.0
+        }
+    }, 
+    {
+        "pk": 49, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "poor_sand", 
+            "area": 105924290.0
+        }
+    }, 
+    {
+        "pk": 50, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "poor_shell", 
+            "area": 1555328.0
+        }
+    }, 
+    {
+        "pk": 51, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "poor_mud", 
+            "area": 32403.0
+        }
+    }, 
+    {
+        "pk": 52, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "marginal_mud", 
+            "area": 3791111.0
+        }
+    }, 
+    {
+        "pk": 53, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "marginal_shell", 
+            "area": 1944159.0
+        }
+    }, 
+    {
+        "pk": 54, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "marginal_rock", 
+            "area": 24658423.0
+        }
+    }, 
+    {
+        "pk": 55, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "marginal_gravel", 
+            "area": 9850408.0
+        }
+    }, 
+    {
+        "pk": 56, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "marginal_sand", 
+            "area": 757476944.0
+        }
+    }, 
+    {
+        "pk": 57, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "fair_boulder", 
+            "area": 32403.0
+        }
+    }, 
+    {
+        "pk": 58, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "fair_sand", 
+            "area": 400432052.0
+        }
+    }, 
+    {
+        "pk": 59, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "fair_shell", 
+            "area": 842469.0
+        }
+    }, 
+    {
+        "pk": 60, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "fair_island_rock", 
+            "area": 97208.0
+        }
+    }, 
+    {
+        "pk": 61, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "fair_mud", 
+            "area": 5314036.0
+        }
+    }, 
+    {
+        "pk": 62, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "fair_rock", 
+            "area": 42155858.0
+        }
+    }, 
+    {
+        "pk": 63, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "fair_gravel", 
+            "area": 3791111.0
+        }
+    }, 
+    {
+        "pk": 64, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "good_rock", 
+            "area": 92282771.0
+        }
+    }, 
+    {
+        "pk": 65, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "good_boulder", 
+            "area": 3920722.0
+        }
+    }, 
+    {
+        "pk": 66, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "good_mud", 
+            "area": 72614357.0
+        }
+    }, 
+    {
+        "pk": 67, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "good_island_rock", 
+            "area": 1134093.0
+        }
+    }, 
+    {
+        "pk": 68, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "good_gravel", 
+            "area": 28741158.0
+        }
+    }, 
+    {
+        "pk": 69, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "good_sand", 
+            "area": 1406988230.0
+        }
+    }, 
+    {
+        "pk": 70, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "good_shell", 
+            "area": 518443.0
+        }
+    }, 
+    {
+        "pk": 71, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "excellent_gravel", 
+            "area": 39790464.0
+        }
+    }, 
+    {
+        "pk": 72, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "excellent_rock", 
+            "area": 18631529.0
+        }
+    }, 
+    {
+        "pk": 73, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "excellent_island_rock", 
+            "area": 97208.0
+        }
+    }, 
+    {
+        "pk": 74, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "excellent_mud", 
+            "area": 241270194.0
+        }
+    }, 
+    {
+        "pk": 75, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "excellent_sand", 
+            "area": 3150769691.0
+        }
+    }, 
+    {
+        "pk": 76, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "excellent_boulder", 
+            "area": 60139334.0
+        }
+    }, 
+    {
+        "pk": 77, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "excellent_shell", 
+            "area": 259221.0
+        }
+    }, 
+    {
+        "pk": 78, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "outstanding_mud", 
+            "area": 12701842.0
+        }
+    }, 
+    {
+        "pk": 79, 
+        "model": "scenario.windenergyparameterarea", 
+        "fields": {
+            "name": "outstanding_sand", 
+            "area": 55894586.0
         }
     }
 ]
