@@ -29,6 +29,7 @@ TEMPLATE_DIRS = ( os.path.realpath(os.path.join(os.path.dirname(__file__), 'temp
 INSTALLED_APPS += ( 'lingcod.analysistools', 
                     'scenario',
                     'smp',
+                    'folder',
                     'django.contrib.humanize',
                     'wmm_manipulators',
                     'lingcod.raster_stats')

@@ -16,7 +16,7 @@
             var selected_y = $('select.y-axis').val();
                         
             //if (selected_x != selected_y) {
-            $.post('scenario/tradeoff/show-analysis', {'folder_id': folder_id, 'selected_x': selected_x, 'selected_y': selected_y}, function(data) {
+            $.post('folder/tradeoff/show-analysis', {'folder_id': folder_id, 'selected_x': selected_x, 'selected_y': selected_y}, function(data) {
                 $('#Tradeoff_Analysis').html(data);
             });
             $('#Tradeoff_Instructions').hide();
@@ -37,7 +37,7 @@
         });
         
         $('#table_button').click( function(event) {
-            $.post('scenario/tradeoff/show-table', {'folder_id': folder_id}, function(data) {
+            $.post('folder/tradeoff/show-table', {'folder_id': folder_id}, function(data) {
                 $('#Tradeoff_Table').html(data);
             });
         });

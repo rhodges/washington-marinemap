@@ -14,51 +14,6 @@ from utils import miles_to_meters, feet_to_meters, intcomma
 
 
 @register
-class Folder(FeatureCollection):
-    description = models.TextField(null=True,blank=True)
-    
-    @property
-    def num_scenarios(self):
-        count = 0
-        for object in self.feature_set():
-            if object.__class__ == MOS:
-                count += 1
-        return count
-        
-    @property
-    def num_conservation_sites(self):
-        count = 0
-        for object in self.feature_set():
-            if object.__class__ == ConservationSite:
-                count += 1
-        return count
-        
-    @property
-    def num_windenergy_sites(self):
-        count = 0
-        for object in self.feature_set():
-            if object.__class__ == WindEnergySite:
-                count += 1
-        return count
-        
-    class Options:
-        verbose_name = 'Folder'
-        valid_children = ( 'scenario.models.MOS', 
-                           'scenario.models.ConservationSite',
-                           'scenario.models.WindEnergySite',
-                           'smp.models.SMPSite',
-                           'scenario.models.AOI', 
-                           'scenario.models.POI', 
-                           'scenario.models.LOI', 
-                           'scenario.models.UserKml', 
-                           'lingcod.bookmarks.models.Bookmark', 
-                           'scenario.models.Folder')
-        form = 'scenario.forms.FolderForm'
-        form_template = 'folder/form.html'
-        show_template = 'folder/show.html'
-        icon_url = 'wmm/img/folder.png'
-
-@register
 class MOS(Feature):
     scenarios = models.ManyToManyField("Scenario", null=True, blank=True)
     input_objectives = models.ManyToManyField("Objective", null=True, blank=True)
