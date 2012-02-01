@@ -15,18 +15,6 @@ class ConservationSiteForm(SpatialFeatureForm):
 class WindEnergySiteForm(SpatialFeatureForm):
     class Meta(SpatialFeatureForm.Meta):
         model = WindEnergySite
-            
-class AoiForm(SpatialFeatureForm):
-    class Meta(SpatialFeatureForm.Meta):
-        model = AOI
-
-class LoiForm(SpatialFeatureForm):
-    class Meta(SpatialFeatureForm.Meta):
-        model = LOI
-
-class PoiForm(SpatialFeatureForm):
-    class Meta(SpatialFeatureForm.Meta):
-        model = POI
 
 class UserKmlForm(FeatureForm):
     class Meta(FeatureForm.Meta):
