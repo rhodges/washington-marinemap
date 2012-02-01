@@ -5,7 +5,7 @@ from lingcod.common.utils import LargestPolyFromMulti
 #from scenario.models import Scenario
 from wmm.wmm_manipulators.models import *
 
-very_small_area = .0000000000001
+very_small_area = .000000001
    
 class TerrestrialOnlyManipulator(ClipToShapeManipulator):
 
