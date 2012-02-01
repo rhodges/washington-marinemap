@@ -44,8 +44,8 @@ class Folder(FeatureCollection):
                            'scenario.models.LOI', 
                            'scenario.models.UserKml', 
                            'lingcod.bookmarks.models.Bookmark', 
-                           'folder.models.Folder')
-        form = 'folder.forms.FolderForm'
+                           'general.models.Folder')
+        form = 'general.forms.FolderForm'
         form_template = 'folder/form.html'
         show_template = 'folder/show.html'
         icon_url = 'wmm/img/folder.png'
