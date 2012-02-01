@@ -31,14 +31,14 @@ class TerrestrialOnlyManipulator(ClipToShapeManipulator):
 
 manipulatorsDict[TerrestrialOnlyManipulator.Options.name] = TerrestrialOnlyManipulator        
    
-class MarineOnlyManipulator(ClipToShapeManipulator):
+class MarineOnlyManipulator(DifferenceFromShapeManipulator):
 
     def __init__(self, target_shape, **kwargs):
         self.zero = very_small_area
         self.target_shape = target_shape
         try:
-            self.clip_against = Marine.objects.current().geometry
-            self.clip_against.transform(settings.GEOMETRY_CLIENT_SRID)
+            self.diff_geom = Terrestrial.objects.current().geometry
+            self.diff_geom.transform(settings.GEOMETRY_CLIENT_SRID)
         except Exception, e:
             raise self.InternalException("Exception raised in MarineOnlyManipulator while obtaining geometry from database: " + e.message)    
 
