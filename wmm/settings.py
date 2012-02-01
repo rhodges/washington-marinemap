@@ -30,7 +30,7 @@ INSTALLED_APPS += ( 'lingcod.analysistools',
                     'scenario',
                     'smp',
                     'aoi',
-                    'folder',
+                    'general',
                     'django.contrib.humanize',
                     'wmm_manipulators',
                     'lingcod.raster_stats')
