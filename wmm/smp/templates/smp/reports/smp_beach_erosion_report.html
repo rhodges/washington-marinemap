@@ -1,0 +1,171 @@
+{% extends 'common/panel.html' %}
+
+{% load percentage %}
+
+{% block title %}SMP Characterization Site Report{% endblock %}
+{% block panel %}
+
+<div class='freetext'>
+<h3>Slope <small><small>[<a id="slope_link" href="javascript:toggleDiv('slope', 'slope_link');">Learn More</a>]</small></small></h3>
+<div id="slope" style="display: none">
+    <p>The slope of the shoreline is relevant to beach erosion as those areas with greater slopes are often more prone to continued erosion than those areas with lesser slopes.  
+</div>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td><b>Average Slope</b></td>
+            <td><b>Min Slope</b></td>
+            <td><b>Max Slope</b></td>
+        </tr>
+        <tr>
+            <td>{{avg_slope|floatformat:1}}&deg;</td>
+            <td>{{min_slope|floatformat:1}}&deg;</td>
+            <td>{{max_slope|floatformat:1}}&deg;</td>
+        </tr>
+    </tbody>
+</table>
+<h3>Structures <small><small>[<a id="structures_link" href="javascript:toggleDiv('structures', 'structures_link');">Learn More</a>]</small></small></h3>
+<div id="structures" style="display: none">
+    <p>The inclusion of overwater structures is important for beach erosion as some structures could disrupt beach sediment transport or increase the amount of erosion.
+</div>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Number of Structures by Type</b></td>
+            <td></td>
+        </tr>
+        {% if structure_tuples.0 %}
+        {% for tuple in structure_tuples %}
+        <tr>
+            <td></td>
+            <td>{{tuple.0}} ({{tuple.1}})</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+<h3>Drift <small><small>[<a id="drift_link" href="javascript:toggleDiv('drift', 'drift_link');">Learn More</a>]</small></small></h3>
+<div id="drift" style="display: none">
+    <p>The inclusion of drift cells, which represent the direction of longshore transport for water and sediment, can be used to determine direction of longshore sediment transport. Knowledge of longshore transport direction is important for determining where eroded sediment will be transport to, thus informing mitigation strategies.
+</div>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Areas of Drift</b></td>
+            <td></td>
+        </tr>
+        {% if drift_cell_tuples.0 %}
+        {% for tuple in drift_cell_tuples %}
+        <tr>
+            <td></td>
+            <td>{{tuple.1}} ({{tuple.0|floatformat:1}} miles)</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Estimated Percentage of Shoreline Modification</b></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{{shoremod_perc|percentage:0}} </td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<h3>Exposure <small><small>[<a id="exposure_link" href="javascript:toggleDiv('exposure', 'exposure_link');">Learn More</a>]</small></small></h3>
+<div id="exposure" style="display: none">
+    <p>The exposure of shoreline and nearshore represents the vulnerability of an area to erosion. The more exposed a shoreline, the more likely erosion could occur. 
+</div>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td><b>Percent Exposed</b></td>
+            <td></td>
+            <td><b>Percent Very Exposed</b></td>
+        </tr>
+        <tr>
+            <td>{% if exposed.0 %}{{exposed.0|percentage:1}}{% else %}None Found{% endif %}</td>
+            <td></td>
+            <td>{% if very_exposed.0 %}{{very_exposed.0|percentage:1}}{% else %}None Found{% endif %}</td>
+        </tr>
+    </tbody>
+</table>
+<h3>Substrate/Vegetation <small><small>[<a id="sub_veg_link" href="javascript:toggleDiv('sub_veg', 'sub_veg_link');">Learn More</a>]</small></small></h3>
+<div id="sub_veg" style="display: none">
+    <p>The substrate of shoreline can control the rate of erosion; rocky or hard substrates are harder to erode than unconsolidated sediments like sand, gravel and muds. The presence of vegetation along a shoreline can help reduce the susceptibility to erosion. 
+</div>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td><b>Percent Sand</b></td>
+            <td><b>Percent Sand/Mud</b></td>
+            <td><b>Percent Sand/Gravel</b></td>
+        </tr>
+        <tr>
+            <td>{% if sand.0 %}{{sand.0|percentage:1}}{% else %}None Found{% endif %}</td>
+            <td>{% if sand_mud.0 %}{{sand_mud.0|percentage:1}}{% else %}None Found{% endif %}</td>
+            <td>{% if sand_gravel.0 %}{{sand_gravel.0|percentage:1}}{% else %}None Found{% endif %}</td>
+        </tr>
+    </tbody>
+</table>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td><b>Percent Seagrass</b></td>
+            <td><b>Percent Saltmarsh</b></td>
+            <td><b>Percent Surfgrass</b></td>
+        </tr>
+        <tr>
+            <td>{% if seagrass.0 %}{{seagrass.0|percentage:1}}{% else %}None Found{% endif %}</td>
+            <td>{% if saltmarsh.0 %}{{saltmarsh.0|percentage:1}}{% else %}None Found{% endif %}</td>
+            <td>{% if surfgrass.0 %}{{surfgrass.0|percentage:1}}{% else %}None Found{% endif %}</td>
+        </tr>
+    </tbody>
+</table>
+
+<p></p>
+
+</div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script type="text/javascript">
+function toggleDiv(divId, srcId) {
+   $("#"+divId).toggle();
+    if ($("#"+srcId).text() == 'Learn More') { 
+        $("#"+srcId).text('Hide Text'); 
+    } else { 
+        $("#"+srcId).text('Learn More'); 
+    }
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'common/panel.html' %}
+
+{% block title %}SMP Characterization Site Report{% endblock %}
+{% block panel %}
+
+<div class='freetext'>
+<h3>Land Use <small><small>[<a id="landuse_pu_link" href="javascript:toggleDiv('landuse_pu', 'landuse_pu_link');">Learn More</a>]</small></small></h3>
+<div id="landuse_pu" style="display: none">
+    <p>Undeveloped land is important for determining future public access. Undeveloped parcels identified along stretches of shoreline without public access could be suggested to provide facilities for public beach and shoreline access. 
+</div>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Undeveloped Land Uses</b></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            {% if undeveloped_area == 0.0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{undeveloped_area|floatformat:2}} sq miles</td>
+            {% endif %}
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<h3>Beach Access <small><small>[<a id="beach_access_link" href="javascript:toggleDiv('beach_access', 'beach_access_link');">Learn More</a>]</small></small></h3>
+<div id="beach_access" style="display: none">
+    <p>Beach access data are important to identify current beach access locations and could be used to identify gaps in beach access, that is stretches of shoreline without public access.
+</div>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Public Access Sites</b></td>
+            <td></td>
+        </tr>
+        {% if access_sites.0 %}
+        {% for tuple in access_sites %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><b>{{tuple.0}}</b></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><i>Description:</i> {{tuple.1}}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><i>Type:</i> {{tuple.2}}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+<p>
+
+</div>
+{% endblock %}
