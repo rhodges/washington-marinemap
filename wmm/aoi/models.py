@@ -10,7 +10,7 @@ from lingcod.raster_stats.models import RasterDataset, zonal_stats
 @register
 class AOI(PolygonFeature):
     description = models.TextField(null=True,blank=True)
-    geometry_hash = models.IntegerField(null=True, blank=True)
+    geometry_hash = models.BigIntegerField(null=True, blank=True)
     benthic_score = models.IntegerField(verbose_name='Benthic Conservation Score', null=True, blank=True)
     
     @property
