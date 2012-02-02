@@ -78,8 +78,8 @@ class SMPSite(PolygonFeature):
     class Options:
         verbose_name = 'SMP Characterization Site'
         form = 'smp.forms.SMPSiteForm'
-        form_template = 'form.html'
-        show_template = 'show.html'
+        form_template = 'smp/form.html'
+        show_template = 'smp/show.html'
         icon_url = 'wmm/img/smp.png'
 
 class ReportCache(models.Model):
