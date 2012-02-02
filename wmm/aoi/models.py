@@ -69,7 +69,13 @@ class AOI(PolygonFeature):
 
     @classmethod
     def color(self):
-        return '778B1A55'              
+        return '778B1A55'  
+
+    def save(self, *args, **kwargs):
+        #calculate objective scores
+        
+        #save the new entry
+        super(AOI, self).save(*args, **kwargs)
 
     class Options:
         manipulators = []
@@ -134,3 +140,11 @@ class LOI(LineFeature):
         verbose_name = 'Line'
         form = 'aoi.forms.LoiForm'
         icon_url = 'wmm/img/loi.png'
+
+class OffshoreScoring(models.Model):
+    score = models.FloatField()
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Benthic Scoring Grid")
+    objects = models.GeoManager()
+    
+    def __unicode__(self):
+        return u'Benthic Score: %s' %self.score
