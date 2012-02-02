@@ -89,7 +89,7 @@ class AOI(PolygonFeature):
         icon_url = 'wmm/img/aoi.png'
                 
 
-@register
+
 class POI(PointFeature):
     description = models.TextField(null=True,blank=True)
     
@@ -115,7 +115,7 @@ class POI(PointFeature):
         form = 'aoi.forms.PoiForm'
         icon_url = 'wmm/img/poi.png'
 
-@register
+
 class LOI(LineFeature):
     description = models.TextField(null=True,blank=True)
     
