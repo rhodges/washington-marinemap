@@ -62,7 +62,7 @@ def get_objs(request, instance):
     return HttpResponse(context)
 '''
 
-def list_params(request, template='multi_objective_scenario/list_parameters.html'):
+def list_params(request, template='mos/list_parameters.html'):
     if request.POST:
         
         initial_objs = getlist(request, 'initial_objs[]')

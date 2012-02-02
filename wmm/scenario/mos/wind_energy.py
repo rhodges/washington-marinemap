@@ -11,7 +11,7 @@ bar_height = 32
  
 '''
 '''
-def display_wind_energy_report(request, mos, scenario, template='multi_objective_scenario/reports/wind_energy_report.html'):
+def display_wind_energy_report(request, mos, scenario, template='mos/reports/wind_energy_report.html'):
     if scenario.input_objective.short_name == 'wind_energy':
         context = get_wind_energy_context(mos, scenario)
         return render_to_response(template, RequestContext(request, context)) 

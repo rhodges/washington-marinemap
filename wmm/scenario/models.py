@@ -394,8 +394,8 @@ class MOS(Feature):
         verbose_name = 'Scenario'
         icon_url = 'wmm/img/multi.png'
         form = 'scenario.forms.MOSForm'
-        form_template = 'multi_objective_scenario/form.html'
-        show_template = 'multi_objective_scenario/show.html'
+        form_template = 'mos/form.html'
+        show_template = 'mos/show.html'
 
 class Scenario(Analysis):
     #Input Parameters
