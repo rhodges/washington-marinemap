@@ -185,15 +185,15 @@ def get_windenergy_sites(folder_obj, x_axis, y_axis):
 '''    
 def get_label(selection):
     if selection == 'tidal':
-        return 'Tidal Energy Value'
+        return 'Tidal Energy Score'
     elif selection == 'wind':
-        return 'Wind Energy Value'
+        return 'Wind Energy Score'
     elif selection == 'conservation':
-        return 'Benthic Conservation Value'
+        return 'Benthic Conservation Score'
     elif selection == 'development':
-        return 'Nearshore Conservation Value'
+        return 'Nearshore Conservation Score'
     elif selection == 'shellfish':
-        return 'Pelagic Conservation Value'
+        return 'Pelagic Conservation Score'
     elif selection == 'fishing':
-        return 'Wave Energy Value'
+        return 'Wave Energy Score'
     
