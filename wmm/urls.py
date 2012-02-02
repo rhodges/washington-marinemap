@@ -7,7 +7,7 @@ urlpatterns = patterns('',
     # Include all lingcod app urls. 
     (r'', include('lingcod.common.urls')),
     (r'^bookmark/', include('lingcod.bookmarks.urls')),
-    (r'^folder/', include('general.urls')),
+    (r'^general/', include('general.urls')),
     (r'^scenario/', include('scenario.urls')),
-    (r'^smp/', include('smp.urls')),
+    (r'^smp/', include('smp.urls'))
 )

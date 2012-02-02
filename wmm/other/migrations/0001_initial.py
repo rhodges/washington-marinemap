@@ -9,34 +9,34 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         
         # Adding model 'Folder'
-        db.create_table('folder_folder', (
+        db.create_table('general_folder', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='folder_folder_related', to=orm['auth.User'])),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='general_folder_related', to=orm['auth.User'])),
             ('name', self.gf('django.db.models.fields.CharField')(max_length='255')),
             ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('date_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('content_type', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='folder_folder_related', null=True, to=orm['contenttypes.ContentType'])),
+            ('content_type', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='general_folder_related', null=True, to=orm['contenttypes.ContentType'])),
             ('object_id', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
             ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
         ))
-        db.send_create_signal('folder', ['Folder'])
+        db.send_create_signal('general', ['Folder'])
 
         # Adding M2M table for field sharing_groups on 'Folder'
-        db.create_table('folder_folder_sharing_groups', (
+        db.create_table('general_folder_sharing_groups', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('folder', models.ForeignKey(orm['folder.folder'], null=False)),
+            ('folder', models.ForeignKey(orm['general.folder'], null=False)),
             ('group', models.ForeignKey(orm['auth.group'], null=False))
         ))
-        db.create_unique('folder_folder_sharing_groups', ['folder_id', 'group_id'])
+        db.create_unique('general_folder_sharing_groups', ['folder_id', 'group_id'])
 
 
     def backwards(self, orm):
         
         # Deleting model 'Folder'
-        db.delete_table('folder_folder')
+        db.delete_table('general_folder')
 
         # Removing M2M table for field sharing_groups on 'Folder'
-        db.delete_table('folder_folder_sharing_groups')
+        db.delete_table('general_folder_sharing_groups')
 
 
     models = {
@@ -76,18 +76,18 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        'folder.folder': {
+        'general.folder': {
             'Meta': {'object_name': 'Folder'},
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'folder_folder_related'", 'null': 'True', 'to': "orm['contenttypes.ContentType']"}),
+            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'general_folder_related'", 'null': 'True', 'to': "orm['contenttypes.ContentType']"}),
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'date_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': "'255'"}),
             'object_id': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'sharing_groups': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'folder_folder_related'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['auth.Group']"}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'folder_folder_related'", 'to': "orm['auth.User']"})
+            'sharing_groups': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'general_folder_related'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['auth.Group']"}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'general_folder_related'", 'to': "orm['auth.User']"})
         }
     }
 
-    complete_apps = ['folder']
+    complete_apps = ['general']
