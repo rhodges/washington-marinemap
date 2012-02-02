@@ -11,7 +11,7 @@ bar_height = 32
  
 '''
 '''
-def display_offshore_conservation_report(request, mos, scenario, template='multi_objective_scenario/reports/offshore_conservation_report.html'):
+def display_offshore_conservation_report(request, mos, scenario, template='mos/reports/offshore_conservation_report.html'):
     if scenario.input_objective.short_name == 'offshore_conservation':
         context = get_offshore_conservation_context(mos, scenario)
         return render_to_response(template, RequestContext(request, context)) 
