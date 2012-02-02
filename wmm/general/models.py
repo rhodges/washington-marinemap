@@ -39,9 +39,9 @@ class Folder(FeatureCollection):
                            'scenario.models.ConservationSite',
                            'scenario.models.WindEnergySite',
                            'smp.models.SMPSite',
-                           'scenario.models.AOI', 
-                           'scenario.models.POI', 
-                           'scenario.models.LOI', 
+                           'aoi.models.AOI', 
+                           'aoi.models.POI', 
+                           'aoi.models.LOI', 
                            'scenario.models.UserKml', 
                            'lingcod.bookmarks.models.Bookmark', 
                            'general.models.Folder')
