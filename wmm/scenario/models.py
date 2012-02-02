@@ -92,8 +92,6 @@ class MOS(Feature):
             [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_energy']]
             #accumulate conservation_objectives
             [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_conservation']]
-            #development_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_development']]
-            #fisheries_objectives = [self.input_objectives.add(obj.objective) for obj in form_data['input_objectives_fisheries']]
             
             #run analysis on scenarios only when necessary
             for obj in self.input_objectives.all():
@@ -201,9 +199,6 @@ class MOS(Feature):
         obj_ids = [scenario.input_objective.id for scenario in self.scenarios.all()]
         return obj_ids
          
-    #def mos_name(self, scenario):
-    #    return scenario.mos_set.all()[0].name
-       
     @property       
     def description_html(self):
         if self.description:
@@ -226,10 +221,6 @@ class MOS(Feature):
             html += '<p><strong> Substrates:</strong>  '
             html += ", ".join(scenario.input_substrate_names)
             html += " </p>"
-            #html += "<ul>"
-            #for substrate in scenario.input_substrate_names:
-            #    html += "<li>%s</li>" %substrate
-            #html += "</ul></p>"
         if 6 in parameter_ids:
             html += "<p><strong> Depth Classes:</strong>  "
             html += ", ".join(scenario.input_depth_class_names)
@@ -442,21 +433,7 @@ class Scenario(Analysis):
     output_mapcalc = models.CharField(max_length=720, null=True, blank=True)
     output_area = models.FloatField(verbose_name="Total Area (sq km)", null=True, blank=True)
     
-    #TODO will want to replace individual output stats field with a single field (as output stats will differ based on objective)
-    #output_stats = models.TextField(null=True, blank=True) 
-    #output_substrate_stats = models.TextField(max_length=360, null=True, blank=True)
-    #output_depth_class_stats = models.TextField(max_length=360, null=True, blank=True)
-    #output_geomorphology_stats = models.TextField(max_length=360, null=True, blank=True)
-    
-    #output_substrate_depth_class_stats = models.TextField(max_length=360, null=True, blank=True)
-    #output_substrate_geomorphology_stats = models.TextField(max_length=360, null=True, blank=True)
-    
     output_report = models.TextField(null=True, blank=True)
-    
-    #output_depth_class_substrate_stats = models.TextField(max_length=360, null=True, blank=True)
-    #output_depth_class_geomorphology_stats = models.TextField(max_length=360, null=True, blank=True)
-    #output_geomorphology_substrate_stats = models.TextField(max_length=360, null=True, blank=True)
-    #output_geomorphology_depth_class_stats = models.TextField(max_length=360, null=True, blank=True)
     
     geometry_final = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Final Scenario Geometry")
     
@@ -712,22 +689,6 @@ class Scenario(Analysis):
         polygon_style.rules.append(r)
         return polygon_style   
 
-    #@property
-    #def input_substrate(self):
-    #    return getattr(self, 'input_substrate_%s' %self.input_objective.short_name)
-        
-    #@property
-    #def input_depth_class(self):
-    #    return getattr(self, 'input_depth_class_%s' %self.input_objective.short_name)
-        
-    #@property
-    #def input_geomorphology(self):
-    #    return getattr(self, 'input_geomorphology_%s' %self.input_objective.short_name)
-        
-    #@property
-    #def input_parameters(self):        
-    #    return getattr(self, 'input_parameters_%s' %self.input_objective.short_name)
-
     @property
     def input_parameter_ids(self):
         #input_params = [p.parameter.id for p in self.input_parameters.all()]
@@ -896,18 +857,6 @@ class ConservationObjective(models.Model):
     def __unicode__(self):
         return u'%s' % self.objective.name
 
-class FisheriesObjective(models.Model):
-    objective = models.ForeignKey("Objective", null=True, blank=True)
-    
-    def __unicode__(self):
-        return u'%s' % self.objective.name
-
-class DevelopmentObjective(models.Model):
-    objective = models.ForeignKey("Objective", null=True, blank=True)
-    
-    def __unicode__(self):
-        return u'%s' % self.objective.name
-
 class Parameter(models.Model):
     name = models.CharField(max_length=70)
     short_name = models.CharField(max_length=70, null=True, blank=True)
@@ -946,24 +895,6 @@ class NearshoreConservationParameter(models.Model):
         return u'%s' % self.parameter.name
         
 class WaterColumnConservationParameter(models.Model):
-    parameter = models.ForeignKey("Parameter", null=True, blank=True)
-    
-    def __unicode__(self):
-        return u'%s' % self.parameter.name
-        
-class ShoresideDevelopmentParameter(models.Model):
-    parameter = models.ForeignKey("Parameter", null=True, blank=True)
-    
-    def __unicode__(self):
-        return u'%s' % self.parameter.name
-        
-class ShellfishAquacultureParameter(models.Model):
-    parameter = models.ForeignKey("Parameter", null=True, blank=True)
-    
-    def __unicode__(self):
-        return u'%s' % self.parameter.name
-        
-class OffshoreFishingParameter(models.Model):
     parameter = models.ForeignKey("Parameter", null=True, blank=True)
     
     def __unicode__(self):

@@ -33,16 +33,6 @@ class ConservationObjectiveAdmin(admin.ModelAdmin):
     fields = ['objective']
 admin.site.register(ConservationObjective, ConservationObjectiveAdmin)
 
-class FisheriesObjectiveAdmin(admin.ModelAdmin):
-    list_display = ['objective']
-    fields = ['objective']
-admin.site.register(FisheriesObjective, FisheriesObjectiveAdmin)
-
-class DevelopmentObjectiveAdmin(admin.ModelAdmin):
-    list_display = ['objective']
-    fields = ['objective']
-admin.site.register(DevelopmentObjective, DevelopmentObjectiveAdmin)
-
 class ParameterAdmin(admin.ModelAdmin):
     list_display = ['name', 'short_name', 'id']
     fields = ['name', 'short_name']
@@ -77,21 +67,6 @@ class WaterColumnConservationParameterAdmin(admin.ModelAdmin):
     list_display = ['parameter', 'id']
     fields = ['parameter']
 admin.site.register(WaterColumnConservationParameter, WaterColumnConservationParameterAdmin)
-
-class ShoresideDevelopmentParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter', 'id']
-    fields = ['parameter']
-admin.site.register(ShoresideDevelopmentParameter, ShoresideDevelopmentParameterAdmin)
-
-class ShellfishAquacultureParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter', 'id']
-    fields = ['parameter']
-admin.site.register(ShellfishAquacultureParameter, ShellfishAquacultureParameterAdmin)
-
-class OffshoreFishingParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter', 'id']
-    fields = ['parameter']
-admin.site.register(OffshoreFishingParameter, OffshoreFishingParameterAdmin)
 
 class SubstrateAdmin(admin.ModelAdmin):
     list_display = ['name', 'id', 'short_name', 'color']
