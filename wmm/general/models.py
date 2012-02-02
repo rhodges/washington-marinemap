@@ -45,15 +45,11 @@ class Folder(FeatureCollection):
     class Options:
         verbose_name = 'Folder'
         valid_children = ( 'scenario.models.MOS', 
-                           'scenario.models.ConservationSite',
-                           'scenario.models.WindEnergySite',
                            'smp.models.SMPSite',
-                           'aoi.models.AOI', 
-                           'aoi.models.POI', 
-                           'aoi.models.LOI', 
-                           'scenario.models.UserKml', 
-                           'lingcod.bookmarks.models.Bookmark', 
-                           'general.models.Folder')
+                           'aoi.models.AOI',
+                           'general.models.UserKml', 
+                           'general.models.Folder',
+                           'lingcod.bookmarks.models.Bookmark')
         form = 'general.forms.FolderForm'
         form_template = 'folder/form.html'
         show_template = 'folder/show.html'
