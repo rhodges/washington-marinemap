@@ -7,7 +7,7 @@ from smp.models import *
 
 '''
 '''
-def display_smp_shoreline_use_analysis(request, smp, template='reports/smp_shoreline_use_report.html'):
+def display_smp_shoreline_use_analysis(request, smp, template='smp/reports/smp_shoreline_use_report.html'):
     context = get_smp_shoreline_use_context(smp)
     return render_to_response(template, RequestContext(request, context)) 
 

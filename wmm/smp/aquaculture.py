@@ -7,7 +7,7 @@ from smp.models import *
 
 '''
 '''
-def display_smp_aquaculture_analysis(request, smp, template='reports/smp_aquaculture_report.html'):
+def display_smp_aquaculture_analysis(request, smp, template='smp/reports/smp_aquaculture_report.html'):
     context = get_smp_aquaculture_context(smp)
     return render_to_response(template, RequestContext(request, context)) 
 
