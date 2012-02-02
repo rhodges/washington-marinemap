@@ -5,10 +5,13 @@ from django.utils.html import escape
 from lingcod.features import register, alternate
 from lingcod.common.utils import asKml
 from lingcod.features.models import PointFeature, LineFeature, PolygonFeature
+from lingcod.raster_stats.models import RasterDataset, zonal_stats
 
 @register
 class AOI(PolygonFeature):
     description = models.TextField(null=True,blank=True)
+    geometry_hash = models.IntegerField(null=True, blank=True)
+    benthic_score = models.IntegerField(verbose_name='Benthic Conservation Score', null=True, blank=True)
     
     @property
     def kml(self):
@@ -71,11 +74,44 @@ class AOI(PolygonFeature):
     def color(self):
         return '778B1A55'  
 
-    def save(self, *args, **kwargs):
+    def run(self):
         #calculate objective scores
+        #intersect with OffshoreScoring (vector) or with benthic_scoring (raster/zonal_stats)
+        self.geometry_hash = self.geometry_final.wkt.__hash__()
         
+        #vector analysis
+        scoring_objects = OffshoreScoring.objects.filter(geometry__bboverlaps=self.geometry_final)
+        total_area = 0.0
+        total_score = 0.0
+        for scoring_object in scoring_objects:
+            scoring_geom = scoring_object.geometry
+            overlap = scoring_geom.intersection(self.geometry_final)
+            if overlap.area > 0:
+                total_area += overlap.area
+                total_score += scoring_object.score * overlap.area
+        avg_score = total_score / total_area
+        self.benthic_score = int(round(avg_score * 10))
+        '''
+        NOTE:  THIS RASTER FILE WILL NEED TO BE ADDED TO THE SERVER BEFORE ENABLING THE FOLLOWING
+        import pdb
+        pdb.set_trace()
+        #raster analysis with starspan
+        benthic_scoring = RasterDataset.objects.get(name='benthic_scoring')
+        benthic_stats = zonal_stats(self.geometry_final, benthic_scoring)
+        if benthic_stats.avg:
+            raster_score = benthic_stats.avg * 10
+        else:
+            raster_score = None
+        self.benthic_score = raster_score
+        '''
+        return True        
+        
+    def save(self, *args, **kwargs):
         #save the new entry
         super(AOI, self).save(*args, **kwargs)
+        if self.geometry_final.wkt.__hash__() != self.geometry_hash:
+            self.run()
+            super(AOI, self).save(*args, **kwargs)
 
     class Options:
         manipulators = []

@@ -2,13 +2,11 @@
 {% block title %}{{instance.name}}{% endblock title %}
 {% block panel %}
 
-<h1>Results for "{{instance.name}}"</h1>
+<h1><small><small>AOI: </small></small> {{instance.name}}</h1>
     <div class="tabs">
         <ul>
-            <li><a href="#Inputs"><span>Inputs</span></a></li>
-            {% if instance.done %}
-            <li><a href="#results"><span>Results</span></a></li>
-            {% endif %}
+            <li><a href="#Inputs"><span>Attributes</span></a></li>
+            <li><a href="#results"><span>Reports</span></a></li>
         </ul>
         <div id="Inputs">
             <ul class="metadata">
@@ -22,22 +20,24 @@
                 <br class="clear" />
             </ul>
             
-            <h2>Feature Type</h2>
-                <p>Area of Interest</p>
-            
+            <h2>Objective Scores <small>(out of 100)</small>:</h2>
+                {% if instance.benthic_score %}
+                <p>Benthic Conservation: {{instance.benthic_score}}</p>
+                {% else %}
+                <p><i>No Description</i></p>
+                {% endif %}
+                
             <h2>Description</h2>
                 {% if instance.description %}
                 <p>{{instance.description}}</p>
                 {% else %}
-                <p>No Description</p>
+                <p><i>No Description</i></p>
                 {% endif %}
         </div>
         
-        {% if instance.done %}
         <div id="results">
            <p>Reports coming soon...</p>
         </div>
-        {% endif %}
         
     </div>
 
