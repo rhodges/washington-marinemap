@@ -16,10 +16,6 @@ class WindEnergySiteForm(SpatialFeatureForm):
     class Meta(SpatialFeatureForm.Meta):
         model = WindEnergySite
 
-class UserKmlForm(FeatureForm):
-    class Meta(FeatureForm.Meta):
-        model = UserKml
-
 class SubstrateModelMultipleChoiceField(ModelMultipleChoiceField):
     def label_from_instance(self, obj):
         return obj.substrate.name
