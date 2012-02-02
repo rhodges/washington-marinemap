@@ -8,65 +8,11 @@ from django.contrib.gis.geos import fromstr
 from models import *
 from os.path import splitext,split
 
-class ConservationSiteForm(SpatialFeatureForm):
-    class Meta(SpatialFeatureForm.Meta):
-        model = ConservationSite
-            
-class WindEnergySiteForm(SpatialFeatureForm):
-    class Meta(SpatialFeatureForm.Meta):
-        model = WindEnergySite
 
 class SubstrateModelMultipleChoiceField(ModelMultipleChoiceField):
     def label_from_instance(self, obj):
         return obj.substrate.name
         #return obj.name
-        
-'''        
-class ScenarioForm(FeatureForm):
-    #description = forms.CharField(widget=forms.Textarea(attrs={'cols': 30, 'rows': 3}), required=False)
-    #file = forms.FileField(widget=forms.ClearableFileInput(attrs={'style': 'top:0px;margin-bottom:0px'), max_length=70, required=False) #using ClearableFileInput produces poorly formatted edit form
-    #support_file = ValidFileField(widget=AdminFileWidget,required=False,label="Support File")
-    #could optionally add a param similar to the following:  help_text="(e.g. a pdf or text document that explains this scenario)"
-    
-    input_objective = forms.ModelChoiceField(   queryset=Objective.objects.all().order_by('id'), 
-                                                widget=forms.RadioSelect(attrs={'class': 'objectives'}),
-                                                required=False, 
-                                                label="")
-    input_parameters = forms.ModelMultipleChoiceField(  queryset=Parameter.objects.all(),
-                                                        widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters'}),
-                                                        required=False, 
-                                                        #initial = Parameter.objects.all(),
-                                                        label="")
-    input_dist_shore = forms.FloatField(min_value=0, max_value=40, initial=5,
-                                        widget=SliderWidget(min=0,max=40,step=.5),
-                                        label="Within distance of Shore (km)")
-    input_dist_port = forms.FloatField( min_value=0, max_value=100, initial=10,
-                                        widget=SliderWidget(min=0,max=100,step=1),
-                                        label="Within distance of Port (km)")
-    input_min_depth = forms.FloatField(initial=-500, widget=forms.TextInput(attrs={'class':'slidervalue'}))
-    input_max_depth = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}))
-    # Dummy field to set both of the above
-    input_depth = forms.FloatField( min_value=-1000, max_value=0, initial=0,
-                                    widget=DualSliderWidget('input_min_depth','input_max_depth', min=-1000,max=0,step=10),
-                                    label="Depth Range (meters)")
-    input_substrate = ModelMultipleChoiceField( queryset=Substrate.objects.all().order_by('id'), 
-                                                widget=forms.SelectMultiple(attrs={'size':6}), initial="3",
-                                                label="Include areas with the following Substrate Types") 
-   
-    def save(self, commit=True):
-        inst = super(FeatureForm, self).save(commit=False)
-        if self.data.get('clear_support_file'):
-            inst.support_file = None
-        if commit:
-            inst.save()
-        return inst
-    
-    class Meta(FeatureForm.Meta):
-        model = Scenario
-        exclude = list(FeatureForm.Meta.exclude)
-        for f in model.output_fields():
-            exclude.append(f.attname)
-'''
 
 class AdminFileWidget(forms.FileInput):
     """
