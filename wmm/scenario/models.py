@@ -1197,10 +1197,3 @@ class WindEnergySite(PolygonFeature):
         show_template = 'wind/show.html'
         icon_url = 'wmm/img/wind.png'
         
-
-@register
-class UserKml(PrivateLayerList):
-    class Options:
-        verbose_name = 'Uploaded KML'
-        form = 'scenario.forms.UserKmlForm'
-        icon_url = 'media/common/images/kml_document_icon.png'
