@@ -7,7 +7,7 @@ from smp.models import *
 
 '''
 '''
-def display_smp_public_access_analysis(request, smp, template='reports/smp_public_access_report.html'):
+def display_smp_public_access_analysis(request, smp, template='smp/reports/smp_public_access_report.html'):
     context = get_smp_public_access_context(smp)
     return render_to_response(template, RequestContext(request, context)) 
 

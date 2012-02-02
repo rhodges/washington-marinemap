@@ -8,7 +8,7 @@ from smp.models import *
 
 '''
 '''
-def display_smp_beach_erosion_analysis(request, smp, template='reports/smp_beach_erosion_report.html'):
+def display_smp_beach_erosion_analysis(request, smp, template='smp/reports/smp_beach_erosion_report.html'):
     context = get_smp_beach_erosion_context(smp)
     return render_to_response(template, RequestContext(request, context)) 
 
