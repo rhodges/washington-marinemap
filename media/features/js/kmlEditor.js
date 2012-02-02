@@ -516,7 +516,7 @@ lingcod.features.kmlEditor = (function(){
                     }
                     //////////////////////////////
                     // BEGIN CUSTOM 
-                    panel.spin('Please wait while we generate your Scenario...');
+                    panel.spin('Please wait while we process your request...');
                     // END CUSTOM 
                     //////////////////////////////
                     $(that).trigger('saving', ["Saving changes"]);
