@@ -83,6 +83,7 @@ class AOI(PolygonFeature):
         scoring_objects = OffshoreScoring.objects.filter(geometry__bboverlaps=self.geometry_final)
         total_area = 0.0
         total_score = 0.0
+        
         for scoring_object in scoring_objects:
             scoring_geom = scoring_object.geometry
             overlap = scoring_geom.intersection(self.geometry_final)
