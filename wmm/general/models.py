@@ -7,6 +7,14 @@ from scenario.models import *
 
 
 @register
+class UserKml(PrivateLayerList):
+    class Options:
+        verbose_name = 'Uploaded KML'
+        form = 'general.forms.UserKmlForm'
+        icon_url = 'media/common/images/kml_document_icon.png'
+        
+
+@register
 class Folder(FeatureCollection):
     description = models.TextField(null=True,blank=True)
     
@@ -50,11 +58,3 @@ class Folder(FeatureCollection):
         form_template = 'folder/form.html'
         show_template = 'folder/show.html'
         icon_url = 'wmm/img/folder.png'
-
-@register
-class UserKml(PrivateLayerList):
-    class Options:
-        verbose_name = 'Uploaded KML'
-        form = 'general.forms.UserKmlForm'
-        icon_url = 'media/common/images/kml_document_icon.png'
-        

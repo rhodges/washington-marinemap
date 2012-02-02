@@ -27,10 +27,10 @@ ROOT_URLCONF = 'wmm.urls'
 TEMPLATE_DIRS = ( os.path.realpath(os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/')), )
 
 INSTALLED_APPS += ( 'lingcod.analysistools', 
-                    'general',
                     'scenario',
                     'aoi',
                     'smp',
+                    'general',
                     'django.contrib.humanize',
                     'wmm_manipulators',
                     'lingcod.raster_stats')

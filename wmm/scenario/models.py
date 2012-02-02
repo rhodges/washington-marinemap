@@ -1045,7 +1045,7 @@ class WindEnergyParameterArea(models.Model):
     def __unicode__(self):
         return u'%s' %self.name
         
-@register
+
 class ConservationSite(PolygonFeature):
     description = models.TextField(null=True,blank=True)
     
@@ -1121,7 +1121,7 @@ class ConservationSite(PolygonFeature):
         show_template = 'conservation/show.html'
         icon_url = 'wmm/img/conservation.png'
 
-@register
+
 class WindEnergySite(PolygonFeature):
     description = models.TextField(null=True,blank=True)
     
