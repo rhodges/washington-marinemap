@@ -3,6 +3,8 @@ import os
 from django.db import models
 from django.conf import settings
 from django.contrib.gis.db import models
+from django.contrib.gis.gdal import DataSource
+from django.contrib.gis.geos import MultiPolygon
 from django.utils.html import escape
 from django.utils import simplejson
 from lingcod.analysistools.models import Analysis
@@ -266,6 +268,8 @@ class MOS(Feature):
         #print 'mos_name = %s' %mos_name
         for scenario in self.scenarios.all():
             header = '<strong>Scenario:</strong> %s' %self.name
+            if scenario.has_empty_geom:
+                header += ' -- <b>Empty Geometry</b>'
             obj_name = scenario.input_objective.name
             objective = '<strong>Objective:</strong> %s' %obj_name
             #name = scenario.mos_set.all()[0].name #why is this not working...?
@@ -563,41 +567,41 @@ class Scenario(Analysis):
         g.run(mapcalc)
         self.output_mapcalc = mapcalc
         
-        if self.input_objective.short_name == 'offshore_conservation':
-            from grass_reports.scenario.offshore_conservation import offshore_conservation_report
-            self.output_report = offshore_conservation_report(g)
-        elif self.input_objective.short_name == 'wind_energy':
-            from grass_reports.scenario.wind_energy import wind_energy_report
-            self.output_report = wind_energy_report(g)
-        elif self.input_objective.short_name == 'wave_energy':
-            from grass_reports.scenario.wave_energy import wave_energy_report
-            self.output_report = wave_energy_report(g, wavesummer, wavewinter, self)
-        else:
-            self.output_report = simplejson.dumps({})
-            
-        g.run('r.to.vect input=rresult output=rresult_vect feature=area')
-
-        g.run('v.out.ogr -c input=rresult_vect type=area format=GeoJSON dsn=%s' % output)
-
-        from django.contrib.gis.gdal import DataSource
-        from django.contrib.gis.geos import MultiPolygon
-        try:
-            ds = DataSource(output)
-            layer = ds[0]
-            geom = MultiPolygon([g.geos for g in layer.get_geoms()])
-        except:
-            # Grass had no geometries to give - empty output
+        #check for empty result
+        if g.run('r.stats -an input=rresult') == '':
             geom = MultiPolygon([])
+        else:
+            if self.input_objective.short_name == 'offshore_conservation':
+                from grass_reports.scenario.offshore_conservation import offshore_conservation_report
+                self.output_report = offshore_conservation_report(g)
+            elif self.input_objective.short_name == 'wind_energy':
+                from grass_reports.scenario.wind_energy import wind_energy_report
+                self.output_report = wind_energy_report(g)
+            elif self.input_objective.short_name == 'wave_energy':
+                from grass_reports.scenario.wave_energy import wave_energy_report
+                self.output_report = wave_energy_report(g, wavesummer, wavewinter, self)
+            else:
+                self.output_report = simplejson.dumps({})
+                
+            g.run('r.to.vect input=rresult output=rresult_vect feature=area')
+
+            g.run('v.out.ogr -c input=rresult_vect type=area format=GeoJSON dsn=%s' % output)
+
+            try:
+                ds = DataSource(output)
+                layer = ds[0]
+                geom = MultiPolygon([g.geos for g in layer.get_geoms()])
+            except:
+                # Grass had no geometries to give - empty output
+                geom = MultiPolygon([])
+            #cleanup
+            os.remove(output)
+            del g
 
         geom.srid = settings.GEOMETRY_DB_SRID
         self.output_geom = geom
         self.output_area = geom.area # sq m 
-        
         self.geometry_final = geom
-
-        #cleanup
-        os.remove(output)
-        del g
 
         return True
         
@@ -692,6 +696,12 @@ class Scenario(Analysis):
         polygon_style.rules.append(r)
         return polygon_style   
 
+    @property
+    def has_empty_geom(self):
+        if self.output_area == 0.0:
+            return True
+        return False
+        
     @property
     def input_parameter_ids(self):
         #input_params = [p.parameter.id for p in self.input_parameters.all()]
