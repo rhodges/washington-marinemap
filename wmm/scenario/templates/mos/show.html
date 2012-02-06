@@ -2,7 +2,7 @@
 {% block title %}{{instance.name}}{% endblock title %}
 {% block panel %}
 <!--<h1>Results for "{{instance.name}}"</h1>-->
-<h1><small><small>Scenario: </small></small> {{instance.name}}</h1>
+<h1><small><small>Scenario: </small></small> {{instance.name}} </h1>
     <div class="tabs">
         <ul>
             <li><a href="#Inputs"><span>Attributes</span></a></li>
@@ -37,7 +37,7 @@
                 
             <h2>Objectives</h2>     
                 {% for scenario in instance.scenarios.all %}
-                <p>{{scenario.input_objective}}</p>
+                <p>{{scenario.input_objective}} {% if scenario.has_empty_geom %}-- <b>Empty Geometry</b>{% endif %}</p>
                 <!--
                 <div class="box species" id="temp">
                     <h3>Objective: </h3>
