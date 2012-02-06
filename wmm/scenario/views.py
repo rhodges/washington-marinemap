@@ -20,6 +20,9 @@ def scenario_report(request, mos_id, scenario_id):
     elif scenario_obj.input_objective.short_name == 'wind_energy':
         from mos.wind_energy import display_wind_energy_report
         return display_wind_energy_report(request, mos_obj, scenario_obj)
+    elif scenario_obj.input_objective.short_name == 'wave_energy':
+        from mos.wave_energy import display_wave_energy_report
+        return display_wave_energy_report(request, mos_obj, scenario_obj)
     else:
         return HttpResponse(scenario_obj.input_objective.name + ' Report coming soon...')
     
