@@ -193,11 +193,10 @@ function toggleReports(obj_id, src_id) {
 
 <h3>Substrates (as a percentage of the scenario output) 
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_substrate_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_substrates', 'toggle_{{scenario.input_objective.short_name}}_substrate_report');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style=";width:400px;display "></div>
+<div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style="width:400px;display ">
 <p></p>
-
-<h3>&nbsp;</h3>
 </div>
+<h3>&nbsp;</h3>
 
 {% if summer_percentage != default_value or winter_percentage != default_value %}
 <h3>Wave Potential
@@ -237,6 +236,7 @@ function toggleReports(obj_id, src_id) {
 <p></p>
 </div>
 
+</div>
 
 
 {% endblock %}
