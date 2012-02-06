@@ -110,6 +110,7 @@ class AOI(PolygonFeature):
     def save(self, *args, **kwargs):
         #save the new entry
         super(AOI, self).save(*args, **kwargs)
+        #might also check for absent scores (ensure that scoring fields added later would still be updated)
         if self.geometry_final.wkt.__hash__() != self.geometry_hash:
             self.run()
             super(AOI, self).save(*args, **kwargs)

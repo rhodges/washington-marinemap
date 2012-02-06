@@ -569,6 +569,9 @@ class Scenario(Analysis):
         elif self.input_objective.short_name == 'wind_energy':
             from grass_reports.scenario.wind_energy import wind_energy_report
             self.output_report = wind_energy_report(g)
+        elif self.input_objective.short_name == 'wave_energy':
+            from grass_reports.scenario.wave_energy import wave_energy_report
+            self.output_report = wave_energy_report(g, wavesummer, wavewinter, self)
         else:
             self.output_report = simplejson.dumps({})
             
@@ -970,6 +973,13 @@ class OffshoreConservationParameterArea(models.Model):
         return u'%s' %self.name
         
 class WindEnergyParameterArea(models.Model):
+    name = models.CharField(max_length=70)
+    area = models.FloatField(null=True,blank=True, verbose_name="area in meters")
+    
+    def __unicode__(self):
+        return u'%s' %self.name
+         
+class WaveEnergyParameterArea(models.Model):
     name = models.CharField(max_length=70)
     area = models.FloatField(null=True,blank=True, verbose_name="area in meters")
     

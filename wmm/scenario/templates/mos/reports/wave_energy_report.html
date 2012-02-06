@@ -1,0 +1,242 @@
+{% extends 'common/panel.html' %}
+{% load jsonify %}
+{% load percentage %}
+{% block title %}Multi-Objective Scenario Report{% endblock %}
+
+{% block panel %}
+
+<script type="text/javascript" charset="utf-8">
+lingcod.onShow(function() {
+
+    var obj_short_name = "{{ scenario.input_objective.short_name }}";
+    var bar_height = {{ bar_height }};
+    
+    
+    /*** THE SCENARIO REPORTS ***/
+    
+    var substrate_extent = {{ substrate_jextent|safe }};
+    var substrate_data = [[]];
+    //var wave_potential_extent = {{ wave_potential_jextent|safe }};
+    //var wave_potential_data = [[]];
+    
+    // Substrate Scenario Chart
+    //Not sure if the ordering for substrate data and coloring are guaranteed to match here...maybe order by area?
+    //I believe ordering is working now for substrate data...need to verify...
+    $.each(substrate_extent, function( index, extent_tuple) {
+        substrate_data[0].push( [extent_tuple[0], extent_tuple[1], extent_tuple[2]] );        
+    });    
+    
+    var substrate_div = obj_short_name+'_substrates';
+    var height = bar_height * substrate_data[0].length + bar_height;
+    $('#'+substrate_div).height(height);
+    chart = createChart(substrate_div, substrate_data); //, series_colors);
+    /*
+    // wave Potential Scenario Chart
+    $.each(wave_potential_extent, function( index, extent_tuple) {
+        wave_potential_data[0].push( [extent_tuple[0], extent_tuple[1], extent_tuple[2]] );
+    });
+        
+    var wave_potential_div = obj_short_name+'_wave_potentials';
+    height = bar_height * wave_potential_data[0].length + bar_height;
+    $('#'+wave_potential_div).height(height);
+    chart = createChart(wave_potential_div, wave_potential_data); //, series_colors);
+    */    
+    
+    /*** THE SUBSTRATE REPORTS ***/
+    /*
+    // Substrate wave Potential
+    var substrate_wave_stats = {{ substrate_wave_jstats|safe }};
+    div_suffix = 'wave';
+    process_stats_and_create_charts(substrate_wave_stats, div_suffix);
+    */
+    
+    /** THE wave POTENTIAL REPORTS **/
+    /*
+    // Depth Class Substrates 
+    var wave_substrate_stats = {{ wave_substrate_jstats|safe }};
+    div_suffix = 'sub';
+    process_stats_and_create_charts(wave_substrate_stats, div_suffix);
+    */
+    
+    /** CHART FUNCTIONS **/
+    
+    //creates array of series data, array of div names, and generates bar charts
+    function process_stats_and_create_charts(stats, div_suffix) {
+        var data = [];
+        var divs = [];
+        var len = 0;
+        for (var key in stats) {
+            if (!stats.hasOwnProperty(key)) { //not sure what this actually does...
+                continue;
+            }
+            series_data = [[]];
+            for (var inner_key in stats[key]) {
+                if (!stats[key].hasOwnProperty(inner_key)) {
+                    continue;
+                }
+                series_data[0].push( [stats[key][inner_key][0], inner_key, stats[key][inner_key][1]] );
+            }
+            data.push(series_data);
+            divs.push(obj_short_name+'_'+key+'_'+div_suffix); 
+            len++;
+        };
+        //console.log(divs);  
+        for (i=0; i<len; i++) {
+            var height = bar_height * data[i][0].length + bar_height;
+            $('#'+divs[i]).height(height);
+            chart = createChart(divs[i], data[i]); 
+        };
+    }
+    
+    
+    //Chart drawing function 
+    function createChart(div, data ) { //, series_colors) {
+        //console.log(div);
+        //console.log(data);
+        tooltip_output = 'current output...';
+        //console.log(tooltip_output);
+        chart = $.jqplot(div, data, {
+            animate: true,
+            animateReplot: true,
+            seriesDefaults: {
+                renderer:$.jqplot.BarRenderer,
+                // Show point labels to the right ('e'ast) of each bar.
+                // edgeTolerance of -15 allows labels flow outside the grid
+                // up to 15 pixels.  If they flow out more than that, they
+                // will be hidden.
+                pointLabels: {  show: true, 
+                                location: 'e', 
+                                edgeTolerance: -25,
+                                formatString: '%s'
+                },
+                // Rotate the bar shadow as if bar is lit from top right.
+                shadowAngle: 145,
+                // Here's where we tell the chart to orient horizontally.
+                rendererOptions: {  animation: { 
+                                        speed: 1500 
+                                    },
+                                    barWidth: 25,
+                                    barPadding: 20,
+                                    barMargin: 1,
+                                    barDirection: 'horizontal',
+                                    //varyBarColor: true
+                }
+            },
+            //seriesColors: series_colors,
+            highlighter: {
+                show: true,
+                tooltipOffset: 7,
+                tooltipLocation: 'n',
+                formatString: tooltip_output,
+                //fadeTooltip: false, //was hoping this would elimiate the sticky problem (tooltips aren't always removed), but no.
+                showMarker: false
+            },
+            axes: {
+                yaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer,
+                    rendererOptions: {  tickRenderer: $.jqplot.AxisTickRenderer, 
+                                        tickOptions: {  mark: null,
+                                                        fontSize: 12
+                                        } 
+                    }                                    
+                },
+                xaxis: {
+                    min: 0,
+                    max: 100,
+                    numberTicks: 6,
+                    tickRenderer: $.jqplot.AxisTickRenderer, 
+                    tickOptions: {  fontSize: 10 } 
+                }
+            },
+            grid: {
+                drawGridlines: false,
+                drawBorder: false,
+                shadow: false
+            }
+        });
+        return chart;
+    }
+    
+    
+    //toggleReports(obj_short_name+'_extent_reports', 'toggle_extent_reports');
+    toggleReports(obj_short_name+'_substrate_reports', 'toggle_'+obj_short_name+'_substrate_reports');
+    //toggleReports(obj_short_name+'_wave_reports', 'toggle_'+obj_short_name+'_wave_reports');
+}); 
+
+function toggleReport(obj_id, src_id) {
+    $("#"+obj_id).fadeToggle(100); //slideToggle
+    if ($("#"+src_id).text() == 'Show') { 
+        $("#"+src_id).text('Hide'); 
+    } else { 
+        $("#"+src_id).text('Show'); 
+    }
+}; 
+  
+function toggleReports(obj_id, src_id) {
+    console.log(obj_id);
+    console.log(src_id);
+    $("#"+obj_id).fadeToggle(100); //slideToggle
+    if ($("#"+src_id).text() == 'Show') { 
+        $("#"+src_id).text('Hide'); 
+    } else { 
+        $("#"+src_id).text('Show'); 
+    }
+}; 
+
+
+  
+</script>
+
+<h2>Scenario 
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_extent_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_extent_reports', 'toggle_{{scenario.input_objective.short_name}}_extent_reports');">Hide</a>]</small></small></h2>
+<div id="{{scenario.input_objective.short_name}}_extent_reports">
+
+<h3>Substrates (as a percentage of the scenario output) 
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_substrate_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_substrates', 'toggle_{{scenario.input_objective.short_name}}_substrate_report');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style=";width:400px;display "></div>
+<p></p>
+
+<h3>&nbsp;</h3>
+</div>
+
+{% if summer_percentage != default_value or winter_percentage != default_value %}
+<h3>Wave Potential
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_wave_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_wave_reports', 'toggle_{{scenario.input_objective.short_name}}_wave_reports');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_wave_reports">
+{% if summer_percentage != default_value %}
+<p>Percent of <b>Summer Wave Energy</b> ranging from <b>{{scenario.input_min_wavesummer|floatformat:0}} to {{scenario.input_max_wavesummer|floatformat:0}} kW/m of shoreline</b> captured by your scenario:  <b>{{summer_percentage|percentage:1}}</b> </p>
+{% endif %}
+{%if winter_percentage != default_value %}
+<p>Percent of <b>Winter Wave Energy</b> ranging from <b>{{scenario.input_min_wavewinter|floatformat:0}} to {{scenario.input_max_wavewinter|floatformat:0}} kW/m of shoreline</b> captured by your scenario:  <b>{{winter_percentage|percentage:1}}</b> </p>
+{% endif %}
+<h3>&nbsp;</h3>
+</div>
+
+{% if summer_percentage != default_value %}
+<h3>Summer Wave Potential by Substrate
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_summerwave_substrate_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_summerwave_substrate_reports', 'toggle_{{scenario.input_objective.short_name}}_summerwave_substrate_reports');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_summerwave_substrate_reports">
+{% for name, perc in substrate_summer_percs.items %}
+<p>Percent of <b>{{name}}</b> with <b>Summer Wave Energy</b> ranging from <b>{{scenario.input_min_wavesummer|floatformat:0}} to {{scenario.input_max_wavesummer|floatformat:0}} kW/m of shoreline</b> captured:  <b>{{perc|percentage:1}}</b></p>
+{% endfor %}
+<h3>&nbsp;</h3>
+</div>
+{% endif %}
+
+{%if winter_percentage != default_value %}
+<h3>Winter Wave Potential by Substrate
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_winterwave_substrate_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_winterwave_substrate_reports', 'toggle_{{scenario.input_objective.short_name}}_winterwave_substrate_reports');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_winterwave_substrate_reports">
+{% for name, perc in substrate_winter_percs.items %}
+<p>Percent of <b>{{name}}</b> with <b>Winter Wave Energy</b> ranging from <b>{{scenario.input_min_wavewinter|floatformat:0}} to {{scenario.input_max_wavewinter|floatformat:0}} kW/m of shoreline</b> captured:  <b>{{perc|percentage:1}}</b></p>
+{% endfor %}
+<h3>&nbsp;</h3>
+</div>
+{% endif %}
+{% endif %}
+<p></p>
+</div>
+
+
+
+{% endblock %}
