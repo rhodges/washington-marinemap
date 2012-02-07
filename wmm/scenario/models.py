@@ -574,6 +574,9 @@ class Scenario(Analysis):
             if self.input_objective.short_name == 'offshore_conservation':
                 from grass_reports.scenario.offshore_conservation import offshore_conservation_report
                 self.output_report = offshore_conservation_report(g)
+            elif self.input_objective.short_name == 'nearshore_conservation':
+                from grass_reports.scenario.nearshore_conservation import nearshore_conservation_report
+                self.output_report = nearshore_conservation_report(g)
             elif self.input_objective.short_name == 'wind_energy':
                 from grass_reports.scenario.wind_energy import wind_energy_report
                 self.output_report = wind_energy_report(g)
@@ -946,6 +949,7 @@ class Geomorphology(models.Model):
 
 class NearshoreSubstrate(models.Model):
     name = models.CharField(max_length=30)
+    short_name = models.CharField(max_length=30, null=True, blank=True)
     color = models.CharField(max_length=8, default='778B1A55')
     
     def __unicode__(self):
@@ -953,12 +957,14 @@ class NearshoreSubstrate(models.Model):
         
 class NearshoreExposure(models.Model):
     name = models.CharField(max_length=30)
+    short_name = models.CharField(max_length=30, null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' %self.name
         
 class NearshoreEcosystem(models.Model):
     name = models.CharField(max_length=30)
+    short_name = models.CharField(max_length=30, null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' %self.name
@@ -976,6 +982,13 @@ class Chlorophyl(models.Model):
         return u'%s' %self.name
         
 class OffshoreConservationParameterArea(models.Model):
+    name = models.CharField(max_length=70)
+    area = models.FloatField(null=True,blank=True, verbose_name="area in meters")
+    
+    def __unicode__(self):
+        return u'%s' %self.name
+        
+class NearshoreConservationParameterArea(models.Model):
     name = models.CharField(max_length=70)
     area = models.FloatField(null=True,blank=True, verbose_name="area in meters")
     
