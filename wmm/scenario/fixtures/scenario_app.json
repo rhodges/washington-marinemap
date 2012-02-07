@@ -155,27 +155,6 @@
         }
     }, 
     {
-        "pk": 1, 
-        "model": "scenario.fisheriesobjective", 
-        "fields": {
-            "objective": 6
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "scenario.fisheriesobjective", 
-        "fields": {
-            "objective": 5
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "scenario.developmentobjective", 
-        "fields": {
-            "objective": 4
-        }
-    }, 
-    {
         "pk": 4, 
         "model": "scenario.parameter", 
         "fields": {
@@ -480,55 +459,6 @@
     }, 
     {
         "pk": 1, 
-        "model": "scenario.shoresidedevelopmentparameter", 
-        "fields": {
-            "parameter": 1
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "scenario.shellfishaquacultureparameter", 
-        "fields": {
-            "parameter": 5
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "scenario.shellfishaquacultureparameter", 
-        "fields": {
-            "parameter": 1
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "scenario.shellfishaquacultureparameter", 
-        "fields": {
-            "parameter": 3
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "scenario.offshorefishingparameter", 
-        "fields": {
-            "parameter": 2
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "scenario.offshorefishingparameter", 
-        "fields": {
-            "parameter": 3
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "scenario.offshorefishingparameter", 
-        "fields": {
-            "parameter": 5
-        }
-    }, 
-    {
-        "pk": 1, 
         "model": "scenario.substrate", 
         "fields": {
             "color": "#bb6600", 
@@ -734,99 +664,12 @@
         }
     }, 
     {
-        "pk": 1, 
+        "pk": 14, 
         "model": "scenario.nearshoresubstrate", 
         "fields": {
             "color": "778B1A55", 
-            "name": "Rock"
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "scenario.nearshoresubstrate", 
-        "fields": {
-            "color": "778B1A55", 
-            "name": "Boulder"
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "scenario.nearshoresubstrate", 
-        "fields": {
-            "color": "778B1A55", 
-            "name": "Cobble/Gravel"
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "scenario.nearshoresubstrate", 
-        "fields": {
-            "color": "778B1A55", 
-            "name": "Sand/Mud"
-        }
-    }, 
-    {
-        "pk": 5, 
-        "model": "scenario.nearshoresubstrate", 
-        "fields": {
-            "color": "778B1A55", 
-            "name": "Gravel"
-        }
-    }, 
-    {
-        "pk": 6, 
-        "model": "scenario.nearshoresubstrate", 
-        "fields": {
-            "color": "778B1A55", 
-            "name": "Man-made"
-        }
-    }, 
-    {
-        "pk": 7, 
-        "model": "scenario.nearshoresubstrate", 
-        "fields": {
-            "color": "778B1A55", 
-            "name": "Mud"
-        }
-    }, 
-    {
-        "pk": 8, 
-        "model": "scenario.nearshoresubstrate", 
-        "fields": {
-            "color": "778B1A55", 
-            "name": "Organics/fines"
-        }
-    }, 
-    {
-        "pk": 9, 
-        "model": "scenario.nearshoresubstrate", 
-        "fields": {
-            "color": "778B1A55", 
-            "name": "Sand"
-        }
-    }, 
-    {
-        "pk": 10, 
-        "model": "scenario.nearshoresubstrate", 
-        "fields": {
-            "color": "778B1A55", 
-            "name": "Sand&Gravel"
-        }
-    }, 
-    {
-        "pk": 11, 
-        "model": "scenario.nearshoresubstrate", 
-        "fields": {
-            "color": "778B1A55", 
-            "name": "Shell"
-        }
-    }, 
-    {
-        "pk": 12, 
-        "model": "scenario.nearshoresubstrate", 
-        "fields": {
-            "color": "778B1A55", 
-            "name": "Unconsolidated"
+            "name": "Wood Debris/Organic", 
+            "short_name": "wood_debris_organic"
         }
     }, 
     {
@@ -834,120 +677,236 @@
         "model": "scenario.nearshoresubstrate", 
         "fields": {
             "color": "778B1A55", 
-            "name": "Undefined"
+            "name": "Undefined", 
+            "short_name": "undefined"
         }
     }, 
     {
-        "pk": 14, 
+        "pk": 12, 
         "model": "scenario.nearshoresubstrate", 
         "fields": {
             "color": "778B1A55", 
-            "name": "Wood Debris/Organic"
+            "name": "Unconsolidated", 
+            "short_name": "unconsolidated"
         }
     }, 
     {
-        "pk": 1, 
-        "model": "scenario.nearshoreexposure", 
+        "pk": 11, 
+        "model": "scenario.nearshoresubstrate", 
         "fields": {
-            "name": "Exposed"
+            "color": "778B1A55", 
+            "name": "Shell", 
+            "short_name": "shell"
         }
     }, 
     {
-        "pk": 2, 
-        "model": "scenario.nearshoreexposure", 
+        "pk": 10, 
+        "model": "scenario.nearshoresubstrate", 
         "fields": {
-            "name": "Protected"
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "scenario.nearshoreexposure", 
-        "fields": {
-            "name": "Very Protected"
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "scenario.nearshoreexposure", 
-        "fields": {
-            "name": "Very Exposed"
-        }
-    }, 
-    {
-        "pk": 5, 
-        "model": "scenario.nearshoreexposure", 
-        "fields": {
-            "name": "Unknown"
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "scenario.nearshoreecosystem", 
-        "fields": {
-            "name": "Aquatic Bed"
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "scenario.nearshoreecosystem", 
-        "fields": {
-            "name": "Dune Grass"
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "scenario.nearshoreecosystem", 
-        "fields": {
-            "name": "Fresh Marsh"
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "scenario.nearshoreecosystem", 
-        "fields": {
-            "name": "Kelp"
-        }
-    }, 
-    {
-        "pk": 5, 
-        "model": "scenario.nearshoreecosystem", 
-        "fields": {
-            "name": "Organics"
-        }
-    }, 
-    {
-        "pk": 6, 
-        "model": "scenario.nearshoreecosystem", 
-        "fields": {
-            "name": "Saltmarsh"
-        }
-    }, 
-    {
-        "pk": 7, 
-        "model": "scenario.nearshoreecosystem", 
-        "fields": {
-            "name": "Seagrass"
-        }
-    }, 
-    {
-        "pk": 8, 
-        "model": "scenario.nearshoreecosystem", 
-        "fields": {
-            "name": "Shrub Marsh"
+            "color": "778B1A55", 
+            "name": "Sand&Gravel", 
+            "short_name": "sand_gravel"
         }
     }, 
     {
         "pk": 9, 
-        "model": "scenario.nearshoreecosystem", 
+        "model": "scenario.nearshoresubstrate", 
         "fields": {
-            "name": "Surfgrass"
+            "color": "778B1A55", 
+            "name": "Sand", 
+            "short_name": "sand"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "scenario.nearshoresubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Organics/fines", 
+            "short_name": "organics_fines"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "scenario.nearshoresubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Mud", 
+            "short_name": "mud"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.nearshoresubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Man-made", 
+            "short_name": "man_made"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.nearshoresubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Gravel", 
+            "short_name": "gravel"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.nearshoresubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Sand/Mud", 
+            "short_name": "sand_mud"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.nearshoresubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Cobble/Gravel", 
+            "short_name": "cobble_gravel"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.nearshoresubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Boulder", 
+            "short_name": "boulder"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.nearshoresubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Rock", 
+            "short_name": "rock"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.nearshoreexposure", 
+        "fields": {
+            "name": "Unknown", 
+            "short_name": "unknown"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.nearshoreexposure", 
+        "fields": {
+            "name": "Very Exposed", 
+            "short_name": "very_exposed"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.nearshoreexposure", 
+        "fields": {
+            "name": "Very Protected", 
+            "short_name": "very_protected"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.nearshoreexposure", 
+        "fields": {
+            "name": "Protected", 
+            "short_name": "protected"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.nearshoreexposure", 
+        "fields": {
+            "name": "Exposed", 
+            "short_name": "exposed"
         }
     }, 
     {
         "pk": 10, 
         "model": "scenario.nearshoreecosystem", 
         "fields": {
-            "name": "Undefined"
+            "name": "Undefined", 
+            "short_name": "undefined"
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "scenario.nearshoreecosystem", 
+        "fields": {
+            "name": "Surfgrass", 
+            "short_name": "surfgrass"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "scenario.nearshoreecosystem", 
+        "fields": {
+            "name": "Shrub Marsh", 
+            "short_name": "shrub_marsh"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "scenario.nearshoreecosystem", 
+        "fields": {
+            "name": "Seagrass", 
+            "short_name": "seagrass"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.nearshoreecosystem", 
+        "fields": {
+            "name": "Saltmarsh", 
+            "short_name": "saltmarsh"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.nearshoreecosystem", 
+        "fields": {
+            "name": "Organics", 
+            "short_name": "organics"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.nearshoreecosystem", 
+        "fields": {
+            "name": "Kelp", 
+            "short_name": "kelp"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.nearshoreecosystem", 
+        "fields": {
+            "name": "Fresh Marsh", 
+            "short_name": "fresh_marsh"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.nearshoreecosystem", 
+        "fields": {
+            "name": "Dune Grass", 
+            "short_name": "dune_grass"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.nearshoreecosystem", 
+        "fields": {
+            "name": "Aquatic Bed", 
+            "short_name": "aquatic_bed"
         }
     }, 
     {

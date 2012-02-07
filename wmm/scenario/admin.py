@@ -89,18 +89,18 @@ class GeomorphologyAdmin(admin.ModelAdmin):
 admin.site.register(Geomorphology, GeomorphologyAdmin)
 
 class NearshoreSubstrateAdmin(admin.ModelAdmin):
-    list_display = ['name', 'id', 'color']
-    fields = ['name', 'color']
+    list_display = ['name', 'id', 'short_name', 'color']
+    fields = ['name', 'short_name', 'color']
 admin.site.register(NearshoreSubstrate, NearshoreSubstrateAdmin)
 
 class NearshoreExposureAdmin(admin.ModelAdmin):
-    list_display = ['name', 'id']
-    fields = ['name']
+    list_display = ['name', 'id', 'short_name']
+    fields = ['name', 'short_name']
 admin.site.register(NearshoreExposure, NearshoreExposureAdmin)
 
 class NearshoreEcosystemAdmin(admin.ModelAdmin):
-    list_display = ['name', 'id']
-    fields = ['name']
+    list_display = ['name', 'id', 'short_name']
+    fields = ['name', 'short_name']
 admin.site.register(NearshoreEcosystem, NearshoreEcosystemAdmin)
 
 class UpwellingAdmin(admin.ModelAdmin):
