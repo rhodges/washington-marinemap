@@ -1,0 +1,93 @@
+{% extends 'common/panel.html' %}
+
+{% load percentage %}
+
+{% block title %}Area of Interest Tidal Energy Report{% endblock %}
+{% block panel %}
+
+<div class='freetext'>
+<h3>Depth Range</h3>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td><b>Min Depth</b></td>
+            <td><b>Max Depth</b></td>
+            <td><b>Average Depth</b></td>
+        </tr>
+        <tr>
+            <td>{{default_value}}</td>
+            <td>{{default_value}}</td>
+            <td>{{default_value}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Substrate Types</h3>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Substrate (Area)</b></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{{default_value}}</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Mean Tidal Potential</h3>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td><b>Min Energy</b></td>
+            <td><b>Max Energy</b></td>
+            <td><b>Average Energy</b></td>
+        </tr>
+        <tr>
+            <td>{{default_value}}</td>
+            <td>{{default_value}}</td>
+            <td>{{default_value}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Max Tidal Potential</h3>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td><b>Min Energy</b></td>
+            <td><b>Max Energy</b></td>
+            <td><b>Average Energy</b></td>
+        </tr>
+        <tr>
+            <td>{{default_value}}</td>
+            <td>{{default_value}}</td>
+            <td>{{default_value}}</td>
+        </tr>
+    </tbody>
+</table>
+
+</div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script type="text/javascript">
+function toggleDiv(divId, srcId) {
+   $("#"+divId).toggle();
+    if ($("#"+srcId).text() == 'Learn More') { 
+        $("#"+srcId).text('Hide Text'); 
+    } else { 
+        $("#"+srcId).text('Learn More'); 
+    }
+}
+
+</script>
+
+{% endblock %}
