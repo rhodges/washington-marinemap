@@ -40,34 +40,6 @@ def overlap_report(request, mos_id):
             
     return HttpResponse('Overlap Report coming soon...')
  
-'''
-'''
-def wind_analysis(request, ws_id, type):
-    from wind.wind_analysis import display_wind_analysis
-    wind_obj = get_object_or_404(WindEnergySite, pk=ws_id)
-    #check permissions
-    viewable, response = wind_obj.is_viewable(request.user)
-    if not viewable:
-        return response
-    return display_wind_analysis(request, wind_obj, type)
-    
-'''
-'''
-def conservation_analysis(request, cs_id, type):
-    from conservation.conservation_analysis import display_conservation_analysis
-    cs_object = get_object_or_404(ConservationSite, pk=cs_id)
-    #check permissions
-    viewable, response = cs_object.is_viewable(request.user)
-    if not viewable:
-        return response
-    return display_conservation_analysis(request, cs_object, type)
-    
-'''    
-def get_objs(request, instance):
-    context = {}
-    return HttpResponse(context)
-'''
-
 def list_params(request, template='mos/list_parameters.html'):
     if request.POST:
         
@@ -90,21 +62,7 @@ def list_params(request, template='mos/list_parameters.html'):
                 
         context = {'initial_params': initial_params, 'current_params': current_params, 'checked_list': selected_params}
         return render_to_response(template, RequestContext(request, context)) 
-    #return HttpResponse(context)
-
-    
-'''
-def post_params(request, template='multi_objective_scenario/input_parameters.html'):
-    if request.POST:
-        selected_params = {}
-        selected_objs = getlist(request, 'selected_objs[]')
-        for obj_id in selected_objs:
-            selected_params[Objective.objects.get(pk=obj_id)] = getlist(request, 'selected_params[%s]'%obj_id)
-        #form = request.POST
-        context = {'selected_params': selected_params, 'selected_objs': selected_objs, 'form': form}
-        return render_to_response(template, RequestContext(request, context))
-'''
-        
+    #return HttpResponse(context)    
     
 def getlist(request, param_string):
     string_list = request.POST.getlist(param_string)
