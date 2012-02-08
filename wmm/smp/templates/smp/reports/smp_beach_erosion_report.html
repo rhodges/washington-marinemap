@@ -19,9 +19,9 @@
             <td><b>Max Slope</b></td>
         </tr>
         <tr>
-            <td>{{avg_slope|floatformat:1}}&deg;</td>
-            <td>{{min_slope|floatformat:1}}&deg;</td>
-            <td>{{max_slope|floatformat:1}}&deg;</td>
+            <td>{% if avg_slope %}{{avg_slope|floatformat:1}}&deg;{% else %}Unavailable{% endif %}</td>
+            <td>{% if min_slope %}{{min_slope|floatformat:1}}&deg;{% else %}Unavailable{% endif %}</td>
+            <td>{% if max_slope %}{{max_slope|floatformat:1}}&deg;{% else %}Unavailable{% endif %}</td>
         </tr>
     </tbody>
 </table>
@@ -92,7 +92,7 @@
         </tr>
         <tr>
             <td></td>
-            <td>{{shoremod_perc|percentage:0}} </td>
+            <td>{% if shoremod_perc != default_value %}{{shoremod_perc|percentage:0}}{% else %}None Found{% endif %}</td>
             <td></td>
         </tr>
     </tbody>
