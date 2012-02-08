@@ -93,12 +93,16 @@ def get_structures(smp):
 def get_shoremod_avg(smp):
     shoremod_geom = RasterDataset.objects.get(name='shoremod')
     shoremod_stats = zonal_stats(smp.geometry_final, shoremod_geom)
-    avg_modification = shoremod_stats.avg / 100
+    if shoremod_stats.avg:
+        avg_modification = shoremod_stats.avg / 100
+    else:
+        avg_modification = default_value
     return avg_modification
     
 def get_sand_perc(smp):
     substrate_geom = RasterDataset.objects.get(name='substrate')
     substrate_stats = zonal_stats(smp.geometry_final, substrate_geom)
+    sand_perc, sand_mud_perc, sand_gravel_perc = [[],[],[]]
     if substrate_stats.pixels:
         total_pixels = 0.0
         categories = substrate_stats.categories.all()
@@ -122,6 +126,7 @@ def get_sand_perc(smp):
 def get_exposure_percs(smp):
     exposure_geom = RasterDataset.objects.get(name='exposure')
     exposure_stats = zonal_stats(smp.geometry_final, exposure_geom)
+    exposed, very_exposed = [[],[]]
     if exposure_stats.pixels:
         total_pixels = 0.0
         categories = exposure_stats.categories.all()
@@ -141,6 +146,7 @@ def get_exposure_percs(smp):
 def get_vegetation_percs(smp): 
     veg_geom = RasterDataset.objects.get(name='vegetation')
     veg_stats = zonal_stats(smp.geometry_final, veg_geom)
+    seagrass,saltmarsh,surfgrass = [[],[],[]]
     if veg_stats.pixels:
         total_pixels = 0.0
         categories = veg_stats.categories.all()
@@ -149,9 +155,7 @@ def get_vegetation_percs(smp):
             if cat.category in range(1,11):
                 veg_dict[cat.category] = cat.count
                 total_pixels += cat.count
-        seagrass = []
-        saltmarsh = []
-        surfgrass = []
+        seagrass,saltmarsh,surfgrass = [[],[],[]]
         if 7 in veg_dict.keys():
             seagrass = [veg_dict[7]/total_pixels]
         if 6 in veg_dict.keys():
