@@ -1,4 +1,4 @@
-[ 
+[
     {
         "pk": 4, 
         "model": "scenario.category", 
@@ -476,43 +476,7 @@
         }
     }, 
     {
-        "pk": 3, 
-        "model": "scenario.substrate", 
-        "fields": {
-            "color": "#995500", 
-            "name": "Island/Rock", 
-            "short_name": "island_rock"
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "scenario.substrate", 
-        "fields": {
-            "color": "#ccaa00", 
-            "name": "Mud", 
-            "short_name": "mud"
-        }
-    }, 
-    {
-        "pk": 5, 
-        "model": "scenario.substrate", 
-        "fields": {
-            "color": "#664400", 
-            "name": "Rock", 
-            "short_name": "rock"
-        }
-    }, 
-    {
-        "pk": 6, 
-        "model": "scenario.substrate", 
-        "fields": {
-            "color": "#ffeecc", 
-            "name": "Sand", 
-            "short_name": "sand"
-        }
-    }, 
-    {
-        "pk": 7, 
+        "pk": 8, 
         "model": "scenario.substrate", 
         "fields": {
             "color": "#eeeeee", 
@@ -521,7 +485,43 @@
         }
     }, 
     {
-        "pk": 8, 
+        "pk": 7, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "color": "#ffeecc", 
+            "name": "Sand", 
+            "short_name": "sand"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "color": "#664400", 
+            "name": "Rock", 
+            "short_name": "rock"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "color": "#ccaa00", 
+            "name": "Mud", 
+            "short_name": "mud"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.substrate", 
+        "fields": {
+            "color": "#995500", 
+            "name": "Island/Rock", 
+            "short_name": "island_rock"
+        }
+    }, 
+    {
+        "pk": 3, 
         "model": "scenario.substrate", 
         "fields": {
             "color": "#dddddd", 
@@ -600,14 +600,6 @@
         }
     }, 
     {
-        "pk": 4, 
-        "model": "scenario.depthclass", 
-        "fields": {
-            "name": "Midshelf", 
-            "short_name": "midshelf"
-        }
-    }, 
-    {
         "pk": 3, 
         "model": "scenario.depthclass", 
         "fields": {
@@ -616,7 +608,7 @@
         }
     }, 
     {
-        "pk": 2, 
+        "pk": 1, 
         "model": "scenario.depthclass", 
         "fields": {
             "name": "Innershelf", 
@@ -624,7 +616,15 @@
         }
     }, 
     {
-        "pk": 1, 
+        "pk": 2, 
+        "model": "scenario.depthclass", 
+        "fields": {
+            "name": "Midshelf", 
+            "short_name": "midshelf"
+        }
+    }, 
+    {
+        "pk": 4, 
         "model": "scenario.depthclass", 
         "fields": {
             "name": "Bathybenthal", 
@@ -661,6 +661,114 @@
         "fields": {
             "name": "Basin", 
             "short_name": "basin"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Boulder", 
+            "short_name": "boulder"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Channel", 
+            "short_name": "channel"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Cobble/Gravel", 
+            "short_name": "cobble_gravel"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Island/Rock", 
+            "short_name": "island_rock"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Mud", 
+            "short_name": "mud"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Organics/fines", 
+            "short_name": "organics_fines"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Rock", 
+            "short_name": "rock"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Sand", 
+            "short_name": "sand"
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Sand/Mud", 
+            "short_name": "sand_mud"
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Shell", 
+            "short_name": "shell"
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Undefined", 
+            "short_name": "undefined"
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "scenario.tidalsubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Wood Debris/Organic", 
+            "short_name": "wood_debris_organic"
         }
     }, 
     {
@@ -704,12 +812,21 @@
         "model": "scenario.nearshoresubstrate", 
         "fields": {
             "color": "778B1A55", 
-            "name": "Sand&Gravel", 
-            "short_name": "sand_gravel"
+            "name": "Sand/Mud", 
+            "short_name": "sand_mud"
         }
     }, 
     {
         "pk": 9, 
+        "model": "scenario.nearshoresubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Sand & Gravel", 
+            "short_name": "sand_gravel"
+        }
+    }, 
+    {
+        "pk": 8, 
         "model": "scenario.nearshoresubstrate", 
         "fields": {
             "color": "778B1A55", 
@@ -718,7 +835,7 @@
         }
     }, 
     {
-        "pk": 8, 
+        "pk": 6, 
         "model": "scenario.nearshoresubstrate", 
         "fields": {
             "color": "778B1A55", 
@@ -731,21 +848,30 @@
         "model": "scenario.nearshoresubstrate", 
         "fields": {
             "color": "778B1A55", 
-            "name": "Mud", 
-            "short_name": "mud"
+            "name": "Rock", 
+            "short_name": "rock"
         }
     }, 
     {
-        "pk": 6, 
+        "pk": 1, 
         "model": "scenario.nearshoresubstrate", 
         "fields": {
             "color": "778B1A55", 
-            "name": "Man-made", 
-            "short_name": "man_made"
+            "name": "Boulder", 
+            "short_name": "boulder"
         }
     }, 
     {
-        "pk": 5, 
+        "pk": 2, 
+        "model": "scenario.nearshoresubstrate", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Cobble/Gravel", 
+            "short_name": "cobble_gravel"
+        }
+    }, 
+    {
+        "pk": 3, 
         "model": "scenario.nearshoresubstrate", 
         "fields": {
             "color": "778B1A55", 
@@ -758,35 +884,17 @@
         "model": "scenario.nearshoresubstrate", 
         "fields": {
             "color": "778B1A55", 
-            "name": "Sand/Mud", 
-            "short_name": "sand_mud"
+            "name": "Man-made", 
+            "short_name": "man_made"
         }
     }, 
     {
-        "pk": 3, 
+        "pk": 5, 
         "model": "scenario.nearshoresubstrate", 
         "fields": {
             "color": "778B1A55", 
-            "name": "Cobble/Gravel", 
-            "short_name": "cobble_gravel"
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "scenario.nearshoresubstrate", 
-        "fields": {
-            "color": "778B1A55", 
-            "name": "Boulder", 
-            "short_name": "boulder"
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "scenario.nearshoresubstrate", 
-        "fields": {
-            "color": "778B1A55", 
-            "name": "Rock", 
-            "short_name": "rock"
+            "name": "Mud", 
+            "short_name": "mud"
         }
     }, 
     {
@@ -798,7 +906,7 @@
         }
     }, 
     {
-        "pk": 4, 
+        "pk": 1, 
         "model": "scenario.nearshoreexposure", 
         "fields": {
             "name": "Very Exposed", 
@@ -806,15 +914,15 @@
         }
     }, 
     {
-        "pk": 3, 
+        "pk": 2, 
         "model": "scenario.nearshoreexposure", 
         "fields": {
-            "name": "Very Protected", 
-            "short_name": "very_protected"
+            "name": "Exposed", 
+            "short_name": "exposed"
         }
     }, 
     {
-        "pk": 2, 
+        "pk": 3, 
         "model": "scenario.nearshoreexposure", 
         "fields": {
             "name": "Protected", 
@@ -822,11 +930,11 @@
         }
     }, 
     {
-        "pk": 1, 
+        "pk": 4, 
         "model": "scenario.nearshoreexposure", 
         "fields": {
-            "name": "Exposed", 
-            "short_name": "exposed"
+            "name": "Very Protected", 
+            "short_name": "very_protected"
         }
     }, 
     {
