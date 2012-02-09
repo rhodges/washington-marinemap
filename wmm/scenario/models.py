@@ -28,7 +28,7 @@ class MOS(Feature):
     input_dist_port_tidal_energy = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
     input_min_depth_tidal_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_tidal_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
-    input_substrate_tidal_energy = models.ManyToManyField("Substrate", related_name="MOSTidalEnergySubstrate", null=True, blank=True)
+    input_substrate_tidal_energy = models.ManyToManyField("TidalSubstrate", null=True, blank=True)
     input_min_tidalmean_tidal_energy = models.FloatField(verbose_name='Minimum TidalMax', null=True, blank=True)
     input_max_tidalmean_tidal_energy = models.FloatField(verbose_name='Maximum TidalMax', null=True, blank=True)
     input_min_tidalmax_tidal_energy = models.FloatField(verbose_name='Minimum TidalMax', null=True, blank=True)
@@ -148,6 +148,8 @@ class MOS(Feature):
                 scenario.input_parameters = input_params 
                 if obj_short_name == 'nearshore_conservation':
                     scenario.input_nearshore_substrate = substrates
+                elif obj_short_name == 'tidal_energy':
+                    scenario.input_tidal_substrate = substrates
                 else:
                     scenario.input_substrate = substrates                  
                 scenario.input_nearshore_ecosystem = ecosystems                   
@@ -421,6 +423,8 @@ class Scenario(Analysis):
     input_min_wavewinter = models.FloatField(verbose_name='Minimum Wave-Winter', null=True, blank=True)
     input_max_wavewinter = models.FloatField(verbose_name='Maximum Wave-Winter', null=True, blank=True)
     
+    input_tidal_substrate = models.ManyToManyField("TidalSubstrate", null=True, blank=True)
+    
     input_substrate = models.ManyToManyField("Substrate", null=True, blank=True)  
     input_depth_class = models.ManyToManyField("DepthClass", null=True, blank=True)    
     input_geomorphology = models.ManyToManyField("Geomorphology", null=True, blank=True)
@@ -494,6 +498,8 @@ class Scenario(Analysis):
         if 5 in input_params:
             if self.input_objective.short_name == 'nearshore_conservation':
                 substrate_formula = ' || '.join(['nearshore_substrate==%s' % substrate.id for substrate in self.input_nearshore_substrate.all()])
+            elif self.input_objective.short_name == 'tidal_energy':
+                substrate_formula = ' || '.join(['tidal_substrate==%s' % substrate.id for substrate in self.input_tidal_substrate.all()])
             else:
                 substrate_formula = ' || '.join(['substrate==%s' % substrate.id for substrate in self.input_substrate.all()])
             substrate = 'if(%s)' %substrate_formula
@@ -634,6 +640,7 @@ class Scenario(Analysis):
                     #(I assume this means the form.save_m2m actually has to be called), after which calls to getattr 
                     #will return the same list (regardless of whether we use orig or self)
                     orig_substrates = set(getattr(orig, 'input_substrate').all())
+                    orig_tidal_substrates = set(getattr(orig, 'input_tidal_substrate').all())
                     orig_nearshore_substrates = set(getattr(orig, 'input_nearshore_substrate').all())
                     orig_nearshore_exposures = set(getattr(orig, 'input_nearshore_exposure').all())
                     orig_nearshore_ecosystems = set(getattr(orig, 'input_nearshore_ecosystem').all())
@@ -643,6 +650,7 @@ class Scenario(Analysis):
                     orig_chlorophyls = set(getattr(orig, 'input_chlorophyl').all())
                     super(Scenario, self).save(rerun=False, *args, **kwargs)
                     new_substrates = set(getattr(self, 'input_substrate').all())
+                    new_tidal_substrates = set(getattr(self, 'input_tidal_substrate').all())
                     new_nearshore_substrates = set(getattr(self, 'input_nearshore_substrate').all())
                     new_nearshore_exposures = set(getattr(self, 'input_nearshore_exposure').all())
                     new_nearshore_ecosystems = set(getattr(self, 'input_nearshore_ecosystem').all())
@@ -720,6 +728,8 @@ class Scenario(Analysis):
     def input_substrate_names(self):
         if self.input_objective.short_name == 'nearshore_conservation':
             substrate_names = [substrate.name for substrate in self.input_nearshore_substrate.all()]
+        elif self.input_objective.short_name == 'tidal_energy':
+            substrate_names = [substrate.name for substrate in self.input_tidal_substrate.all()]
         else: 
             substrate_names = [substrate.name for substrate in self.input_substrate.all()]
         return substrate_names
@@ -945,7 +955,15 @@ class Geomorphology(models.Model):
     short_name = models.CharField(max_length=30, null=True, blank=True)
     
     def __unicode__(self):
-        return u'%s' % self.name        
+        return u'%s' % self.name    
+
+class TidalSubstrate(models.Model):
+    name = models.CharField(max_length=30)
+    short_name = models.CharField(max_length=30, null=True, blank=True)
+    color = models.CharField(max_length=8, default='778B1A55')
+    
+    def __unicode__(self):
+        return u'%s' %self.name    
 
 class NearshoreSubstrate(models.Model):
     name = models.CharField(max_length=30)

@@ -88,6 +88,11 @@ class GeomorphologyAdmin(admin.ModelAdmin):
     fields = ['name', 'short_name']
 admin.site.register(Geomorphology, GeomorphologyAdmin)
 
+class TidalSubstrateAdmin(admin.ModelAdmin):
+    list_display = ['name', 'id', 'short_name', 'color']
+    fields = ['name', 'short_name', 'color']
+admin.site.register(TidalSubstrate, TidalSubstrateAdmin)
+
 class NearshoreSubstrateAdmin(admin.ModelAdmin):
     list_display = ['name', 'id', 'short_name', 'color']
     fields = ['name', 'short_name', 'color']
