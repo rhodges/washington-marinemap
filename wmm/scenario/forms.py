@@ -210,15 +210,15 @@ class MOSForm(FeatureForm):
     
     # Objective 9 - Water Column Conservation (Pelagic)
     # NOTE:  The input parameters must be ordered by id 
-    input_parameters_water_column_conservation = forms.ModelMultipleChoiceField(queryset=WaterColumnConservationParameter.objects.all().order_by('id'),
-                                                                                widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_water_column_conservation'}),
+    input_parameters_pelagic_conservation = forms.ModelMultipleChoiceField(queryset=PelagicConservationParameter.objects.all().order_by('id'),
+                                                                                widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_pelagic_conservation'}),
                                                                                 required=False, 
                                                                                 label="")
-    input_upwelling_water_column_conservation = ModelMultipleChoiceField(   queryset=Upwelling.objects.all().order_by('id'), 
-                                                                            widget=forms.CheckboxSelectMultiple(attrs={'class':'water_column_conservation_upwelling_checkboxes'}),
+    input_upwelling_pelagic_conservation = ModelMultipleChoiceField(   queryset=Upwelling.objects.all().order_by('id'), 
+                                                                            widget=forms.CheckboxSelectMultiple(attrs={'class':'pelagic_conservation_upwelling_checkboxes'}),
                                                                             required=False) 
-    input_chlorophyl_water_column_conservation = ModelMultipleChoiceField(  queryset=Chlorophyl.objects.all().order_by('id'), 
-                                                                            widget=forms.CheckboxSelectMultiple(attrs={'class':'water_column_conservation_chlorophyl_checkboxes'}),
+    input_chlorophyl_pelagic_conservation = ModelMultipleChoiceField(  queryset=Chlorophyl.objects.all().order_by('id'), 
+                                                                            widget=forms.CheckboxSelectMultiple(attrs={'class':'pelagic_conservation_chlorophyl_checkboxes'}),
                                                                             required=False) 
                   
     

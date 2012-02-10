@@ -20,6 +20,9 @@ def scenario_report(request, mos_id, scenario_id):
     elif scenario_obj.input_objective.short_name == 'nearshore_conservation':
         from mos.nearshore_conservation import display_nearshore_conservation_report
         return display_nearshore_conservation_report(request, mos_obj, scenario_obj)
+    elif scenario_obj.input_objective.short_name == 'pelagic_conservation':
+        from mos.pelagic_conservation import display_pelagic_conservation_report
+        return display_pelagic_conservation_report(request, mos_obj, scenario_obj)
     elif scenario_obj.input_objective.short_name == 'wind_energy':
         from mos.wind_energy import display_wind_energy_report
         return display_wind_energy_report(request, mos_obj, scenario_obj)

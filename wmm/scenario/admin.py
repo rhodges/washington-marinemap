@@ -63,10 +63,10 @@ class NearshoreConservationParameterAdmin(admin.ModelAdmin):
     fields = ['parameter']
 admin.site.register(NearshoreConservationParameter, NearshoreConservationParameterAdmin)
 
-class WaterColumnConservationParameterAdmin(admin.ModelAdmin):
+class PelagicConservationParameterAdmin(admin.ModelAdmin):
     list_display = ['parameter', 'id']
     fields = ['parameter']
-admin.site.register(WaterColumnConservationParameter, WaterColumnConservationParameterAdmin)
+admin.site.register(PelagicConservationParameter, PelagicConservationParameterAdmin)
 
 class SubstrateAdmin(admin.ModelAdmin):
     list_display = ['name', 'id', 'short_name', 'color']
@@ -109,13 +109,13 @@ class NearshoreEcosystemAdmin(admin.ModelAdmin):
 admin.site.register(NearshoreEcosystem, NearshoreEcosystemAdmin)
 
 class UpwellingAdmin(admin.ModelAdmin):
-    list_display = ['name', 'id']
-    fields = ['name']
+    list_display = ['name', 'id', 'short_name']
+    fields = ['name', 'short_name']
 admin.site.register(Upwelling, UpwellingAdmin)
 
 class ChlorophylAdmin(admin.ModelAdmin):
-    list_display = ['name', 'id']
-    fields = ['name']
+    list_display = ['name', 'id', 'short_name']
+    fields = ['name', 'short_name']
 admin.site.register(Chlorophyl, ChlorophylAdmin)
 
 class OffshoreConservationParameterAreaAdmin(admin.ModelAdmin):
@@ -123,10 +123,25 @@ class OffshoreConservationParameterAreaAdmin(admin.ModelAdmin):
     fields = ['name', 'area']
 admin.site.register(OffshoreConservationParameterArea, OffshoreConservationParameterAreaAdmin)
 
+class NearshoreConservationParameterAreaAdmin(admin.ModelAdmin):
+    list_display = ['name', 'area']
+    fields = ['name', 'area']
+admin.site.register(NearshoreConservationParameterArea, NearshoreConservationParameterAreaAdmin)
+
+class PelagicConservationParameterAreaAdmin(admin.ModelAdmin):
+    list_display = ['name', 'area']
+    fields = ['name', 'area']
+admin.site.register(PelagicConservationParameterArea, PelagicConservationParameterAreaAdmin)
+
 class WindEnergyParameterAreaAdmin(admin.ModelAdmin):
     list_display = ['name', 'area']
     fields = ['name', 'area']
 admin.site.register(WindEnergyParameterArea, WindEnergyParameterAreaAdmin)
+
+class WaveEnergyParameterAreaAdmin(admin.ModelAdmin):
+    list_display = ['name', 'area']
+    fields = ['name', 'area']
+admin.site.register(WaveEnergyParameterArea, WaveEnergyParameterAreaAdmin)
 
 class ConservationSiteAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'user', 'date_created', 'date_modified')
