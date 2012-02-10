@@ -21,7 +21,13 @@ def get_dict_from_stats(g, model_class, input_rast):
     #int_list becomes: [2, 1360911, 4, 2940800464]
     stats_dict = dict(zip(int_list[::2], int_list[1::2])) 
     #stats_dict becoms: {2: 1360911, 4: 2940800464}
-    name_dict = dict( map( lambda(key, value): (model_class.objects.get(id=key).short_name, value), stats_dict.items()))
+    name_dict = {}
+    for key, area in stats_dict.items():
+        try:
+            name_dict[model_class.objects.get(id=key).short_name] = area
+        except:
+            print "failed to find %s object with id=%s" %(model_class, key)
+    #name_dict = dict( map( lambda(key, value): (model_class.objects.get(id=key).short_name, value), stats_dict.items()))
     #name_dict finally becomes: {'Flat': 1360911, 'Slope': 2940800464}
     return name_dict, stats_dict
 

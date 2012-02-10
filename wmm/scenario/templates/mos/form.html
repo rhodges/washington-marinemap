@@ -8,9 +8,9 @@
         //categories_list = [ 'energy', 'conservation', 'fisheries', 'development' ];
         
         //currently ordered the same as on the form 
-        objectives_list = [ 'tidal_energy', 'wave_energy', 'wind_energy', 'offshore_conservation', 'nearshore_conservation', 'water_column_conservation', 'offshore_fishing', 'shellfish_aquaculture', 'shoreside_development' ];
+        objectives_list = [ 'tidal_energy', 'wave_energy', 'wind_energy', 'offshore_conservation', 'nearshore_conservation', 'pelagic_conservation', 'offshore_fishing', 'shellfish_aquaculture', 'shoreside_development' ];
         objectives_dict = { 'energy': ['tidal_energy', 'wave_energy', 'wind_energy'],
-                            'conservation': ['offshore_conservation', 'nearshore_conservation', 'water_column_conservation'] };
+                            'conservation': ['offshore_conservation', 'nearshore_conservation', 'pelagic_conservation'] };
                             //'fisheries': ['offshore_fishing', 'shellfish_aquaculture'], 
                             //'development': ['shoreside_development'] };
                             
@@ -21,7 +21,7 @@
                             'wind_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential'],
                             'offshore_conservation': ['substrate', 'depth_class', 'geomorphology'],
                             'nearshore_conservation': ['substrate', 'exposure', 'ecosystem'],
-                            'water_column_conservation': ['upwelling', 'chlorophyl'] };
+                            'pelagic_conservation': ['upwelling', 'chlorophyl'] };
                             //'offshore_fishing': ['distance_port', 'depth', 'substrate'],
                             //'shellfish_aquaculture': ['distance_shore', 'depth', 'substrate'],
                             //'shoreside_development': ['distance_shore'] };
@@ -461,12 +461,12 @@ span.form-image > img { width:46px; height:46px; }
             <p>{{ form.input_parameters_nearshore_conservation }} </p>
         </div>
     
-        <div id="water_column_conservation_params_header" style="text-indent:1em">
+        <div id="pelagic_conservation_params_header" style="text-indent:1em">
             <p><strong>Pelagic</strong>  
-            (<a id="showParams_water_column_conservation" href="javascript:toggleParams('water_column_conservation_params', 'showParams_water_column_conservation');">Hide Parameters</a>)</p>
+            (<a id="showParams_pelagic_conservation" href="javascript:toggleParams('pelagic_conservation_params', 'showParams_pelagic_conservation');">Hide Parameters</a>)</p>
         </div>
-        <div id="water_column_conservation_params">
-            <p>{{ form.input_parameters_water_column_conservation }} </p>
+        <div id="pelagic_conservation_params">
+            <p>{{ form.input_parameters_pelagic_conservation }} </p>
         </div>
     
         <!--  can also use style="display: none" to hide the div contents -->
@@ -693,21 +693,21 @@ span.form-image > img { width:46px; height:46px; }
             </div>
         </div>
             
-        <!-- Water Column Conservation -->
-        <div id="water_column_conservation_widgets_header" style="text-indent:1em">
+        <!-- Pelagic (Water Column) Conservation -->
+        <div id="pelagic_conservation_widgets_header" style="text-indent:1em">
             <p><strong>Pelagic</strong>   
-            <small>[<a id="showWidgets_water_column_conservation" href="javascript:toggleParams('water_column_conservation_widgets', 'showWidgets_water_column_conservation');">Hide Parameters</a>]:</small>
-            <div id="water_column_conservation_widgets">
-                <div id="upwelling_water_column_conservation_widget" class="inputfield">
+            <small>[<a id="showWidgets_pelagic_conservation" href="javascript:toggleParams('pelagic_conservation_widgets', 'showWidgets_pelagic_conservation');">Hide Parameters</a>]:</small>
+            <div id="pelagic_conservation_widgets">
+                <div id="upwelling_pelagic_conservation_widget" class="inputfield">
                     <label class="param">Upwelling </label>
                     <div class="field required">
-                        <p>{{ form.input_upwelling_water_column_conservation }} </p>
+                        <p>{{ form.input_upwelling_pelagic_conservation }} </p>
                     </div>
                 </div>
-                <div id="chlorophyl_water_column_conservation_widget" class="inputfield">
+                <div id="chlorophyl_pelagic_conservation_widget" class="inputfield">
                     <label class="param">Chlorophyl </label>
                     <div class="field required">
-                        <p>{{ form.input_chlorophyl_water_column_conservation }} </p>
+                        <p>{{ form.input_chlorophyl_pelagic_conservation }} </p>
                     </div>
                 </div>
             </div>        

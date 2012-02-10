@@ -27,7 +27,11 @@ def sort_dict(param_dict, model_class, param_area_class):
                 total_param_area = None
             if total_param_area is not None:
                 perc = param_dict[param.short_name][1] / total_param_area * 100
-                tooltip_text = "%.2f%s of available %s" %(perc, '%', param.name)
+                if perc == 100:
+                    perc = int(perc)
+                    tooltip_text = "%s%s of available %s" %(perc, '%', param.name)
+                else:
+                    tooltip_text = "%.2f%s of available %s" %(perc, '%', param.name)
             else:
                 tooltip_text = "Data Unavailable"
             #tooltip_text = "Total Area: %.2f sq miles" %param_dict[param.name][1]
@@ -48,7 +52,11 @@ def get_drill_down_stats(scenario, dictionary, outer_class, inner_class, param_a
             total_param_area = param_area_class.objects.get(name=drill_down_name).area
             if total_param_area is not None:
                 perc = param_dict[inner_short_name] / total_param_area * 100
-                tooltip_text = "%.2f%s of available %s/%s" %(perc, '%', inner_name, outer_name)
+                if perc == 100:
+                    perc = int(perc)
+                    tooltip_text = "%s%s of available %s/%s" %(perc, '%', inner_name, outer_name)
+                else:
+                    tooltip_text = "%.2f%s of available %s/%s" %(perc, '%', inner_name, outer_name)
             else:
                 tooltip_text = "Data Unavailable"
             #tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(area)

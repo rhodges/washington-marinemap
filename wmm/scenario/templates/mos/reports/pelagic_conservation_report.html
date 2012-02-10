@@ -1,0 +1,232 @@
+{% extends 'common/panel.html' %}
+{% load jsonify %}
+{% block title %}Multi-Objective Scenario Report{% endblock %}
+
+{% block panel %}
+
+<script type="text/javascript" charset="utf-8">
+lingcod.onShow(function() {
+
+    var obj_short_name = "{{ scenario.input_objective.short_name }}";
+    var bar_height = {{ bar_height }};
+    
+    
+    /*** THE SCENARIO REPORTS ***/
+    
+    var upwelling_extent = {{ upwelling_jextent|safe }};
+    var upwelling_data = [[]];
+    var series_object_array = [];
+    var upwelling_series = [];
+    
+    var chlorophyll_extent = {{ chlorophyll_jextent|safe }};
+    var chlorophyll_data = [[]];
+    
+    // Upwelling Scenario Chart
+    $.each(upwelling_extent, function( index, extent_tuple) {
+        upwelling_data[0].push( [extent_tuple[0], extent_tuple[1], extent_tuple[2]] );
+    });
+    
+    var upwelling_div = obj_short_name+'_upwellings';
+    var height = bar_height * upwelling_data[0].length + bar_height;
+    $('#'+upwelling_div).height(height);
+    console.log(upwelling_div);
+    console.log(upwelling_data);
+    chart = createChart(upwelling_div, upwelling_data); 
+    
+    // Chlorophyll Scenario Chart
+    $.each(chlorophyll_extent, function( index, extent_tuple) {
+        chlorophyll_data[0].push( [extent_tuple[0], extent_tuple[1], extent_tuple[2]] );
+    });
+        
+    var chlorophyll_div = obj_short_name+'_chlorophylls';
+    height = bar_height * chlorophyll_data[0].length + bar_height;
+    $('#'+chlorophyll_div).height(height);
+    chart = createChart(chlorophyll_div, chlorophyll_data); 
+    
+    
+    /*** THE UPWELLING REPORTS ***/
+    
+    // Upwelling Chlorophyll
+    var upwelling_chl_stats = {{ upwelling_chl_jstats|safe }};
+    div_suffix = 'chl';
+    process_stats_and_create_charts(upwelling_chl_stats, div_suffix);
+    
+    
+    /** THE CHLOROPHYLL REPORTS **/
+    
+    // Chlorophyll Upwelling 
+    var chlorophyll_upw_stats = {{ chlorophyll_upw_jstats|safe }};
+    div_suffix = 'upw';
+    process_stats_and_create_charts(chlorophyll_upw_stats, div_suffix);
+        
+    
+    /** CHART FUNCTIONS **/
+    
+    //creates array of series data, array of div names, and generates bar charts
+    function process_stats_and_create_charts(stats, div_suffix) {
+        var data = [];
+        var divs = [];
+        var len = 0;
+        for (var key in stats) {
+            if (!stats.hasOwnProperty(key)) { //not sure what this actually does...
+                continue;
+            }
+            series_data = [[]];
+            for (var inner_key in stats[key]) {
+                if (!stats[key].hasOwnProperty(inner_key)) {
+                    continue;
+                }
+                series_data[0].push( [stats[key][inner_key][0], inner_key, stats[key][inner_key][1]] );
+            }
+            data.push(series_data);
+            divs.push(obj_short_name+'_'+key+'_'+div_suffix); 
+            len++;
+        };
+        //console.log(divs);  
+        for (i=0; i<len; i++) {
+            var height = bar_height * data[i][0].length + bar_height;
+            $('#'+divs[i]).height(height);
+            chart = createChart(divs[i], data[i]); 
+        };
+    }
+    
+    
+    //Chart drawing function 
+    function createChart(div, data ) { //, series_colors) {
+        //console.log(div);
+        //console.log(data);
+        tooltip_output = 'current output...';
+        //console.log(tooltip_output);
+        chart = $.jqplot(div, data, {
+            animate: true,
+            animateReplot: true,
+            seriesDefaults: {
+                renderer:$.jqplot.BarRenderer,
+                // Show point labels to the right ('e'ast) of each bar.
+                // edgeTolerance of -15 allows labels flow outside the grid
+                // up to 15 pixels.  If they flow out more than that, they
+                // will be hidden.
+                pointLabels: {  show: true, 
+                                location: 'e', 
+                                edgeTolerance: -25,
+                                formatString: '%s'
+                },
+                // Rotate the bar shadow as if bar is lit from top right.
+                shadowAngle: 145,
+                // Here's where we tell the chart to orient horizontally.
+                rendererOptions: {  animation: { 
+                                        speed: 1500 
+                                    },
+                                    barWidth: 25,
+                                    barPadding: 20,
+                                    barMargin: 1,
+                                    barDirection: 'horizontal',
+                                    //varyBarColor: true
+                }
+            },
+            //seriesColors: series_colors,
+            highlighter: {
+                show: true,
+                tooltipOffset: 7,
+                tooltipLocation: 'n',
+                formatString: tooltip_output,
+                showMarker: false
+            },
+            axes: {
+                yaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer,
+                    rendererOptions: {  tickRenderer: $.jqplot.AxisTickRenderer, 
+                                        tickOptions: {  mark: null,
+                                                        fontSize: 12
+                                        } 
+                    }                                    
+                },
+                xaxis: {
+                    min: 0,
+                    max: 100,
+                    numberTicks: 6,
+                    tickRenderer: $.jqplot.AxisTickRenderer, 
+                    tickOptions: {  fontSize: 10 } 
+                }
+            },
+            grid: {
+                drawGridlines: false,
+                drawBorder: false,
+                shadow: false
+            }
+        });
+        return chart;
+    }
+    
+    
+    //toggleReports(obj_short_name+'_extent_reports', 'toggle_extent_reports');
+    toggleReports(obj_short_name+'_upwelling_reports', 'toggle_'+obj_short_name+'_upwelling_reports');
+    toggleReports(obj_short_name+'_chlorophyll_reports', 'toggle_'+obj_short_name+'_chlorophyll_reports');
+    //toggleReports(obj_short_name+'_ecosystem_reports', 'toggle_'+obj_short_name+'_ecosystem_reports');
+}); 
+
+function toggleReport(obj_id, src_id) {
+    $("#"+obj_id).fadeToggle(100); //slideToggle
+    if ($("#"+src_id).text() == 'Show') { 
+        $("#"+src_id).text('Hide'); 
+    } else { 
+        $("#"+src_id).text('Show'); 
+    }
+}; 
+  
+function toggleReports(obj_id, src_id) {
+    $("#"+obj_id).fadeToggle(100); //slideToggle
+    if ($("#"+src_id).text() == 'Show') { 
+        $("#"+src_id).text('Hide'); 
+    } else { 
+        $("#"+src_id).text('Show'); 
+    }
+}; 
+
+
+  
+</script>
+
+<h2>Scenario 
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_extent_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_extent_reports', 'toggle_{{scenario.input_objective.short_name}}_extent_reports');">Hide</a>]</small></small></h2>
+<div id="{{scenario.input_objective.short_name}}_extent_reports">
+
+<h3>Upwelling (as a percentage of the scenario output) 
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_upwelling_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_upwellings', 'toggle_{{scenario.input_objective.short_name}}_upwelling_report');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_upwellings" class="jqPlot" style="width:400px;display "></div>
+<p></p>
+
+<h3>Chlorophyll (as a percentage of the scenario output) 
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_chlorophyll_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_chlorophylls', 'toggle_{{scenario.input_objective.short_name}}_chlorophyll_report');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_chlorophylls" class="jqPlot" style="width:400px;display "></div>
+<p></p>
+
+</div>
+
+<h2>Upwelling 
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_upwelling_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_upwelling_reports', 'toggle_{{scenario.input_objective.short_name}}_upwelling_reports');">Hide</a>]</small></small></h2>
+<div id="{{scenario.input_objective.short_name}}_upwelling_reports">
+
+{% for upwelling in upwelling_list_reverse %}
+<h3>Chlorophyll (as a percentage of <b>{{upwelling.name}}</b>)
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{upwelling.short_name}}_chlorophyll" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{upwelling.short_name}}_chl', 'toggle_{{scenario.input_objective.short_name}}_{{upwelling.short_name}}_chlorophyll');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_{{upwelling.short_name}}_chl" class="jqPlot" style="width:400px"></div>
+{% endfor %}
+<p></p>
+
+</div>
+
+<h2>Chlorophyll 
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_chlorophyll_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_chlorophyll_reports', 'toggle_{{scenario.input_objective.short_name}}_chlorophyll_reports');">Hide</a>]</small></small></h2>
+<div id="{{scenario.input_objective.short_name}}_chlorophyll_reports">
+
+{% for chlorophyll in chlorophyll_list_reverse %}
+<h3>Upwelling (as a percentage of <b>{{chlorophyll.name}}</b>)
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{chlorophyll.short_name}}_upwelling" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{chlorophyll.short_name}}_upw', 'toggle_{{scenario.input_objective.short_name}}_{{chlorophyll.short_name}}_upwelling');">Hide</a>]</small></small></h3>
+<div id="{{scenario.input_objective.short_name}}_{{chlorophyll.short_name}}_upw" class="jqPlot" style="width:400px"></div>
+{% endfor %}
+<p></p>
+
+</div>
+
+{% endblock %}

@@ -66,9 +66,9 @@ class MOS(Feature):
     input_exposure_nearshore_conservation = models.ManyToManyField("NearshoreExposure", null=True, blank=True)
     input_ecosystem_nearshore_conservation = models.ManyToManyField("NearshoreEcosystem", null=True, blank=True)
     # Water Column
-    input_parameters_water_column_conservation = models.ManyToManyField("WaterColumnConservationParameter")
-    input_upwelling_water_column_conservation = models.ManyToManyField("Upwelling", null=True, blank=True)
-    input_chlorophyl_water_column_conservation = models.ManyToManyField("Chlorophyl", null=True, blank=True)
+    input_parameters_pelagic_conservation = models.ManyToManyField("PelagicConservationParameter")
+    input_upwelling_pelagic_conservation = models.ManyToManyField("Upwelling", null=True, blank=True)
+    input_chlorophyl_pelagic_conservation = models.ManyToManyField("Chlorophyl", null=True, blank=True)
     
     description = models.TextField(null=True, blank=True)
     support_file = models.FileField(upload_to='scenarios/files/', null=True, blank=True)
@@ -143,7 +143,14 @@ class MOS(Feature):
                     scenario = Scenario(user=user, name=scenario_name, input_objective=obj, input_dist_shore=dist_shore, input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth, input_min_tidalmean=min_tidalmean, input_max_tidalmean=max_tidalmean, input_min_tidalmax=min_tidalmax, input_max_tidalmax=max_tidalmax, input_min_wavesummer=min_wavesummer, input_max_wavesummer=max_wavesummer, input_min_wavewinter=min_wavewinter, input_max_wavewinter=max_wavewinter)            
                 scenario.save(rerun=False)
                 
-                if set(scenario.input_parameters.all()) != set(input_params) or set(scenario.input_wind_potential.all()) != set(wind_potentials) or (set(scenario.input_substrate.all()) != set(substrates) and set(scenario.input_nearshore_substrate.all()) != set(substrates)) or set(scenario.input_nearshore_exposure.all()) != set(exposures) or set(scenario.input_nearshore_ecosystem.all()) != set(ecosystems) or set(scenario.input_depth_class.all()) != set(depth_classes) or set(scenario.input_geomorphology.all()) != set(geomorphologies):
+                if (   set(scenario.input_parameters.all()) != set(input_params)
+                    or set(scenario.input_wind_potential.all()) != set(wind_potentials)
+                    or (set(scenario.input_substrate.all()) != set(substrates) and set(scenario.input_nearshore_substrate.all()) != set(substrates))
+                    or set(scenario.input_nearshore_exposure.all()) != set(exposures)
+                    or set(scenario.input_nearshore_ecosystem.all()) != set(ecosystems)
+                    or set(scenario.input_depth_class.all()) != set(depth_classes)
+                    or set(scenario.input_geomorphology.all()) != set(geomorphologies)
+                    or set(scenario.input_upwelling.all()) != set(upwellings) ):
                     rerun = True   
                 scenario.input_parameters = input_params 
                 if obj_short_name == 'nearshore_conservation':
@@ -583,6 +590,9 @@ class Scenario(Analysis):
             elif self.input_objective.short_name == 'nearshore_conservation':
                 from grass_reports.scenario.nearshore_conservation import nearshore_conservation_report
                 self.output_report = nearshore_conservation_report(g)
+            elif self.input_objective.short_name == 'pelagic_conservation':
+                from grass_reports.scenario.pelagic_conservation import pelagic_conservation_report
+                self.output_report = pelagic_conservation_report(g)
             elif self.input_objective.short_name == 'wind_energy':
                 from grass_reports.scenario.wind_energy import wind_energy_report
                 self.output_report = wind_energy_report(g)
@@ -920,7 +930,7 @@ class NearshoreConservationParameter(models.Model):
     def __unicode__(self):
         return u'%s' % self.parameter.name
         
-class WaterColumnConservationParameter(models.Model):
+class PelagicConservationParameter(models.Model): #Water Column Conservation Parameter
     parameter = models.ForeignKey("Parameter", null=True, blank=True)
     
     def __unicode__(self):
@@ -989,12 +999,21 @@ class NearshoreEcosystem(models.Model):
         
 class Upwelling(models.Model):
     name = models.CharField(max_length=30)
+    short_name = models.CharField(max_length=30, null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' %self.name
         
 class Chlorophyl(models.Model):
     name = models.CharField(max_length=30)
+    short_name = models.CharField(max_length=30, null=True, blank=True)
+    
+    def __unicode__(self):
+        return u'%s' %self.name
+        
+class PelagicConservationParameterArea(models.Model): #Water Column Conservation Parameter Area
+    name = models.CharField(max_length=70)
+    area = models.FloatField(null=True,blank=True, verbose_name="area in meters")
     
     def __unicode__(self):
         return u'%s' %self.name
