@@ -1,4 +1,4 @@
-[
+[    
     {
         "pk": 4, 
         "model": "scenario.category", 
@@ -77,15 +77,6 @@
         }
     }, 
     {
-        "pk": 9, 
-        "model": "scenario.objective", 
-        "fields": {
-            "color": "778B1A55", 
-            "name": "Pelagic", 
-            "short_name": "water_column_conservation"
-        }
-    }, 
-    {
         "pk": 7, 
         "model": "scenario.objective", 
         "fields": {
@@ -110,6 +101,15 @@
             "color": "777F9722", 
             "name": "Tidal", 
             "short_name": "tidal_energy"
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "778B1A55", 
+            "name": "Pelagic", 
+            "short_name": "pelagic_conservation"
         }
     }, 
     {
@@ -445,14 +445,14 @@
     }, 
     {
         "pk": 1, 
-        "model": "scenario.watercolumnconservationparameter", 
+        "model": "scenario.pelagicconservationparameter", 
         "fields": {
             "parameter": 10
         }
     }, 
     {
         "pk": 2, 
-        "model": "scenario.watercolumnconservationparameter", 
+        "model": "scenario.pelagicconservationparameter", 
         "fields": {
             "parameter": 11
         }
@@ -1018,31 +1018,51 @@
         }
     }, 
     {
-        "pk": 1, 
-        "model": "scenario.upwelling", 
-        "fields": {
-            "name": "Low"
-        }
-    }, 
-    {
         "pk": 2, 
         "model": "scenario.upwelling", 
         "fields": {
-            "name": "High"
+            "name": "High Upwelling", 
+            "short_name": "upwelling_high"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.upwelling", 
+        "fields": {
+            "name": "Low Upwelling", 
+            "short_name": "upwelling_low"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.upwelling", 
+        "fields": {
+            "name": "Unknown", 
+            "short_name": "unknown_upwelling"
         }
     }, 
     {
         "pk": 1, 
         "model": "scenario.chlorophyl", 
         "fields": {
-            "name": "Low"
+            "name": "Low Chlorophyll", 
+            "short_name": "chlorophyll_low"
         }
     }, 
     {
         "pk": 2, 
         "model": "scenario.chlorophyl", 
         "fields": {
-            "name": "High"
+            "name": "High Chlorophyll", 
+            "short_name": "chlorophyll_high"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.chlorophyl", 
+        "fields": {
+            "name": "Unknown", 
+            "short_name": "unknown_chlorophyll"
         }
     }
 ]
