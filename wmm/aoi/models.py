@@ -118,8 +118,10 @@ class AOI(PolygonFeature):
     class Options:
         manipulators = []
         optional_manipulators = [ 
-                'wmm_manipulators.manipulators.TerrestrialOnlyManipulator',
-                'wmm_manipulators.manipulators.MarineOnlyManipulator']
+                'wmm_manipulators.manipulators.ExcludeFederalWatersManipulator',
+                'wmm_manipulators.manipulators.ExcludeStateWatersManipulator',
+                'wmm_manipulators.manipulators.ExcludeEstuariesManipulator',
+                'wmm_manipulators.manipulators.ExcludeTerrestrialManipulator']
         verbose_name = 'Area'
         form = 'aoi.forms.AoiForm'
         form_template = 'aoi/form.html'
