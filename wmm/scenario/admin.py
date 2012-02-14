@@ -133,6 +133,11 @@ class PelagicConservationParameterAreaAdmin(admin.ModelAdmin):
     fields = ['name', 'area']
 admin.site.register(PelagicConservationParameterArea, PelagicConservationParameterAreaAdmin)
 
+class TidalEnergyParameterAreaAdmin(admin.ModelAdmin):
+    list_display = ['name', 'area']
+    fields = ['name', 'area']
+admin.site.register(TidalEnergyParameterArea, TidalEnergyParameterAreaAdmin)
+
 class WindEnergyParameterAreaAdmin(admin.ModelAdmin):
     list_display = ['name', 'area']
     fields = ['name', 'area']

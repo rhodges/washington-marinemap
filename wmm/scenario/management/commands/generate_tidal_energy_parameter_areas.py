@@ -6,7 +6,7 @@ from utils import setup_grass, generate_stats, save_to_db
 
 
 class Command(BaseCommand):
-    help = "Populates the scenario.WaveEnergyParameterArea table with areas measured in sq meters."
+    help = "Populates the scenario.TidalEnergyParameterArea table with areas measured in sq meters."
     #args = '[pk]'
                 
     #def handle(self, pk, **options):
@@ -23,15 +23,16 @@ class Command(BaseCommand):
         
         # Clean WaveEnergyParameterArea table
         
-        WaveEnergyParameterArea.objects.all().delete()    
+        TidalEnergyParameterArea.objects.all().delete()    
 
         ''' Top-Level Parameters '''
         
         # Substrate Stats -- determining area (in meters) for each substrate in data extent
         
-        subextent_result = """r.mapcalc "sub_extent = if(extent==1,substrate,null())" """
+        subextent_result = """r.mapcalc "sub_extent = if(extent==1,tidal_substrate,null())" """
         g.run(subextent_result)
-        stats_dict = generate_stats(g, 'sub_extent', Substrate)
-        save_to_db(stats_dict, WaveEnergyParameterArea)
+        stats_dict = generate_stats(g, 'sub_extent', TidalSubstrate)
+        save_to_db(stats_dict, TidalEnergyParameterArea)
+        
         
         

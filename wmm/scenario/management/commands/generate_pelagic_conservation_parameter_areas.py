@@ -11,7 +11,8 @@ class Command(BaseCommand):
                 
     #def handle(self, pk, **options):
     def handle(self, **options):
-        ''' Helper Functions '''
+        ''' Helper Functions have been factored to utils.py '''
+        ''' Might factor these out when we get a chance '''
         def generate_stats_and_save_to_db(rast, model_class, param_name=None):
             area_stats = g.run('r.stats -an input=%s' %rast)
             area_dict = stats_to_dict(area_stats)
