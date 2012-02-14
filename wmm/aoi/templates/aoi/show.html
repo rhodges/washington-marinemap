@@ -22,8 +22,8 @@
             </ul>
             
             <h2>Objective Scores <small>(out of 100)</small>:</h2>
-                {% if instance.benthic_score >= 0 %}
-                <p>Conservation: {{instance.benthic_score}}</p>
+                {% if instance.conservation_score >= 0 %}
+                <p>Conservation: {{instance.conservation_score}}</p>
                 {% else %}
                 <p><i>Conservation: not yet unavailable</i></p>
                 {% endif %}

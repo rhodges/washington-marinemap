@@ -11,7 +11,7 @@ from lingcod.raster_stats.models import RasterDataset, zonal_stats
 class AOI(PolygonFeature):
     description = models.TextField(null=True,blank=True)
     geometry_hash = models.BigIntegerField(null=True, blank=True)
-    benthic_score = models.IntegerField(verbose_name='Benthic Conservation Score', null=True, blank=True)
+    conservation_score = models.IntegerField(verbose_name='Conservation Score', null=True, blank=True)
     
     @property
     def kml(self):
@@ -76,11 +76,11 @@ class AOI(PolygonFeature):
 
     def run(self):
         #calculate objective scores
-        #intersect with OffshoreScoring (vector) or with benthic_scoring (raster/zonal_stats)
+        #intersect with ConservationScoring (vector) or with benthic_scoring (raster/zonal_stats)
         self.geometry_hash = self.geometry_final.wkt.__hash__()
         
         #vector analysis
-        scoring_objects = OffshoreScoring.objects.filter(geometry__bboverlaps=self.geometry_final)
+        scoring_objects = ConservationScoring.objects.filter(geometry__bboverlaps=self.geometry_final)
         total_area = 0.0
         total_score = 0.0
         
@@ -90,8 +90,10 @@ class AOI(PolygonFeature):
             if overlap.area > 0:
                 total_area += overlap.area
                 total_score += scoring_object.score * overlap.area
+        import pdb
+        pdb.set_trace()
         avg_score = total_score / total_area
-        self.benthic_score = int(round(avg_score * 10))
+        self.conservation_score = int(round(avg_score * 10))
         '''
         NOTE:  THIS RASTER FILE WILL NEED TO BE ADDED TO THE SERVER BEFORE ENABLING THE FOLLOWING
         import pdb
@@ -103,7 +105,7 @@ class AOI(PolygonFeature):
             raster_score = benthic_stats.avg * 10
         else:
             raster_score = None
-        self.benthic_score = raster_score
+        self.conservation_score = raster_score
         '''
         return True        
         
@@ -127,7 +129,14 @@ class AOI(PolygonFeature):
         form_template = 'aoi/form.html'
         show_template = 'aoi/show.html'
         icon_url = 'wmm/img/aoi.png'
-                
+
+class ConservationScoring(models.Model):
+    score = models.FloatField()
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Conservation Scoring Grid")
+    objects = models.GeoManager()
+    
+    def __unicode__(self):
+        return u'Conservation Score: %s' %self.score              
 
 
 class POI(PointFeature):
@@ -180,11 +189,3 @@ class LOI(LineFeature):
         verbose_name = 'Line'
         form = 'aoi.forms.LoiForm'
         icon_url = 'wmm/img/loi.png'
-
-class OffshoreScoring(models.Model):
-    score = models.FloatField()
-    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Benthic Scoring Grid")
-    objects = models.GeoManager()
-    
-    def __unicode__(self):
-        return u'Benthic Score: %s' %self.score
