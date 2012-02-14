@@ -10,6 +10,16 @@ def transpose_nested_dict(orig_dict):
                 transposed_dict[inner_key][key] = area
     return transposed_dict
 
+def get_raster_area(g, input_rast):
+    grass_output = g.run('r.stats -an input=%s' %input_rast)
+    stats_list = grass_output.split()
+    #int_list = [int(float(x)+.5) for x in stats_list]
+    stats_dict = dict(zip(stats_list[::2], stats_list[1::2])) 
+    if len(stats_dict.keys()) == 1:
+        return float(stats_dict['1'])
+    else:
+        return 0.0  
+    
 def get_dict_from_stats(g, model_class, input_rast):  
     #r.stats -an generates area stats with area totals (-a), while ignoring null values (-n) (those areas outside of overlap)
     stats = g.run('r.stats -an input=%s' %input_rast)  
