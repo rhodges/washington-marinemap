@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand, AppCommand
 from optparse import make_option
 from lingcod.analysistools.grass import Grass
 from scenario.models import *
+from utils import setup_grass, generate_stats, save_to_db, stats_to_dict
 
 
 class Command(BaseCommand):
@@ -9,47 +10,7 @@ class Command(BaseCommand):
     #args = '[pk]'
                 
     #def handle(self, pk, **options):
-    def handle(self, **options):
-        ''' Helper Functions have been factored to utils.py '''
-        ''' Might factor these out when we get a chance '''
-        def generate_stats_and_save_to_db(rast, model_class, param_name=None):
-            area_stats = g.run('r.stats -an input=%s' %rast)
-            area_dict = stats_to_dict(area_stats)
-            if param_name is None:
-                area_name_dict = dict( map( lambda(key, value): (model_class.objects.get(id=key).short_name, value), area_dict.items()))
-            else:
-                area_name_dict = dict( map( lambda(key, value): ('%s_%s' %(param_name, model_class.objects.get(id=key).short_name), value), area_dict.items()))
-            save_to_db(area_name_dict)    
-            
-        def save_to_db(area_dict):
-            for name, area in area_dict.items():
-                ocpa = OffshoreConservationParameterArea(name=name, area=area)
-                ocpa.save()
-            
-        def stats_to_dict(area_stats):
-            area_split = area_stats.split()
-            #cast the area elements to integers (no need for the decimal value when dealing with meters)
-            area_ints = [int(float(x)+.5) for x in area_split]
-            #note: we are now dealing with int areas rather than float strings 
-            area_dict = dict(zip(area_ints[::2], area_ints[1::2])) 
-            return area_dict
-            
-        def setup_grass():
-            g = Grass('wa_marine_planner',
-                    gisbase=settings.GISBASE, #"/usr/local/grass-6.4.1RC2", 
-                    gisdbase=settings.GISDBASE,  #"/mnt/wmm/grass",
-                    autoclean=True)
-            g.verbose = True
-            g.run('g.region rast=bathy')  #sets extent 
-            g.run('g.region nsres=180 ewres=180')  #sets cell size
-            outdir = settings.GRASS_TMP 
-            outbase = 'wa_scenario_%s' % str(time.time()).split('.')[0]
-            output = os.path.join(outdir,outbase+'.json')
-            if os.path.exists(output):
-                raise Exception(output + " already exists")
-            extent_result = """r.mapcalc "extent = 1" """
-            g.run(extent_result) 
-            return g
+    def handle(self, **options):        
     
         print """
             *****************
@@ -71,19 +32,22 @@ class Command(BaseCommand):
         
         subextent_result = """r.mapcalc "sub_extent = if(extent==1,substrate,null())" """
         g.run(subextent_result)
-        generate_stats_and_save_to_db('sub_extent', Substrate)
+        stats_dict = generate_stats(g, 'sub_extent', Substrate)
+        save_to_db(stats_dict, OffshoreConservationParameterArea)
         
         # Depth Class Stats -- determining area (in meters) for each depth class in data extent 
         
         dcextent_result = """r.mapcalc "dc_extent = if(extent==1,depth_class,null())" """
         g.run(dcextent_result)
-        generate_stats_and_save_to_db('dc_extent', DepthClass)
+        stats_dict = generate_stats(g, 'dc_extent', DepthClass)
+        save_to_db(stats_dict, OffshoreConservationParameterArea)
         
         # Geomorphology Stats -- determining area (in meters) for each geomorphology in data extent
         
         geoextent_result = """r.mapcalc "geo_extent = if(extent==1,geomorphology,null())" """
         g.run(geoextent_result)
-        generate_stats_and_save_to_db('geo_extent', Geomorphology)
+        stats_dict = generate_stats(g, 'geo_extent', Geomorphology)
+        save_to_db(stats_dict, OffshoreConservationParameterArea)
         
         ''' Substrate -- Drilling Down '''
         
@@ -101,7 +65,8 @@ class Command(BaseCommand):
             raster_name = '%s_dcresult' %sub_name
             dc_result = """r.mapcalc "%s = if(%s==%s,depth_class,null())" """ %(raster_name, sub_name, sub_id)
             g.run(dc_result)
-            generate_stats_and_save_to_db(raster_name, DepthClass, sub_name)
+            stats_dict = generate_stats(g, raster_name, DepthClass, sub_name)
+            save_to_db(stats_dict, OffshoreConservationParameterArea)
         
         #substrate geomorphology stats -- collecting area (in meters) of each geomorphology in each substrate 
         
@@ -112,7 +77,8 @@ class Command(BaseCommand):
             raster_name = '%s_georesult' %sub_name
             geo_result = """r.mapcalc "%s = if(%s==%s,geomorphology,null())" """ %(raster_name, sub_name, sub_id)
             g.run(geo_result)
-            generate_stats_and_save_to_db(raster_name, Geomorphology, sub_name)
+            stats_dict = generate_stats(g, raster_name, Geomorphology, sub_name)
+            save_to_db(stats_dict, OffshoreConservationParameterArea)
         
         ''' Depth Class -- Drilling Down '''
         
@@ -130,7 +96,8 @@ class Command(BaseCommand):
             raster_name = '%s_subresult' %dc_name
             dc_result = """r.mapcalc "%s = if(%s==%s,substrate,null())" """ %(raster_name, dc_name, dc_id)
             g.run(dc_result)
-            generate_stats_and_save_to_db(raster_name, Substrate, dc_name)
+            stats_dict = generate_stats(g, raster_name, Substrate, dc_name)
+            save_to_db(stats_dict, OffshoreConservationParameterArea)
         
         #depth class geomorphology stats -- collecting area (in meters) of each geomorphology in each depthclass  
         
@@ -141,7 +108,8 @@ class Command(BaseCommand):
             raster_name = '%s_georesult' %dc_name
             geo_result = """r.mapcalc "%s = if(%s==%s,geomorphology,null())" """ %(raster_name, dc_name, dc_id)
             g.run(geo_result)
-            generate_stats_and_save_to_db(raster_name, Geomorphology, dc_name)
+            stats_dict = generate_stats(g, raster_name, Geomorphology, dc_name)
+            save_to_db(stats_dict, OffshoreConservationParameterArea)
         
         ''' Geomorphology -- Drilling Down '''
         
@@ -159,7 +127,8 @@ class Command(BaseCommand):
             raster_name = '%s_subresult' %geo_name
             geo_result = """r.mapcalc "%s = if(%s==%s,substrate,null())" """ %(raster_name, geo_name, geo_id)
             g.run(geo_result)
-            generate_stats_and_save_to_db(raster_name, Substrate, geo_name)
+            stats_dict = generate_stats(g, raster_name, Substrate, geo_name)
+            save_to_db(stats_dict, OffshoreConservationParameterArea)
         
         #geomorphology depthclass stats -- collecting area (in meters) of each geomorphology in each depthclass  
         
@@ -170,6 +139,7 @@ class Command(BaseCommand):
             raster_name = '%s_depthclass' %geo_name
             geo_result = """r.mapcalc "%s = if(%s==%s,depth_class,null())" """ %(raster_name, geo_name, geo_id)
             g.run(geo_result)
-            generate_stats_and_save_to_db(raster_name, DepthClass, geo_name)
+            stats_dict = generate_stats(g, raster_name, DepthClass, geo_name)
+            save_to_db(stats_dict, OffshoreConservationParameterArea)
         
         
