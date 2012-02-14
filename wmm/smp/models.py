@@ -78,8 +78,10 @@ class SMPSite(PolygonFeature):
     class Options:
         manipulators = []
         optional_manipulators = [ 
-                'wmm_manipulators.manipulators.TerrestrialOnlyManipulator',
-                'wmm_manipulators.manipulators.MarineOnlyManipulator']
+                'wmm_manipulators.manipulators.ExcludeFederalWatersManipulator',
+                'wmm_manipulators.manipulators.ExcludeStateWatersManipulator',
+                'wmm_manipulators.manipulators.ExcludeEstuariesManipulator',
+                'wmm_manipulators.manipulators.ExcludeTerrestrialManipulator']
         verbose_name = 'SMP Characterization Site'
         form = 'smp.forms.SMPSiteForm'
         form_template = 'smp/form.html'
