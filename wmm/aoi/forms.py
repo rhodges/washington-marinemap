@@ -11,11 +11,3 @@ class AoiForm(SpatialFeatureForm):
         exclude.append('geometry_hash')
         exclude.append('conservation_score')
 
-class LoiForm(SpatialFeatureForm):
-    class Meta(SpatialFeatureForm.Meta):
-        model = LOI
-
-class PoiForm(SpatialFeatureForm):
-    class Meta(SpatialFeatureForm.Meta):
-        model = POI
-
