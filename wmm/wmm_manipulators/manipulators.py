@@ -213,7 +213,7 @@ class ClipToTerritorialSeaManipulator(ClipToStudyRegionManipulator):
         }
         
 manipulatorsDict[ClipToTerritorialSeaManipulator.Options.name] = ClipToTerritorialSeaManipulator
-''' 
+ 
    
 class TerrestrialOnlyManipulator(ClipToShapeManipulator):
 
@@ -262,4 +262,4 @@ class MarineOnlyManipulator(DifferenceFromShapeManipulator):
         }
 
 manipulatorsDict[MarineOnlyManipulator.Options.name] = MarineOnlyManipulator        
-
+'''

@@ -23,46 +23,38 @@ class Estuaries(BaseManipulatorGeometry):
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Estuaries-Only")
 
     def __unicode__(self):
-        return "Marine Layer, created: %s" % (self.creation_date)
+        return "Estuaries Layer, created: %s" % (self.creation_date)
 
 class FederalWaters(BaseManipulatorGeometry):
     name = models.CharField(verbose_name="Federal Waters Geometry Name", max_length=255, blank=True)
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Federal Waters-Only")
 
     def __unicode__(self):
-        return "Marine Layer, created: %s" % (self.creation_date)
+        return "Federal Waters Layer, created: %s" % (self.creation_date)
 
 class StateWaters(BaseManipulatorGeometry):
     name = models.CharField(verbose_name="State Waters Geometry Name", max_length=255, blank=True)
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="State Waters-Only")
 
     def __unicode__(self):
-        return "Marine Layer, created: %s" % (self.creation_date)
+        return "State Waters Layer, created: %s" % (self.creation_date)
 
 ''' 
+#Used the following for loading shapefiles into postgres and then copied the geometries over from the shell command line    
+#marine = Marine(name='marine_only', geometry=marine_shp_geom)    
+       
 class Estuaries_Shp(models.Model):
-    objectid = models.IntegerField()
-    dissolve = models.IntegerField()
-    shape_length = models.FloatField()
-    shape_area = models.FloatField()
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True)
     objects = models.GeoManager()        
         
 class FederalWaters_Shp(models.Model):
-    shape_length = models.FloatField()
-    shape_area = models.FloatField()
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True)
     objects = models.GeoManager()        
         
 class StateWaters_Shp(models.Model):
-    shape_length = models.FloatField()
-    shape_area = models.FloatField()
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True)
     objects = models.GeoManager()
     
-#Used the following for loading shapefiles into postgres and then copied the geometries over from the shell command line    
-#marine = Marine(name='marine_only', geometry=marine_shp_geom)    
-       
 class Marine_Shp(models.Model):
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True)
 
