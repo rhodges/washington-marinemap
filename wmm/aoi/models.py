@@ -90,8 +90,7 @@ class AOI(PolygonFeature):
             if overlap.area > 0:
                 total_area += overlap.area
                 total_score += scoring_object.score * overlap.area
-        import pdb
-        pdb.set_trace()
+        
         avg_score = total_score / total_area
         self.conservation_score = int(round(avg_score * 10))
         '''

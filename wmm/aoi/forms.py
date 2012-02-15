@@ -9,7 +9,7 @@ class AoiForm(SpatialFeatureForm):
         model = AOI
         exclude = list(SpatialFeatureForm.Meta.exclude)
         exclude.append('geometry_hash')
-        exclude.append('benthic_score')
+        exclude.append('conservation_score')
 
 class LoiForm(SpatialFeatureForm):
     class Meta(SpatialFeatureForm.Meta):
