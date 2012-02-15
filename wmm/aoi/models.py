@@ -129,6 +129,9 @@ class AOI(PolygonFeature):
         show_template = 'aoi/show.html'
         icon_url = 'wmm/img/aoi.png'
 
+        
+'''Scoring Models'''
+       
 class ConservationScoring(models.Model):
     score = models.FloatField()
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Conservation Scoring Grid")
@@ -138,53 +141,38 @@ class ConservationScoring(models.Model):
         return u'Conservation Score: %s' %self.score              
 
 
-class POI(PointFeature):
-    description = models.TextField(null=True,blank=True)
+'''Reporting Models'''        
+        
+'''Physical Layers'''
+        
+class BenthicHabitat(models.Model):
+    depth = models.CharField(max_length=20)
+    geomorph = models.CharField(max_length=20)
+    substrate = models.CharField(max_length=20)
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Benthic Habitat")
+    objects = models.GeoManager()        
     
-    @classmethod
-    def mapnik_style(self):
-        import mapnik
-        polygon_style = mapnik.Style()
-        
-        ps = mapnik.PolygonSymbolizer(mapnik.Color('#DC640C'))
-        ps.fill_opacity = 0.6
-        ls = mapnik.LineSymbolizer(mapnik.Color('#ff0000'),0.2)
-        ls.stroke_opacity = 1.0
-        
-        r = mapnik.Rule()
-        r.symbols.append(ps)
-        r.symbols.append(ls)
-        
-        polygon_style.rules.append(r)
-        return polygon_style                
-
-    class Options:
-        verbose_name = 'Point'
-        form = 'aoi.forms.PoiForm'
-        icon_url = 'wmm/img/poi.png'
-
-
-class LOI(LineFeature):
-    description = models.TextField(null=True,blank=True)
+class Canyon(models.Model):
+    phys_hab = models.CharField(max_length=40)
+    sgh_lith_1 = models.CharField(max_length=15)
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Canyon")
+    objects = models.GeoManager()    
     
-    @classmethod
-    def mapnik_style(self):
-        import mapnik
-        polygon_style = mapnik.Style()
-        
-        ps = mapnik.PolygonSymbolizer(mapnik.Color('#DC640C'))
-        ps.fill_opacity = 0.6
-        ls = mapnik.LineSymbolizer(mapnik.Color('#ff0000'),0.2)
-        ls.stroke_opacity = 1.0
-        
-        r = mapnik.Rule()
-        r.symbols.append(ps)
-        r.symbols.append(ls)
-        
-        polygon_style.rules.append(r)
-        return polygon_style                
+class RockySubstrate(models.Model):
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Rocky Substrate")
+    objects = models.GeoManager()  
 
-    class Options:
-        verbose_name = 'Line'
-        form = 'aoi.forms.LoiForm'
-        icon_url = 'wmm/img/loi.png'
+class EstuaryHabitat(models.Model):
+    habitat = models.CharField(max_length=12)
+    substrate = models.CharField(max_length=29)
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Estuary Habitat/Substrate")
+    objects = models.GeoManager()    
+    
+class Island(models.Model):
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Island")
+    objects = models.GeoManager()    
+    
+class Upwelling(models.Model):
+    type = models.CharField(max_length=8)
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Upwelling")
+    objects = models.GeoManager()    
