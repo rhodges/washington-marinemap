@@ -176,3 +176,57 @@ class Upwelling(models.Model):
     type = models.CharField(max_length=8)
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Upwelling")
     objects = models.GeoManager()    
+    
+'''Biological Layers'''
+
+class Seabird(models.Model):
+    species = models.CharField(max_length=40)
+    count = models.IntegerField()
+    geometry = models.PointField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Seabird Colonies")
+    objects = models.GeoManager()
+    
+class SnowyPloverHabitat(models.Model):
+    state = models.CharField(max_length=5)
+    unit_name = models.CharField(max_length=50)
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Snowy Plover Critical Habitats")
+    objects = models.GeoManager()
+
+class Haulout(models.Model):
+    com_name = models.CharField(max_length=50)
+    count = models.IntegerField()
+    geometry = models.PointField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Seal and Sealion Haulout Sites")
+    objects = models.GeoManager()
+
+class OrcaHabitat(models.Model):
+    tgt = models.CharField(max_length=20)
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Killer Whale Critical Habitats")
+    objects = models.GeoManager()
+
+class Kelp(models.Model):
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Kelp")
+    objects = models.GeoManager()
+
+class Chlorophyll(models.Model):
+    type = models.CharField(max_length=8)
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Chlorphyll")
+    objects = models.GeoManager()
+
+class Coral(models.Model):
+    ordcode = models.CharField(max_length=11)
+    sum_cpuekg = models.FloatField()
+    coral_type = models.CharField(max_length=64)
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Coral")
+    objects = models.GeoManager()
+
+class Sponge(models.Model):
+    cpuekgkm = models.FloatField()
+    common_nam = models.CharField(max_length=24, null=True, blank=True)
+    target_nam = models.CharField(max_length=50)
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Sponge")
+    objects = models.GeoManager()
+
+class OlympiaOyster(models.Model):
+    estuary = models.CharField(max_length=30)
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Olympia Oysters")
+    objects = models.GeoManager()
+
