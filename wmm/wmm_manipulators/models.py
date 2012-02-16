@@ -39,7 +39,7 @@ class StateWaters(BaseManipulatorGeometry):
     def __unicode__(self):
         return "State Waters Layer, created: %s" % (self.creation_date)
 
-''' 
+'''
 #Used the following for loading shapefiles into postgres and then copied the geometries over from the shell command line    
 #marine = Marine(name='marine_only', geometry=marine_shp_geom)    
        
