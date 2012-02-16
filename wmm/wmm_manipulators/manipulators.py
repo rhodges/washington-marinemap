@@ -53,8 +53,56 @@ class ExcludeStateWatersManipulator(DifferenceFromShapeManipulator):
             '2':'wmm_manipulators/empty_result.html',
         }
 
-manipulatorsDict[ExcludeStateWatersManipulator.Options.name] = ExcludeStateWatersManipulator    
+manipulatorsDict[ExcludeStateWatersManipulator.Options.name] = ExcludeStateWatersManipulator  
+  
+class ExcludeTerrestrialManipulator(DifferenceFromShapeManipulator):
 
+    def __init__(self, target_shape, **kwargs):
+        self.zero = very_small_area
+        self.target_shape = target_shape
+        try:
+            self.diff_geom = Terrestrial.objects.current().geometry
+            self.diff_geom.transform(settings.GEOMETRY_CLIENT_SRID)
+        except Exception, e:
+            raise self.InternalException("Exception raised in ExcludeTerrestrialManipulator while obtaining exclude-from-federal-waters-manipulator geometry from database: " + e.message)    
+
+    class Options:    
+        name = 'ExcludeTerrestrialManipulator'
+        display_name = 'Exclude Land Areas'
+        description = 'Removes any part of your shape that is terrestrial.'
+        supported_geom_fields = ['PolygonField']
+
+        html_templates = {
+            '0':'wmm_manipulators/exclude_terrestrial.html',
+            '2':'wmm_manipulators/empty_result.html',
+        }
+
+manipulatorsDict[ExcludeTerrestrialManipulator.Options.name] = ExcludeTerrestrialManipulator        
+
+class ExcludeEstuariesManipulator(DifferenceFromShapeManipulator):
+
+    def __init__(self, target_shape, **kwargs):
+        self.zero = very_small_area
+        self.target_shape = target_shape
+        try:
+            self.diff_geom = Estuaries.objects.current().geometry
+            self.diff_geom.transform(settings.GEOMETRY_CLIENT_SRID)
+        except Exception, e:
+            raise self.InternalException("Exception raised in ExcludeEstuariesManipulator while obtaining exclude-from-federal-waters-manipulator geometry from database: " + e.message)    
+
+    class Options:    
+        name = 'ExcludeEstuariesManipulator'
+        display_name = 'Exclude Estuaries'
+        description = 'Removes any part of your shape that is estuarine.'
+        supported_geom_fields = ['PolygonField']
+
+        html_templates = {
+            '0':'wmm_manipulators/exclude_estuaries.html',
+            '2':'wmm_manipulators/empty_result.html',
+        }
+
+manipulatorsDict[ExcludeEstuariesManipulator.Options.name] = ExcludeEstuariesManipulator        
+   
 
 '''     
 class ExcludeStateWatersManipulator(BaseManipulator):
@@ -150,54 +198,7 @@ class ExcludeStateWatersManipulator(BaseManipulator):
 
 manipulatorsDict[ExcludeStateWatersManipulator.Options.name] = ExcludeStateWatersManipulator        
 '''        
-class ExcludeTerrestrialManipulator(DifferenceFromShapeManipulator):
 
-    def __init__(self, target_shape, **kwargs):
-        self.zero = very_small_area
-        self.target_shape = target_shape
-        try:
-            self.diff_geom = Terrestrial.objects.current().geometry
-            self.diff_geom.transform(settings.GEOMETRY_CLIENT_SRID)
-        except Exception, e:
-            raise self.InternalException("Exception raised in ExcludeTerrestrialManipulator while obtaining exclude-from-federal-waters-manipulator geometry from database: " + e.message)    
-
-    class Options:    
-        name = 'ExcludeTerrestrialManipulator'
-        display_name = 'Exclude Land Areas'
-        description = 'Removes any part of your shape that is terrestrial.'
-        supported_geom_fields = ['PolygonField']
-
-        html_templates = {
-            '0':'wmm_manipulators/exclude_terrestrial.html',
-            '2':'wmm_manipulators/empty_result.html',
-        }
-
-manipulatorsDict[ExcludeTerrestrialManipulator.Options.name] = ExcludeTerrestrialManipulator        
-
-class ExcludeEstuariesManipulator(DifferenceFromShapeManipulator):
-
-    def __init__(self, target_shape, **kwargs):
-        self.zero = very_small_area
-        self.target_shape = target_shape
-        try:
-            self.diff_geom = Estuaries.objects.current().geometry
-            self.diff_geom.transform(settings.GEOMETRY_CLIENT_SRID)
-        except Exception, e:
-            raise self.InternalException("Exception raised in ExcludeEstuariesManipulator while obtaining exclude-from-federal-waters-manipulator geometry from database: " + e.message)    
-
-    class Options:    
-        name = 'ExcludeEstuariesManipulator'
-        display_name = 'Exclude Estuaries'
-        description = 'Removes any part of your shape that is estuarine.'
-        supported_geom_fields = ['PolygonField']
-
-        html_templates = {
-            '0':'wmm_manipulators/exclude_estuaries.html',
-            '2':'wmm_manipulators/empty_result.html',
-        }
-
-manipulatorsDict[ExcludeEstuariesManipulator.Options.name] = ExcludeEstuariesManipulator        
-   
 '''               
 class ClipToTerritorialSeaManipulator(ClipToStudyRegionManipulator):
 
