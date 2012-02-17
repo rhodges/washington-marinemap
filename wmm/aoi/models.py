@@ -12,6 +12,9 @@ class AOI(PolygonFeature):
     description = models.TextField(null=True,blank=True)
     geometry_hash = models.BigIntegerField(null=True, blank=True)
     conservation_score = models.IntegerField(verbose_name='Conservation Score', null=True, blank=True)
+    tidalenergy_score = models.IntegerField(verbose_name='Tidal Energy Score', null=True, blank=True)
+    waveenergy_score = models.IntegerField(verbose_name='Wave Energy Score', null=True, blank=True)
+    windenergy_score = models.IntegerField(verbose_name='Wind Energy Score', null=True, blank=True)
     
     @property
     def kml(self):
@@ -75,37 +78,34 @@ class AOI(PolygonFeature):
         return '778B1A55'  
 
     def run(self):
+        def get_tradeoff_score(model_class):
+            scoring_objects = model_class.objects.filter(geometry__bboverlaps=self.geometry_final)
+            total_area = 0.0
+            total_score = 0.0
+            
+            for scoring_object in scoring_objects:
+                scoring_geom = scoring_object.geometry
+                overlap = scoring_geom.intersection(self.geometry_final)
+                if overlap.area > 0:
+                    total_area += overlap.area
+                    total_score += scoring_object.score * overlap.area
+            if total_area > 0:
+                return total_score / total_area
+            else:
+                return 0
+                
         #calculate objective scores
-        #intersect with ConservationScoring (vector) or with benthic_scoring (raster/zonal_stats)
+        avg_score = get_tradeoff_score(ConservationScoring)        
+        self.conservation_score = int(round(avg_score * 10))
+        avg_score = get_tradeoff_score(TidalEnergyScoring)        
+        self.tidalenergy_score = int(round(avg_score * 10))
+        avg_score = get_tradeoff_score(WaveEnergyScoring)        
+        self.waveenergy_score = int(round(avg_score * 10))
+        avg_score = get_tradeoff_score(WindEnergyScoring)        
+        self.windenergy_score = int(round(avg_score * 10))
+        
         self.geometry_hash = self.geometry_final.wkt.__hash__()
         
-        #vector analysis
-        scoring_objects = ConservationScoring.objects.filter(geometry__bboverlaps=self.geometry_final)
-        total_area = 0.0
-        total_score = 0.0
-        
-        for scoring_object in scoring_objects:
-            scoring_geom = scoring_object.geometry
-            overlap = scoring_geom.intersection(self.geometry_final)
-            if overlap.area > 0:
-                total_area += overlap.area
-                total_score += scoring_object.score * overlap.area
-        
-        avg_score = total_score / total_area
-        self.conservation_score = int(round(avg_score * 10))
-        '''
-        NOTE:  THIS RASTER FILE WILL NEED TO BE ADDED TO THE SERVER BEFORE ENABLING THE FOLLOWING
-        import pdb
-        pdb.set_trace()
-        #raster analysis with starspan
-        benthic_scoring = RasterDataset.objects.get(name='benthic_scoring')
-        benthic_stats = zonal_stats(self.geometry_final, benthic_scoring)
-        if benthic_stats.avg:
-            raster_score = benthic_stats.avg * 10
-        else:
-            raster_score = None
-        self.conservation_score = raster_score
-        '''
         return True        
         
     def save(self, *args, **kwargs):
@@ -139,6 +139,30 @@ class ConservationScoring(models.Model):
     
     def __unicode__(self):
         return u'Conservation Score: %s' %self.score              
+
+class TidalEnergyScoring(models.Model):
+    score = models.FloatField()
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Tidal Energy Scoring Grid")
+    objects = models.GeoManager()
+    
+    def __unicode__(self):
+        return u'Tidal Energy Score: %s' %self.score              
+
+class WindEnergyScoring(models.Model):
+    score = models.FloatField()
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Wind Energy Scoring Grid")
+    objects = models.GeoManager()
+    
+    def __unicode__(self):
+        return u'Wind Energy Score: %s' %self.score              
+
+class WaveEnergyScoring(models.Model):
+    score = models.FloatField()
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Wave Energy Scoring Grid")
+    objects = models.GeoManager()
+    
+    def __unicode__(self):
+        return u'Wave Energy Score: %s' %self.score              
 
 
 '''Reporting Models'''        
