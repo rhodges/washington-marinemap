@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from settings import *
-from scenario.utils import default_value, sq_meters_to_sq_miles, meters_to_miles
+from general.utils import default_value, sq_meters_to_sq_miles, meters_to_miles
 from smp.models import *
 
 '''

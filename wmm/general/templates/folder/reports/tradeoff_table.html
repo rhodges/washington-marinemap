@@ -12,33 +12,17 @@
         <td class="{{objective.0}}">{{objective}}</td>
         {% endfor %}
     </tr>
-    {% for site in conservation_sites %}
+    {% for site in sites %}
     <tr>
-        <td class="conservation-site">{{site.name}}</td>
-        {% for value in site.valuations %}
-        {% if site.conflict == 'true' and value > 70 %}
-        <td class="conflict">{{value}}</td>
+        <td class="site">{{site.name}}</td>
+        {% for score in site.scores %}
+        {% if site.conflict == 'true' and score > 70 %}
+        <td class="conflict">{{score}}</td>
         {% else %}
-        {% if value > 70 %}
-        <td class="non-conflict">{{value}}</td>
+        {% if score > threshold %}
+        <td class="non-conflict">{{score}}</td>
         {% else %}
-        <td>{{value}}</td>
-        {% endif %}
-        {% endif %}
-        {% endfor %}
-    </tr>
-    {% endfor %}
-    {% for site in windenergy_sites %}
-    <tr>
-        <td class="wind-site">{{site.name}}</td>
-        {% for value in site.valuations %}
-        {% if site.conflict == 'true' and value > 70 %}
-        <td class="conflict">{{value}}</td>
-        {% else %}
-        {% if value > 70 %}
-        <td class="non-conflict">{{value}}</td>
-        {% else %}
-        <td>{{value}}</td>
+        <td>{{score}}</td>
         {% endif %}
         {% endif %}
         {% endfor %}
@@ -82,15 +66,7 @@ table.tradeoff-table td {
     text-align: center;
 }
 
-table.tradeoff-table td.B {
-    color: #4bb2c5;
-}
-
-table.tradeoff-table td.N {
-    color: #4bb2c5;
-}
-
-table.tradeoff-table td.P {
+table.tradeoff-table td.C {
     color: #4bb2c5;
 }
 
@@ -102,16 +78,10 @@ table.tradeoff-table td.T {
     color: #c5b47f;
 }
 
-table.tradeoff-table td.conservation-site {
-    color: #4bb2c5;
+table.tradeoff-table td.site {
     text-align: left;
-    width: 20%;
-}
-
-table.tradeoff-table td.wind-site {
-    color: #c5b47f;
-    text-align: left;
-    width: 20%;
+    font-size: 12px;
+    width: 25%;
 }
 
 table.tradeoff-table td.conflict {
