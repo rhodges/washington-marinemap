@@ -8,6 +8,7 @@
         var folder_id = {{instance.pk}};
         $('#Tradeoff_Analysis').hide();
         $('#change_objectives').hide();
+        $('#toggle_legend').hide();
         
         $('#show_analysis').click( function(event) { 
             
@@ -23,6 +24,7 @@
             $('#Tradeoff_Analysis').show();
             $('#show_analysis').hide();
             $('#change_objectives').show();
+            $('#toggle_legend').show();
             //} else {
                 
             //}
@@ -33,6 +35,7 @@
             $('#Tradeoff_Analysis').hide();
             $('#Tradeoff_Instructions').show();
             $('#change_objectives').hide();
+            $('#toggle_legend').hide();
             $('#show_analysis').show();
         });
         
@@ -191,6 +194,7 @@ span.form-image > img { width:46px; height:46px; }
                 
                 <div class="wizard_nav" style="width:100%">
                     <a href="#" class="button" style="float:left;" onclick="this.blur(); return false;" id="change_objectives"><span>&lt; Change Objectives</span></a>
+                    <a href="#" class="button" style="float:right;" onclick="javascript:toggleLegend('toggle_legend'); return false;" id="toggle_legend"><span>Hide Legend</span></a>
                     <a href="#" class="button" style="float:right;" onclick="this.blur(); return false;" id="show_analysis"><span>Show Tradeoffs &gt;</span></a>
                 </div>
             </div>
