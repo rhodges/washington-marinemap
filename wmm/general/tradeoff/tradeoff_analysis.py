@@ -85,10 +85,10 @@ def determine_legend_location(sites):
             quadrants[quadrant] = 1
     if 'sw' not in quadrants.keys():
         return 'sw'
-    elif 'nw' not in quadrants.keys():
-        return 'nw'
     elif 'se' not in quadrants.keys():
         return 'se'
+    elif 'nw' not in quadrants.keys():
+        return 'nw'
     elif 'ne' not in quadrants.keys():
         return 'ne'
     quadrant_tuples = [(count, quad) for quad, count in quadrants.items()]

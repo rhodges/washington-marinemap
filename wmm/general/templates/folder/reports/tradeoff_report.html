@@ -86,10 +86,7 @@
         html += '</tr>';
     };
     html += '</tbody>';
-    $(".jqplot-table-legend").html(html);  
-    $(function() {
-        $(".jqplot-table-legend").draggable();  
-    });
+    $(".jqplot-table-legend").html(html); 
     
     $('#chartdiv').bind('jqplotDataHighlight',
         function(ev, seriesIndex, pointIndex, data, radius) { 
@@ -120,13 +117,21 @@
             //$('.jqplot-highlighter-tooltip').html('');
         }
     );
-    
-    console.log(plot1.series[0]);
-    
+        
     function reverseLN(ln_value) {
         return Math.round(Math.pow(Math.E, ln_value) * 10) / 10.;
     }
- 
+    
+    function toggleLegend(id) {
+        if ($("#"+id+" span").text() == 'Hide Legend') { 
+            $("#"+id+" span").text('Show Legend'); 
+            $(".jqplot-table-legend").hide();
+        } else { 
+            $("#"+id+" span").text('Hide Legend'); 
+            $(".jqplot-table-legend").show();
+        }
+    }
+    
 </script>
 
 
