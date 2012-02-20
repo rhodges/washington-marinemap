@@ -35,10 +35,12 @@ def run_tradeoff_analysis(folder, x_axis, y_axis):
     x_type = get_type(x_axis)
     y_type = get_type(y_axis)
     sites, site_names, site_colors = get_chart_attributes(folder, x_type, y_type)
+    legend_location = determine_legend_location(sites)
     #conservation_colors = [ "#4bb2c5", "#4bb2c5", "#4bb2c5", "#4bb2c5" ]
     #from general.utils import kmlcolor_to_htmlcolor
     #colors = [kmlcolor_to_htmlcolor('778B1A55')] * len(sites)
-    context = {'default_value': default_value, 'x_axis': x_axis, 'y_axis': y_axis, 'x_label': x_label, 'y_label': y_label, 'sites': sites, 'site_colors': site_colors, 'site_names': site_names}
+    context = { 'default_value': default_value, 'x_axis': x_axis, 'y_axis': y_axis, 'x_label': x_label, 'y_label': y_label, 
+                'sites': sites, 'site_colors': site_colors, 'site_names': site_names, 'legend_location': legend_location}
     return context
     
 '''
@@ -72,6 +74,37 @@ def get_score(aoi, type):
         return score
     except:
         return -1
+    
+def determine_legend_location(sites):
+    quadrants = {}
+    for site in sites:
+        quadrant = get_quadrant(site[0], site[1])
+        if quadrant in quadrants.keys():
+            quadrants[quadrant] += 1
+        else:
+            quadrants[quadrant] = 1
+    if 'sw' not in quadrants.keys():
+        return 'sw'
+    elif 'nw' not in quadrant.keys():
+        return 'nw'
+    elif 'se' not in quadrant.keys():
+        return 'se'
+    elif 'ne' not in quadrant.keys():
+        return 'ne'
+    quadrant_tuples = [(count, quad) for quad, count in quadrants.items()]
+    quadrant_tuples.sort()
+    return quadrant_tuples[0][1]
+    
+    
+def get_quadrant(x,y):
+    if x >= 50 and y >= 50:
+        return 'ne'
+    elif x < 50 and y >= 50:
+        return 'nw'
+    elif x < 50 and y < 50:
+        return 'sw'
+    else:
+        return 'se'
     
 '''
 '''
