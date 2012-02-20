@@ -12,7 +12,8 @@ from lingcod.features import register, alternate
 from lingcod.common.utils import asKml
 from lingcod.features.models import Feature, PointFeature, LineFeature, PolygonFeature, FeatureCollection
 from lingcod.layers.models import PrivateLayerList
-from utils import miles_to_meters, feet_to_meters, intcomma
+from general.utils import miles_to_meters, feet_to_meters
+from utils import intcomma
 
 
 @register

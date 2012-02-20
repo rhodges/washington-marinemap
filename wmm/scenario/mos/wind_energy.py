@@ -2,9 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.utils import simplejson
+from general.utils import default_value, sq_meters_to_sq_miles
 from settings import *
 from scenario.models import *
-from scenario.utils import default_value, sq_meters_to_sq_miles
 from utils import get_scenario_stats, get_drill_down_stats
     
 bar_height = 32

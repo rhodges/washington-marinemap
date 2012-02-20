@@ -1,199 +1,133 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
+from aoi.models import AOI
 from scenario.models import *
 from settings import *
-from scenario.utils import default_value
+from general.utils import default_value, sq_meters_to_sq_miles
 
-#TODO
-#needs to be compressed down to single color for each type
-conservation_colors = [ "#4bb2c5", "#4bb2c5", "#4bb2c5", "#4bb2c5" ]
-windenergy_colors = [ "#c5b47f", "#c5b47f", "#c5b47f" ]
+series_colors = [ "#4bb2c5", "#c5b47f", "#EAA228", "#579575", "#839557", "#958c12",
+                "#953579", "#4b5de4", "#d8b83f", "#ff5800", "#0085cc" ]
 
-type_list = [ "tidal", "wind", "conservation", "development", "shellfish", "fishing" ]
-objective_list = [ "Tidal Energy", "Wind Energy", "Benthic Conservation", "Nearshore Conservation", "Pelagic Conservation", "Wave Energy" ]
+#type_list elements complete the scoring fieldname <type_list[index]>_score
+type_list = [ "conservation", "tidalenergy", "windenergy", "waveenergy" ]
+objective_list = [ "Conservation", "Tidal Energy", "Wind Energy", "Wave Energy" ]
     
 '''
 '''
-def display_tradeoff_table(request, folder_obj, template='folder/reports/tradeoff_table.html'):
-    context = get_tradeoff_table_context(folder_obj)   
-    return render_to_response(template, RequestContext(request, context))
-    
-'''
-'''
-def get_tradeoff_table_context(folder_obj):
-    conservation_sites = get_conservation_site_valuations(folder_obj)
-    windenergy_sites = get_windenergy_site_valuations(folder_obj)
-    context = {'default_value': default_value, 'conservation_sites': conservation_sites, 'windenergy_sites': windenergy_sites, 'objective_list': objective_list}
-    return context
-
-'''
-'''
-def get_conservation_site_valuations(folder_obj):
-    conservation_sites = []
-    #site = [name, color, valuations]
-    #the following is a temporary placeholder until we get actual sites and valuations in place...
-    name_list = ['Crab Cape', 'OK Coral', 'Pelican Point', 'Barracuda Bay']
-    index = 0
-    for name in name_list:
-        site = {}
-        site['name'] = name
-        site['color'] = conservation_colors[0]
-        valuations = get_site_valuations(index)
-        site['valuations'] = valuations
-        site['conflict'] = has_conflict(valuations)
-        index += 1
-        conservation_sites.append(site)
-    return conservation_sites
-
-'''
-'''
-def get_windenergy_site_valuations(folder_obj):
-    windenergy_sites = []
-    #site = [name, color, valuations]
-    #the following is a temporary placeholder until we get actual sites and valuations in place...
-    name_list = ['Blustery Ave', 'Breeze Way', 'Wind Alley']
-    index = 4
-    for name in name_list:
-        site = {}
-        site['name'] = name
-        site['color'] = windenergy_colors[0]
-        valuations = get_site_valuations(index)
-        site['valuations'] = valuations
-        site['conflict'] = has_conflict(valuations)
-        index += 1
-        windenergy_sites.append(site)
-    return windenergy_sites    
-    
-'''
-'''
-def has_conflict(valuations):
-    threshold = 70
-    total = 0
-    for value in valuations:
-        if value > threshold:
-            total += 1
-    if total > 1: 
-        return 'true'
-    return 'false'
-    
-'''
-'''
-def display_tradeoff_analysis(request, folder_obj, x_axis, y_axis, template='folder/reports/tradeoff_report.html'):
-    context = get_tradeoff_context(folder_obj, x_axis, y_axis)
+def display_tradeoff_analysis(request, folder, x_axis, y_axis, template='folder/reports/tradeoff_report.html'):
+    context = get_tradeoff_context(folder, x_axis, y_axis)
     return render_to_response(template, RequestContext(request, context)) 
 
 '''
 '''    
-def get_tradeoff_context(folder_obj, x_axis, y_axis): 
+def get_tradeoff_context(folder, x_axis, y_axis): 
     #get context from cache or from running analysis
-    context = run_tradeoff_analysis(folder_obj, x_axis, y_axis)   
+    context = run_tradeoff_analysis(folder, x_axis, y_axis)   
     return context
     
 '''
 Run the analysis, create the cache, and return the results as a context dictionary so they may be rendered with template
 '''    
-def run_tradeoff_analysis(folder_obj, x_axis, y_axis): 
-    x_label = get_label(x_axis)
-    y_label = get_label(y_axis)
-    conservation_sites = get_conservation_site_attributes(folder_obj, x_axis, y_axis)
+def run_tradeoff_analysis(folder, x_axis, y_axis): 
+    x_label = '%s Score' %x_axis
+    y_label = '%s Score' %y_axis
+    x_type = get_type(x_axis)
+    y_type = get_type(y_axis)
+    sites, site_names, site_colors = get_chart_attributes(folder, x_type, y_type)
     #conservation_colors = [ "#4bb2c5", "#4bb2c5", "#4bb2c5", "#4bb2c5" ]
-    from scenario.utils import kmlcolor_to_htmlcolor
-    conservation_colors = [kmlcolor_to_htmlcolor(ConservationSite.color())] * len(conservation_sites)
-    windenergy_sites = get_windenergy_sites(folder_obj, x_axis, y_axis)
-    windenergy_colors = [kmlcolor_to_htmlcolor(WindEnergySite.color())] * len(windenergy_sites)
-    context = {'default_value': default_value, 'x_axis': x_axis, 'y_axis': y_axis, 'x_label': x_label, 'y_label': y_label, 'conservation_sites': conservation_sites, 'conservation_colors': conservation_colors, 'windenergy_sites': windenergy_sites, 'windenergy_colors': windenergy_colors}
+    #from general.utils import kmlcolor_to_htmlcolor
+    #colors = [kmlcolor_to_htmlcolor('778B1A55')] * len(sites)
+    context = {'default_value': default_value, 'x_axis': x_axis, 'y_axis': y_axis, 'x_label': x_label, 'y_label': y_label, 'sites': sites, 'site_colors': site_colors, 'site_names': site_names}
     return context
     
 '''
 '''    
-def get_conservation_site_attributes(folder_obj, x_axis, y_axis):
-    conservation_attributes = []
+def get_chart_attributes(folder, x_axis, y_axis):
+    attributes = []
     #the following is a temporary placeholder until we get actual sites and valuations in place...
-    conservation_objs = [ [],[],[],[] ]
-    size_list = [16, 17, 26, 10]
-    name_list = ['Crab Cape', 'OK Coral', 'Pelican Point', 'Barracuda Bay']
+    #objs = [ [],[],[],[] ]
+    aois = folder.feature_set()
+    names = []
+    colors = []
     index = 0
-    for conservation_site in conservation_objs:
-        x_value = get_valuation(x_axis, index)
-        y_value = get_valuation(y_axis, index)
-        size = size_list[index]
-        name = name_list[index]
-        attribute_list = [x_value, y_value, size, name]
-        conservation_attributes.append(attribute_list)
+    for aoi in aois:
+        x_value = get_score(aoi, x_axis)
+        y_value = get_score(aoi, y_axis)
+        from math import log
+        nlog_size = log(sq_meters_to_sq_miles(aoi.geometry_final.area))
+        name = str(aoi.name)
+        names.append(name)
+        colors.append(series_colors[index%10])
+        attribute_list = [x_value, y_value, nlog_size, name]
+        attributes.append(attribute_list)
         index += 1
-    return conservation_attributes
-    
+    return attributes, names, colors
+     
 '''
 '''    
-def get_valuation_list(type):
-    conservation_valuation_list = [75, 85, 84, 50, 18, 67, 12]
-    wind_valuation_list = [23, 82, 10, 33, 67, 89, 83]
-    tidal_valuation_list = [14, 32, 24, 19, 18, 47, 25]
-    development_valuation_list = [30, 53, 14, 80, 49, 47, 71]
-    shellfish_valuation_list = [74, 42, 53, 28, 12, 14, 45]
-    fishing_valuation_list = [72, 67, 55, 23, 62, 43, 77]
-    if type == 'conservation':
-        return conservation_valuation_list
-    elif type == 'wind':
-        return wind_valuation_list      
-    elif type == 'tidal':
-        return tidal_valuation_list    
-    elif type == 'development':
-        return development_valuation_list       
-    elif type == 'shellfish':
-        return shellfish_valuation_list       
-    elif type == 'fishing':
-        return fishing_valuation_list
+def get_score(aoi, type):
+    try:
+        score = getattr(aoi, '%s_score' %type)
+        return score
+    except:
+        return -1
     
 '''
-'''    
-def get_valuation(type, index=None):
-    if index is None:
-        return get_valuation_list(type)
-    else:
-        return get_valuation_list(type)[index]
+'''
+def display_tradeoff_table(request, folder, template='folder/reports/tradeoff_table.html'):
+    context = get_tradeoff_table_context(folder)   
+    return render_to_response(template, RequestContext(request, context))
     
 '''
+'''
+def get_tradeoff_table_context(folder):
+    threshold = 60
+    sites = get_table_attributes(folder, threshold)
+    context = {'default_value': default_value, 'sites': sites, 'objective_list': objective_list, 'threshold': threshold}
+    return context
+
+'''
 '''    
-def get_site_valuations(index):
-    valuation_list = []
+def get_scores(aoi):
+    scores_list = []
     for type in type_list:
-        valuation_list.append(get_valuation(type, index))
-    return valuation_list
-        
-'''
-'''    
-def get_windenergy_sites(folder_obj, x_axis, y_axis):
-    windenergy_attributes = []
-    #the following is a temporary placeholder until we get actual sites and valuations in place...
-    windenergy_objs = [ [],[],[] ]
-    size_list = [None, None, None, None, 9, 14, 16]
-    name_list = [None, None, None, None, 'Blustery Ave', 'Breeze Way', 'Wind Alley']
-    index = 4
-    for windenergy_site in windenergy_objs:
-        x_value = get_valuation(x_axis, index)
-        y_value = get_valuation(y_axis, index)
-        size = size_list[index]
-        name = name_list[index]
-        attribute_list = [x_value, y_value, size, name]
-        windenergy_attributes.append(attribute_list)
-        index += 1
-    return windenergy_attributes
+        scores_list.append(getattr(aoi, '%s_score' %type))
+    return scores_list
     
 '''
 '''    
-def get_label(selection):
-    if selection == 'tidal':
-        return 'Tidal Energy Score'
-    elif selection == 'wind':
-        return 'Wind Energy Score'
-    elif selection == 'conservation':
-        return 'Benthic Conservation Score'
-    elif selection == 'development':
-        return 'Nearshore Conservation Score'
-    elif selection == 'shellfish':
-        return 'Pelagic Conservation Score'
-    elif selection == 'fishing':
-        return 'Wave Energy Score'
-    
+def get_type(objective):
+    try:
+        type = type_list[objective_list.index(objective)]
+        return type
+    except: 
+        return 'type not found'
+
+'''
+'''
+def get_table_attributes(folder, threshold):
+    sites = []
+    #site = [name, color, valuations]
+    aois = folder.feature_set()
+    for aoi in aois:
+        site = {}
+        site['name'] = str(aoi.name)
+        site['color'] = series_colors[0]
+        scores = get_scores(aoi)
+        site['scores'] = scores
+        site['conflict'] = has_conflict(scores, threshold)
+        sites.append(site)
+    return sites
+
+'''
+'''
+def has_conflict(scores, threshold):
+    total = 0
+    for score in scores:
+        if score > threshold:
+            total += 1
+    if total > 1: 
+        return 'true'
+    return 'false'
+  

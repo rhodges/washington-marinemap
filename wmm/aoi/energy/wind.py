@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from lingcod.raster_stats.models import RasterDataset, zonal_stats
 from settings import *
-from scenario.utils import default_value, meters_to_miles
+from general.utils import default_value, meters_to_miles
 from aoi.models import *
 
 '''
