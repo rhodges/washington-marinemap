@@ -126,6 +126,7 @@ span.form-image > img { width:46px; height:46px; }
         </div>
         
         <div id="results" class="tabs">
+        {% if instance.feature_set.0 %}
             <ul>
                 <li><a href="#visual"><span>Chart</span></a></li>
                 <li><a id="table_button" href="#text"><span>Table</span></a></li>
@@ -198,7 +199,13 @@ span.form-image > img { width:46px; height:46px; }
                     <p>coming soon...</p>
                 </div>
             </div>
-            
+        {% else %}
+            <div id="empty">
+                </br>
+                <p>Your folder, <b>{{instance.name}}</b>, is currently without any Areas of Interest.</p>
+                <p>Tradeoff reports will become available once the folder has been populated.<p>
+            </div>
+        {% endif %}
         </div>
         
     </div>
