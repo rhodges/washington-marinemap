@@ -6,6 +6,8 @@ from lingcod.features import register, alternate
 from lingcod.common.utils import asKml
 from lingcod.features.models import PointFeature, LineFeature, PolygonFeature
 from lingcod.raster_stats.models import RasterDataset, zonal_stats
+from picklefield import PickledObjectField
+from model_utils import remove_old_save_new
 
 @register
 class AOI(PolygonFeature):
@@ -165,8 +167,22 @@ class WaveEnergyScoring(models.Model):
         return u'Wave Energy Score: %s' %self.score              
 
 
-'''Reporting Models'''        
+'''Reporting Models'''     
+
+'''Caching Model'''   
         
+class ReportCache(models.Model):
+    wkt_hash = models.BigIntegerField(null=True, blank=True) 
+    title = models.CharField(max_length=35)
+    report = PickledObjectField()
+    date_created = models.DateTimeField(auto_now_add=True, verbose_name="Date Created")
+    date_modified = models.DateTimeField(auto_now=True, verbose_name="Date Modified")
+    
+    def save(self, *args, **kwargs):
+        from report_caching import remove_report_cache
+        remove_report_cache(self.wkt_hash, self.title)
+        super(ReportCache, self).save(*args, **kwargs)
+                    
 '''Physical Layers'''
         
 class BenthicHabitat(models.Model):
@@ -175,6 +191,18 @@ class BenthicHabitat(models.Model):
     substrate = models.CharField(max_length=20)
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Benthic Habitat")
     objects = models.GeoManager()        
+    
+class BenthicDepthArea(models.Model):
+    depth = models.CharField(max_length=12)
+    area = models.FloatField()
+    
+class BenthicGeomorphArea(models.Model):
+    geomorph = models.CharField(max_length=12)
+    area = models.FloatField()
+    
+class BenthicSubstrateArea(models.Model):
+    substrate = models.CharField(max_length=12)
+    area = models.FloatField()
     
 class Canyon(models.Model):
     phys_hab = models.CharField(max_length=40)
@@ -192,6 +220,14 @@ class EstuaryHabitat(models.Model):
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Estuary Habitat/Substrate")
     objects = models.GeoManager()    
     
+class EstuaryHabitatArea(models.Model):
+    habitat = models.CharField(max_length=12)
+    area = models.FloatField()
+    
+class EstuarySubstrateArea(models.Model):
+    substrate = models.CharField(max_length=29)
+    area = models.FloatField()
+    
 class Island(models.Model):
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Island")
     objects = models.GeoManager()    
@@ -200,6 +236,10 @@ class Upwelling(models.Model):
     type = models.CharField(max_length=8)
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Upwelling")
     objects = models.GeoManager()    
+    
+class UpwellingArea(models.Model):
+    type = models.CharField(max_length=8)
+    area = models.FloatField()
     
 '''Biological Layers'''
 

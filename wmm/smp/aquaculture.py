@@ -24,7 +24,7 @@ Run the analysis, create the cache, and return the results as a context dictiona
 def run_aquaculture_analysis(smp): 
     #compile context
     area = smp.geometry_final.area
-    oyster_tract = get_oyster_trace_areas(smp)
+    oyster_tract = get_oyster_tract_areas(smp)
     oyster_reserves = get_oyster_reserve_areas(smp)
     growing_areas = get_commercial_growing_area_data(smp)
     harvest_sites = get_harvest_site_data(smp)
@@ -35,7 +35,7 @@ def run_aquaculture_analysis(smp):
 
 
 #TODO:  will need to improve the accuracy here to account for tracts that are only partially overlapped  
-def get_oyster_trace_areas(smp):
+def get_oyster_tract_areas(smp):
     oyster_tracts = OysterTract.objects.all()
     total_acres = sum([tract.area_acres for tract in oyster_tracts if tract.geometry.intersects(smp.geometry_final)])
     acres_with_precision = generate_precision(total_acres, 2)
