@@ -7,7 +7,6 @@ from lingcod.common.utils import asKml
 from lingcod.features.models import PointFeature, LineFeature, PolygonFeature
 from lingcod.raster_stats.models import RasterDataset, zonal_stats
 from picklefield import PickledObjectField
-from model_utils import remove_old_save_new
 
 @register
 class AOI(PolygonFeature):
@@ -275,6 +274,10 @@ class Chlorophyll(models.Model):
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Chlorphyll")
     objects = models.GeoManager()
 
+class ChlorophyllArea(models.Model):
+    type = models.CharField(max_length=8)
+    area = models.FloatField()
+    
 class Coral(models.Model):
     ordcode = models.CharField(max_length=11)
     sum_cpuekg = models.FloatField()

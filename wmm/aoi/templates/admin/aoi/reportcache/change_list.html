@@ -1,0 +1,180 @@
+{% extends "admin/base_site.html" %}
+{% load adminmedia admin_list i18n %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+      <a href="../../">
+        {% trans "Home" %}
+      </a>
+       &rsaquo; 
+       <a href="../">
+         {{ app_label|capfirst }}
+      </a>
+      &rsaquo; 
+      {{ cl.opts.verbose_name_plural|capfirst }}
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+  <div id="content-main">
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+      
+      <form action="../../../aoi/admin_clear_cache/benthic_depth_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Benthic Depths</b>:  
+      &nbsp; <input type="submit" value="Clear Depth Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/benthic_geomorph_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Benthic Geomorphologies</b>:  
+      &nbsp; <input type="submit" value="Clear Geomorphology Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/benthic_substrate_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Benthic Substrates</b>:  
+      &nbsp; <input type="submit" value="Clear Substrate Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/canyon_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Canyons</b>:  
+      &nbsp; <input type="submit" value="Clear Canyon Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/chlorophyll_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Chlorophyll</b>:  
+      &nbsp; <input type="submit" value="Clear Chlorophyll Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/coral_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Coral</b>:  
+      &nbsp; <input type="submit" value="Clear Coral Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/estuary_habitat_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Estuary Habitats</b>:  
+      &nbsp; <input type="submit" value="Clear Estuary Habitat Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/estuary_substrate_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Estuary Substrate</b>:  
+      &nbsp; <input type="submit" value="Clear Estuary Substrate Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/island_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Islands</b>:  
+      &nbsp; <input type="submit" value="Clear Island Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/kelp_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Kelp</b>:  
+      &nbsp; <input type="submit" value="Clear Kelp Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/orca_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Orca Habitats</b>:  
+      &nbsp; <input type="submit" value="Clear Orca Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/oyster_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Olympia Oysters</b>:  
+      &nbsp; <input type="submit" value="Clear Olympie Oyster Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/rocky_substrate_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Rocky Substrate</b>:  
+      &nbsp; <input type="submit" value="Clear Rocky Substrate Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/seabird_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Seabirds</b>:  
+      &nbsp; <input type="submit" value="Clear Seabird Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/haulout_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Seal / Sea Lion Haulouts</b>:  
+      &nbsp; <input type="submit" value="Clear Haulout Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/snowy_plover_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Snowy Plover Habitats</b>:  
+      &nbsp; <input type="submit" value="Clear Snowy Plover Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/sponge_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Sponges</b>:  
+      &nbsp; <input type="submit" value="Clear Sponge Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/upwelling_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Upwelling</b>:  
+      &nbsp; <input type="submit" value="Clear Upwelling Cache">
+      </form>
+      
+      <br/>
+      <form action="../../../aoi/admin_clear_cache/all/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove <b>All</b> AOI Report Cache Data:  
+      &nbsp; <input type="submit" value="Clear All Cache">
+      </form>
+    </div>
+  </div>
+{% endblock %}
