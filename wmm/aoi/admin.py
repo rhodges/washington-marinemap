@@ -8,3 +8,8 @@ class AOIAdmin(admin.ModelAdmin):
     fields = ['name', 'description']
 admin.site.register(AOI, AOIAdmin)
 
+class ReportCacheAdmin (admin.ModelAdmin):
+    list_display = ()
+
+admin.site.register(ReportCache, ReportCacheAdmin)
+

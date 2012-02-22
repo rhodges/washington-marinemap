@@ -1,6 +1,7 @@
 {% extends 'common/panel.html' %}
 
 {% load percentage %}
+{% load humanize %}
 
 {% block title %}Area of Interest Biological Conservation Report{% endblock %}
 {% block panel %}
@@ -16,11 +17,21 @@
             <td><b>Seabirds</b></td>
             <td></td>
         </tr>
+        {% if seabird_count > 0 %}
+        {% for tuple in seabirds %}
         <tr>
             <td></td>
-            <td>{{default_value}}</td>
+            <td>{{tuple.0}} ({{tuple.1|intcomma}}) </td>
             <td></td>
         </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
     </tbody>
 </table>
 <table  style='width:430px' class='analysis_container'>
@@ -32,7 +43,11 @@
         </tr>
         <tr>
             <td></td>
-            <td>{{default_value}}</td>
+            {% if snowy_plover_count == 0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{snowy_plover_area|floatformat:1}} sq miles ({{snowy_plover_perc|percentage:1}} of your Area)</td>
+            {% endif %}
             <td></td>
         </tr>
     </tbody>
@@ -47,11 +62,21 @@
             <td><b>Seals/Sealions</b></td>
             <td></td>
         </tr>
+        {% if haulout_count > 0 %}
+        {% for tuple in haulouts %}
         <tr>
             <td></td>
-            <td>{{default_value}}</td>
+            <td>{{tuple.0}} ({{tuple.1|intcomma}}) </td>
             <td></td>
         </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
     </tbody>
 </table>
 <table  style='width:430px' class='analysis_container'>
@@ -63,7 +88,11 @@
         </tr>
         <tr>
             <td></td>
-            <td>{{default_value}}</td>
+            {% if orca_count == 0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{orca_area|floatformat:1}} sq miles ({{orca_perc|percentage:1}} of your Area)</td>
+            {% endif %}
             <td></td>
         </tr>
     </tbody>
@@ -80,7 +109,11 @@
         </tr>
         <tr>
             <td></td>
-            <td>{{default_value}}</td>
+            {% if kelp_count == 0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{kelp_area|floatformat:1}} sq miles ({{kelp_perc|percentage:1}} of your Area)</td>
+            {% endif %}
             <td></td>
         </tr>
     </tbody>
@@ -88,15 +121,23 @@
 <table  style='width:430px' class='analysis_container'>
     <tbody>
         <tr class="grey">
-            <td></td>
-            <td><b>Chlorophyll</b></td>
-            <td></td>
+            <td colspan="3"><b>Chlorophyll</b></td>
         </tr>
+        {% if chlorophyll_count > 0 %}
+        {% for report in chlorophyll %}
+        <tr>
+            <td class="left">{{report.0}}</td>
+            <td class="right">{{report.1|floatformat:1}} sq miles </td>
+            <td class="right">({{report.2|percentage:1}} of available {{report.0}})</td>
+        </tr>
+        {% endfor %}
+        {% else %}
         <tr>
             <td></td>
-            <td>{{default_value}}</td>
+            <td>None Found</td>
             <td></td>
         </tr>
+        {% endif %}
     </tbody>
 </table>
 
@@ -109,11 +150,21 @@
             <td><b>Coral</b></td>
             <td></td>
         </tr>
+        {% if coral_count > 0 %}
+        {% for tuple in coral_tuples %}
+        <tr>
+            <td class="left">{{tuple.0}}</td>
+            <td class="right">{{tuple.1|floatformat:1}} cpue </td>
+            <td class="right">({{tuple.2|floatformat:1}} sq miles)</td>
+        </tr>
+        {% endfor %}
+        {% else %}
         <tr>
             <td></td>
-            <td>{{default_value}}</td>
+            <td>None Found</td>
             <td></td>
         </tr>
+        {% endif %}
     </tbody>
 </table>
 <table  style='width:430px' class='analysis_container'>
@@ -123,11 +174,21 @@
             <td><b>Sponges</b></td>
             <td></td>
         </tr>
+        {% if sponge_count > 0 %}
+        {% for tuple in sponge_tuples %}
+        <tr>
+            <td class="left">{{tuple.0}}</td>
+            <td class="right">{{tuple.1|floatformat:1}} cpue </td>
+            <td class="right">({{tuple.2|floatformat:1}} sq miles)</td>
+        </tr>
+        {% endfor %}
+        {% else %}
         <tr>
             <td></td>
-            <td>{{default_value}}</td>
+            <td>None Found</td>
             <td></td>
         </tr>
+        {% endif %}
     </tbody>
 </table>
 <table  style='width:430px' class='analysis_container'>
@@ -139,7 +200,11 @@
         </tr>
         <tr>
             <td></td>
-            <td>{{default_value}}</td>
+            {% if oyster_count == 0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{oyster_area|floatformat:1}} sq miles ({{oyster_perc|percentage:1}} of your Area)</td>
+            {% endif %}
             <td></td>
         </tr>
     </tbody>
