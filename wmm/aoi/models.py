@@ -181,7 +181,18 @@ class ReportCache(models.Model):
         from report_caching import remove_report_cache
         remove_report_cache(self.wkt_hash, self.title)
         super(ReportCache, self).save(*args, **kwargs)
-                    
+                  
+'''Energy Layers'''
+
+class WindPower(models.Model):
+    wpc = models.FloatField()
+    potential = models.CharField(max_length=32)
+    densitywm2 = models.CharField(max_length=16)
+    speed_ms = models.CharField(max_length=16)
+    speed_mph = models.CharField(max_length=16)
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Wind Power")
+    objects = models.GeoManager()
+                  
 '''Physical Layers'''
         
 class BenthicHabitat(models.Model):

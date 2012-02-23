@@ -1,6 +1,7 @@
 {% extends 'common/panel.html' %}
 
 {% load percentage %}
+{% load humanize %}
 
 {% block title %}Area of Interest Tidal Energy Report{% endblock %}
 {% block panel %}
@@ -16,9 +17,9 @@
             <td><b>Average Depth</b></td>
         </tr>
         <tr>
-            <td>{{default_value}}</td>
-            <td>{{default_value}}</td>
-            <td>{{default_value}}</td>
+            <td>{{min_depth|floatformat:0|intcomma}} feet</td>
+            <td>{{max_depth|floatformat:0|intcomma}} feet</td>
+            <td>{{avg_depth|floatformat:0|intcomma}} feet</td>
         </tr>
     </tbody>
 </table>
@@ -28,9 +29,7 @@
 <table  style='width:430px' class='analysis_container'>
     <tbody>
         <tr class="grey">
-            <td></td>
-            <td><b>Substrate Types</b></td>
-            <td></td>
+            <td colspan="3"><b>Substrate Types</b></td>
         </tr>
         <tr>
             <td></td>
