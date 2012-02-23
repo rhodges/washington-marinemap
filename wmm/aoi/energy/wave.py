@@ -22,23 +22,23 @@ def get_aoi_wave_context(aoi):
     area = aoi.geometry_final.area
     max_depth, min_depth, avg_depth = get_min_max_avg_report(aoi, 'depth')
     substrate_count, substrates = get_tuple_report(aoi, BenthicHabitat, BenthicSubstrateArea, 'substrate', 'benthic_substrate_report')
-    from time import time as clock 
-    start = clock()
-    min_summer, max_summer, avg_summer = get_min_max_avg_report(aoi, 'wave_summer')
-    time = clock() - start
-    print 'Time spent on wave summer tif: %s' %time
-    start = clock()
+    #from time import time as clock 
+    #start = clock()
+    #min_summer, max_summer, avg_summer = get_min_max_avg_report(aoi, 'wave_summer')
+    #time = clock() - start
+    #print 'Time spent on wave summer tif: %s' %time
+    #start = clock()
     min_summer, max_summer, avg_summer = get_min_max_avg_report(aoi, 'wave_summer_grid')
-    time = clock() - start
-    print 'Time spent on wave summer grid: %s' %time
-    start = clock()
-    min_winter, max_winter, avg_winter = get_min_max_avg_report(aoi, 'wave_winter')
-    time = clock() - start
-    print 'Time spent on wave winter tif: %s' %time
-    start = clock()
+    #time = clock() - start
+    #print 'Time spent on wave summer grid: %s' %time
+    #start = clock()
+    #min_winter, max_winter, avg_winter = get_min_max_avg_report(aoi, 'wave_winter')
+    #time = clock() - start
+    #print 'Time spent on wave winter tif: %s' %time
+    #start = clock()
     min_winter, max_winter, avg_winter = get_min_max_avg_report(aoi, 'wave_winter_grid')
-    time = clock() - start
-    print 'Time spent on wave winter grid: %s' %time
+    #time = clock() - start
+    #print 'Time spent on wave winter grid: %s' %time
     context = { 'aoi': aoi, 'default_value': default_value, 'area': area, 'area_units': settings.DISPLAY_AREA_UNITS,
                 'min_depth': min_depth, 'max_depth': max_depth, 'avg_depth': avg_depth,
                 'substrate_count': substrate_count, 'substrates': substrates, 

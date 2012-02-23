@@ -24,9 +24,13 @@ def get_aoi_tidal_context(aoi):
     max_depth, min_depth, avg_depth = get_min_max_avg_report(aoi, 'depth')
     substrate_count, substrates = get_tuple_report(aoi, TidalSubstrate, TidalSubstrateArea, 'gridcode', 'tidal_substrate_report')
     substrates = get_substrate_names(substrates)
+    min_tidal_mean, max_tidal_mean, avg_tidal_mean = get_min_max_avg_report(aoi, 'tidal_mean_grid')
+    min_tidal_max, max_tidal_max, avg_tidal_max = get_min_max_avg_report(aoi, 'tidal_max_grid')
     context = { 'aoi': aoi, 'default_value': default_value, 'area': area, 'area_units': settings.DISPLAY_AREA_UNITS,
                 'min_depth': min_depth, 'max_depth': max_depth, 'avg_depth': avg_depth, 
-                'substrate_count': substrate_count, 'substrates': substrates}
+                'substrate_count': substrate_count, 'substrates': substrates, 
+                'min_tidal_mean': min_tidal_mean, 'max_tidal_mean': max_tidal_mean, 'avg_tidal_mean': avg_tidal_mean, 
+                'min_tidal_max': min_tidal_max, 'max_tidal_max': max_tidal_max, 'avg_tidal_max': avg_tidal_max }
     return context
     
 def get_substrate_names(substrate_tuples):
