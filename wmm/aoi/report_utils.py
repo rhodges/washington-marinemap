@@ -1,7 +1,7 @@
 from general.utils import default_value, sq_meters_to_sq_miles
 from aoi.report_caching import report_cache_exists, get_report_cache, create_report_cache
 
-CACHING = 'OFF' #set to ON to enable caching
+CACHING = 'ON' #set to ON to enable caching
     
 def get_count_area_perc_report(aoi, model_class, report_title):
     if report_cache_exists(aoi, report_title):
@@ -58,7 +58,7 @@ def create_area_record(model_class, area_class, field_name, attr):
 '''
 assumes the use of a field called count
 '''    
-def get_name_count_report(aoi, model_class, field_name, report_title):
+def get_name_count_report(aoi, model_class, field_name, report_title, count_field='count'):
     if report_cache_exists(aoi, report_title):
         report_cache = get_report_cache(aoi, report_title)
         return report_cache[0], report_cache[1]
@@ -66,7 +66,7 @@ def get_name_count_report(aoi, model_class, field_name, report_title):
     obj_dict = {}
     for object in intersecting_objs:
         key_field = getattr(object, field_name)
-        count = object.count
+        count = getattr(object, count_field)
         if key_field not in obj_dict.keys():
             obj_dict[key_field] = count
         else:
