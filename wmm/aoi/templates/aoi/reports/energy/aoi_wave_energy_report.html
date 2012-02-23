@@ -1,6 +1,7 @@
 {% extends 'common/panel.html' %}
 
 {% load percentage %}
+{% load humanize %}
 
 {% block title %}Area of Interest Wave Energy Report{% endblock %}
 {% block panel %}
@@ -16,9 +17,9 @@
             <td><b>Average Depth</b></td>
         </tr>
         <tr>
-            <td>{{default_value}}</td>
-            <td>{{default_value}}</td>
-            <td>{{default_value}}</td>
+            <td>{{min_depth|floatformat:0|intcomma}} feet</td>
+            <td>{{max_depth|floatformat:0|intcomma}} feet</td>
+            <td>{{avg_depth|floatformat:0|intcomma}} feet</td>
         </tr>
     </tbody>
 </table>
@@ -28,19 +29,27 @@
 <table  style='width:430px' class='analysis_container'>
     <tbody>
         <tr class="grey">
-            <td></td>
-            <td><b>Substrate Types</b></td>
-            <td></td>
+            <td colspan="3"><b>Substrate Types</b></td>
         </tr>
+        {% if substrate_count > 0 %}
+        {% for substrate in substrates %}
+        <tr>
+            <td class="left">{{substrate.0}}</td>
+            <td class="right">{{substrate.1|floatformat:1}} sq miles </td>
+            <td class="right">({{substrate.2|percentage:1}} of available {{substrate.0}})</td>
+        </tr>
+        {% endfor %}
+        {% else %}
         <tr>
             <td></td>
-            <td>{{default_value}}</td>
+            <td>None Found</td>
             <td></td>
         </tr>
+        {% endif %}
     </tbody>
 </table>
 
-<h3>Summer Wave Potential</h3>
+<h3>Summer Wave Potential (as kW/m of shoreline)</h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
@@ -50,14 +59,14 @@
             <td><b>Average Energy</b></td>
         </tr>
         <tr>
-            <td>{{default_value}}</td>
-            <td>{{default_value}}</td>
-            <td>{{default_value}}</td>
+            <td>{{min_summer|floatformat:0|intcomma}}</td>
+            <td>{{max_summer|floatformat:0|intcomma}}</td>
+            <td>{{avg_summer|floatformat:0|intcomma}}</td>
         </tr>
     </tbody>
 </table>
 
-<h3>Winter Wave Potential</h3>
+<h3>Winter Wave Potential (as kW/m of shoreline)</h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
@@ -67,9 +76,9 @@
             <td><b>Average Energy</b></td>
         </tr>
         <tr>
-            <td>{{default_value}}</td>
-            <td>{{default_value}}</td>
-            <td>{{default_value}}</td>
+            <td>{{min_winter|floatformat:0|intcomma}}</td>
+            <td>{{max_winter|floatformat:0|intcomma}}</td>
+            <td>{{avg_winter|floatformat:0|intcomma}}</td>
         </tr>
     </tbody>
 </table>

@@ -1,7 +1,7 @@
 from general.utils import default_value, sq_meters_to_sq_miles
 from aoi.report_caching import report_cache_exists, get_report_cache, create_report_cache
 
-CACHING = 'ON' #set to ON to enable caching
+CACHING = 'OFF' #set to ON to enable caching
     
 def get_count_area_perc_report(aoi, model_class, report_title):
     if report_cache_exists(aoi, report_title):
