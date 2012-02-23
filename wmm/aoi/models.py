@@ -192,7 +192,17 @@ class WindPower(models.Model):
     speed_mph = models.CharField(max_length=16)
     geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Wind Power")
     objects = models.GeoManager()
-                  
+               
+class TidalSubstrate(models.Model):
+    gridcode = models.IntegerField()
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Tidal Substrate")
+    objects = models.GeoManager()
+    
+class TidalSubstrateArea(models.Model):
+    gridcode = models.IntegerField()
+    area = models.FloatField()
+    
+    
 '''Physical Layers'''
         
 class BenthicHabitat(models.Model):
