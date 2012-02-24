@@ -1,0 +1,68 @@
+{% extends "admin/base_site.html" %}
+{% load adminmedia admin_list i18n %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <div class="breadcrumbs">
+      <a href="../../">
+        {% trans "Home" %}
+      </a>
+       &rsaquo; 
+       <a href="../">
+         {{ app_label|capfirst }}
+      </a>
+      &rsaquo; 
+      {{ cl.opts.verbose_name_plural|capfirst }}
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+  <div id="content-main">
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+      
+      <form action="../../../aoi/admin_clear_zonal_cache/depth_grid/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Zonal Stats Cache Related to <b>Bathymetry</b>:  
+      &nbsp; <input type="submit" value="Clear Depth Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_zonal_cache/wave_summer_grid/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Zonal Stats Cache Related to <b>Summer Wave Potential</b>:  
+      &nbsp; <input type="submit" value="Clear Summer Wave Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_zonal_cache/wave_winter_grid/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Zonal Stats Cache Related to <b>Winter Wave Potential</b>:  
+      &nbsp; <input type="submit" value="Clear Winter Wave Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_zonal_cache/tidal_max_grid/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Zonal Stats Cache Related to <b>Max Tidal Potential</b>:  
+      &nbsp; <input type="submit" value="Clear Max Tidal Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_zonal_cache/tidal_mean_grid/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Zonal Stats Cache Related to <b>Mean Tidal Potential</b>:  
+      &nbsp; <input type="submit" value="Clear Mean Tidal Cache">
+      </form>
+      
+    </div>
+  </div>
+{% endblock %}
