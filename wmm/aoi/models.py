@@ -181,6 +181,11 @@ class ReportCache(models.Model):
         from report_caching import remove_report_cache
         remove_report_cache(self.wkt_hash, self.title)
         super(ReportCache, self).save(*args, **kwargs)
+        
+class ZonalCache(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, verbose_name="Date Created")
+    date_modified = models.DateTimeField(auto_now=True, verbose_name="Date Modified")
+    
                   
 '''Energy Layers'''
 

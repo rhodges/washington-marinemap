@@ -17,9 +17,9 @@
             <td><b>Average Depth</b></td>
         </tr>
         <tr>
-            <td>{{min_depth|floatformat:0|intcomma}} feet</td>
-            <td>{{max_depth|floatformat:0|intcomma}} feet</td>
-            <td>{{avg_depth|floatformat:0|intcomma}} feet</td>
+            <td>{{min_depth|floatformat:0|intcomma}} feet {{min_depth_postscript}}</td>
+            <td>{{max_depth|floatformat:0|intcomma}} feet {{max_depth_postscript}}</td>
+            <td>{{avg_depth|floatformat:0|intcomma}} feet {{avg_depth_postscript}}</td>
         </tr>
     </tbody>
 </table>
@@ -58,11 +58,17 @@
             <td><b>Max Energy</b></td>
             <td><b>Average Energy</b></td>
         </tr>
+        {% if min_summer %}
         <tr>
             <td>{{min_summer|floatformat:0}} kW/m</td>
             <td>{{max_summer|floatformat:0}} kW/m</td>
             <td>{{avg_summer|floatformat:0}} kW/m</td>
         </tr>
+        {% else %}
+        <tr>
+            <td colspan="3">Your shape falls outside the Summer Wave data boundaries.</td>
+        </tr>
+        {% endif %}
     </tbody>
 </table>
 
@@ -75,11 +81,17 @@
             <td><b>Max Energy</b></td>
             <td><b>Average Energy</b></td>
         </tr>
+        {% if min_winter %}
         <tr>
             <td>{{min_winter|floatformat:0|intcomma}} kW/m</td>
             <td>{{max_winter|floatformat:0|intcomma}} kW/m</td>
             <td>{{avg_winter|floatformat:0|intcomma}} kW/m</td>
         </tr>
+        {% else %}
+        <tr>
+            <td colspan="3">Your shape falls outside the Winter Wave data boundaries.</td>
+        </tr>
+        {% endif %}
     </tbody>
 </table>
 

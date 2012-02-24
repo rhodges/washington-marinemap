@@ -27,8 +27,8 @@
       {% if cl.formset %}
         {{ cl.formset.management_form }}
       {% endif %}
-      Remove AOI Report Cache Related to <b>Benthic Depths</b>:  
-      &nbsp; <input type="submit" value="Clear Depth Cache">
+      Remove AOI Report Cache Related to <b>Benthic Depth Classes</b>:  
+      &nbsp; <input type="submit" value="Clear Depth Class Cache">
       </form>
       
       <form action="../../../aoi/admin_clear_cache/benthic_geomorph_report/" method="post">{% csrf_token %}
@@ -165,6 +165,14 @@
       {% endif %}
       Remove AOI Report Cache Related to <b>Upwelling</b>:  
       &nbsp; <input type="submit" value="Clear Upwelling Cache">
+      </form>
+      
+      <form action="../../../aoi/admin_clear_cache/wind_power_report/" method="post">{% csrf_token %}
+      {% if cl.formset %}
+        {{ cl.formset.management_form }}
+      {% endif %}
+      Remove AOI Report Cache Related to <b>Wind Potential</b>:  
+      &nbsp; <input type="submit" value="Clear Wind Power Cache">
       </form>
       
       <br/>
