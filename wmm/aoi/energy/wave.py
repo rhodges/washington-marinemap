@@ -5,8 +5,8 @@ from lingcod.raster_stats.models import RasterDataset, zonal_stats
 from settings import *
 from general.utils import default_value, meters_to_miles
 from aoi.models import *
-from energy_report_utils import get_min_max_avg_report
 from aoi.report_utils import get_tuple_report
+from energy_report_utils import get_min_max_avg_report, get_depth_postscripts
 
 '''
 '''
@@ -20,7 +20,8 @@ Run the analysis, create the cache, and return the results as a context dictiona
 def get_aoi_wave_context(aoi): 
     #compile context
     area = aoi.geometry_final.area
-    max_depth, min_depth, avg_depth = get_min_max_avg_report(aoi, 'depth')
+    max_depth, min_depth, avg_depth = get_min_max_avg_report(aoi, 'depth_grid')
+    max_depth_postscript, min_depth_postscript, avg_depth_postscript = get_depth_postscripts(max_depth, min_depth, avg_depth)
     substrate_count, substrates = get_tuple_report(aoi, BenthicHabitat, BenthicSubstrateArea, 'substrate', 'benthic_substrate_report')
     #from time import time as clock 
     #start = clock()
@@ -41,6 +42,7 @@ def get_aoi_wave_context(aoi):
     #print 'Time spent on wave winter grid: %s' %time
     context = { 'aoi': aoi, 'default_value': default_value, 'area': area, 'area_units': settings.DISPLAY_AREA_UNITS,
                 'min_depth': min_depth, 'max_depth': max_depth, 'avg_depth': avg_depth,
+                'max_depth_postscript': max_depth_postscript, 'min_depth_postscript': min_depth_postscript, 'avg_depth_postscript': avg_depth_postscript, 
                 'substrate_count': substrate_count, 'substrates': substrates, 
                 'min_summer': min_summer, 'max_summer': max_summer, 'avg_summer': avg_summer, 
                 'min_winter': min_winter, 'max_winter': max_winter, 'avg_winter': avg_winter }

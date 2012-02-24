@@ -4,8 +4,8 @@ from django.template import RequestContext
 from settings import *
 from general.utils import default_value, meters_to_miles
 from aoi.models import *
-from energy_report_utils import get_min_max_avg_report, get_wind_report
 from aoi.report_utils import get_tuple_report
+from energy_report_utils import get_min_max_avg_report, get_wind_report, get_depth_postscripts
 
 '''
 '''
@@ -19,12 +19,14 @@ Run the analysis, create the cache, and return the results as a context dictiona
 def get_aoi_wind_context(aoi): 
     #compile context
     area = aoi.geometry_final.area
-    max_depth, min_depth, avg_depth = get_min_max_avg_report(aoi, 'depth')
+    max_depth, min_depth, avg_depth = get_min_max_avg_report(aoi, 'depth_grid')
+    max_depth_postscript, min_depth_postscript, avg_depth_postscript = get_depth_postscripts(max_depth, min_depth, avg_depth)
     substrate_count, substrates = get_tuple_report(aoi, BenthicHabitat, BenthicSubstrateArea, 'substrate', 'benthic_substrate_report')
     wind_power_count, wind_power_tuples = get_wind_report(aoi, WindPower, 'potential', 'wind_power_report')
     wind_power_tuples = add_wind_details(wind_power_tuples)
     context = { 'aoi': aoi, 'default_value': default_value, 'area': area, 'area_units': settings.DISPLAY_AREA_UNITS,
                 'min_depth': min_depth, 'max_depth': max_depth, 'avg_depth': avg_depth,
+                'max_depth_postscript': max_depth_postscript, 'min_depth_postscript': min_depth_postscript, 'avg_depth_postscript': avg_depth_postscript, 
                 'substrate_count': substrate_count, 'substrates': substrates, 
                 'wind_power_count': wind_power_count, 'wind_power_tuples': wind_power_tuples }
     return context

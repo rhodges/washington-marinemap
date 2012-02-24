@@ -59,6 +59,16 @@ def remove_report_cache(hash=None, title=None):
         for entry in entries:
             ReportCache.delete(entry)
         
+def remove_zonal_stats_cache(raster_name):         
+    from lingcod.raster_stats.models import RasterDataset, ZonalStatsCache
+    try:
+        raster_id = RasterDataset.objects.get(name=raster_name).id
+    except:
+        raise Exception("RasterDataset with name=%s was not found" %raster_name)
+    cache_objects = ZonalStatsCache.objects.filter(raster__id=raster_id)
+    cache_objects.delete()
+    
+    
        
 '''
 Clear all entries from cache table

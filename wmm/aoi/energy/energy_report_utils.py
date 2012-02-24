@@ -12,6 +12,19 @@ def get_min_max_avg_report(aoi, raster):
     max = raster_stats.max 
     avg = raster_stats.avg 
     return min, max, avg
+
+'''
+'''    
+def get_depth_postscripts(max_depth, min_depth, avg_depth):
+    max_postscript = min_postscript = avg_postscript = ''
+    if max_depth > 0:
+        max_postscript = '(AMSL)'
+    if min_depth > 0:
+        min_postscript = '(AMSL)'
+    if avg_depth > 0:
+        avg_postscript = '(AMSL)'
+    return max_postscript, min_postscript, avg_postscript
+    
         
 '''
 '''        
