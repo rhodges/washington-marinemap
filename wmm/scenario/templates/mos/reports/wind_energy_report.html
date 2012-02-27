@@ -195,12 +195,12 @@ function toggleReports(obj_id, src_id) {
 
 <h3>Substrates (as a percentage of the scenario output) 
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_substrate_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_substrates', 'toggle_{{scenario.input_objective.short_name}}_substrate_report');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style=";width:400px;display "></div>
+<div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style="left:20px;width:400px;display "></div>
 <p></p>
 
 <h3>Wind Potentials (as a percentage of the scenario output) 
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_wind_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_wind_potentials', 'toggle_{{scenario.input_objective.short_name}}_substrate_report');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_wind_potentials" class="jqPlot" style="width:400px;display "></div>
+<div id="{{scenario.input_objective.short_name}}_wind_potentials" class="jqPlot" style="left:20px;width:400px;display "></div>
 <p></p>
 
 <h3>&nbsp;</h3>
@@ -214,7 +214,7 @@ function toggleReports(obj_id, src_id) {
 {% for substrate in substrate_list_reverse %}
 <h3>Wind Potentials (as a percentage of <b>{{substrate.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{substrate.short_name}}_wind" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{substrate.short_name}}_wind', 'toggle_{{scenario.input_objective.short_name}}_{{substrate.short_name}}_wind_potential');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{substrate.short_name}}_wind" class="jqPlot" style="width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{substrate.short_name}}_wind" class="jqPlot" style="left:20px;width:400px"></div>
 {% endfor %}
 
 <p></p>
@@ -227,7 +227,7 @@ function toggleReports(obj_id, src_id) {
 {% for wind in wind_potential_list_reverse %}
 <h3>Substrates (as a percentage of <b>{{wind.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{wind.short_name}}_substrate" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{wind.short_name}}_sub', 'toggle_{{scenario.input_objective.short_name}}_{{wind.short_name}}_substrate');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{wind.short_name}}_sub" class="jqPlot" style="width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{wind.short_name}}_sub" class="jqPlot" style="left:20px;width:400px"></div>
 {% endfor %}
 
 <p></p>

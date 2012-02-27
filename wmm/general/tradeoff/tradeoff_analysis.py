@@ -6,6 +6,8 @@ from scenario.models import *
 from settings import *
 from general.utils import default_value, sq_meters_to_sq_miles
 
+THRESHOLD = 60
+
 series_colors = [ "#4bb2c5", "#eaa228", "#c5b47f", "#579575", "#839557", "#958c12",
                 "#953579", "#4b5de4", "#d8b83f", "#ff5800", "#0085cc" ]
 
@@ -114,10 +116,9 @@ def display_tradeoff_table(request, folder, template='folder/reports/tradeoff_ta
     
 '''
 '''
-def get_tradeoff_table_context(folder):
-    threshold = 60
-    sites = get_table_attributes(folder, threshold)
-    context = {'default_value': default_value, 'sites': sites, 'objective_list': objective_list, 'threshold': threshold}
+def get_tradeoff_table_context(folder):    
+    sites = get_table_attributes(folder)
+    context = {'default_value': default_value, 'sites': sites, 'objective_list': objective_list, 'threshold': THRESHOLD}
     return context
 
 '''
@@ -139,7 +140,7 @@ def get_type(objective):
 
 '''
 '''
-def get_table_attributes(folder, threshold):
+def get_table_attributes(folder):
     sites = []
     #site = [name, color, valuations]
     aois = folder.feature_set()
@@ -148,17 +149,17 @@ def get_table_attributes(folder, threshold):
         site['name'] = str(aoi.name)
         site['color'] = series_colors[0]
         scores = get_scores(aoi)
-        site['scores'] = scores
-        site['conflict'] = has_conflict(scores, threshold)
+        site['scores'] = scores 
+        site['conflict'] = has_conflict(scores)
         sites.append(site)
     return sites
 
 '''
 '''
-def has_conflict(scores, threshold):
+def has_conflict(scores):
     total = 0
     for score in scores:
-        if score > threshold:
+        if score > THRESHOLD:
             total += 1
     if total > 1: 
         return 'true'

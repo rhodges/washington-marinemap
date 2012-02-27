@@ -52,8 +52,13 @@
         $("#"+divId).toggle();
         if ($("#"+srcId).text() == 'Read More') { 
             $("#"+srcId).text('Hide Text'); 
-        } else { 
+        } else if ($("#"+srcId).text() == 'Hide Text') { 
             $("#"+srcId).text('Read More'); 
+        }
+        if ($("#"+srcId).text() == 'More') { 
+            $("#"+srcId).text('Hide'); 
+        } else if ($("#"+srcId).text() == 'Hide') { 
+            $("#"+srcId).text('More'); 
         }
     }
 </script>
@@ -136,33 +141,30 @@ span.form-image > img { width:46px; height:46px; }
             </ul>
             <div id="visual">
                 <div id="Tradeoff_Instructions" class="step">
-                    <h3>Tradeoff Analysis</h3>
                     <p>Choose two objectives to be charted in the Tradeoff Analysis Report. &nbsp;
-                    <a id="displayInstructions" href="javascript:toggleDiv('instructions', 'displayInstructions');">Read More</a>
-                    </p>
-                    <div id="instructions" style="display: none">
-                        <p>The multi-objective tradeoffs report helps you compare the scores of your shapes.</p>
-                        <p>The results are displayed such that shapes that are scored higher for Objective #1 will be further along 
-                           the x-axis (to the right), and those that are scored higher for Objective #2 will be further 
-                           along the y-axis (toward the top).  
-                        <p>Conflict areas, those areas that have high scores for both objectives, 
-                           will be seen in the upper-right quadrant of the graph.  
-                        </p>
-                    </div>
                     <form>
                         <table>
                             <tr>
+                                <td width="15%">
+                                    &nbsp;
+                                </td>
                                 <td align="center" width="30%">
                                     <label>Objective #1</label>
                                 </td>
-                                <td width="30%">
+                                <td width="10%">
                                     &nbsp;
                                 </td>
                                 <td align="center" width="30%">
                                     <label>Objective #2</label>
                                 </td>
+                                <td width="15%">
+                                    &nbsp;
+                                </td>
                             </tr>
                             <tr>
+                                <td width="15%">
+                                    &nbsp;
+                                </td>
                                 <td width="30%" align="center">
                                     <label>
                                     <select class="x-axis" name="x-axis">
@@ -173,7 +175,7 @@ span.form-image > img { width:46px; height:46px; }
                                     </select>
                                     </label>
                                 </td>
-                                <td width="30%">
+                                <td width="10%">
                                     &nbsp;
                                 </td>
                                 <td width="30%" align="center">
@@ -184,10 +186,24 @@ span.form-image > img { width:46px; height:46px; }
                                         <option value="Conservation">Conservation</option>
                                     </select></label>
                                 </td>
+                                <td width="15%">
+                                    &nbsp;
+                                </td>
                             </tr>
                         </table>
                     </form>
                     <p>
+                    <a id="displayInstructions" href="javascript:toggleDiv('instructions', 'displayInstructions');">More</a>
+                    </p>
+                    <div id="instructions" style="display: none">
+                        <p>The multi-objective tradeoffs report helps you compare the scores of your shapes.</p>
+                        <p>The results are displayed such that shapes that are scored higher for Objective #1 will be further along 
+                           the x-axis (to the right), and those that are scored higher for Objective #2 will be further 
+                           along the y-axis (toward the top).  
+                        <p>Conflict areas, those areas that have high scores for both objectives, 
+                           will be seen in the upper-right quadrant of the graph.  
+                        </p>
+                    </div>
                 </div>
                 
                 <div id="Tradeoff_Analysis" class="step"></div>
@@ -195,7 +211,7 @@ span.form-image > img { width:46px; height:46px; }
                 <div class="wizard_nav" style="width:100%">
                     <a href="#" class="button" style="float:left;" onclick="this.blur(); return false;" id="change_objectives"><span>&lt; Change Objectives</span></a>
                     <a href="#" class="button" style="float:right;" onclick="javascript:toggleLegend('toggle_legend'); return false;" id="toggle_legend"><span>Hide Legend</span></a>
-                    <a href="#" class="button" style="float:right;" onclick="this.blur(); return false;" id="show_analysis"><span>Show Tradeoffs &gt;</span></a>
+                    <a href="#" class="button" style="float:right;" onclick="this.blur(); return false;" id="show_analysis"><span>Show Chart &gt;</span></a> 
                 </div>
             </div>
             <div id="text">
