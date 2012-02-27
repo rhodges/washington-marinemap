@@ -254,17 +254,17 @@ function toggleReports(obj_id, src_id) {
 
 <h3>Substrates (as a percentage of the scenario output) 
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_substrate_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_substrates', 'toggle_{{scenario.input_objective.short_name}}_substrate_report');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style="height:{{substrate_extent_table_height}}px;width:400px;display "></div>
+<div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style="left:20px;height:{{substrate_extent_table_height}}px;width:400px;display "></div>
 <p></p>
 
 <h3>Depth Classes (as a percentage of the scenario output) 
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_depth_class_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_depth_classes', 'toggle_{{scenario.input_objective.short_name}}_depth_class_report');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_depth_classes" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px;display "></div>
+<div id="{{scenario.input_objective.short_name}}_depth_classes" class="jqPlot" style="left:20px;height:{{depth_class_extent_table_height}}px;width:400px;display "></div>
 <p></p>
 
 <h3>Geomorphologies (as a percentage of the scenario output)  
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_geomorphology_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_geomorphologies', 'toggle_{{scenario.input_objective.short_name}}_geomorphology_report');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_geomorphologies" class="jqPlot" style="height:{{geomorphology_extent_table_height}}px;width:400px;display "></div>
+<div id="{{scenario.input_objective.short_name}}_geomorphologies" class="jqPlot" style="left:20px;height:{{geomorphology_extent_table_height}}px;width:400px;display "></div>
 <p></p>
 
 <h3>&nbsp;</h3>
@@ -282,11 +282,11 @@ function toggleReports(obj_id, src_id) {
 {% for substrate in substrate_list_reverse %}
 <h3>Depth Classes (as a percentage of <b>{{substrate.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{substrate}}_depth_class" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{substrate.short_name}}_dc', 'toggle_{{scenario.input_objective.short_name}}_{{substrate}}_depth_class');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{substrate.short_name}}_dc" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{substrate.short_name}}_dc" class="jqPlot" style="left:20px;height:{{depth_class_extent_table_height}}px;width:400px"></div>
 
 <h3>Geomorphology (as a percentage of <b>{{substrate.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{substrate}}_geomorphology" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{substrate.short_name}}_geo', 'toggle_{{scenario.input_objective.short_name}}_{{substrate}}_geomorphology');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{substrate.short_name}}_geo" class="jqPlot" style="height:{{geomorphology_extent_table_height}}px;width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{substrate.short_name}}_geo" class="jqPlot" style="left:20px;height:{{geomorphology_extent_table_height}}px;width:400px"></div>
 
 {% endfor %}
 <p></p>
@@ -300,11 +300,11 @@ function toggleReports(obj_id, src_id) {
 {% for depth_class in depth_class_list_reverse %}
 <h3>Substrates (as a percentage of <b>{{depth_class.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{depth_class}}_substrate" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{depth_class.short_name}}_sub', 'toggle_{{scenario.input_objective.short_name}}_{{depth_class}}_substrate');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{depth_class.short_name}}_sub" class="jqPlot" style="width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{depth_class.short_name}}_sub" class="jqPlot" style="left:20px;width:400px"></div>
 
 <h3>Geomorphology (as a percentage of <b>{{depth_class.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{depth_class}}_geomorphology" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{depth_class.short_name}}_geo', 'toggle_{{scenario.input_objective.short_name}}_{{depth_class}}_geomorphology');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{depth_class.short_name}}_geo" class="jqPlot" style="width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{depth_class.short_name}}_geo" class="jqPlot" style="left:20px;width:400px"></div>
 
 {% endfor %}
 <p></p>
@@ -318,11 +318,11 @@ function toggleReports(obj_id, src_id) {
 {% for geomorphology in geomorphology_list_reverse %}
 <h3>Substrates (as a percentage of <b>{{geomorphology.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{geomorphology}}_substrate" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{geomorphology.short_name}}_sub', 'toggle_{{scenario.input_objective.short_name}}_{{geomorphology}}_substrate');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{geomorphology.short_name}}_sub" class="jqPlot" style="width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{geomorphology.short_name}}_sub" class="jqPlot" style="left:20px;width:400px"></div>
 
 <h3>Depth Classes (as a percentage of <b>{{geomorphology.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{geomorphology}}_depth_class" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{geomorphology.short_name}}_dc', 'toggle_{{scenario.input_objective.short_name}}_{{geomorphology}}_depth_class');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{geomorphology.short_name}}_dc" class="jqPlot" style="height:{{depth_class_extent_table_height}}px;width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{geomorphology.short_name}}_dc" class="jqPlot" style="left:20px;height:{{depth_class_extent_table_height}}px;width:400px"></div>
 
 {% endfor %}
 <p></p>

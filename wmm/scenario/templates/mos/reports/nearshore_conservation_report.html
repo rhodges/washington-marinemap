@@ -226,17 +226,17 @@ function toggleReports(obj_id, src_id) {
 
 <h3>Substrates (as a percentage of the scenario output) 
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_substrate_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_substrates', 'toggle_{{scenario.input_objective.short_name}}_substrate_report');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style="width:400px;display "></div>
+<div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style="left:20px;width:400px;display "></div>
 <p></p>
 
 <h3>Exposures (as a percentage of the scenario output) 
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_exposure_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_exposures', 'toggle_{{scenario.input_objective.short_name}}_exposure_report');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_exposures" class="jqPlot" style="width:400px;display "></div>
+<div id="{{scenario.input_objective.short_name}}_exposures" class="jqPlot" style="left:20px;width:400px;display "></div>
 <p></p>
 
 <h3>Ecosystems (as a percentage of the scenario output) 
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_ecosystem_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_ecosystems', 'toggle_{{scenario.input_objective.short_name}}_ecosystem_report');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_ecosystems" class="jqPlot" style="width:400px;display "></div>
+<div id="{{scenario.input_objective.short_name}}_ecosystems" class="jqPlot" style="left:20px;width:400px;display "></div>
 <p></p>
 
 <h3>&nbsp;</h3>
@@ -249,11 +249,11 @@ function toggleReports(obj_id, src_id) {
 {% for substrate in substrate_list_reverse %}
 <h3>Exposures (as a percentage of <b>{{substrate.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{substrate.short_name}}_exposure" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{substrate.short_name}}_exp', 'toggle_{{scenario.input_objective.short_name}}_{{substrate.short_name}}_exposure');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{substrate.short_name}}_exp" class="jqPlot" style="width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{substrate.short_name}}_exp" class="jqPlot" style="left:20px;width:400px"></div>
 
 <h3>Ecosystems (as a percentage of <b>{{substrate.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{substrate.short_name}}_ecosystem" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{substrate.short_name}}_eco', 'toggle_{{scenario.input_objective.short_name}}_{{substrate.short_name}}_ecosystem');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{substrate.short_name}}_eco" class="jqPlot" style="width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{substrate.short_name}}_eco" class="jqPlot" style="left:20px;width:400px"></div>
 
 {% endfor %}
 <p></p>
@@ -266,11 +266,11 @@ function toggleReports(obj_id, src_id) {
 {% for exposure in exposure_list_reverse %}
 <h3>Substrate (as a percentage of <b>{{exposure.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{exposure.short_name}}_substrate" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{exposure.short_name}}_sub', 'toggle_{{scenario.input_objective.short_name}}_{{exposure}}_substrate');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{exposure.short_name}}_sub" class="jqPlot" style="width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{exposure.short_name}}_sub" class="jqPlot" style="left:20px;width:400px"></div>
 
 <h3>Ecosystems (as a percentage of <b>{{exposure.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{exposure.short_name}}_ecosystem" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{exposure.short_name}}_eco', 'toggle_{{scenario.input_objective.short_name}}_{{exposure.short_name}}_ecosystem');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{exposure.short_name}}_eco" class="jqPlot" style="width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{exposure.short_name}}_eco" class="jqPlot" style="left:20px;width:400px"></div>
 
 {% endfor %}
 <p></p>
@@ -283,11 +283,11 @@ function toggleReports(obj_id, src_id) {
 {% for ecosystem in ecosystem_list_reverse %}
 <h3>Substrates (as a percentage of <b>{{ecosystem.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{ecosystem.short_name}}_substrate" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{ecosystem.short_name}}_sub', 'toggle_{{scenario.input_objective.short_name}}_{{ecosystem.short_name}}_substrate');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{ecosystem.short_name}}_sub" class="jqPlot" style="width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{ecosystem.short_name}}_sub" class="jqPlot" style="left:20px;width:400px"></div>
 
 <h3>Exposures (as a percentage of <b>{{ecosystem.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{ecosystem.short_name}}_exposure" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{ecosystem.short_name}}_exp', 'toggle_{{scenario.input_objective.short_name}}_{{ecosystem.short_name}}_exposure');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{ecosystem.short_name}}_exp" class="jqPlot" style="width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{ecosystem.short_name}}_exp" class="jqPlot" style="left:20px;width:400px"></div>
 
 {% endfor %}
 <p></p>

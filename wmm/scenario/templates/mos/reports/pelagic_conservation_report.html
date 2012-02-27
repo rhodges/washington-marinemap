@@ -193,12 +193,12 @@ function toggleReports(obj_id, src_id) {
 
 <h3>Upwelling (as a percentage of the scenario output) 
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_upwelling_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_upwellings', 'toggle_{{scenario.input_objective.short_name}}_upwelling_report');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_upwellings" class="jqPlot" style="width:400px;display "></div>
+<div id="{{scenario.input_objective.short_name}}_upwellings" class="jqPlot" style="left:20px;width:400px;display "></div>
 <p></p>
 
 <h3>Chlorophyll (as a percentage of the scenario output) 
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_chlorophyll_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_chlorophylls', 'toggle_{{scenario.input_objective.short_name}}_chlorophyll_report');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_chlorophylls" class="jqPlot" style="width:400px;display "></div>
+<div id="{{scenario.input_objective.short_name}}_chlorophylls" class="jqPlot" style="left:20px;width:400px;display "></div>
 <p></p>
 
 </div>
@@ -210,7 +210,7 @@ function toggleReports(obj_id, src_id) {
 {% for upwelling in upwelling_list_reverse %}
 <h3>Chlorophyll (as a percentage of <b>{{upwelling.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{upwelling.short_name}}_chlorophyll" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{upwelling.short_name}}_chl', 'toggle_{{scenario.input_objective.short_name}}_{{upwelling.short_name}}_chlorophyll');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{upwelling.short_name}}_chl" class="jqPlot" style="width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{upwelling.short_name}}_chl" class="jqPlot" style="left:20px;width:400px"></div>
 {% endfor %}
 <p></p>
 
@@ -223,7 +223,7 @@ function toggleReports(obj_id, src_id) {
 {% for chlorophyll in chlorophyll_list_reverse %}
 <h3>Upwelling (as a percentage of <b>{{chlorophyll.name}}</b>)
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_{{chlorophyll.short_name}}_upwelling" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_{{chlorophyll.short_name}}_upw', 'toggle_{{scenario.input_objective.short_name}}_{{chlorophyll.short_name}}_upwelling');">Hide</a>]</small></small></h3>
-<div id="{{scenario.input_objective.short_name}}_{{chlorophyll.short_name}}_upw" class="jqPlot" style="width:400px"></div>
+<div id="{{scenario.input_objective.short_name}}_{{chlorophyll.short_name}}_upw" class="jqPlot" style="left:20px;width:400px"></div>
 {% endfor %}
 <p></p>
 
