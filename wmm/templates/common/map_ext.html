@@ -12,6 +12,23 @@
     {% endif %}
 {% endblock layersConfig %}
 
+{% block metanavigation %}
+{% if user.is_authenticated %}
+<li><a href="#" id="profile">{{user.username}}</a> | </li>
+{% endif %}
+<li><a href="#" id="help">help</a> | </li>
+<li><a href="#" id="news">news</a> | </li>
+<li><a href="#" id="about">about</a> | </li>
+{% if user.is_authenticated %}
+<li><a href="{% url user_signout %}">sign out</a></li>
+{% else %}
+<li><a href="#" id="register">register</a> | </li>
+<!-- <li><a href="{% url user_signin %}" id="signin">sign in</a></li> -->
+<li><a href="#" id="signin">sign in</a></li>
+{% endif %}                
+{% endblock metanavigation %}
+{% block meta_navigation_list_append %}{% endblock %}
+            
 {% block tabs %}
 {% if user.is_authenticated %}
 <li><a href="#MyShapes"><span>My Shapes</span></a></li> 
