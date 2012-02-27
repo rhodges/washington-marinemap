@@ -2,7 +2,7 @@
 
 {% block layersConfig %}
     // setup which kml files are shown in the data layers panel
-    options.rememberMapExtent = false; 
+    //options.rememberMapExtent = false; 
     //lingcod.addLayer('http://d243vm3w7590ia.cloudfront.net/State/Wa_tersea/Wa_tersea.kmz', {setExtent: true});
     {% if is_public_layers %}        
     lingcod.addLayer('{% url public-data-layers %}', {setExtent: true});
