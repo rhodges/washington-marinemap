@@ -7,6 +7,7 @@ from django.utils.safestring import mark_safe
 from django.contrib.gis.geos import fromstr
 from models import *
 from os.path import splitext,split
+from scenario.widgets import CheckboxSelectMultipleWithTooltip
 
 
 class SubstrateModelMultipleChoiceField(ModelMultipleChoiceField):
@@ -22,13 +23,13 @@ class AdminFileWidget(forms.FileInput):
         super(AdminFileWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None):
-        output = ['<p>']
+        output = []
         if value and hasattr(value, "name"):
             filename = split(value.name)[-1]
             output.append('Current File: <a href="%s" target="_blank">%s</a> : <input style="top:0px;margin-bottom:0px" type="checkbox" name="clear_%s" /> Remove </p>' % (value._get_url(), filename, name))
             output.append('<p> Change:') 
         output.append(super(AdminFileWidget, self).render(name, value, attrs))
-        output.append("</p>")
+        #output.append("</p>")
         return mark_safe(u''.join(output))
  
 # http://www.neverfriday.com/sweetfriday/2008/09/-a-long-time-ago.html
@@ -51,6 +52,7 @@ class ValidFileField(forms.FileField):
                 # check data['content-type'] ?
                 return f
             raise FileValidationError()
+                             
         
 class MOSForm(FeatureForm):
     #scenarios = forms.ModelChoiceField( queryset=Scenario.objectis.filter(
@@ -79,7 +81,7 @@ class MOSForm(FeatureForm):
     # NOTE:  The input parameters must be ordered by id 
     
     input_parameters_tidal_energy = forms.ModelMultipleChoiceField( queryset=TidalEnergyParameter.objects.all().order_by('id'),
-                                                                    widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_tidal_energy'}),
+                                                                    widget=CheckboxSelectMultipleWithTooltip(queryset=TidalEnergyParameter.objects.all().order_by('id'), attrs={'class': 'parameters_tidal_energy'}),
                                                                     required=False, 
                                                                     label="")
     input_dist_shore_tidal_energy = forms.FloatField(   min_value=0, max_value=20, initial=2,
@@ -113,7 +115,7 @@ class MOSForm(FeatureForm):
     # Objective 7 - Wave Energy
     # NOTE:  The input parameters must be ordered by id 
     input_parameters_wave_energy = forms.ModelMultipleChoiceField(  queryset=WaveEnergyParameter.objects.all().order_by('id'),
-                                                                    widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_wave_energy'}),
+                                                                    widget=CheckboxSelectMultipleWithTooltip(queryset=WaveEnergyParameter.objects.all().order_by('id'), attrs={'class': 'parameters_wave_energy'}),
                                                                     required=False, 
                                                                     label="")
     input_dist_shore_wave_energy = forms.FloatField(min_value=0, max_value=20, initial=2,
@@ -145,8 +147,9 @@ class MOSForm(FeatureForm):
     
     # Objective 2 - Wind Energy
     # NOTE:  The input parameters must be ordered by id 
+    #input_parameters_wind_energy = forms.ModelMultipleChoiceField(  queryset=WindEnergyParameter.objects.all().order_by('id'),
     input_parameters_wind_energy = forms.ModelMultipleChoiceField(  queryset=WindEnergyParameter.objects.all().order_by('id'),
-                                                                    widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_wind_energy'}),
+                                                                    widget=CheckboxSelectMultipleWithTooltip(queryset=WindEnergyParameter.objects.all().order_by('id'), attrs={'class': 'parameters_wind_energy'}),
                                                                     required=False, 
                                                                     label="")
     input_dist_shore_wind_energy = forms.FloatField(min_value=0, max_value=20, initial=2,
@@ -178,7 +181,7 @@ class MOSForm(FeatureForm):
     # Objective 3 - Offshore Conservation (Benthic)
     # NOTE:  The input parameters must be ordered by id 
     input_parameters_offshore_conservation = forms.ModelMultipleChoiceField(queryset=OffshoreConservationParameter.objects.all().order_by('id'),
-                                                                            widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_offshore_conservation'}),
+                                                                            widget=CheckboxSelectMultipleWithTooltip(queryset=OffshoreConservationParameter.objects.all().order_by('id'), substrate='benthic_substrate', attrs={'class': 'parameters_offshore_conservation'}),
                                                                             required=False, 
                                                                             label="")
     input_substrate_offshore_conservation = ModelMultipleChoiceField(   queryset=Substrate.objects.all().order_by('id'), 
@@ -194,7 +197,7 @@ class MOSForm(FeatureForm):
     # Objective 8 - Nearshore Conservation
     # NOTE:  The input parameters must be ordered by id 
     input_parameters_nearshore_conservation = forms.ModelMultipleChoiceField(   queryset=NearshoreConservationParameter.objects.all().order_by('id'),
-                                                                                widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_nearshore_conservation'}),
+                                                                                widget=CheckboxSelectMultipleWithTooltip(queryset=NearshoreConservationParameter.objects.all().order_by('id'), substrate='nearshore_substrate', attrs={'class': 'parameters_nearshore_conservation'}),
                                                                                 required=False, 
                                                                                 label="")
     input_substrate_nearshore_conservation = ModelMultipleChoiceField(  queryset=NearshoreSubstrate.objects.all().order_by('id'), 
@@ -210,16 +213,16 @@ class MOSForm(FeatureForm):
     
     # Objective 9 - Water Column Conservation (Pelagic)
     # NOTE:  The input parameters must be ordered by id 
-    input_parameters_pelagic_conservation = forms.ModelMultipleChoiceField(queryset=PelagicConservationParameter.objects.all().order_by('id'),
-                                                                                widget=forms.CheckboxSelectMultiple(attrs={'class': 'parameters_pelagic_conservation'}),
-                                                                                required=False, 
-                                                                                label="")
-    input_upwelling_pelagic_conservation = ModelMultipleChoiceField(   queryset=Upwelling.objects.all().order_by('id'), 
-                                                                            widget=forms.CheckboxSelectMultiple(attrs={'class':'pelagic_conservation_upwelling_checkboxes'}),
-                                                                            required=False) 
-    input_chlorophyl_pelagic_conservation = ModelMultipleChoiceField(  queryset=Chlorophyl.objects.all().order_by('id'), 
-                                                                            widget=forms.CheckboxSelectMultiple(attrs={'class':'pelagic_conservation_chlorophyl_checkboxes'}),
-                                                                            required=False) 
+    input_parameters_pelagic_conservation = forms.ModelMultipleChoiceField( queryset=PelagicConservationParameter.objects.all().order_by('id'),
+                                                                            widget=CheckboxSelectMultipleWithTooltip(queryset=PelagicConservationParameter.objects.all().order_by('id'), attrs={'class': 'parameters_pelagic_conservation'}),
+                                                                            required=False, 
+                                                                            label="")
+    input_upwelling_pelagic_conservation = ModelMultipleChoiceField(queryset=Upwelling.objects.all().order_by('id'), 
+                                                                    widget=forms.CheckboxSelectMultiple(attrs={'class':'pelagic_conservation_upwelling_checkboxes'}),
+                                                                    required=False) 
+    input_chlorophyl_pelagic_conservation = ModelMultipleChoiceField(   queryset=Chlorophyl.objects.all().order_by('id'), 
+                                                                        widget=forms.CheckboxSelectMultiple(attrs={'class':'pelagic_conservation_chlorophyl_checkboxes'}),
+                                                                        required=False) 
                   
     
     def save(self, commit=True):
