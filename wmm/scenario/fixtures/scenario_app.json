@@ -230,7 +230,7 @@
         "pk": 11, 
         "model": "scenario.parameter", 
         "fields": {
-            "name": "Chlorophyl", 
+            "name": "Chlorophyll", 
             "short_name": "chlorophyl"
         }
     }, 

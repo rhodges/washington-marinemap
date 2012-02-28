@@ -46,8 +46,10 @@ COMPRESS_JS['application']['source_filenames'] += (
     'wmm/js/jqplot.enhancedLegendRenderer.js',
     'wmm/js/jqplot.barRenderer.js',
     'wmm/js/jqplot.categoryAxisRenderer.js',
-    'wmm/js/jqplot.pointLabels.js'
-)                    
+    'wmm/js/jqplot.pointLabels.js',
+    'wmm/js/jquery.qtip-1.0.0-rc3.min.js',
+)  
+                  
                     
 COMPRESS_CSS['application']['source_filenames'] += (
     'wmm/css/analysis_reports.css',
