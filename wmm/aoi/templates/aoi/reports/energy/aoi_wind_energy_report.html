@@ -6,8 +6,94 @@
 {% block title %}Area of Interest Wind Energy Report{% endblock %}
 {% block panel %}
 
+<script type="text/javascript" charset="utf-8">
+    lingcod.onShow(function(){
+        $('img.info').each( function() {
+            var id = $(this).attr('id');
+            var text = "none";
+            topMiddle = false;
+            topLeft = false;
+            switch(id) {
+                //Conservation Biological Reports
+                //Physical
+                case 'info_wind_depth':
+                    text  = "Reports minimum, maximum, and average depth within your Area of Interest, based on Bathymetry layer, TNC, 2011. Compare to a suggested depth range of 0-200 (NREL 2011).";
+                    break;
+                case 'info_wind_substrate':
+                    text  = "Reports area for substrate type within your Area of Interest and calculate percentage of total available by type, based on Substrate layer, TNC 2011.";
+                    break;
+                case 'info_wind_potential':
+                    text  = "Reports area for wind potential class, wind density, and wind speed by type within your Area of Interest, based on 50-meter Height Wind Power Class layer, NREL, 2011. Compare to a minimum wind potential class minimum wind speed of 15.7 mph (NREL 2007).";
+                    break;
+                default:
+                    $(this).hide();
+            }
+            if (text!='none' && topMiddle) {
+                $(this).qtip({
+                    content: text, 
+                    show: { 
+                        delay: 0,
+                        when: { event: 'mouseover' } 
+                    },
+                    position: {
+                        corner: {
+                            target: 'topMiddle',
+                            tooltip: 'bottomMiddle'
+                        }
+                    },
+                    hide: { when: {event: 'mouseleave'} },
+                    style: { 
+                        width: 320,
+                        name: 'blue' 
+                    }
+                });
+            } else if (text!='none' && topLeft) {
+                $(this).qtip({
+                    content: text, 
+                    show: { 
+                        delay: 0,
+                        when: { event: 'mouseover' } 
+                    },
+                    position: {
+                        corner: {
+                            target: 'topRight',
+                            tooltip: 'bottomRight'
+                        }
+                    },
+                    hide: { when: {event: 'mouseleave'} },
+                    style: { 
+                        width: 300,
+                        name: 'blue' 
+                    }
+                });
+            } else if (text!='none') {
+                $(this).qtip({
+                    content: text, 
+                    show: { 
+                        delay: 0,
+                        when: { event: 'mouseover' } 
+                    },
+                    position: {
+                        corner: {
+                            target: 'rightMiddle',
+                            tooltip: 'leftMiddle'
+                        }
+                    },
+                    hide: { when: {event: 'mouseleave'} },
+                    style: { 
+                        width: 300,
+                        name: 'blue' 
+                    }
+                });
+            }
+        });             
+        
+    });
+    
+</script>
+
 <div class='freetext'>
-<h3>Depth Range</h3>
+<h3>Depth Range<img src="/media/wmm/img/info.png" id="info_wind_depth" class="info"/></h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
@@ -24,7 +110,7 @@
     </tbody>
 </table>
 
-<h3>Substrate</h3>
+<h3>Substrate<img src="/media/wmm/img/info.png" id="info_wind_substrate" class="info"/></h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
@@ -49,7 +135,7 @@
     </tbody>
 </table>
 
-<h3>Wind Potential</h3>
+<h3>Wind Potential<img src="/media/wmm/img/info.png" id="info_wind_potential" class="info"/></h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
