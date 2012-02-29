@@ -196,6 +196,49 @@ lingcod.onShow(function() {
     toggleReports(obj_short_name+'_substrate_reports', 'toggle_'+obj_short_name+'_substrate_reports');
     toggleReports(obj_short_name+'_exposure_reports', 'toggle_'+obj_short_name+'_exposure_reports');
     toggleReports(obj_short_name+'_ecosystem_reports', 'toggle_'+obj_short_name+'_ecosystem_reports');
+
+    $('img.info').each( function() {
+        var id = $(this).attr('id');
+        var text = "none";
+        switch(id) {
+            //Pelagic Scenario Reports
+            case 'info_nearshore_scenario':
+                text  = "Reports the substrate, exposure, and/or ecosystem as a percentage of the scenario output area and calculates the scenario output as a percentage of the total available substrate, exposure, and/or ecosystem.";
+                break;
+            case 'info_nearshore_substrate':
+                text  = "Reports the exposure and/or ecosystem by each substrate type as a percentage of the scenario output area and calculates the scenario output as a percentage of the total available exposure and/or ecosystem.";
+                break;
+            case 'info_nearshore_exposure':
+                text  = "Reports the substrate and/or ecosystem by each exposure type as a percentage of the scenario output area and calculates the scenario output as a percentage of the total available substrate and/or ecosystem.";
+                break;
+            case 'info_nearshore_ecosystem':
+                text  = "Reports the substrate and/or exposure by each ecosystem type as a percentage of the scenario output area and calculates the scenario output as a percentage of the total available substrate and/or exposure.";
+                break;
+            default:
+                $(this).hide();
+        }
+        if (text!='none') {
+            $(this).qtip({
+                content: text, 
+                show: { 
+                    delay: 0,
+                    when: { event: 'mouseover' } 
+                },
+                position: {
+                    corner: {
+                        target: 'rightMiddle',
+                        tooltip: 'leftMiddle'
+                    }
+                },
+                hide: { when: {event: 'mouseleave'} },
+                style: { 
+                    width: 300,
+                    name: 'blue' 
+                }
+            });
+        }
+    });  
+       
 }); 
 
 function toggleReport(obj_id, src_id) {
@@ -221,7 +264,9 @@ function toggleReports(obj_id, src_id) {
 </script>
 
 <h2>Scenario 
-<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_extent_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_extent_reports', 'toggle_{{scenario.input_objective.short_name}}_extent_reports');">Hide</a>]</small></small></h2>
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_extent_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_extent_reports', 'toggle_{{scenario.input_objective.short_name}}_extent_reports');">Hide</a>]</small></small>
+<img src="/media/wmm/img/info.png" id="info_nearshore_scenario" class="info"/>
+</h2>
 <div id="{{scenario.input_objective.short_name}}_extent_reports">
 
 <h3>Substrates (as a percentage of the scenario output) 
@@ -243,7 +288,9 @@ function toggleReports(obj_id, src_id) {
 </div>
 
 <h2>Substrate 
-<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_substrate_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_substrate_reports', 'toggle_{{scenario.input_objective.short_name}}_substrate_reports');">Hide</a>]</small></small></h2>
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_substrate_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_substrate_reports', 'toggle_{{scenario.input_objective.short_name}}_substrate_reports');">Hide</a>]</small></small>
+<img src="/media/wmm/img/info.png" id="info_nearshore_substrate" class="info"/>
+</h2>
 <div id="{{scenario.input_objective.short_name}}_substrate_reports">
 
 {% for substrate in substrate_list_reverse %}
@@ -260,7 +307,9 @@ function toggleReports(obj_id, src_id) {
 </div>
 
 <h2>Exposure 
-<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_exposure_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_exposure_reports', 'toggle_{{scenario.input_objective.short_name}}_exposure_reports');">Hide</a>]</small></small></h2>
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_exposure_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_exposure_reports', 'toggle_{{scenario.input_objective.short_name}}_exposure_reports');">Hide</a>]</small></small>
+<img src="/media/wmm/img/info.png" id="info_nearshore_exposure" class="info"/>
+</h2>
 <div id="{{scenario.input_objective.short_name}}_exposure_reports">
 
 {% for exposure in exposure_list_reverse %}
@@ -277,7 +326,9 @@ function toggleReports(obj_id, src_id) {
 </div>
 
 <h2>Ecosystems 
-<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_ecosystem_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_ecosystem_reports', 'toggle_{{scenario.input_objective.short_name}}_ecosystem_reports');">Hide</a>]</small></small></h2>
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_ecosystem_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_ecosystem_reports', 'toggle_{{scenario.input_objective.short_name}}_ecosystem_reports');">Hide</a>]</small></small>
+<img src="/media/wmm/img/info.png" id="info_nearshore_ecosystem" class="info"/>
+</h2>
 <div id="{{scenario.input_objective.short_name}}_ecosystem_reports">
 
 {% for ecosystem in ecosystem_list_reverse %}
