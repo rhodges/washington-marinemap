@@ -333,8 +333,11 @@
         $('img.info').each( function() {
             var id = $(this).attr('id');
             var text = "none";
+            topMiddle = false;
+            topLeft = false;
+            topRight = false;
             switch(id) {
-                //Energy Parameters 
+                //Step 1 Categories
                 case 'info_energy_objs':
                     text  = "The renewable energy scenario is designed to identify suitable areas for renewable ocean energy types (wind, wave, and tidal) using input data for sediment type, depth and power potential. ";
                     text += "<p></p>An additonal step is to optimize industry recommended siting criteria while minimizing conflicts with other ocean uses.";
@@ -343,6 +346,7 @@
                     text  = "The marine conservation scenario is designed to help identify areas of conservation in the nearshore, open and deep water environments off the coast of Washington. ";
                     text += "<p></p>Users can use input parameters of habitat, depth, geomorphology, vegetation, and exposure that are important to create conservation areas. ";
                     break;
+                //Step 2 Energy Parameters 
                 case 'info_distance_shore':
                     text = "Distance to shore is an important consideration due to cost of laying transmission cables to shore-based sub-stations.";
                     break;
@@ -370,7 +374,7 @@
                 case 'info_wind_potential':
                     text = "These data represent 50-meter height wind power resource estimates  produced by TrueWind Solutions using their MesoMap system and historical weather data.";
                     break;
-                //Conservation Parameters 
+                //Step 2 Conservation Parameters 
                 case 'info_benthic_substrate':
                     text = "Benthic substrate or sediment type is the physical material found on the ocean floor that provides the inherent physical structure for biological life in benthic habitats.";
                     break;
@@ -392,13 +396,132 @@
                 case 'info_upwelling':
                     text = "Upwelling brings deep, nutrient-rich waters to the surface off Washington's outer coast, generates an enormous amount of primary productivity, and is critical  to sustain the offshore foodweb.";
                     break;
-                case 'info_chlorophyll':
+                case 'info_chlorophyl':
                     text = "Chlorophyll - a concentration is an excellent measure of primary productivity in the marine environment and forms the basis of the marine food chain.";
+                    break;
+                //Step 3 Energy Parameters
+                case 'info_dist_shore_step3':
+                    topMiddle = true;
+                    text = "When specifying distance to shore, consider the cost per mile of underwater transmission cable from offshore energy facilties to onshore substation; cost depends on the capacity of transmission cable used. <br>Dalton et al. (2010) report costs ranging from $800,000-$8,000,000 per mile depending on power output.";
+                    break;
+                case 'info_dist_port_step3':
+                    topMiddle = true;
+                    text = "Selection of distance to ports reflects the transportation costs of manufactured facility componenets to offshore installation sites with potential for moorage at an intermediary port. <br><NEED ROUGH ESTIMATES OF TRANS COSTS.>";
+                    break;
+                case 'info_depth_step3':
+                    topMiddle = true;
+                    text = "Depth ranges vary by manufacturer; in general depths of 0-100 feet are recommended. <br>(Mineral Management Service, Alternative Energy Report, 2007).";
+                    break;
+                case 'info_substrate_step3':
+                    topMiddle = true;
+                    text = "Selection of substrate type is important to the installation of pilings  and other anchoring structures; softer substrate are easier to anchor mooring structures.";
+                    break;
+                case 'info_tidalmean_step3':
+                    topMiddle = true;
+                    text = "The minimum tidal current value should be greater than 1.5m/s for economically viable energy production (Spaulding et al. 2010).";
+                    break;
+                case 'info_tidalmax_step3':
+                    topMiddle = true;
+                    text = "The minimum tidal current value should be greater than 1.5m/s for economically viable energy production (Spaulding et al. 2010).";
+                    break;
+                case 'info_wavesummer_step3':
+                    topLeft = true;
+                    text = "The minimum wave energy density should be greater than 10 kW/m  for economically viable energy production  (Spaulding et al. 2010).";
+                    break;
+                case 'info_wavewinter_step3':
+                    topLeft = true;
+                    text = "The minimum wave energy density should be greater than 10 kW/m for economically viable energy production (Spaulding et al. 2010).";
+                    break;
+                case 'info_wind_step3':
+                    topRight = true;
+                    text = "The National Renewable Energy Laboratory (2011) recommends siting of offshore wind facilities in areas with a wind power class greater than 4 corresponding to a wind speed greater than 15.7 mph.";
+                    break;
+                //Step 3 Conservation Parameters
+                case 'info_substrate_benthic_step3':
+                    text = "Selection of substrate depends on the associated species of interest; for example, some groundfish or demersal species occur over hard bottom substrates, while open ocean or pelagic species can occur over soft bottom substrates.";
+                    break;
+                case 'info_depth_class_step3':
+                    text = "Selection of depth class depends on the associated species; for example, some demersal fish species such as rockfish can occur at bathybenthal depths, while pelagic fish species such as salmon can occur at inner- and mid-shelf depths.";
+                    break;
+                case 'info_geomorphology_step3':
+                    text = "Selection of geomorphology depends on the associated species; for example, some coral species can occur in basins, while some sponges occur along slopes.";
+                    break;
+                case 'info_substrate_nearshore_step3':
+                    text = "Selection of substrate depends on the associated species of interest; for example, rocky intertidal species occur over hard bottom substrates, while juvenile salmon and forage fish can occur over soft bottom substrates.";
+                    break;
+                case 'info_exposure_step3':
+                    text = "Selection of exposure depends on the species of interest associated with nearshore exposure; for example, rocky intertidal species can occur in exposed or very exposed nearshore areas, while juvenile salmon and forage fish can occur in protected or very protected estuary areas.";
+                    break;
+                case 'info_ecosystem_step3':
+                    text = "Selection of the ecosystem type depends on the species of interest associated with the vegetation community.";
+                    break;
+                case 'info_upwelling_step3':
+                    text = "Selection of the upwelling type depends on the desired scenario outcome; high upwelling relates to high levels of chlorophyll production and primary productivity.";
+                    break;
+                case 'info_chlorophyll_step3':
+                    text = "Selection of the chlorophyll type depends on the desired scenario outcome; high chlorophyll relates to high primary productivity.";
                     break;
                 default:
                     $(this).hide();
             }
-            if (text!='none') {
+            if (text!='none' && topMiddle) {
+                $(this).qtip({
+                    content: text, 
+                    show: { 
+                        delay: 0,
+                        when: { event: 'mouseover' } 
+                    },
+                    position: {
+                        corner: {
+                            target: 'topMiddle',
+                            tooltip: 'bottomMiddle'
+                        }
+                    },
+                    hide: { when: {event: 'mouseleave'} },
+                    style: { 
+                        width: 320,
+                        name: 'blue' 
+                    }
+                });
+            } else if (text!='none' && topLeft) {
+                $(this).qtip({
+                    content: text, 
+                    show: { 
+                        delay: 0,
+                        when: { event: 'mouseover' } 
+                    },
+                    position: {
+                        corner: {
+                            target: 'topRight',
+                            tooltip: 'bottomRight'
+                        }
+                    },
+                    hide: { when: {event: 'mouseleave'} },
+                    style: { 
+                        width: 270,
+                        name: 'blue' 
+                    }
+                });
+            } else if (text!='none' && topRight) {
+                $(this).qtip({
+                    content: text, 
+                    show: { 
+                        delay: 0,
+                        when: { event: 'mouseover' } 
+                    },
+                    position: {
+                        corner: {
+                            target: 'topLeft',
+                            tooltip: 'bottomLeft'
+                        }
+                    },
+                    hide: { when: {event: 'mouseleave'} },
+                    style: { 
+                        width: 270,
+                        name: 'blue' 
+                    }
+                });
+            } else if (text!='none') {
                 $(this).qtip({
                     content: text, 
                     show: { 
@@ -442,28 +565,6 @@
     
 </script>
 
-<style type="text/css">
-div .field > label { font-size: 12px; display: inline; }
-div .step { 
-    -moz-box-shadow: 5px 5px 5px #ddd;
-    -webkit-box-shadow: 5px 5px 5px #ddd;
-    box-shadow: 5px 5px 5px #ddd; 
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    -khtml-border-radius: 6px;
-    border-radius: 6px;
-    border: 1px #ddd solid;
-    padding: 6px;
-    margin-top: 4px;
-    margin-bottom: 8px;
-    background-color: white; 
-    background-repeat: no-repeat;
-    min-height: 54px;
-}
-div .inputfield { padding-bottom: 14px; }
-span.form-image { float: left; margin-left: -66px; }
-span.form-image > img { width:46px; height:46px; }
-</style>
 
 {% if form.media %} {{ form.media }} {% endif %}
 <h1>{{ title }}</h1>
@@ -596,7 +697,7 @@ span.form-image > img { width:46px; height:46px; }
                     </div>
                 </div>
                 <div id="substrate_tidal_energy_widget" class="inputfield">
-                    <label class="param">Substrate Types </label>
+                    <label class="param">Substrate Types <img src="/media/wmm/img/info.png" id="info_substrate_step3" class="info" /></label>
                     <div class="param-checkboxes">
                         {{ form.input_substrate_tidal_energy }} 
                     </div>
@@ -655,7 +756,7 @@ span.form-image > img { width:46px; height:46px; }
                     </div>
                 </div>
                 <div id="substrate_wave_energy_widget" class="inputfield">
-                    <label class="param">Substrate Types</label>
+                    <label class="param">Substrate Types <img src="/media/wmm/img/info.png" id="info_substrate_step3" class="info" /></label>
                     <div class="param-checkboxes">
                         {{ form.input_substrate_wave_energy }}
                     </div>
@@ -713,13 +814,13 @@ span.form-image > img { width:46px; height:46px; }
                     </div>
                 </div>
                 <div id="substrate_wind_energy_widget" class="inputfield">
-                    <label class="param">Substrate Types </label>
+                    <label class="param">Substrate Types <img src="/media/wmm/img/info.png" id="info_substrate_step3" class="info" /></label>
                     <div class="param-checkboxes">
                         {{ form.input_substrate_wind_energy }}
                     </div>
                 </div>
                 <div id="wind_potential_wind_energy_widget" class="inputfield">
-                    <label class="param">Wind Potential </label>
+                    <label class="param">Wind Potential <img src="/media/wmm/img/info.png" id="info_wind_step3" class="info" /></label>
                     <div class="param-checkboxes">
                         {{ form.input_wind_potential_wind_energy }} 
                     </div>
@@ -736,19 +837,19 @@ span.form-image > img { width:46px; height:46px; }
             </label>
             <div id="offshore_conservation_widgets">
                 <div id="substrate_offshore_conservation_widget" class="inputfield">
-                    <label class="param">Substrate Types </label>
+                    <label class="param">Substrate Types <img src="/media/wmm/img/info.png" id="info_substrate_benthic_step3" class="info" /></label>
                     <div class="param-checkboxes">
                         {{ form.input_substrate_offshore_conservation }} 
                     </div>
                 </div>
                 <div id="depth_class_offshore_conservation_widget" class="inputfield">
-                    <label class="param">Depth Classes </label>
+                    <label class="param">Depth Classes <img src="/media/wmm/img/info.png" id="info_depth_class_step3" class="info" /></label>
                     <div class="param-checkboxes">
                         {{ form.input_depth_class_offshore_conservation }} 
                     </div>
                 </div>
                 <div id="geomorphology_offshore_conservation_widget" class="inputfield">
-                    <label class="param">Geomorphologies </label>
+                    <label class="param">Geomorphologies <img src="/media/wmm/img/info.png" id="info_geomorphology_step3" class="info" /></label>
                     <div class="param-checkboxes">
                         {{ form.input_geomorphology_offshore_conservation }} 
                     </div>
@@ -764,19 +865,19 @@ span.form-image > img { width:46px; height:46px; }
             </label>
             <div id="nearshore_conservation_widgets">
                 <div id="substrate_nearshore_conservation_widget" class="inputfield">
-                    <label class="param">Substrate Types </label>
+                    <label class="param">Substrate Types <img src="/media/wmm/img/info.png" id="info_substrate_nearshore_step3" class="info" /></label>
                     <div class="param-checkboxes">
                         {{ form.input_substrate_nearshore_conservation }} 
                     </div>
                 </div>
                 <div id="exposure_nearshore_conservation_widget" class="inputfield">
-                    <label class="param">Exposure </label>
+                    <label class="param">Exposure <img src="/media/wmm/img/info.png" id="info_exposure_step3" class="info" /></label>
                     <div class="param-checkboxes">
                         {{ form.input_exposure_nearshore_conservation }} 
                     </div>
                 </div>
                 <div id="ecosystem_nearshore_conservation_widget" class="inputfield">
-                    <label class="param">Ecosystems </label>
+                    <label class="param">Ecosystems <img src="/media/wmm/img/info.png" id="info_ecosystem_step3" class="info" /></label>
                     <div class="param-checkboxes">
                         {{ form.input_ecosystem_nearshore_conservation }} 
                     </div>
@@ -792,13 +893,13 @@ span.form-image > img { width:46px; height:46px; }
             </label>
             <div id="pelagic_conservation_widgets">
                 <div id="upwelling_pelagic_conservation_widget" class="inputfield">
-                    <label class="param">Upwelling </label>
+                    <label class="param">Upwelling <img src="/media/wmm/img/info.png" id="info_upwelling_step3" class="info" /></label>
                     <div class="param-checkboxes">
                         {{ form.input_upwelling_pelagic_conservation }} 
                     </div>
                 </div>
                 <div id="chlorophyl_pelagic_conservation_widget" class="inputfield">
-                    <label class="param">Chlorophyl </label>
+                    <label class="param">Chlorophyll <img src="/media/wmm/img/info.png" id="info_chlorophyll_step3" class="info" /></label>
                     <div class="param-checkboxes">
                         {{ form.input_chlorophyl_pelagic_conservation }} 
                     </div>
@@ -848,6 +949,28 @@ span.form-image > img { width:46px; height:46px; }
 </div>
 
 <style type="text/css">
+
+div .field > label { font-size: 12px; display: inline; }
+div .step { 
+    -moz-box-shadow: 5px 5px 5px #ddd;
+    -webkit-box-shadow: 5px 5px 5px #ddd;
+    box-shadow: 5px 5px 5px #ddd; 
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -khtml-border-radius: 6px;
+    border-radius: 6px;
+    border: 1px #ddd solid;
+    padding: 6px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    background-color: white; 
+    background-repeat: no-repeat;
+    min-height: 54px;
+}
+span.form-image { float: left; margin-left: -66px; }
+span.form-image > img { width:46px; height:46px; }
+
+
 label {
     clear: both;
     color: #344E63;
@@ -875,7 +998,7 @@ p.instructions {
 form ul {
     margin-top: 5px;
     margin-bottom: 0px;
-    padding-left: 20px;
+    padding-left: 40px;
 }
 form ul li {
     padding-left: 15px !important;
@@ -903,10 +1026,10 @@ div.step4-header {
 }
 label.param {
     font-weight: normal !important;
-    padding-left: 20px !important;
+    padding-left: 30px !important;
 }
 div.param-checkboxes {
-    padding-left: 25px !important;
+    padding-left: 10px !important;
 }
 div.inputfield {
     padding-bottom: 10px !important;
@@ -921,7 +1044,7 @@ img.info {
 .ui-slider { 
     position:relative; 
     text-align:left; 
-    left:35px; 
+    left:15px; 
 }
 
 </style>
