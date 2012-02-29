@@ -224,6 +224,49 @@ lingcod.onShow(function() {
     toggleReports(obj_short_name+'_substrate_reports', 'toggle_'+obj_short_name+'_substrate_reports');
     toggleReports(obj_short_name+'_depth_class_reports', 'toggle_'+obj_short_name+'_depth_class_reports');
     toggleReports(obj_short_name+'_geomorphology_reports', 'toggle_'+obj_short_name+'_geomorphology_reports');
+    
+    $('img.info').each( function() {
+        var id = $(this).attr('id');
+        var text = "none";
+        switch(id) {
+            //Pelagic Scenario Reports
+            case 'info_benthic_scenario':
+                text  = "Reports the substrate, depth, and/or geomorphology as a percentage of the scenario output area and calculates the scenario output as a percentage of the total available substrate, depth, and/or geomorphology.";
+                break;
+            case 'info_benthic_substrate':
+                text  = "Reports the depth and/or geomorphology by each substrate type as a percentage of the scenario output area and calculates the scenario output as a percentage of the total available depth and/or geomorphology.";
+                break;
+            case 'info_benthic_depthclass':
+                text  = "Reports the substrate and/or geomorphology by each depth class as a percentage of the scenario output area and calculates the scenario output as a percentage of the total available substrate and/or geomorphology.";
+                break;
+            case 'info_benthic_geomorphology':
+                text  = "Reports the substrate and/or depth by each geomorphology type as a percentage of the scenario output area and calculates the scenario output as a percentage of the total available substrate and/or depth.";
+                break;
+            default:
+                $(this).hide();
+        }
+        if (text!='none') {
+            $(this).qtip({
+                content: text, 
+                show: { 
+                    delay: 0,
+                    when: { event: 'mouseover' } 
+                },
+                position: {
+                    corner: {
+                        target: 'rightMiddle',
+                        tooltip: 'leftMiddle'
+                    }
+                },
+                hide: { when: {event: 'mouseleave'} },
+                style: { 
+                    width: 300,
+                    name: 'blue' 
+                }
+            });
+        }
+    });  
+    
 }); 
 
 function toggleReport(obj_id, src_id) {
@@ -249,7 +292,9 @@ function toggleReports(obj_id, src_id) {
 </script>
 
 <h2>Scenario 
-<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_extent_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_extent_reports', 'toggle_{{scenario.input_objective.short_name}}_extent_reports');">Hide</a>]</small></small></h2>
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_extent_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_extent_reports', 'toggle_{{scenario.input_objective.short_name}}_extent_reports');">Hide</a>]</small></small>
+<img src="/media/wmm/img/info.png" id="info_benthic_scenario" class="info"/>
+</h2>
 <div id="{{scenario.input_objective.short_name}}_extent_reports">
 
 <h3>Substrates (as a percentage of the scenario output) 
@@ -272,7 +317,9 @@ function toggleReports(obj_id, src_id) {
 
 
 <h2>Substrate 
-<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_substrate_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_substrate_reports', 'toggle_{{scenario.input_objective.short_name}}_substrate_reports');">Hide</a>]</small></small></h2>
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_substrate_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_substrate_reports', 'toggle_{{scenario.input_objective.short_name}}_substrate_reports');">Hide</a>]</small></small>
+<img src="/media/wmm/img/info.png" id="info_benthic_substrate" class="info"/>
+</h2>
 <div id="{{scenario.input_objective.short_name}}_substrate_reports">
 <!--
 <h3>Substrates (as a percentage of the Scenario) 
@@ -294,7 +341,9 @@ function toggleReports(obj_id, src_id) {
 
 
 <h2>Depth Class 
-<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_depth_class_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_depth_class_reports', 'toggle_{{scenario.input_objective.short_name}}_depth_class_reports');">Hide</a>]</small></small></h2>
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_depth_class_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_depth_class_reports', 'toggle_{{scenario.input_objective.short_name}}_depth_class_reports');">Hide</a>]</small></small>
+<img src="/media/wmm/img/info.png" id="info_benthic_depthclass" class="info"/>
+</h2>
 <div id="{{scenario.input_objective.short_name}}_depth_class_reports">
 
 {% for depth_class in depth_class_list_reverse %}
@@ -312,7 +361,9 @@ function toggleReports(obj_id, src_id) {
 
 
 <h2>Geomorphology 
-<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_geomorphology_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_geomorphology_reports', 'toggle_{{scenario.input_objective.short_name}}_geomorphology_reports');">Hide</a>]</small></small></h2>
+<small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_geomorphology_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_geomorphology_reports', 'toggle_{{scenario.input_objective.short_name}}_geomorphology_reports');">Hide</a>]</small></small>
+<img src="/media/wmm/img/info.png" id="info_benthic_geomorphology" class="info"/>
+</h2>
 <div id="{{scenario.input_objective.short_name}}_geomorphology_reports">
 
 {% for geomorphology in geomorphology_list_reverse %}
