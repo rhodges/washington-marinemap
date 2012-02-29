@@ -37,11 +37,11 @@ def get_nearshore_conservation_context(mos, scenario):
     #substrate_jcolors = get_substrate_colors(scenario, substrate_jpercs)
     
     #Ecosystem Context
-    ecosystem_sub_jstats = get_drill_down_stats(scenario, report['ecosystem_substrate'], NearshoreEcosystem, Substrate, NearshoreConservationParameterArea)
+    ecosystem_sub_jstats = get_drill_down_stats(scenario, report['ecosystem_substrate'], NearshoreEcosystem, NearshoreSubstrate, NearshoreConservationParameterArea)
     ecosystem_exp_jstats = get_drill_down_stats(scenario, report['ecosystem_exposure'], NearshoreEcosystem, NearshoreExposure, NearshoreConservationParameterArea)
     
     #Exposure Context
-    exposure_sub_jstats = get_drill_down_stats(scenario, report['exposure_substrate'], NearshoreExposure, Substrate, NearshoreConservationParameterArea)
+    exposure_sub_jstats = get_drill_down_stats(scenario, report['exposure_substrate'], NearshoreExposure, NearshoreSubstrate, NearshoreConservationParameterArea)
     exposure_eco_jstats = get_drill_down_stats(scenario, report['exposure_ecosystem'], NearshoreExposure, NearshoreEcosystem, NearshoreConservationParameterArea)
     
     context = { 'default_value': default_value, 'bar_height': bar_height, 'mos': mos, 'scenario': scenario, 
