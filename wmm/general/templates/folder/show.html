@@ -134,7 +134,7 @@ span.form-image > img { width:46px; height:46px; }
         </div>
         
         <div id="results" class="tabs">
-        {% if instance.feature_set.0 %}
+        {% if instance.num_aois > 0 %}
             <ul>
                 <li><a href="#visual"><span>Chart</span></a></li>
                 <li><a id="table_button" href="#text"><span>Table</span></a></li>

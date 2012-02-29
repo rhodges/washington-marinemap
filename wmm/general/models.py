@@ -3,7 +3,9 @@ from django.conf import settings
 from django.contrib.gis.db import models
 from lingcod.features.models import FeatureCollection
 from lingcod.features import register
-from scenario.models import *
+from lingcod.layers.models import PrivateLayerList
+from scenario.models import MOS
+from aoi.models import AOI
 
 
 @register
@@ -19,13 +21,21 @@ class Folder(FeatureCollection):
     description = models.TextField(null=True,blank=True)
     
     @property
+    def num_aois(self):
+        count = 0
+        for object in self.feature_set():
+            if object.__class__ == AOI:
+                count += 1
+        return count 
+    
+    @property
     def num_scenarios(self):
         count = 0
         for object in self.feature_set():
             if object.__class__ == MOS:
                 count += 1
         return count
-        
+    '''    
     @property
     def num_conservation_sites(self):
         count = 0
@@ -41,7 +51,7 @@ class Folder(FeatureCollection):
             if object.__class__ == WindEnergySite:
                 count += 1
         return count
-        
+    '''    
     class Options:
         verbose_name = 'Folder'
         valid_children = ( 'scenario.models.MOS', 
