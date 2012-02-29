@@ -43,6 +43,9 @@ def sort_dict(param_dict, model_class, param_area_class):
 def get_drill_down_stats(scenario, dictionary, outer_class, inner_class, param_area_class):  
     stats = {}
     for outer_short_name, param_dict in dictionary.items():
+        if outer_short_name == 'surfgrass' and 'sand_gravel' in param_dict.keys():
+            import pdb
+            pdb.set_trace()
         outer_name = outer_class.objects.get(short_name=outer_short_name).name
         total_area = float( sum( [area for param, area in param_dict.items()] ) )
         param_perc_dict = {}
