@@ -5,10 +5,94 @@
 {% block title %}SMP Characterization Site Report{% endblock %}
 {% block panel %}
 
+<script type="text/javascript" charset="utf-8">
+    lingcod.onShow(function(){
+        $('img.info').each( function() {
+            var id = $(this).attr('id');
+            var text = "none";
+            topMiddle = false;
+            topLeft = false;
+            switch(id) {
+                case 'info_drift':
+                    topMiddle = true;
+                    text  = "Reports the area of oyster tracts within your SMP Characterization Site, based on Aquatic Parcels, WA DNR, 2011.";
+                    break;
+                case 'info_shoreline_modification':
+                    topLeft = true;
+                    text  = "Reports the area of oyster reserves within your SMP Characterization Site, based on Aquatic Parcels, WA DNR, 2011.";
+                    break;
+                default:
+                    $(this).hide();
+            }
+            if (text!='none' && topMiddle) {
+                $(this).qtip({
+                    content: text, 
+                    show: { 
+                        delay: 0,
+                        when: { event: 'mouseover' } 
+                    },
+                    position: {
+                        corner: {
+                            target: 'topMiddle',
+                            tooltip: 'bottomMiddle'
+                        }
+                    },
+                    hide: { when: {event: 'mouseleave'} },
+                    style: { 
+                        width: 320,
+                        name: 'blue' 
+                    }
+                });
+            } else if (text!='none' && topLeft) {
+                $(this).qtip({
+                    content: text, 
+                    show: { 
+                        delay: 0,
+                        when: { event: 'mouseover' } 
+                    },
+                    position: {
+                        corner: {
+                            target: 'topRight',
+                            tooltip: 'bottomRight'
+                        }
+                    },
+                    hide: { when: {event: 'mouseleave'} },
+                    style: { 
+                        width: 300,
+                        name: 'blue' 
+                    }
+                });
+            } else if (text!='none') {
+                $(this).qtip({
+                    content: text, 
+                    show: { 
+                        delay: 0,
+                        when: { event: 'mouseover' } 
+                    },
+                    position: {
+                        corner: {
+                            target: 'rightMiddle',
+                            tooltip: 'leftMiddle'
+                        }
+                    },
+                    hide: { when: {event: 'mouseleave'} },
+                    style: { 
+                        width: 270,
+                        name: 'blue' 
+                    }
+                });
+            }
+        });             
+        
+    });
+    
+</script>
+
 <div class='freetext'>
 <h3>Slope <small><small>[<a id="slope_link" href="javascript:toggleDiv('slope', 'slope_link');">Learn More</a>]</small></small></h3>
 <div id="slope" style="display: none">
     <p>The slope of the shoreline is relevant to beach erosion as those areas with greater slopes are often more prone to continued erosion than those areas with lesser slopes.  
+    <p>Reports average, minimum, and maximum slope within your SMP Characterization Site, based on USGS 30 meter National Elevation Dataset, 2011. 
 </div>
 <p>
 <table  style='width:430px' class='analysis_container'>
@@ -28,6 +112,7 @@
 <h3>Structures <small><small>[<a id="structures_link" href="javascript:toggleDiv('structures', 'structures_link');">Learn More</a>]</small></small></h3>
 <div id="structures" style="display: none">
     <p>The inclusion of overwater structures is important for beach erosion as some structures could disrupt beach sediment transport or increase the amount of erosion.
+    <p>Reports number of overwater structures by type within your SMP Characterization Site, based on Overwater Structures layer, WA DNR, 2011.
 </div>
 <p>
 <table  style='width:430px' class='analysis_container'>
@@ -63,7 +148,9 @@
     <tbody>
         <tr class="grey">
             <td></td>
-            <td><b>Areas of Drift</b></td>
+            <td><b>Areas of Drift</b>
+                <img src="/media/wmm/img/info.png" id="info_drift" class="info"/>
+            </td>
             <td></td>
         </tr>
         {% if drift_cell_tuples.0 %}
@@ -87,7 +174,9 @@
     <tbody>
         <tr class="grey">
             <td></td>
-            <td><b>Estimated Percentage of Shoreline Modification</b></td>
+            <td><b>Estimated Percentage of Shoreline Modification</b>
+                <img src="/media/wmm/img/info.png" id="info_shoreline_modification" class="info"/>
+            </td>
             <td></td>
         </tr>
         <tr>
@@ -100,6 +189,7 @@
 <h3>Exposure <small><small>[<a id="exposure_link" href="javascript:toggleDiv('exposure', 'exposure_link');">Learn More</a>]</small></small></h3>
 <div id="exposure" style="display: none">
     <p>The exposure of shoreline and nearshore represents the vulnerability of an area to erosion. The more exposed a shoreline, the more likely erosion could occur. 
+    <p>Reports percentage of exposed and very exposed nearshore areas (shoreline and estuaries) within your SMP Characterization Site, based on Nearshore Exposure layer, TNC, 2011.
 </div>
 <p>
 <table  style='width:430px' class='analysis_container'>
@@ -119,6 +209,7 @@
 <h3>Substrate/Vegetation <small><small>[<a id="sub_veg_link" href="javascript:toggleDiv('sub_veg', 'sub_veg_link');">Learn More</a>]</small></small></h3>
 <div id="sub_veg" style="display: none">
     <p>The substrate of shoreline can control the rate of erosion; rocky or hard substrates are harder to erode than unconsolidated sediments like sand, gravel and muds. The presence of vegetation along a shoreline can help reduce the susceptibility to erosion. 
+    <p>Based on Nearshore Substrate and Nearshore Vegetation layers, TNC, 2011.
 </div>
 <p>
 <table  style='width:430px' class='analysis_container'>

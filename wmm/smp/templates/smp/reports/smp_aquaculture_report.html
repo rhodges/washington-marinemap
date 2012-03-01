@@ -4,8 +4,128 @@
 {% block panel %}
 {% load humanize %}
 
+<script type="text/javascript" charset="utf-8">
+    lingcod.onShow(function(){
+        $('img.info').each( function() {
+            var id = $(this).attr('id');
+            var text = "none";
+            topMiddle = false;
+            topLeft = false;
+            switch(id) {
+                case 'info_general_aquaculture':
+                    topRight = true;
+                    text  = "The use of oyster tracts and reserves provide a data foundation to help identify current oyster uses areas and any aquatic parcels for potential future uses.";
+                    break;
+                case 'info_oyster_tracts':
+                    topMiddle = true;
+                    text  = "Reports the area of oyster tracts within your SMP Characterization Site, based on Aquatic Parcels, WA DNR, 2011.";
+                    break;
+                case 'info_oyster_reserves':
+                    topMiddle = true;
+                    text  = "Reports the area of oyster reserves within your SMP Characterization Site, based on Aquatic Parcels, WA DNR, 2011.";
+                    break;
+                case 'info_commercial_aquaculture':
+                    topRight = true;
+                    text  = "Reports the area of oyster tracts within your SMP Characterization Site, based on Aquatic Parcels, WA DNR, 2011.";
+                    break;
+                case 'info_growing_areas':
+                    topMiddle = true;
+                    text  = "Reports the area of commercial shellfish growing areas by harvest status within your SMP Characterization Site, based on Commercial Growing Areas, WA DOH, 2011.";
+                    break;
+                case 'info_harvest_sites':
+                    topMiddle = true;
+                    text  = "Reports the presence and area of all commercial shellfish harvest sites within your SMP Characterization Site, based on Commercial Harvest Sites, WA DOH, 2011.";
+                    break;
+                default:
+                    $(this).hide();
+            }
+            if (text!='none' && topMiddle) {
+                $(this).qtip({
+                    content: text, 
+                    show: { 
+                        delay: 0,
+                        when: { event: 'mouseover' } 
+                    },
+                    position: {
+                        corner: {
+                            target: 'topMiddle',
+                            tooltip: 'bottomMiddle'
+                        }
+                    },
+                    hide: { when: {event: 'mouseleave'} },
+                    style: { 
+                        width: 320,
+                        name: 'blue' 
+                    }
+                });
+            } else if (text!='none' && topLeft) {
+                $(this).qtip({
+                    content: text, 
+                    show: { 
+                        delay: 0,
+                        when: { event: 'mouseover' } 
+                    },
+                    position: {
+                        corner: {
+                            target: 'topRight',
+                            tooltip: 'bottomRight'
+                        }
+                    },
+                    hide: { when: {event: 'mouseleave'} },
+                    style: { 
+                        width: 300,
+                        name: 'blue' 
+                    }
+                });
+            } else if (text!='none' && topRight) {
+                $(this).qtip({
+                    content: text, 
+                    show: { 
+                        delay: 0,
+                        when: { event: 'mouseover' } 
+                    },
+                    position: {
+                        corner: {
+                            target: 'topLeft',
+                            tooltip: 'bottomLeft'
+                        }
+                    },
+                    hide: { when: {event: 'mouseleave'} },
+                    style: { 
+                        width: 320,
+                        name: 'blue' 
+                    }
+                });
+            } else if (text!='none') {
+                $(this).qtip({
+                    content: text, 
+                    show: { 
+                        delay: 0,
+                        when: { event: 'mouseover' } 
+                    },
+                    position: {
+                        corner: {
+                            target: 'rightMiddle',
+                            tooltip: 'leftMiddle'
+                        }
+                    },
+                    hide: { when: {event: 'mouseleave'} },
+                    style: { 
+                        width: 270,
+                        name: 'blue' 
+                    }
+                });
+            }
+        });             
+        
+    });
+    
+</script>
+
 <div class='freetext'>
-<h3>General <small><small>[<a id="general_link" href="javascript:toggleDiv('general', 'general_link');">Learn More</a>]</small></small></h3>
+<h3>General <!--<small><small>[<a id="general_link" href="javascript:toggleDiv('general', 'general_link');">Learn More</a>]</small></small>-->
+    <img src="/media/wmm/img/info.png" id="info_general_aquaculture" class="info"/>
+</h3>
 <div id="general" style="display: none">
     <p>The use of oyster tracts and reserves provide a data foundation to help identify current oyster uses areas and any aquatic parcels for potential future uses.
 </div>
@@ -14,7 +134,9 @@
     <tbody>
         <tr class="grey">
             <td></td>
-            <td><b>Oyster Tracts</b></td>
+            <td><b>Oyster Tracts</b>
+                <img src="/media/wmm/img/info.png" id="info_oyster_tracts" class="info"/>
+            </td>
             <td></td>
         </tr>
         <tr>
@@ -32,7 +154,9 @@
     <tbody>
         <tr class="grey">
             <td></td>
-            <td><b>Oyster Reserves</b></td>
+            <td><b>Oyster Reserves</b>
+                <img src="/media/wmm/img/info.png" id="info_oyster_reserves" class="info"/>
+            </td>
             <td></td>
         </tr>
         <tr>
@@ -46,7 +170,9 @@
         </tr>
     </tbody>
 </table>
-<h3>Commercial <small><small>[<a id="commercial_link" href="javascript:toggleDiv('commercial', 'commercial_link');">Learn More</a>]</small></small></h3>
+<h3>Commercial <!--<small><small>[<a id="commercial_link" href="javascript:toggleDiv('commercial', 'commercial_link');">Learn More</a>]</small></small>-->
+    <img src="/media/wmm/img/info.png" id="info_commercial_aquaculture" class="info"/>
+</h3>
 <div id="commercial" style="display: none">
     <p>The inclusion of commercial shellfish growing areas and commercial shellfish harvest sites provides important information on current shellfish harvesting and in conjunction with oyster parcel data, help identify suitable parcels for expansion of existing commercial shellfish operations or new shellfish facilities. 
 </div>
@@ -55,7 +181,9 @@
     <tbody>
         <tr class="grey">
             <td></td>
-            <td><b>Growing Areas</b></td>
+            <td><b>Growing Areas</b>
+                <img src="/media/wmm/img/info.png" id="info_growing_areas" class="info"/>
+            </td>
             <td></td>
         </tr>
         {% if growing_areas.0 %}
@@ -79,7 +207,9 @@
     <tbody>
         <tr class="grey">
             <td></td>
-            <td><b>Harvest Sites</b></td>
+            <td><b>Harvest Sites</b>
+                <img src="/media/wmm/img/info.png" id="info_harvest_sites" class="info"/>
+            </td>
             <td></td>
         </tr>
         {% if harvest_sites.0 %}
