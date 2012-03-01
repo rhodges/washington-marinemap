@@ -6,99 +6,8 @@
 {% block title %}Area of Interest Tidal Energy Report{% endblock %}
 {% block panel %}
 
-<script type="text/javascript" charset="utf-8">
-    lingcod.onShow(function(){
-        $('img.info').each( function() {
-            var id = $(this).attr('id');
-            var text = "none";
-            topMiddle = false;
-            topLeft = false;
-            switch(id) {
-                //Conservation Biological Reports
-                //Physical
-                case 'info_tidal_depth':
-                    text  = "Reports minimum, maximum, and average depth within your Area of Interest, based on Bathymetry layer, TNC, 2011. Compare to a suggested depth range of 100-200 (Mineral Management Service, 2007).";
-                    break;
-                case 'info_tidal_substrate':
-                    text  = "Reports area for substrate type within your Area of Interest and calculate percentage of total available by type, based on Substrate layer, TNC 2011.";
-                    break;
-                case 'info_tidal_mean':
-                    topMiddle = true;
-                    text  = "Reports minimum, maximum, and average mean (average) tidal current within your Area of Interest, based on Mean Tidal Current data, GA Tech University, 2012. Compare to minimum tidal current of 1.5 m/s (Spaulding et al. 2010).";
-                    break;
-                case 'info_tidal_max':
-                    topMiddle = true;
-                    text  = "Reports minimum, maximum, and average maximum tidal current within your Area of Interest, based on Maximum Tidal Current data, GA Tech University, 2012. Compare to minimum tidal current of 1.5 m/s (Spaulding et al. 2010).";
-                    break;
-                default:
-                    $(this).hide();
-            }
-            if (text!='none' && topMiddle) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topMiddle',
-                            tooltip: 'bottomMiddle'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 320,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none' && topLeft) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topRight',
-                            tooltip: 'bottomRight'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 300,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none') {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'rightMiddle',
-                            tooltip: 'leftMiddle'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 300,
-                        name: 'blue' 
-                    }
-                });
-            }
-        });             
-        
-    });
-    
-</script>
-
 <div class='freetext'>
-<h3>Depth Range<img src="/media/wmm/img/info.png" id="info_tidal_depth" class="info"/></h3>
+<h3>Depth Range<img src="/media/wmm/img/info.png" id="info_tidal_depth" class="aoi_info"/></h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
@@ -115,7 +24,7 @@
     </tbody>
 </table>
 
-<h3>Substrate<img src="/media/wmm/img/info.png" id="info_tidal_substrate" class="info"/></h3>
+<h3>Substrate<img src="/media/wmm/img/info.png" id="info_tidal_substrate" class="aoi_info"/></h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
@@ -140,7 +49,7 @@
     </tbody>
 </table>
 
-<h3>Mean Tidal Potential (meters per second)<img src="/media/wmm/img/info.png" id="info_tidal_mean" class="info"/></h3>
+<h3>Mean Tidal Potential (meters per second)<img src="/media/wmm/img/info.png" id="info_tidal_mean" class="aoi_info"/></h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
@@ -163,7 +72,7 @@
     </tbody>
 </table>
 
-<h3>Max Tidal Potential (meters per second)<img src="/media/wmm/img/info.png" id="info_tidal_max" class="info"/></h3>
+<h3>Max Tidal Potential (meters per second)<img src="/media/wmm/img/info.png" id="info_tidal_max" class="aoi_info"/></h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>

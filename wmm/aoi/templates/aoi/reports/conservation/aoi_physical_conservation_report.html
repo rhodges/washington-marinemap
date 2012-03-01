@@ -4,109 +4,6 @@
 
 {% block title %}Area of Interest Physical Conservation Report{% endblock %}
 {% block panel %}
-<script type="text/javascript" charset="utf-8">
-    lingcod.onShow(function(){
-        $('img.info').each( function() {
-            var id = $(this).attr('id');
-            var text = "none";
-            topMiddle = false;
-            topLeft = false;
-            topRight = false;
-            switch(id) {
-                //Conservation Physical Reports
-                case 'info_benthic_habitat':
-                    topLeft = true;
-                    text  = "Reports area for depth, geomorphology and substrates by type within your Area of Interest and calculates percentage of total available by type, based on the Benthic Habitat layer, TNC, 2011.";
-                    break;
-                case 'info_canyons':
-                    topMiddle = true;
-                    text  = "Reports area  and calculates percentage of canyons within your Area of Interest, based on the Canyons layer, TNC, 2011.";
-                    break;
-                case 'info_rocky_substrates':
-                    topMiddle = true;
-                    text  = "Reports area  and calculates percentage of rocky substrates within your Area of Interest, based on the Rocky Substrates layer, TNC, 2011.";
-                    break;
-                case 'info_estuary_habitats':
-                    topMiddle = true;
-                    text  = "Reports area for estuary habitats by type within your Area of Interest and calculates percentage of total available by type, based on Estuaries layer, TNC, 2011.";
-                    break;
-                case 'info_estuary_substrates':
-                    topMiddle = true;
-                    text  = "Reports area for substrate by type within your Area of Interest and calculates percentage of total available by type, based on Estuaries layer, TNC, 2011.";
-                    break;
-                case 'info_islands':
-                    text  = "Reports number, area, and percentage within your Area of Interest, based on Islands layer, TNC, 2011.";
-                    break;
-                case 'info_upwelling':
-                    topMiddle = true;
-                    text  = "Reports area for upwelling by type within your Area of Interest and  calculates percentage of total available by type, based on Upwelling layer, TNC, 2011.";
-                    break;
-                default:
-                    $(this).hide();
-            }
-            if (text!='none' && topMiddle) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topMiddle',
-                            tooltip: 'bottomMiddle'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 320,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none' && topLeft) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topRight',
-                            tooltip: 'bottomRight'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 300,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none') {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'rightMiddle',
-                            tooltip: 'leftMiddle'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 270,
-                        name: 'blue' 
-                    }
-                });
-            }
-        });             
-        
-    });
-    
-</script>
 
 <div class='freetext'>
 
@@ -117,7 +14,7 @@
         <tr class="grey">
             <td colspan="3">
                 <b>Benthic Habitats -- Depths</b>
-                <img src="/media/wmm/img/info.png" id="info_benthic_habitat" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_benthic_habitat" class="aoi_info"/>
             </td>
         </tr>
         {% if benthic_depth_count > 0 %}
@@ -142,7 +39,7 @@
         <tr class="grey">
             <td colspan="3">
                 <b>Benthic Habitats -- Geomorphologies</b>
-                <img src="/media/wmm/img/info.png" id="info_benthic_habitat" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_benthic_habitat" class="aoi_info"/>
             </td>
         </tr>
         {% if benthic_geomorph_count > 0 %}
@@ -167,7 +64,7 @@
         <tr class="grey">
             <td colspan="3">
                 <b>Benthic Habitats -- Substrates</b>
-                <img src="/media/wmm/img/info.png" id="info_benthic_habitat" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_benthic_habitat" class="aoi_info"/>
             </td>
         </tr>
         {% if benthic_substrate_count > 0 %}
@@ -191,7 +88,7 @@
     <tbody>
         <tr class="grey">
             <td></td>
-            <td><b>Canyons</b><img src="/media/wmm/img/info.png" id="info_canyons" class="info"/></td>
+            <td><b>Canyons</b><img src="/media/wmm/img/info.png" id="info_canyons" class="aoi_info"/></td>
             <td></td>
         </tr>
         <tr>
@@ -205,7 +102,7 @@
     <tbody>
         <tr class="grey">
             <td></td>
-            <td><b>Rocky Substrates</b><img src="/media/wmm/img/info.png" id="info_rocky_substrates" class="info"/></td>
+            <td><b>Rocky Substrates</b><img src="/media/wmm/img/info.png" id="info_rocky_substrates" class="aoi_info"/></td>
             <td></td>
         </tr>
         <tr>
@@ -221,7 +118,7 @@
 <table  style='width:430px' class='analysis_container'>
     <tbody>
         <tr class="grey">
-            <td colspan="3"><b>Estuary Habitats</b><img src="/media/wmm/img/info.png" id="info_estuary_habitats" class="info"/></td>
+            <td colspan="3"><b>Estuary Habitats</b><img src="/media/wmm/img/info.png" id="info_estuary_habitats" class="aoi_info"/></td>
         </tr>
         {% if estuary_habitat_count > 0 %}
         {% for habitat in estuary_habitats %}
@@ -243,7 +140,7 @@
 <table  style='width:430px' class='analysis_container'>
     <tbody>
         <tr class="grey">
-            <td colspan="3"><b>Estuary Substrates</b><img src="/media/wmm/img/info.png" id="info_estuary_substrates" class="info"/></td>
+            <td colspan="3"><b>Estuary Substrates</b><img src="/media/wmm/img/info.png" id="info_estuary_substrates" class="aoi_info"/></td>
         </tr>
         {% if estuary_substrate_count > 0 %}
         {% for substrate in estuary_substrates %}
@@ -263,7 +160,7 @@
     </tbody>
 </table>
 
-<h3>Islands <img src="/media/wmm/img/info.png" id="info_islands" class="info"/></h3>
+<h3>Islands <img src="/media/wmm/img/info.png" id="info_islands" class="aoi_info"/></h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
@@ -285,7 +182,7 @@
 <table  style='width:430px' class='analysis_container'>
     <tbody>
         <tr class="grey">
-            <td colspan="3"><b>Upwelling Areas</b><img src="/media/wmm/img/info.png" id="info_upwelling" class="info"/></td>
+            <td colspan="3"><b>Upwelling Areas</b><img src="/media/wmm/img/info.png" id="info_upwelling" class="aoi_info"/></td>
         </tr>
         {% if upwelling_count > 0 %}
         {% for upwelling in upwellings %}

@@ -5,132 +5,9 @@
 {% block title %}SMP Characterization Site Report{% endblock %}
 {% block panel %}
 
-<script type="text/javascript" charset="utf-8">
-    lingcod.onShow(function(){
-        $('img.info').each( function() {
-            var id = $(this).attr('id');
-            var text = "none";
-            topRight = false;
-            topMiddle = false;
-            topLeft = false;
-            switch(id) {
-                case 'info_slope':
-                    topRight = true;
-                    text  = "The slope of the shoreline is relevant to beach erosion as those areas with greater slopes are often more prone to continued erosion than those areas with lesser slopes.<br><br>Reports average, minimum, and maximum slope within your SMP Characterization Site, based on USGS 30 meter National Elevation Dataset, 2011. ";
-                    break;
-                case 'info_structures':
-                    topRight = true;
-                    text  = "The inclusion of overwater structures is important for beach erosion as some structures could disrupt beach sediment transport or increase the amount of erosion.<br><br>Reports number of overwater structures by type within your SMP Characterization Site, based on Overwater Structures layer, WA DNR, 2011.";
-                    break;
-                case 'info_drift':
-                    topRight = true;
-                    text  = "The inclusion of drift cells, which represent the direction of longshore transport for water and sediment, can be used to determine direction of longshore sediment transport. Knowledge of longshore transport direction is important for determining where eroded sediment will be transport to, thus informing mitigation strategies.";
-                    break;
-                case 'info_drift_areas':
-                    topMiddle = true;
-                    text  = "Reports the area of oyster tracts within your SMP Characterization Site, based on Aquatic Parcels, WA DNR, 2011.";
-                    break;
-                case 'info_shoreline_modification':
-                    topLeft = true;
-                    text  = "Reports the area of oyster reserves within your SMP Characterization Site, based on Aquatic Parcels, WA DNR, 2011.";
-                    break;
-                case 'info_exposure':
-                    topRight = true;
-                    text  = "The exposure of shoreline and nearshore represents the vulnerability of an area to erosion. The more exposed a shoreline, the more likely erosion could occur.<br><br>Reports percentage of exposed and very exposed nearshore areas (shoreline and estuaries) within your SMP Characterization Site, based on Nearshore Exposure layer, TNC, 2011.";
-                    break;
-                case 'info_substrate_vegetation':
-                    topRight = true;
-                    text  = "The substrate of shoreline can control the rate of erosion; rocky or hard substrates are harder to erode than unconsolidated sediments like sand, gravel and muds. The presence of vegetation along a shoreline can help reduce the susceptibility to erosion.<br><br>Based on Nearshore Substrate and Nearshore Vegetation layers, TNC, 2011.";
-                    break;
-                default:
-                    $(this).hide();
-            }
-            if (text!='none' && topMiddle) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topMiddle',
-                            tooltip: 'bottomMiddle'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 320,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none' && topLeft) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topRight',
-                            tooltip: 'bottomRight'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 300,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none' && topRight) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topLeft',
-                            tooltip: 'bottomLeft'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 320,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none') {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'rightMiddle',
-                            tooltip: 'leftMiddle'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 270,
-                        name: 'blue' 
-                    }
-                });
-            }
-        });             
-        
-    });
-    
-</script>
-
 <div class='freetext'>
 <h3>Slope <!--<small><small>[<a id="slope_link" href="javascript:toggleDiv('slope', 'slope_link');">Learn More</a>]</small></small>-->
-    <img src="/media/wmm/img/info.png" id="info_slope" class="info"/>
+    <img src="/media/wmm/img/info.png" id="info_smp_beach_erosion_slope" class="smp_info"/>
 </h3>
 <div id="slope" style="display: none">
     <p>The slope of the shoreline is relevant to beach erosion as those areas with greater slopes are often more prone to continued erosion than those areas with lesser slopes.  
@@ -152,7 +29,7 @@
     </tbody>
 </table>
 <h3>Structures <!--<small><small>[<a id="structures_link" href="javascript:toggleDiv('structures', 'structures_link');">Learn More</a>]</small></small>-->
-    <img src="/media/wmm/img/info.png" id="info_structures" class="info"/>
+    <img src="/media/wmm/img/info.png" id="info_smp_beach_erosion_structures" class="smp_info"/>
 </h3>
 <div id="structures" style="display: none">
     <p>The inclusion of overwater structures is important for beach erosion as some structures could disrupt beach sediment transport or increase the amount of erosion.
@@ -184,7 +61,7 @@
     </tbody>
 </table>
 <h3>Drift <!--<small><small>[<a id="drift_link" href="javascript:toggleDiv('drift', 'drift_link');">Learn More</a>]</small></small>-->
-    <img src="/media/wmm/img/info.png" id="info_drift" class="info"/>
+    <img src="/media/wmm/img/info.png" id="info_smp_beach_erosion_drift" class="smp_info"/>
 </h3>
 <div id="drift" style="display: none">
     <p>The inclusion of drift cells, which represent the direction of longshore transport for water and sediment, can be used to determine direction of longshore sediment transport. Knowledge of longshore transport direction is important for determining where eroded sediment will be transport to, thus informing mitigation strategies.
@@ -195,7 +72,7 @@
         <tr class="grey">
             <td></td>
             <td><b>Areas of Drift</b>
-                <img src="/media/wmm/img/info.png" id="info_drift_areas" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_smp_beach_erosion_drift_areas" class="smp_info"/>
             </td>
             <td></td>
         </tr>
@@ -221,7 +98,7 @@
         <tr class="grey">
             <td></td>
             <td><b>Estimated Percentage of Shoreline Modification</b>
-                <img src="/media/wmm/img/info.png" id="info_shoreline_modification" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_smp_beach_erosion_shoreline_modification" class="smp_info"/>
             </td>
             <td></td>
         </tr>
@@ -233,7 +110,7 @@
     </tbody>
 </table>
 <h3>Exposure <!--<small><small>[<a id="exposure_link" href="javascript:toggleDiv('exposure', 'exposure_link');">Learn More</a>]</small></small>-->
-    <img src="/media/wmm/img/info.png" id="info_exposure" class="info"/>
+    <img src="/media/wmm/img/info.png" id="info_smp_beach_erosion_exposure" class="smp_info"/>
 </h3>
 <div id="exposure" style="display: none">
     <p>The exposure of shoreline and nearshore represents the vulnerability of an area to erosion. The more exposed a shoreline, the more likely erosion could occur. 
@@ -255,7 +132,7 @@
     </tbody>
 </table>
 <h3>Substrate/Vegetation <!--<small><small>[<a id="sub_veg_link" href="javascript:toggleDiv('sub_veg', 'sub_veg_link');">Learn More</a>]</small></small>-->
-    <img src="/media/wmm/img/info.png" id="info_substrate_vegetation" class="info"/>
+    <img src="/media/wmm/img/info.png" id="info_smp_beach_erosion_substrate_vegetation" class="smp_info"/>
 </h3>
 <div id="sub_veg" style="display: none">
     <p>The substrate of shoreline can control the rate of erosion; rocky or hard substrates are harder to erode than unconsolidated sediments like sand, gravel and muds. The presence of vegetation along a shoreline can help reduce the susceptibility to erosion. 

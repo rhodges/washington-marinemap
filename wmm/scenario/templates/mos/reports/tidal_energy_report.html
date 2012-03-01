@@ -133,112 +133,6 @@ lingcod.onShow(function() {
     //toggleReports(obj_short_name+'_extent_reports', 'toggle_extent_reports');
     toggleReports(obj_short_name+'_substrate_reports', 'toggle_'+obj_short_name+'_substrate_reports');
         
-    $('img.info').each( function() {
-        var id = $(this).attr('id');
-        var text = "none";
-        topMiddle = false;
-        topLeft = false;
-        topRight = false;
-        switch(id) {
-            //Pelagic Scenario Reports
-            case 'info_tidal_substrate':
-                topLeft = true;
-                text  = "Reports the substrate types as a percentage of the scenario output area and calculates the scenario output as a percentage of the total available substrate types.";
-                break;
-            case 'info_tidal_energy':
-                topRight = true;
-                text  = "Reports max and/or mean tidal current as a percentage of the scenario output based on parameters range chosen in Step 3 of the Scenario Wizard. Compare to minimum tidal current of 1.5 m/s (Spaulding et al. 2010).";
-                break;
-            case 'info_tidal_max_substrate':
-                topMiddle = true;
-                text  = "Reports mean tidal current as a percentage of the scenario output based on parameters range chosen in Step 3 of the Scenario Wizard. Compare to minimum tidal current of 1.5 m/s (Spaulding et al. 2010).";
-                break;
-            case 'info_tidal_mean_substrate':
-                topMiddle = true;
-                text  = "Reports mean tidal current as a percentage of the scenario output based on parameters range chosen in Step 3 of the Scenario Wizard. Compare to minimum tidal current of 1.5 m/s (Spaulding et al. 2010).";
-                break;
-            default:
-                $(this).hide();
-        }
-        if (text!='none' && topMiddle) {
-            $(this).qtip({
-                content: text, 
-                show: { 
-                    delay: 0,
-                    when: { event: 'mouseover' } 
-                },
-                position: {
-                    corner: {
-                        target: 'topMiddle',
-                        tooltip: 'bottomMiddle'
-                    }
-                },
-                hide: { when: {event: 'mouseleave'} },
-                style: { 
-                    width: 320,
-                    name: 'blue' 
-                }
-            });
-        } else if (text!='none' && topLeft) {
-            $(this).qtip({
-                content: text, 
-                show: { 
-                    delay: 0,
-                    when: { event: 'mouseover' } 
-                },
-                position: {
-                    corner: {
-                        target: 'topRight',
-                        tooltip: 'bottomRight'
-                    }
-                },
-                hide: { when: {event: 'mouseleave'} },
-                style: { 
-                    width: 300,
-                    name: 'blue' 
-                }
-            });
-        } else if (text!='none' && topRight) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topLeft',
-                            tooltip: 'bottomLeft'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 270,
-                        name: 'blue' 
-                    }
-                });
-        } else if (text!='none') {
-            $(this).qtip({
-                content: text, 
-                show: { 
-                    delay: 0,
-                    when: { event: 'mouseover' } 
-                },
-                position: {
-                    corner: {
-                        target: 'rightMiddle',
-                        tooltip: 'leftMiddle'
-                    }
-                },
-                hide: { when: {event: 'mouseleave'} },
-                style: { 
-                    width: 300,
-                    name: 'blue' 
-                }
-            });
-        }
-    });           
-    
 }); 
 
 function toggleReport(obj_id, src_id) {
@@ -271,7 +165,7 @@ function toggleReports(obj_id, src_id) {
 
 <h3>Substrates (as a percentage of the scenario output) 
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_substrate_report" href="javascript:toggleReport('{{scenario.input_objective.short_name}}_substrates', 'toggle_{{scenario.input_objective.short_name}}_substrate_report');">Hide</a>]</small></small>
-<img src="/media/wmm/img/info.png" id="info_tidal_substrate" class="info"/>
+<img src="/media/wmm/img/info.png" id="info_tidal_substrate" class="mos_info"/>
 </h3>
 <div id="{{scenario.input_objective.short_name}}_substrates" class="jqPlot" style="left:20px;width:400px;display ">
 <p></p>
@@ -281,7 +175,7 @@ function toggleReports(obj_id, src_id) {
 {% if max_percentage != default_value or mean_percentage != default_value %}
 <h3>Tidal Energy Potential
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_tidal_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_tidal_reports', 'toggle_{{scenario.input_objective.short_name}}_tidal_reports');">Hide</a>]</small></small>
-<img src="/media/wmm/img/info.png" id="info_tidal_energy" class="info"/>
+<img src="/media/wmm/img/info.png" id="info_tidal_energy" class="mos_info"/>
 </h3>
 <div id="{{scenario.input_objective.short_name}}_tidal_reports">
 {% if max_percentage != default_value %}
@@ -296,7 +190,7 @@ function toggleReports(obj_id, src_id) {
 {% if max_percentage != default_value %}
 <h3>Max Tidal Potential by Substrate
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_maxtidal_substrate_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_maxtidal_substrate_reports', 'toggle_{{scenario.input_objective.short_name}}_maxtidal_substrate_reports');">Hide</a>]</small></small>
-<img src="/media/wmm/img/info.png" id="info_tidal_max_substrate" class="info"/>
+<img src="/media/wmm/img/info.png" id="info_tidal_max_substrate" class="mos_info"/>
 </h3>
 <div id="{{scenario.input_objective.short_name}}_maxtidal_substrate_reports">
 {% for name, perc in substrate_max_percs.items %}
@@ -309,7 +203,7 @@ function toggleReports(obj_id, src_id) {
 {%if mean_percentage != default_value %}
 <h3>Mean Tidal Potential by Substrate
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_meantidal_substrate_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_meantidal_substrate_reports', 'toggle_{{scenario.input_objective.short_name}}_meantidal_substrate_reports');">Hide</a>]</small></small>
-<img src="/media/wmm/img/info.png" id="info_tidal_mean_substrate" class="info"/>
+<img src="/media/wmm/img/info.png" id="info_tidal_mean_substrate" class="mos_info"/>
 </h3>
 <div id="{{scenario.input_objective.short_name}}_meantidal_substrate_reports">
 {% for name, perc in substrate_mean_percs.items %}

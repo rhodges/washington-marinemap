@@ -164,45 +164,6 @@ lingcod.onShow(function() {
     toggleReports(obj_short_name+'_substrate_reports', 'toggle_'+obj_short_name+'_substrate_reports');
     toggleReports(obj_short_name+'_wind_reports', 'toggle_'+obj_short_name+'_wind_reports');
     
-    $('img.info').each( function() {
-        var id = $(this).attr('id');
-        var text = "none";
-        switch(id) {
-            //Pelagic Scenario Reports
-            case 'info_wind_scenario':
-                text  = "Reports the substrate and/or wind potential class as a percentage of the scenario output area and calculates the scenario output as a percentage of the total available substrate and/or wind potential class.  Compare to minimum wind speed of 15.7 mph (NREL, 2011).";
-                break;
-            case 'info_wind_substrate':
-                text  = "Reports all wind potential classes by substrate types as a percentage of the scenario output area and calculates the scenario output as a percentage of the total available wind potential classes.";
-                break;
-            case 'info_wind_potential':
-                text  = "Reports all substrate types by wind potential classes as a percentage of the scenario output area and calculates the scenario output as a percentage of the total available substrate types. Compare to minimum wind speed of 15.7 mph (NREL, 2011).";
-                break;
-            default:
-                $(this).hide();
-        }
-        if (text!='none') {
-            $(this).qtip({
-                content: text, 
-                show: { 
-                    delay: 0,
-                    when: { event: 'mouseover' } 
-                },
-                position: {
-                    corner: {
-                        target: 'rightMiddle',
-                        tooltip: 'leftMiddle'
-                    }
-                },
-                hide: { when: {event: 'mouseleave'} },
-                style: { 
-                    width: 300,
-                    name: 'blue' 
-                }
-            });
-        }
-    });      
-    
 }); 
 
 function toggleReport(obj_id, src_id) {
@@ -231,7 +192,7 @@ function toggleReports(obj_id, src_id) {
 
 <h2>Scenario 
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_extent_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_extent_reports', 'toggle_{{scenario.input_objective.short_name}}_extent_reports');">Hide</a>]</small></small>
-<img src="/media/wmm/img/info.png" id="info_wind_scenario" class="info"/>
+<img src="/media/wmm/img/info.png" id="info_wind_scenario" class="mos_info"/>
 </h2>
 <div id="{{scenario.input_objective.short_name}}_extent_reports">
 
@@ -251,7 +212,7 @@ function toggleReports(obj_id, src_id) {
 
 <h2>Substrate 
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_substrate_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_substrate_reports', 'toggle_{{scenario.input_objective.short_name}}_substrate_reports');">Hide</a>]</small></small>
-<img src="/media/wmm/img/info.png" id="info_wind_substrate" class="info"/>
+<img src="/media/wmm/img/info.png" id="info_wind_substrate" class="mos_info"/>
 </h2>
 <div id="{{scenario.input_objective.short_name}}_substrate_reports">
 
@@ -266,7 +227,7 @@ function toggleReports(obj_id, src_id) {
 
 <h2>Wind Potential 
 <small><small>[<a id="toggle_{{scenario.input_objective.short_name}}_wind_reports" href="javascript:toggleReports('{{scenario.input_objective.short_name}}_wind_reports', 'toggle_{{scenario.input_objective.short_name}}_wind_reports');">Hide</a>]</small></small>
-<img src="/media/wmm/img/info.png" id="info_wind_potential" class="info"/>
+<img src="/media/wmm/img/info.png" id="info_wind_potential" class="mos_info"/>
 </h2>
 <div id="{{scenario.input_objective.short_name}}_wind_reports">
 

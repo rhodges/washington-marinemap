@@ -6,99 +6,8 @@
 {% block title %}Area of Interest Wave Energy Report{% endblock %}
 {% block panel %}
 
-<script type="text/javascript" charset="utf-8">
-    lingcod.onShow(function(){
-        $('img.info').each( function() {
-            var id = $(this).attr('id');
-            var text = "none";
-            topMiddle = false;
-            topLeft = false;
-            switch(id) {
-                //Conservation Biological Reports
-                //Physical
-                case 'info_wave_depth':
-                    text  = "Reports minimum, maximum, and average depth within your Area of Interest, based on Bathymetry layer, TNC, 2011. Compare to a suggested depth range of 0-100 (Mineral Management Service, Alternative Energy Report, 2007).";
-                    break;
-                case 'info_wave_substrate':
-                    text  = "Reports area for substrate type within your Area of Interest and calculate percentage of total available by type, based on Substrate layer, TNC 2011.";
-                    break;
-                case 'info_wave_summer':
-                    topLeft = true;
-                    text  = "Reports minimum, maximum, and average summer wave energy within your Area of Interest, based on Summer Wave Energy layer, NOAA WW3 and the Natural Capital Project, 2012.  Compare to minimum wave energy density of 10 kW/m (Spaulding et al. 2010).";
-                    break;
-                case 'info_wave_winter':
-                    topLeft = true;
-                    text  = "Reports minimum, maximum, and average summer wave energy density within your Area of Interest, based on Winter Wave Energy layer, NOAA WW3 and the Natural Capital Project, 2012. Compare to minimum wave energy density of 10 kW/m (Spaulding et al. 2010).";
-                    break;
-                default:
-                    $(this).hide();
-            }
-            if (text!='none' && topMiddle) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topMiddle',
-                            tooltip: 'bottomMiddle'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 320,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none' && topLeft) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topRight',
-                            tooltip: 'bottomRight'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 300,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none') {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'rightMiddle',
-                            tooltip: 'leftMiddle'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 300,
-                        name: 'blue' 
-                    }
-                });
-            }
-        });             
-        
-    });
-    
-</script>
-
 <div class='freetext'>
-<h3>Depth Range<img src="/media/wmm/img/info.png" id="info_wave_depth" class="info"/></h3>
+<h3>Depth Range<img src="/media/wmm/img/info.png" id="info_wave_depth" class="aoi_info"/></h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
@@ -115,7 +24,7 @@
     </tbody>
 </table>
 
-<h3>Substrate<img src="/media/wmm/img/info.png" id="info_wave_substrate" class="info"/></h3>
+<h3>Substrate<img src="/media/wmm/img/info.png" id="info_wave_substrate" class="aoi_info"/></h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
@@ -140,7 +49,7 @@
     </tbody>
 </table>
 
-<h3>Summer Wave Potential (as kW/m of shoreline)<img src="/media/wmm/img/info.png" id="info_wave_summer" class="info"/></h3>
+<h3>Summer Wave Potential (as kW/m of shoreline)<img src="/media/wmm/img/info.png" id="info_wave_summer" class="aoi_info"/></h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>
@@ -163,7 +72,7 @@
     </tbody>
 </table>
 
-<h3>Winter Wave Potential (as kW/m of shoreline)<img src="/media/wmm/img/info.png" id="info_wave_winter" class="info"/></h3>
+<h3>Winter Wave Potential (as kW/m of shoreline)<img src="/media/wmm/img/info.png" id="info_wave_winter" class="aoi_info"/></h3>
 <p>
 <table  style='width:430px' class='analysis_container'>
     <tbody>

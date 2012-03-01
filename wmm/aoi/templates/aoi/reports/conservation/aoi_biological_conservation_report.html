@@ -6,139 +6,6 @@
 {% block title %}Area of Interest Biological Conservation Report{% endblock %}
 {% block panel %}
 
-<script type="text/javascript" charset="utf-8">
-    lingcod.onShow(function(){
-        $('img.info').each( function() {
-            var id = $(this).attr('id');
-            var text = "none";
-            topMiddle = false;
-            topLeft = false;
-            topRight = false;
-            switch(id) {
-                //Conservation Biological Reports
-                //Physical
-                case 'info_seabirds':
-                    topMiddle = true;
-                    text  = "Reports number of birds within your Area of Interest by species type, based on Seabird Colonies layer, WDFW, 2006.";
-                    break;
-                case 'info_snowyplover':
-                    topLeft = true;
-                    text  = "Reports area within your Area of Interest and calculates percentage of Area of Interest, based on Snowy Plover Critical Habitat layer, USFWS, 2012.";
-                    break;
-                case 'info_haulouts':
-                    topMiddle = true;
-                    text  = "Reports number of seals and sea lions within your Area of Interest by species type, based on Seal/Sea Lion Haulout layer, WDFW, 2000.";
-                    break;
-                case 'info_orca':
-                    topMiddle = true;
-                    text  = "Reports area within your Area of Interest and calculates percentage of Area of Interest, based on Southern Resident Killer Whale Critical Habitat layer, NOAA NMFS, 2012.";
-                    break;
-                case 'info_kelp':
-                    topMiddle = true;
-                    text  = "Reports area within your Area of Interest and calculates percentage of Area of Interest, based on Kelp layer, WA DNR, 2011.";
-                    break;
-                case 'info_chlorophyll':
-                    topMiddle = true;
-                    text  = "Reports area for chlorophyll by type within your Area of Interest and  calculates percentage of total available by type, based on Chlorophyll layer, TNC, 2011.";
-                    break;
-                case 'info_coral':
-                    topMiddle = true;
-                    text  = "Reports area and average catch per unit effort (CPUE) by coral type within your Area of Interest, based on Corals layer, NOAA NMFS and TNC 2006.";
-                    break;
-                case 'info_sponges':
-                    topMiddle = true;
-                    text  = "Reports area and average catch per unit effort (CPUE) by sponge type within your Area of Interest, based on Sponges layer, NOAA NMFS and TNC 2006.";
-                    break;
-                case 'info_oysters':
-                    topMiddle = true;
-                    text  = "Reports area within your Area of Interest and calculates percentage of Area of Interest, based on Olympia Oyster layer, WDFW, 2006.";
-                    break;
-                default:
-                    $(this).hide();
-            }
-            if (text!='none' && topMiddle) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topMiddle',
-                            tooltip: 'bottomMiddle'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 320,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none' && topLeft) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topRight',
-                            tooltip: 'bottomRight'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 300,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none' && topRight) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topLeft',
-                            tooltip: 'bottomLeft'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 270,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none') {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'rightMiddle',
-                            tooltip: 'leftMiddle'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 270,
-                        name: 'blue' 
-                    }
-                });
-            }
-        });             
-        
-    });
-    
-</script>
-
 <div class='freetext'>
 
 <h3>Birds</h3>
@@ -148,7 +15,7 @@
         <tr class="grey">
             <td></td>
             <td><b>Seabirds</b>
-                <img src="/media/wmm/img/info.png" id="info_seabirds" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_seabirds" class="aoi_info"/>
             </td>
             <td></td>
         </tr>
@@ -174,7 +41,7 @@
         <tr class="grey">
             <td></td>
             <td><b>Snowy Plover Critical Habitats</b>
-                <img src="/media/wmm/img/info.png" id="info_snowyplover" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_snowyplover" class="aoi_info"/>
             </td>
             <td></td>
         </tr>
@@ -197,7 +64,7 @@
         <tr class="grey">
             <td></td>
             <td><b>Seals/Sealions</b>
-                <img src="/media/wmm/img/info.png" id="info_haulouts" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_haulouts" class="aoi_info"/>
             </td>
             <td></td>
         </tr>
@@ -223,7 +90,7 @@
         <tr class="grey">
             <td></td>
             <td><b>Orca Critical Habitat</b>
-                <img src="/media/wmm/img/info.png" id="info_orca" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_orca" class="aoi_info"/>
             </td>
             <td></td>
         </tr>
@@ -246,7 +113,7 @@
         <tr class="grey">
             <td></td>
             <td><b>Kelp</b>
-                <img src="/media/wmm/img/info.png" id="info_kelp" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_kelp" class="aoi_info"/>
             </td>
             <td></td>
         </tr>
@@ -265,7 +132,7 @@
     <tbody>
         <tr class="grey">
             <td colspan="3"><b>Chlorophyll</b>
-                <img src="/media/wmm/img/info.png" id="info_chlorophyll" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_chlorophyll" class="aoi_info"/>
             </td>
         </tr>
         {% if chlorophyll_count > 0 %}
@@ -293,7 +160,7 @@
         <tr class="grey">
             <td></td>
             <td><b>Coral</b>
-                <img src="/media/wmm/img/info.png" id="info_coral" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_coral" class="aoi_info"/>
             </td>
             <td></td>
         </tr>
@@ -319,7 +186,7 @@
         <tr class="grey">
             <td></td>
             <td><b>Sponges</b>
-                <img src="/media/wmm/img/info.png" id="info_sponges" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_sponges" class="aoi_info"/>
             </td>
             <td></td>
         </tr>
@@ -345,7 +212,7 @@
         <tr class="grey">
             <td></td>
             <td><b>Olympia Oysters</b>
-                <img src="/media/wmm/img/info.png" id="info_oysters" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_oysters" class="aoi_info"/>
             </td>
             <td></td>
         </tr>
