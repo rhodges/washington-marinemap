@@ -3,120 +3,9 @@
 {% block title %}SMP Characterization Site Report{% endblock %}
 {% block panel %}
 
-<script type="text/javascript" charset="utf-8">
-    lingcod.onShow(function(){
-        $('img.info').each( function() {
-            var id = $(this).attr('id');
-            var text = "none";
-            topRight = false;
-            topMiddle = false;
-            topLeft = false;
-            switch(id) {
-                case 'info_landuse':
-                    topRight = true;
-                    text  = "The inclusion of current land use can help identify undeveloped shoreline parcels, redevelopment lots, and existing land uses that may conflict with proposed shoreline uses.<br><br>Based on 2010 Landuse, WA DoE, 2011.";
-                    break;                
-                case 'info_infrastructure':
-                    topRight = true;
-                    text  = "Marine infrastructure can be important for considering future shoreline uses (along with current land use) to identify conflicts of public access, marinas, docks, etc with current land use.";
-                    break;
-                case 'info_structures':
-                    topLeft = true;
-                    text  = "Based on Overwater Structures layer, WA DNR, 2011.";
-                    break;
-                case 'info_public_access':
-                    topLeft = true;
-                    text  = "Based on Public Access Locations, WA DoE, 2011.";
-                    break;
-                default:
-                    $(this).hide();
-            }
-            if (text!='none' && topMiddle) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topMiddle',
-                            tooltip: 'bottomMiddle'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 320,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none' && topLeft) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topRight',
-                            tooltip: 'bottomRight'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 300,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none' && topRight) {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'topLeft',
-                            tooltip: 'bottomLeft'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 320,
-                        name: 'blue' 
-                    }
-                });
-            } else if (text!='none') {
-                $(this).qtip({
-                    content: text, 
-                    show: { 
-                        delay: 0,
-                        when: { event: 'mouseover' } 
-                    },
-                    position: {
-                        corner: {
-                            target: 'rightMiddle',
-                            tooltip: 'leftMiddle'
-                        }
-                    },
-                    hide: { when: {event: 'mouseleave'} },
-                    style: { 
-                        width: 270,
-                        name: 'blue' 
-                    }
-                });
-            }
-        });             
-        
-    });
-    
-</script>
-
 <div class='freetext'>
 <h3>Land Use <!--<small><small>[<a id="landuse_su_link" href="javascript:toggleDiv('landuse_su', 'landuse_su_link');">Learn More</a>]</small></small>-->
-    <img src="/media/wmm/img/info.png" id="info_landuse" class="info"/>
+    <img src="/media/wmm/img/info.png" id="info_smp_shoreline_use_landuse" class="smp_info"/>
 </h3>
 <div id="landuse_su" style="display: none">
     <p>The inclusion of current land use can help identify undeveloped shoreline parcels, redevelopment lots, and existing land uses that may conflict with proposed shoreline uses.
@@ -194,7 +83,7 @@
     </tbody>
 </table>
 <h3>Marine Infrastructure <!--<small><small>[<a id="infrastructure_link" href="javascript:toggleDiv('infrastructure', 'infrastructure_link');">Learn More</a>]</small></small>-->
-    <img src="/media/wmm/img/info.png" id="info_infrastructure" class="info"/>
+    <img src="/media/wmm/img/info.png" id="info_smp_shoreline_use_infrastructure" class="smp_info"/>
 </h3>
 <div id="infrastructure" style="display: none">
     <p>Marine infrastructure can be important for considering future shoreline uses (along with current land use) to identify conflicts of public access, marinas, docks, etc with current land use. 
@@ -205,7 +94,7 @@
         <tr class="grey">
             <td></td>
             <td><b>Number of Structures by Type</b>
-                <img src="/media/wmm/img/info.png" id="info_structures" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_smp_shoreline_use_structures" class="smp_info"/>
             </td>
             <td></td>
         </tr>
@@ -231,7 +120,7 @@
         <tr class="grey">
             <td></td>
             <td><b>Nearest Public Access Site</b>
-                <img src="/media/wmm/img/info.png" id="info_public_access" class="info"/>
+                <img src="/media/wmm/img/info.png" id="info_smp_shoreline_use_public_access" class="smp_info"/>
             </td>
             <td></td>
         </tr>
