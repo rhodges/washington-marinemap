@@ -8,20 +8,17 @@
         $('img.info').each( function() {
             var id = $(this).attr('id');
             var text = "none";
+            topRight = false;
             topMiddle = false;
             topLeft = false;
             switch(id) {
                 case 'info_landuse':
-                    topMiddle = true;
-                    text  = "Reports the area of oyster tracts within your SMP Characterization Site, based on Aquatic Parcels, WA DNR, 2011.";
+                    topRight = true;
+                    text  = "Undeveloped land is important for determining future public access. Undeveloped parcels identified along stretches of shoreline without public access could be suggested to provide facilities for public beach and shoreline access.<br><br>Reports the land use area by type within your SMP Characterization Site, based on 2010 Landuse, WA DoE, 2011.";
                     break;
-                case 'info_structures':
-                    topLeft = true;
-                    text  = "Reports number of overwater structures by type within your SMP Characterization Site, based on Overwater Structures layer, WA DNR, 2011.";
-                    break;
-                case 'info_public_access':
-                    topLeft = true;
-                    text  = "Reports all public access sites within your SMP Characterization Site and calculates the distance to those sites, based on Public Access Locations, WA DoE, 2011.";
+                case 'info_beach_access':
+                    topRight = true;
+                    text  = "Beach access data are important to identify current beach access locations and could be used to identify gaps in beach access, that is stretches of shoreline without public access.<br><br>Reports the type and description of all public access sites within your SMP Characterization Site, based on Public Access Locations, WA DoE, 2011.";
                     break;
                 default:
                     $(this).hide();
@@ -64,6 +61,25 @@
                         name: 'blue' 
                     }
                 });
+            } else if (text!='none' && topRight) {
+                $(this).qtip({
+                    content: text, 
+                    show: { 
+                        delay: 0,
+                        when: { event: 'mouseover' } 
+                    },
+                    position: {
+                        corner: {
+                            target: 'topLeft',
+                            tooltip: 'bottomLeft'
+                        }
+                    },
+                    hide: { when: {event: 'mouseleave'} },
+                    style: { 
+                        width: 320,
+                        name: 'blue' 
+                    }
+                });
             } else if (text!='none') {
                 $(this).qtip({
                     content: text, 
@@ -91,7 +107,9 @@
 </script>
 
 <div class='freetext'>
-<h3>Land Use <small><small>[<a id="landuse_pu_link" href="javascript:toggleDiv('landuse_pu', 'landuse_pu_link');">Learn More</a>]</small></small></h3>
+<h3>Land Use <!--<small><small>[<a id="landuse_pu_link" href="javascript:toggleDiv('landuse_pu', 'landuse_pu_link');">Learn More</a>]</small></small>-->
+    <img src="/media/wmm/img/info.png" id="info_landuse" class="info"/>
+</h3>
 <div id="landuse_pu" style="display: none">
     <p>Undeveloped land is important for determining future public access. Undeveloped parcels identified along stretches of shoreline without public access could be suggested to provide facilities for public beach and shoreline access. 
     <p>Reports the land use area by type within your SMP Characterization Site, based on 2010 Landuse, WA DoE, 2011.
@@ -115,7 +133,9 @@
         </tr>
     </tbody>
 </table>
-<h3>Beach Access <small><small>[<a id="beach_access_link" href="javascript:toggleDiv('beach_access', 'beach_access_link');">Learn More</a>]</small></small></h3>
+<h3>Beach Access <!--<small><small>[<a id="beach_access_link" href="javascript:toggleDiv('beach_access', 'beach_access_link');">Learn More</a>]</small></small>-->
+    <img src="/media/wmm/img/info.png" id="info_beach_access" class="info"/>
+</h3>
 <div id="beach_access" style="display: none">
     <p>Beach access data are important to identify current beach access locations and could be used to identify gaps in beach access, that is stretches of shoreline without public access.
     <p>Reports the type and description of all public access sites within your SMP Characterization Site, based on Public Access Locations, WA DoE, 2011.
