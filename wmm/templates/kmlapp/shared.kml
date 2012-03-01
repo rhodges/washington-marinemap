@@ -10,7 +10,7 @@
 {% block folders_and_placemarks %}
 
     <NetworkLink>
-    <name>Public Collections</name>
+    <name>Public Shapes</name>
     <open>0</open>
     <visibility>0</visibility>
     <Link>
