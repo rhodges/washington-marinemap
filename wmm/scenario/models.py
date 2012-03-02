@@ -7,11 +7,11 @@ from django.contrib.gis.gdal import DataSource
 from django.contrib.gis.geos import MultiPolygon
 from django.utils.html import escape
 from django.utils import simplejson
-from lingcod.analysistools.models import Analysis
-from lingcod.features import register, alternate
-from lingcod.common.utils import asKml
-from lingcod.features.models import Feature, PointFeature, LineFeature, PolygonFeature, FeatureCollection
-from lingcod.layers.models import PrivateLayerList
+from madrona.analysistools.models import Analysis
+from madrona.features import register, alternate
+from madrona.common.utils import asKml
+from madrona.features.models import Feature, PointFeature, LineFeature, PolygonFeature, FeatureCollection
+from madrona.layers.models import PrivateLayerList
 from general.utils import miles_to_meters, feet_to_meters
 from utils import intcomma
 
@@ -454,7 +454,7 @@ class Scenario(Analysis):
     geometry_final = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Final Scenario Geometry")
     
     def run(self):
-        from lingcod.analysistools.grass import Grass
+        from madrona.analysistools.grass import Grass
         #print
         #print 'RUNNING GRASS ANALYSIS ON: %s' %self.name 
         #print

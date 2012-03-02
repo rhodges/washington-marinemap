@@ -1,9 +1,9 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.gis.db import models
-from lingcod.features.models import FeatureCollection
-from lingcod.features import register
-from lingcod.layers.models import PrivateLayerList
+from madrona.features.models import FeatureCollection
+from madrona.features import register
+from madrona.layers.models import PrivateLayerList
 from scenario.models import MOS
 from aoi.models import AOI
 
@@ -59,7 +59,7 @@ class Folder(FeatureCollection):
                            'aoi.models.AOI',
                            'general.models.UserKml', 
                            'general.models.Folder',
-                           'lingcod.bookmarks.models.Bookmark')
+                           'madrona.bookmarks.models.Bookmark')
         form = 'general.forms.FolderForm'
         form_template = 'folder/form.html'
         show_template = 'folder/show.html'

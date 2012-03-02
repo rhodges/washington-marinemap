@@ -2,10 +2,10 @@ from django.db import models
 from django.conf import settings
 from django.contrib.gis.db import models
 from django.utils.html import escape
-from lingcod.features import register, alternate
-from lingcod.common.utils import asKml
-from lingcod.features.models import PointFeature, LineFeature, PolygonFeature
-from lingcod.raster_stats.models import RasterDataset, zonal_stats
+from madrona.features import register, alternate
+from madrona.common.utils import asKml
+from madrona.features.models import PointFeature, LineFeature, PolygonFeature
+from madrona.raster_stats.models import RasterDataset, zonal_stats
 from picklefield import PickledObjectField
 
 @register

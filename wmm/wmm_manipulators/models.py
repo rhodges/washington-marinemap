@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.gis.db import models
 from django.conf import settings
-from lingcod.manipulators.models import BaseManipulatorGeometry
+from madrona.manipulators.models import BaseManipulatorGeometry
 
     
 class Terrestrial(BaseManipulatorGeometry):

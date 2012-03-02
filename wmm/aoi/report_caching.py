@@ -60,7 +60,7 @@ def remove_report_cache(hash=None, title=None):
             ReportCache.delete(entry)
         
 def remove_zonal_stats_cache(raster_name):         
-    from lingcod.raster_stats.models import RasterDataset, ZonalStatsCache
+    from madrona.raster_stats.models import RasterDataset, ZonalStatsCache
     try:
         raster_id = RasterDataset.objects.get(name=raster_name).id
     except:

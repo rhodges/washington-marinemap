@@ -1,4 +1,4 @@
-from lingcod.features.forms import SpatialFeatureForm
+from madrona.features.forms import SpatialFeatureForm
 from django import forms
 from django.forms.widgets import *
 from models import *

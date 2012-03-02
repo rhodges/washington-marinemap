@@ -1,4 +1,4 @@
-from lingcod.raster_stats.models import RasterDataset, zonal_stats
+from madrona.raster_stats.models import RasterDataset, zonal_stats
 from general.utils import sq_meters_to_sq_miles
 from aoi.report_caching import report_cache_exists, get_report_cache, create_report_cache
 from aoi.report_utils import CACHING
