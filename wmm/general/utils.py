@@ -16,3 +16,6 @@ def feet_to_meters(feet):
 def sq_meters_to_sq_miles(sq_meters):
     return sq_meters * .000000386102159
     
+def sq_meters_to_acres(sq_meters):
+    return sq_meters * .000247104393
+    

@@ -26,7 +26,7 @@
             {% if oyster_tract == 0.0 %}
             <td>None Found</td>
             {% else %}
-            <td>{{oyster_tract|intcomma}} acres</td>
+            <td>{{oyster_tract|floatformat:2|intcomma}} acres</td>
             {% endif %}
             <td></td>
         </tr>
@@ -46,7 +46,7 @@
             {% if oyster_reserves == 0.0 %}
             <td>None Found</td>
             {% else %}
-            <td>{{oyster_reserves|intcomma}} acres</td>
+            <td>{{oyster_reserves|floatformat:2|intcomma}} acres</td>
             {% endif %}
             <td></td>
         </tr>
@@ -72,7 +72,7 @@
         {% for tuple in growing_areas %}
         <tr>
             <td></td>
-            <td>{{tuple.0}} ({{tuple.1|intcomma}} acres)</td>
+            <td>{{tuple.0}} ({{tuple.1|floatformat:1|intcomma}} acres)</td>
             <td></td>
         </tr>
         {% endfor %}
@@ -98,7 +98,7 @@
         {% for tuple in harvest_sites %}
         <tr>
             <td></td>
-            <td>{{tuple.0}} ({{tuple.1|intcomma}} acres)</td>
+            <td>{{tuple.0}} ({{tuple.1|floatformat:0|intcomma}} acres)</td>
             <td></td>
         </tr>
         {% endfor %}
