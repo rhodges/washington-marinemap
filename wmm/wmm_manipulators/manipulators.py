@@ -1,7 +1,7 @@
-from lingcod.manipulators.manipulators import BaseManipulator, ClipToStudyRegionManipulator, ClipToShapeManipulator, DifferenceFromShapeManipulator, manipulatorsDict
+from madrona.manipulators.manipulators import BaseManipulator, ClipToStudyRegionManipulator, ClipToShapeManipulator, DifferenceFromShapeManipulator, manipulatorsDict
 from django.contrib.gis.geos import GEOSGeometry
 from django.conf import settings
-from lingcod.common.utils import LargestPolyFromMulti
+from madrona.common.utils import LargestPolyFromMulti
 #from scenario.models import Scenario
 from wmm.wmm_manipulators.models import *
 

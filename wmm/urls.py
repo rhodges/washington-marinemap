@@ -4,9 +4,9 @@ from django.conf import settings
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Include all lingcod app urls. 
-    (r'', include('lingcod.common.urls')),
-    (r'^bookmark/', include('lingcod.bookmarks.urls')),
+    # Include all madrona app urls. 
+    (r'', include('madrona.common.urls')),
+    (r'^bookmark/', include('madrona.bookmarks.urls')),
     (r'^general/', include('general.urls')),
     (r'^scenario/', include('scenario.urls')),
     (r'^smp/', include('smp.urls')),

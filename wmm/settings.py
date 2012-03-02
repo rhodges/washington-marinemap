@@ -1,5 +1,5 @@
 # Django settings for omm project.
-from lingcod.common.default_settings import *
+from madrona.common.default_settings import *
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 APP_NAME = "Washington Marine Planner"
@@ -26,14 +26,14 @@ ROOT_URLCONF = 'wmm.urls'
 
 TEMPLATE_DIRS = ( os.path.realpath(os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/')), )
 
-INSTALLED_APPS += ( 'lingcod.analysistools', 
+INSTALLED_APPS += ( 'madrona.analysistools', 
                     'scenario',
                     'aoi',
                     'smp',
                     'general',
                     'django.contrib.humanize',
                     'wmm_manipulators',
-                    'lingcod.raster_stats')
+                    'madrona.raster_stats')
 
 
 COMPRESS_JS['application']['source_filenames'] += (

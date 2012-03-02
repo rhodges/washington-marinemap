@@ -1,4 +1,4 @@
-from lingcod.analysistools.grass import Grass
+from madrona.analysistools.grass import Grass
 from scenario.models import *
 
 ''' Helper Functions '''

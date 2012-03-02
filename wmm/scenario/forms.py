@@ -1,5 +1,5 @@
-from lingcod.features.forms import FeatureForm, SpatialFeatureForm
-from lingcod.analysistools.widgets import SliderWidget, DualSliderWidget
+from madrona.features.forms import FeatureForm, SpatialFeatureForm
+from madrona.analysistools.widgets import SliderWidget, DualSliderWidget
 from django import forms
 from django.forms import ModelMultipleChoiceField
 from django.forms.widgets import *

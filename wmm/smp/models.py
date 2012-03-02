@@ -3,9 +3,9 @@ from django.contrib.gis.db import models
 from django.conf import settings
 from django.utils.html import escape
 from picklefield import PickledObjectField
-from lingcod.common.utils import asKml
-from lingcod.features import register, alternate
-from lingcod.features.models import Feature, PolygonFeature
+from madrona.common.utils import asKml
+from madrona.features import register, alternate
+from madrona.features.models import Feature, PolygonFeature
 
 # Create your models here.
     

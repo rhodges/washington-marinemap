@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, AppCommand
 from optparse import make_option
-from lingcod.analysistools.grass import Grass
+from madrona.analysistools.grass import Grass
 from scenario.models import *
 
 
