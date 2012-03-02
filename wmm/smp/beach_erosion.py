@@ -62,7 +62,6 @@ def get_structures(smp):
     #if report_cache_exists(bioregion, 'structures'):
     #    structure_tuples = get_report_cache(smp, 'structures')
     #    return structure_tuples
-    #else:
     structures = OverwaterStructure.objects.filter(geometry__bboverlaps=smp.geometry_final)
     structure_list = []
     for structure in structures:
