@@ -12,6 +12,18 @@
     {% endif %}
 {% endblock layersConfig %}
 
+{% block js_ready %}
+    $('a[href="#DataLayers"]').click();
+{% endblock %}
+
+{% block addToOptions %} 
+    {% if user.is_authenticated %}
+    // options.show_panel='about'; 
+    {% else %}
+    options.show_panel='about'; 
+    {% endif %}                
+{% endblock addToOptions %}
+
 {% block metanavigation %}
 {% if user.is_authenticated %}
 <li><a href="#" id="profile">{{user.username}}</a> | </li>
