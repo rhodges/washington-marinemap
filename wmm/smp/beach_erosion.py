@@ -9,16 +9,9 @@ from smp.models import *
 '''
 '''
 def display_smp_beach_erosion_analysis(request, smp, template='smp/reports/smp_beach_erosion_report.html'):
-    context = get_smp_beach_erosion_context(smp)
+    context = run_beach_erosion_analysis(smp)
     return render_to_response(template, RequestContext(request, context)) 
 
-'''
-'''    
-def get_smp_beach_erosion_context(smp): 
-    #get context from cache or from running analysis
-    context = run_beach_erosion_analysis(smp)   
-    return context
-    
 '''
 Run the analysis, create the cache, and return the results as a context dictionary so they may be rendered with template
 '''    

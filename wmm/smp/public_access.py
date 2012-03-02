@@ -8,16 +8,9 @@ from smp.models import *
 '''
 '''
 def display_smp_public_access_analysis(request, smp, template='smp/reports/smp_public_access_report.html'):
-    context = get_smp_public_access_context(smp)
+    context = run_public_access_analysis(smp)
     return render_to_response(template, RequestContext(request, context)) 
 
-'''
-'''    
-def get_smp_public_access_context(smp): 
-    #get context from cache or from running analysis
-    context = run_public_access_analysis(smp)   
-    return context
-    
 '''
 Run the analysis, create the cache, and return the results as a context dictionary so they may be rendered with template
 '''    
