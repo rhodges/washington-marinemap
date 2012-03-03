@@ -63,30 +63,11 @@
     }
 </script>
 
-<style type="text/css">
-div .field > label { font-size: 12px; display: inline; }
-div .step { 
-    -moz-box-shadow: 5px 5px 5px #ddd;
-    -webkit-box-shadow: 5px 5px 5px #ddd;
-    box-shadow: 5px 5px 5px #ddd; 
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    -khtml-border-radius: 6px;
-    border-radius: 6px;
-    border: 1px #ddd solid;
-    padding: 6px;
-    margin-top: 4px;
-    margin-bottom: 8px;
-    background-color: white; 
-    background-repeat: no-repeat;
-    min-height: 54px;
-}
-div .inputfield { padding-bottom: 14px; }
-span.form-image { float: left; margin-left: -66px; }
-span.form-image > img { width:46px; height:46px; }
-</style>
-
-<h1><small><small>Folder: </small></small> {{instance.name}}</h1>
+<h1>
+    <img src="/media/wmm/img/folder.png"/>
+    <small><small>Folder: </small></small> 
+    "{{instance.name}}"
+</h1>
     <div class="tabs">
         <ul>
             <li><a href="#Inputs"><span>Attributes</span></a></li>
@@ -230,4 +211,27 @@ span.form-image > img { width:46px; height:46px; }
         
     </div>
     
+<style type="text/css">
+div .field > label { font-size: 12px; display: inline; }
+div .step { 
+    -moz-box-shadow: 5px 5px 5px #ddd;
+    -webkit-box-shadow: 5px 5px 5px #ddd;
+    box-shadow: 5px 5px 5px #ddd; 
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -khtml-border-radius: 6px;
+    border-radius: 6px;
+    border: 1px #ddd solid;
+    padding: 6px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    background-color: white; 
+    background-repeat: no-repeat;
+    min-height: 54px;
+}
+div .inputfield { padding-bottom: 14px; }
+span.form-image { float: left; margin-left: -66px; }
+span.form-image > img { width:46px; height:46px; }
+</style>
+
 {% endblock panel %}
