@@ -108,6 +108,8 @@ def get_quadrant(x,y):
     else:
         return 'se'
     
+'''   Tradeoffs Table  '''    
+    
 '''
 '''
 def display_tradeoff_table(request, folder, template='folder/reports/tradeoff_table.html'):
@@ -143,8 +145,7 @@ def get_type(objective):
 def get_table_attributes(folder):
     sites = []
     #site = [name, color, valuations]
-    aois = folder.feature_set()
-    for aoi in aois:
+    for aoi in folder.aoi_set:
         site = {}
         site['name'] = str(aoi.name)
         site['color'] = series_colors[0]

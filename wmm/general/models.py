@@ -21,6 +21,15 @@ class Folder(FeatureCollection):
     description = models.TextField(null=True,blank=True)
     
     @property
+    def aoi_set(self):
+        aois = []
+        features = self.feature_set()
+        for feature in features:
+            if feature.__class__ == AOI:
+                aois.append(feature)
+        return aois
+    
+    @property
     def num_aois(self):
         count = 0
         for object in self.feature_set():
