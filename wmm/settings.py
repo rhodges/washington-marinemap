@@ -54,6 +54,7 @@ COMPRESS_JS['application']['source_filenames'] += (
 COMPRESS_CSS['application']['source_filenames'] += (
     'wmm/css/analysis_reports.css',
     'wmm/css/jquery.jqplot.css',
+    'kmltree/dist/kmltree_mod.css',
 )
   
 #was hoping one of the following would speed up the rendering process (it's timing out too often as it is), but not seeing any improvement
