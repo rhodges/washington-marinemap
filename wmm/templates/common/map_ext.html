@@ -14,11 +14,14 @@
 
 {% block js_ready %}
     $('a[href="#DataLayers"]').click();
+    {% if user.is_authenticated %}
+    //$('a[href="#DataLayers"]').click();
+    {% endif %}         
 {% endblock %}
 
 {% block addToOptions %} 
     {% if user.is_authenticated %}
-    // options.show_panel='about'; 
+    $('a[href="#DataLayers"]').click();
     {% else %}
     options.show_panel='about'; 
     {% endif %}                
