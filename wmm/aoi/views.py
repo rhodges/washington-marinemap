@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.template import RequestContext
+from django.template.defaultfilters import slugify
 from django.shortcuts import get_object_or_404, render_to_response
+from madrona.shapes.views import ShpResponder
 from models import *
 import settings
 import re
@@ -52,3 +54,32 @@ def admin_clear_aoi_zonal_cache(request, raster_dataset, template='admin/aoi/zon
         else:
             remove_zonal_stats_cache(raster_dataset)
             return render_to_response( template, RequestContext(request, {"title": raster_title, "raster_dataset": raster_dataset}) )  
+
+def aoi_shapefile(request, instances):
+    aois = []
+    for inst in instances:
+        viewable, response = inst.is_viewable(request.user)
+        if not viewable:
+            return response
+
+        if isinstance(inst, AOI):
+            inst.convert_to_shp()
+            aois.append(inst)
+        #elif isinstance(inst, AOIArray):
+        #    for aoi in inst.feature_set(recurse=True,feature_classes=[AOI]):
+        #        aoi.convert_to_shp()
+        #        aois.append(aoi)
+        else:
+            pass # ignore anything else
+
+    filename = '_'.join([slugify(inst.name) for inst in instances])
+    pks = [aoi.pk for aoi in aois]
+    qs = AOIShapefile.objects.filter(aoi_id_num__in=pks)
+    if len(qs) == 0:
+        return HttpResponse(
+            "Nothing in the query set; you don't want an empty shapefile", 
+            status=404
+        )
+    shp_response = ShpResponder(qs)
+    shp_response.file_name = slugify(filename[0:8])
+    return shp_response()

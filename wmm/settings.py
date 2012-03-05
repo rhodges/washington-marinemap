@@ -64,7 +64,7 @@ COMPRESS_CSS['application']['source_filenames'] += (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '3j9~fjio+adjf93iwashingtonjda()#Jfk3ljf-ea9#$@#90dsfj9@0aj3()*fj3iow2f'
 
-LOG_FILE =  os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'bmm.log'))
+LOG_FILE =  os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'wmm.log'))
 
 PRIVATE_KML_ROOT = '/usr/local/privatekml'
 BOOKMARK_FEATURE = True
