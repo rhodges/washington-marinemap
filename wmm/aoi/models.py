@@ -17,6 +17,23 @@ class AOI(PolygonFeature):
     waveenergy_score = models.IntegerField(verbose_name='Wave Energy Score', null=True, blank=True)
     windenergy_score = models.IntegerField(verbose_name='Wind Energy Score', null=True, blank=True)
     
+    def convert_to_shp(self):
+        '''
+        Port the AOI attributes over to the AOIShapefile model so we can export the shapefile.
+        '''
+        asf, created = AOIShapefile.objects.get_or_create(aoi=self)
+        if created or asf.date_modified < self.date_modified:
+            asf.name = self.name
+            asf.aoi_id_num = self.pk
+            asf.geometry = self.geometry_final
+            #short_name = self.name
+            #units based on the settings variable DISPLAY_AREA_UNITS (currently sq miles)
+            asf.area_sq_mi = area_in_display_units(self.geometry_final)
+            asf.author = self.user.username
+            asf.aoi_modification_date = self.date_modified
+            asf.save()
+        return asf
+        
     @property
     def kml(self):
         return """
@@ -129,6 +146,27 @@ class AOI(PolygonFeature):
         form_template = 'aoi/form.html'
         show_template = 'aoi/show.html'
         icon_url = 'wmm/img/aoi.png'
+        links = (
+            alternate('Shapefile',
+                'aoi.views.aoi_shapefile',
+                select='multiple single',
+                type='application/zip',
+            ),
+        )
+
+class AOIShapefile(models.Model):
+    """
+    This model will provide the correct fields for the export of shapefiles using the django-shapes app.
+    """
+    geometry = models.PolygonField(srid=settings.GEOMETRY_DB_SRID,blank=True,null=True)
+    name = models.CharField(max_length=255)
+    aoi_id_num = models.IntegerField(blank=True, null=True)
+    area_sq_mi = models.FloatField(blank=True,null=True)
+    author = models.CharField(blank=True, max_length=255,null=True)
+    aoi = models.OneToOneField(AOI, related_name="aoi")
+    aoi_modification_date = models.DateTimeField(blank=True, null=True)
+    date_modified = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    objects = models.GeoManager()
 
         
 '''Scoring Models'''
