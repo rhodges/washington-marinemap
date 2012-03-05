@@ -147,11 +147,11 @@ class AOI(PolygonFeature):
         show_template = 'aoi/show.html'
         icon_url = 'wmm/img/aoi.png'
         links = (
-            alternate('Shapefile',
-                'aoi.views.aoi_shapefile',
-                select='multiple single',
-                type='application/zip',
-            ),
+            #alternate('Shapefile',
+            #    'aoi.views.aoi_shapefile',
+            #    select='multiple single',
+            #    type='application/zip',
+            #),
         )
 
 class AOIShapefile(models.Model):
