@@ -290,9 +290,9 @@ class MOS(Feature):
             html += ", ".join(scenario.input_wind_potential_names)
             html += " </p>"
         if 13 in parameter_ids:
-            html += "<p><strong> Mean Tidal Energy:</strong> %s to %s W/m2</p>" % (intcomma(int(scenario.input_min_tidalmean)), intcomma(int(scenario.input_max_tidalmean)))
+            html += "<p><strong> Mean Tidal Energy:</strong> %s to %s W/m2</p>" % (scenario.input_min_tidalmean, scenario.input_max_tidalmean)
         if 14 in parameter_ids:
-            html += "<p><strong> Max Tidal Energy:</strong> %s to %s W/m2</p>" % (intcomma(int(scenario.input_min_tidalmax)), intcomma(int(scenario.input_max_tidalmax)))
+            html += "<p><strong> Max Tidal Energy:</strong> %s to %s W/m2</p>" % (scenario.input_min_tidalmax, scenario.input_max_tidalmax)
         if 15 in parameter_ids:
             html += "<p><strong> Summer Wave Energy:</strong> %s to %s kW/m of shoreline</p>" % (intcomma(int(scenario.input_min_wavesummer)), intcomma(int(scenario.input_max_wavesummer)))
         if 16 in parameter_ids:
