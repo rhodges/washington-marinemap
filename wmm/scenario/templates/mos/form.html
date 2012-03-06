@@ -15,10 +15,10 @@
                             //'development': ['shoreside_development'] };
                             
         //parameters_dict parameters ordering needs to match the ordering found in each <objective>parameter table in the db                     
-        parameters_list = [ 'distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential', 'tidalmean', 'tidalmax', 'wavesummer', 'wavewinter', 'depth_class', 'geomorphology', 'exposure', 'ecosystem', 'upwelling', 'chlorophyl'];
-        parameters_dict = { 'tidal_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'tidalmean', 'tidalmax'],
-                            'wave_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'wavesummer', 'wavewinter'],
-                            'wind_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential'],
+        parameters_list = [ 'distance_shore', 'distance_port', 'distance_astoria', 'distance_hoquium', 'depth', 'substrate', 'wind_potential', 'tidalmean', 'tidalmax', 'wavesummer', 'wavewinter', 'depth_class', 'geomorphology', 'exposure', 'ecosystem', 'upwelling', 'chlorophyl'];
+        parameters_dict = { 'tidal_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'tidalmean', 'tidalmax', 'distance_astoria', 'distance_hoquium'],
+                            'wave_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'wavesummer', 'wavewinter', 'distance_astoria', 'distance_hoquium'],
+                            'wind_energy': ['distance_shore', 'distance_port', 'depth', 'substrate', 'wind_potential', 'distance_astoria', 'distance_hoquium'],
                             'offshore_conservation': ['substrate', 'depth_class', 'geomorphology'],
                             'nearshore_conservation': ['substrate', 'exposure', 'ecosystem'],
                             'pelagic_conservation': ['upwelling', 'chlorophyl'] };
@@ -132,8 +132,8 @@
                     $.each(obj_params, function(index, param) {
                         //console.log('objective parameter: ' + param.name);
                         if (param.checked) {
-                            //console.log(param.name + ' is checked');
-                            //console.log('pushing ' + obj + ' ' + param.value + ' from parameters_dict');
+                            console.log(param.name + ' is checked');
+                            console.log('pushing ' + obj + ' ' + param.value + ' from parameters_dict');
                             param_list.push(parameters_dict[obj][param.value-1]);
                         }
                     });
@@ -273,7 +273,7 @@
                         $('#'+obj+'_widgets_header').show();
                         //console.log('showing ' + param_list);
                         $(param_list).each( function(index, param) {
-                            //console.log('showing #'+param+'_'+obj);
+                            console.log('showing #'+param+'_'+obj);
                             $('#'+param+'_'+obj+'_widget').show();
                         });
                     });
@@ -351,7 +351,15 @@
                     text = "Distance to shore is an important consideration due to cost of laying transmission cables to shore-based sub-stations.";
                     break;
                 case 'info_distance_port':
-                    text = "Distance to port assumes a cost for source of manufactured parts to construct the energy facility.";
+                    text = "Distance to port assumes a cost for source of manufactured parts to maintain and repair the energy facility.";
+                    break;
+                case 'info_distance_astoria':
+                    topMiddle = true;
+                    text = "Distance to deep water port assumes a cost for source of manufactured parts to construct the energy facility.";
+                    break;
+                case 'info_distance_hoquium':
+                    topLeft = true;
+                    text = "Distance to deep water port assumes a cost for source of manufactured parts to construct the energy facility.";
                     break;
                 case 'info_depth':
                     text = "Depth considerations are important for costs of mooring and anchoring to the seafloor; with increased depth comes increased cost.";
@@ -407,6 +415,14 @@
                 case 'info_dist_port_step3':
                     topMiddle = true;
                     text = "Selection of distance to ports reflects the transportation costs of manufactured facility componenets to offshore installation sites with potential for moorage at an intermediary port. <br><NEED ROUGH ESTIMATES OF TRANS COSTS.>";
+                    break;
+                case 'info_dist_astoria_step3':
+                    topLeft = true;
+                    text = "Selection of distance to deep water ports reflects the transportation costs of manufactured facility componenets to offshore installation sites. <br><NEED ROUGH ESTIMATES OF TRANS COSTS.>";
+                    break;
+                case 'info_dist_hoquium_step3':
+                    topLeft = true;
+                    text = "Selection of distance to deep water ports reflects the transportation costs of manufactured facility componenets to offshore installation sites. <br><NEED ROUGH ESTIMATES OF TRANS COSTS.>";
                     break;
                 case 'info_depth_step3':
                     topMiddle = true;
@@ -685,6 +701,18 @@
                         {{ form.input_dist_port_tidal_energy }}  </label>               
                     </div>
                 </div>
+                <div id="distance_astoria_tidal_energy_widget" class="inputfield">
+                    <div>
+                        <label class="param">Distance to Port of Astoria (miles) 
+                        {{ form.input_dist_astoria_tidal_energy }}  </label>               
+                    </div>
+                </div>
+                <div id="distance_hoquium_tidal_energy_widget" class="inputfield">
+                    <div>
+                        <label class="param">Distance to Ports of Aberdeen/Hoquium (miles) 
+                        {{ form.input_dist_hoquium_tidal_energy }}  </label>               
+                    </div>
+                </div>
                 <div id="depth_tidal_energy_widget" class="inputfield">
                     <div>
                         <label class="param">Depth Range (feet) 
@@ -744,6 +772,18 @@
                         {{ form.input_dist_port_wave_energy }} </label>           
                     </div>
                 </div>
+                <div id="distance_astoria_wave_energy_widget" class="inputfield">
+                    <div>
+                        <label class="param">Distance to Deep Water Port of Astoria (miles) 
+                        {{ form.input_dist_astoria_wave_energy }}  </label>               
+                    </div>
+                </div>
+                <div id="distance_hoquium_wave_energy_widget" class="inputfield">
+                    <div>
+                        <label class="param">Distance to Deep Water Port of Aberdeen/Hoquium (miles) 
+                        {{ form.input_dist_hoquium_wave_energy }}  </label>               
+                    </div>
+                </div>
                 <div id="depth_wave_energy_widget" class="inputfield">
                     <div>
                         <label class="param">Depth Range (feet)
@@ -794,12 +834,26 @@
             <div id="wind_energy_widgets">
                 <div id="distance_shore_wind_energy_widget" class="inputfield">
                     <div>
-                        <label class="param">Distance to Shore (miles) {{ form.input_dist_shore_wind_energy }}  </label> 
+                        <label class="param">Distance to Shore (miles) 
+                        {{ form.input_dist_shore_wind_energy }}  </label> 
                     </div>
                 </div>
                 <div id="distance_port_wind_energy_widget" class="inputfield">
                     <div>
-                        <label class="param">Distance to Port (miles) {{ form.input_dist_port_wind_energy }} </label> 
+                        <label class="param">Distance to Port (miles) 
+                        {{ form.input_dist_port_wind_energy }} </label> 
+                    </div>
+                </div>
+                <div id="distance_astoria_wind_energy_widget" class="inputfield">
+                    <div>
+                        <label class="param">Distance to Port of Astoria (miles) 
+                        {{ form.input_dist_astoria_wind_energy }}  </label>               
+                    </div>
+                </div>
+                <div id="distance_hoquium_wind_energy_widget" class="inputfield">
+                    <div>
+                        <label class="param">Distance to Ports of Aberdeen/Hoquium (miles) 
+                        {{ form.input_dist_hoquium_wind_energy }}  </label>               
                     </div>
                 </div>
                 <div id="depth_wind_energy_widget" class="inputfield">

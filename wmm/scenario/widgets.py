@@ -28,7 +28,7 @@ class CheckboxSelectMultipleWithTooltip(forms.CheckboxSelectMultiple):
 
     def render(self, *args, **kwargs): 
         output = super(CheckboxSelectMultipleWithTooltip, self).render(*args,**kwargs) 
-        for param in self.queryset:
+        for param in self.queryset:            
             if param.parameter.short_name == 'substrate' and self.substrate is not None:
                 output = output.replace(str(param), '%s <img src="/media/wmm/img/info.png" id="info_%s" class="info" />' %(str(param), self.substrate) )
             else:

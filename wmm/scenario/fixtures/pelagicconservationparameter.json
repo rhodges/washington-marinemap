@@ -1,0 +1,24 @@
+registering Feature Bookmark
+registering Feature MOS
+registering Feature AOI
+registering Feature SMPSite
+registering Feature UserKml
+registering Feature Folder
+[
+    {
+        "pk": 1, 
+        "model": "scenario.pelagicconservationparameter", 
+        "fields": {
+            "ordering": 1, 
+            "parameter": 10
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.pelagicconservationparameter", 
+        "fields": {
+            "ordering": 2, 
+            "parameter": 11
+        }
+    }
+]
