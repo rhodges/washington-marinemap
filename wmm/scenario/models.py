@@ -627,8 +627,7 @@ class Scenario(Analysis):
         #check for empty result
         if g.run('r.stats -an input=rresult') == '':
             geom = MultiPolygon([])
-        else:
-            '''
+        else:            
             if self.input_objective.short_name == 'offshore_conservation':
                 from grass_reports.scenario.offshore_conservation import offshore_conservation_report
                 self.output_report = offshore_conservation_report(g)
@@ -647,9 +646,8 @@ class Scenario(Analysis):
             elif self.input_objective.short_name == 'tidal_energy':
                 from grass_reports.scenario.tidal_energy import tidal_energy_report
                 self.output_report = tidal_energy_report(g, tidalmax, tidalmean, self)
-            else:
-            '''
-            self.output_report = simplejson.dumps({})
+            else:        
+                self.output_report = simplejson.dumps({})
                 
             g.run('r.to.vect input=rresult output=rresult_vect feature=area')
 
