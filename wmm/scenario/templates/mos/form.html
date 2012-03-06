@@ -132,8 +132,8 @@
                     $.each(obj_params, function(index, param) {
                         //console.log('objective parameter: ' + param.name);
                         if (param.checked) {
-                            console.log(param.name + ' is checked');
-                            console.log('pushing ' + obj + ' ' + param.value + ' from parameters_dict');
+                            //console.log(param.name + ' is checked');
+                            //console.log('pushing ' + obj + ' ' + param.value + ' from parameters_dict');
                             param_list.push(parameters_dict[obj][param.value-1]);
                         }
                     });
@@ -211,7 +211,7 @@
                 });
             } else if (step == 4) {
                 name = $('#id_name')
-                console.log(name);
+                //console.log(name);
                 alert(name);
                 //alert("Please provide a name for your Scenario.");
                 return false;
@@ -273,7 +273,7 @@
                         $('#'+obj+'_widgets_header').show();
                         //console.log('showing ' + param_list);
                         $(param_list).each( function(index, param) {
-                            console.log('showing #'+param+'_'+obj);
+                            //console.log('showing #'+param+'_'+obj);
                             $('#'+param+'_'+obj+'_widget').show();
                         });
                     });
