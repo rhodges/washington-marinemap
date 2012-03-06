@@ -1,0 +1,32 @@
+registering Feature Bookmark
+registering Feature MOS
+registering Feature AOI
+registering Feature SMPSite
+registering Feature UserKml
+registering Feature Folder
+[
+    {
+        "pk": 1, 
+        "model": "scenario.offshoreconservationparameter", 
+        "fields": {
+            "ordering": 1, 
+            "parameter": 5
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.offshoreconservationparameter", 
+        "fields": {
+            "ordering": 2, 
+            "parameter": 6
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.offshoreconservationparameter", 
+        "fields": {
+            "ordering": 3, 
+            "parameter": 7
+        }
+    }
+]

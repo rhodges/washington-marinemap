@@ -27,6 +27,8 @@ class MOS(Feature):
     input_parameters_tidal_energy = models.ManyToManyField("TidalEnergyParameter", null=True, blank=True)
     input_dist_shore_tidal_energy = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
     input_dist_port_tidal_energy = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    input_dist_astoria_tidal_energy = models.FloatField(verbose_name='Distance to Astoria', null=True, blank=True)
+    input_dist_hoquium_tidal_energy = models.FloatField(verbose_name='Distance to Aberdeen/Hoquium', null=True, blank=True)
     input_min_depth_tidal_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_tidal_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_tidal_energy = models.ManyToManyField("TidalSubstrate", null=True, blank=True)
@@ -38,6 +40,8 @@ class MOS(Feature):
     input_parameters_wind_energy = models.ManyToManyField("WindEnergyParameter")
     input_dist_shore_wind_energy = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
     input_dist_port_wind_energy = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    input_dist_astoria_wind_energy = models.FloatField(verbose_name='Distance to Astoria', null=True, blank=True)
+    input_dist_hoquium_wind_energy = models.FloatField(verbose_name='Distance to Aberdeen/Hoquium', null=True, blank=True)
     input_min_depth_wind_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_wind_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_wind_energy = models.ManyToManyField("Substrate", related_name="MOSWindEnergySubstrate", null=True, blank=True)
@@ -46,6 +50,8 @@ class MOS(Feature):
     input_parameters_wave_energy = models.ManyToManyField("WaveEnergyParameter")
     input_dist_shore_wave_energy = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
     input_dist_port_wave_energy = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    input_dist_astoria_wave_energy = models.FloatField(verbose_name='Distance to Astoria', null=True, blank=True)
+    input_dist_hoquium_wave_energy = models.FloatField(verbose_name='Distance to Aberdeen/Hoquium', null=True, blank=True)
     input_min_depth_wave_energy = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth_wave_energy = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     input_substrate_wave_energy = models.ManyToManyField("Substrate", related_name="MOSWaveEnergySubstrate", null=True, blank=True)
@@ -109,6 +115,8 @@ class MOS(Feature):
                 #while these are already in the MOS fields, the following keeps the code re-usable for all objectives
                 dist_shore = self.get_form_data(form_data, 'input_dist_shore_%s'%obj_short_name)
                 dist_port = self.get_form_data(form_data, 'input_dist_port_%s'%obj_short_name)
+                dist_astoria = self.get_form_data(form_data, 'input_dist_astoria_%s'%obj_short_name)
+                dist_hoquium = self.get_form_data(form_data, 'input_dist_hoquium_%s'%obj_short_name)
                 min_depth = self.get_form_data(form_data, 'input_min_depth_%s'%obj_short_name)
                 max_depth = self.get_form_data(form_data, 'input_max_depth_%s'%obj_short_name)
                 substrates = self.get_form_data(form_data, 'input_substrate_%s'%obj_short_name)
@@ -136,12 +144,26 @@ class MOS(Feature):
                     scenarios = []
                 if len(scenarios) == 1:
                     scenario = scenarios[0]  
-                    scenario_dict = {'user': user, 'name': scenario_name, 'input_parameters': input_params, 'input_objective': obj, 'input_dist_shore': dist_shore, 'input_dist_port': dist_port, 'input_min_depth': min_depth, 'input_max_depth': max_depth, 'input_min_tidalmean': min_tidalmean, 'input_max_tidalmean': max_tidalmean, 'input_min_tidalmax': min_tidalmax, 'input_max_tidalmax': max_tidalmax, 'input_min_wavesummer': min_wavesummer, 'input_max_wavesummer': max_wavesummer, 'input_min_wavewinter': min_wavewinter, 'input_max_wavewinter': max_wavewinter}
+                    scenario_dict = {'user': user, 'name': scenario_name, 'input_parameters': input_params, 'input_objective': obj, 
+                                    'input_dist_shore': dist_shore, 'input_dist_port': dist_port, 
+                                    'input_dist_astoria': dist_astoria, 'input_dist_hoquium': dist_hoquium, 
+                                    'input_min_depth': min_depth, 'input_max_depth': max_depth, 
+                                    'input_min_tidalmean': min_tidalmean, 'input_max_tidalmean': max_tidalmean, 
+                                    'input_min_tidalmax': min_tidalmax, 'input_max_tidalmax': max_tidalmax, 
+                                    'input_min_wavesummer': min_wavesummer, 'input_max_wavesummer': max_wavesummer, 
+                                    'input_min_wavewinter': min_wavewinter, 'input_max_wavewinter': max_wavewinter }
                     if scenario.needs_rerun(scenario_dict):
                         rerun = True
                     scenario.__dict__.update(scenario_dict)
                 else:
-                    scenario = Scenario(user=user, name=scenario_name, input_objective=obj, input_dist_shore=dist_shore, input_dist_port = dist_port, input_min_depth=min_depth, input_max_depth=max_depth, input_min_tidalmean=min_tidalmean, input_max_tidalmean=max_tidalmean, input_min_tidalmax=min_tidalmax, input_max_tidalmax=max_tidalmax, input_min_wavesummer=min_wavesummer, input_max_wavesummer=max_wavesummer, input_min_wavewinter=min_wavewinter, input_max_wavewinter=max_wavewinter)            
+                    scenario = Scenario(user=user, name=scenario_name, input_objective=obj, 
+                                        input_dist_shore=dist_shore, input_dist_port=dist_port, 
+                                        input_dist_astoria=dist_astoria, input_dist_hoquium=dist_hoquium,
+                                        input_min_depth=min_depth, input_max_depth=max_depth, 
+                                        input_min_tidalmean=min_tidalmean, input_max_tidalmean=max_tidalmean, 
+                                        input_min_tidalmax=min_tidalmax, input_max_tidalmax=max_tidalmax, 
+                                        input_min_wavesummer=min_wavesummer, input_max_wavesummer=max_wavesummer, 
+                                        input_min_wavewinter=min_wavewinter, input_max_wavewinter=max_wavewinter)            
                 scenario.save(rerun=False)
                 
                 if (   set(scenario.input_parameters.all()) != set(input_params)
@@ -227,6 +249,12 @@ class MOS(Feature):
         if 2 in parameter_ids:
             #the symbol had to be replaced with &#60; ('<' breaks the html, and &lt; was not working either for some reason...)
             html += "<p><strong> Distance to Port</strong> &#60;= %s miles</p>" % scenario.input_dist_port
+        if 17 in parameter_ids:
+            #the symbol had to be replaced with &#60; ('<' breaks the html, and &lt; was not working either for some reason...)
+            html += "<p><strong> Distance to Astoria</strong> &#60;= %s miles</p>" % scenario.input_dist_astoria
+        if 18 in parameter_ids:
+            #the symbol had to be replaced with &#60; ('<' breaks the html, and &lt; was not working either for some reason...)
+            html += "<p><strong> Distance to Aberdeen/Hoquium</strong> &#60;= %s miles</p>" % scenario.input_dist_hoquium
         if 3 in parameter_ids:
             html += "<p><strong> Depth Range:</strong> %s to %s feet</p>" % (scenario.input_min_depth, scenario.input_max_depth)
         if 5 in parameter_ids:
@@ -418,6 +446,8 @@ class Scenario(Analysis):
     
     input_dist_shore = models.FloatField(verbose_name='Distance from Shoreline', null=True, blank=True)
     input_dist_port = models.FloatField(verbose_name='Distance to Port', null=True, blank=True)
+    input_dist_astoria = models.FloatField(verbose_name='Distance to Astoria', null=True, blank=True)
+    input_dist_hoquium = models.FloatField(verbose_name='Distance to Hoquium', null=True, blank=True)
     input_min_depth = models.FloatField(verbose_name='Minimum Depth', null=True, blank=True)
     input_max_depth = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     
@@ -576,8 +606,21 @@ class Scenario(Analysis):
         else:
             wavewinter = 1
         
-        mapcalc = """r.mapcalc "rresult = if((%s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s)==15,1,null())" """ % (port_buffer, shoreline_buffer, depth, substrate, depth_class, geomorphology, exposure, ecosystem, upwelling, chlorophyl, wind, tidalmean, tidalmax, wavesummer, wavewinter)
-        #mapcalc = """r.mapcalc "rresult = if((if(shoreline_rast_buffer==2) + if(port_buffer_rast) + if(bathy>%s && bathy<%s) + if(%s))==4,1,null())" """ % (self.input_min_depth, self.input_max_depth, substrate_formula) 
+        if 17 in input_params:
+            g.run('v.buffer input=port_astoria output=astoria_buffer distance=%s' % miles_to_meters(self.input_dist_astoria) )
+            g.run('v.to.rast input=astoria_buffer output=astoria_buffer_rast use=cat')
+            astoria_buffer = 'if(astoria_buffer_rast)'
+        else:
+            astoria_buffer = 1
+        
+        if 18 in input_params:
+            g.run('v.buffer input=port_hoquium output=hoquium_buffer distance=%s' % miles_to_meters(self.input_dist_hoquium) )
+            g.run('v.to.rast input=hoquium_buffer output=hoquium_buffer_rast use=cat')
+            hoquium_buffer = 'if(hoquium_buffer_rast)'
+        else:
+            hoquium_buffer = 1
+        
+        mapcalc = """r.mapcalc "rresult = if((%s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s)==17,1,null())" """ % (port_buffer, shoreline_buffer, depth, substrate, depth_class, geomorphology, exposure, ecosystem, upwelling, chlorophyl, wind, tidalmean, tidalmax, wavesummer, wavewinter, astoria_buffer, hoquium_buffer)
         g.run(mapcalc)
         self.output_mapcalc = mapcalc
         
@@ -585,6 +628,7 @@ class Scenario(Analysis):
         if g.run('r.stats -an input=rresult') == '':
             geom = MultiPolygon([])
         else:
+            '''
             if self.input_objective.short_name == 'offshore_conservation':
                 from grass_reports.scenario.offshore_conservation import offshore_conservation_report
                 self.output_report = offshore_conservation_report(g)
@@ -604,7 +648,8 @@ class Scenario(Analysis):
                 from grass_reports.scenario.tidal_energy import tidal_energy_report
                 self.output_report = tidal_energy_report(g, tidalmax, tidalmean, self)
             else:
-                self.output_report = simplejson.dumps({})
+            '''
+            self.output_report = simplejson.dumps({})
                 
             g.run('r.to.vect input=rresult output=rresult_vect feature=area')
 
@@ -906,36 +951,42 @@ class Parameter(models.Model):
         
 class TidalEnergyParameter(models.Model):
     parameter = models.ForeignKey("Parameter", null=True, blank=True)
+    ordering = models.IntegerField(null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.parameter.name
         
 class WindEnergyParameter(models.Model):
     parameter = models.ForeignKey("Parameter", null=True, blank=True)
+    ordering = models.IntegerField(null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.parameter.name
         
 class WaveEnergyParameter(models.Model):
     parameter = models.ForeignKey("Parameter", null=True, blank=True)
+    ordering = models.IntegerField(null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.parameter.name
         
 class OffshoreConservationParameter(models.Model):
     parameter = models.ForeignKey("Parameter", null=True, blank=True)
+    ordering = models.IntegerField(null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.parameter.name
         
 class NearshoreConservationParameter(models.Model):
     parameter = models.ForeignKey("Parameter", null=True, blank=True)
+    ordering = models.IntegerField(null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.parameter.name
         
 class PelagicConservationParameter(models.Model): #Water Column Conservation Parameter
     parameter = models.ForeignKey("Parameter", null=True, blank=True)
+    ordering = models.IntegerField(null=True, blank=True)
     
     def __unicode__(self):
         return u'%s' % self.parameter.name

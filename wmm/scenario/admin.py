@@ -39,33 +39,39 @@ class ParameterAdmin(admin.ModelAdmin):
 admin.site.register(Parameter, ParameterAdmin)
 
 class TidalEnergyParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter', 'id']
-    fields = ['parameter']
+    list_display = ['parameter', 'ordering', 'id']
+    fields = ['parameter', 'ordering']
+    ordering = ['ordering']
 admin.site.register(TidalEnergyParameter, TidalEnergyParameterAdmin)
 
 class WaveEnergyParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter', 'id']
-    fields = ['parameter']
+    list_display = ['parameter', 'ordering', 'id']
+    fields = ['parameter', 'ordering']
+    ordering = ['ordering']
 admin.site.register(WaveEnergyParameter, WaveEnergyParameterAdmin)
 
 class WindEnergyParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter', 'id']
-    fields = ['parameter']
+    list_display = ['parameter', 'ordering', 'id']
+    fields = ['parameter', 'ordering']
+    ordering = ['ordering']
 admin.site.register(WindEnergyParameter, WindEnergyParameterAdmin)
 
 class OffshoreConservationParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter', 'id']
-    fields = ['parameter']
+    list_display = ['parameter', 'ordering', 'id']
+    fields = ['parameter', 'ordering']
+    ordering = ['ordering']
 admin.site.register(OffshoreConservationParameter, OffshoreConservationParameterAdmin)
 
 class NearshoreConservationParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter', 'id']
-    fields = ['parameter']
+    list_display = ['parameter', 'ordering', 'id']
+    fields = ['parameter', 'ordering']
+    ordering = ['ordering']
 admin.site.register(NearshoreConservationParameter, NearshoreConservationParameterAdmin)
 
 class PelagicConservationParameterAdmin(admin.ModelAdmin):
-    list_display = ['parameter', 'id']
-    fields = ['parameter']
+    list_display = ['parameter', 'ordering', 'id']
+    fields = ['parameter', 'ordering']
+    ordering = ['ordering']
 admin.site.register(PelagicConservationParameter, PelagicConservationParameterAdmin)
 
 class SubstrateAdmin(admin.ModelAdmin):

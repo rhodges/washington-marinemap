@@ -1,0 +1,72 @@
+registering Feature Bookmark
+registering Feature MOS
+registering Feature AOI
+registering Feature SMPSite
+registering Feature UserKml
+registering Feature Folder
+[
+    {
+        "pk": 1, 
+        "model": "scenario.waveenergyparameter", 
+        "fields": {
+            "ordering": 1, 
+            "parameter": 1
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "scenario.waveenergyparameter", 
+        "fields": {
+            "ordering": 6, 
+            "parameter": 5
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.waveenergyparameter", 
+        "fields": {
+            "ordering": 7, 
+            "parameter": 15
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.waveenergyparameter", 
+        "fields": {
+            "ordering": 8, 
+            "parameter": 16
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.waveenergyparameter", 
+        "fields": {
+            "ordering": 2, 
+            "parameter": 2
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "scenario.waveenergyparameter", 
+        "fields": {
+            "ordering": 3, 
+            "parameter": 17
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "scenario.waveenergyparameter", 
+        "fields": {
+            "ordering": 4, 
+            "parameter": 18
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.waveenergyparameter", 
+        "fields": {
+            "ordering": 5, 
+            "parameter": 3
+        }
+    }
+]
