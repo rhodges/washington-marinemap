@@ -1,0 +1,152 @@
+registering Feature Bookmark
+registering Feature MOS
+registering Feature AOI
+registering Feature SMPSite
+registering Feature UserKml
+registering Feature Folder
+[
+    {
+        "pk": 4, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Min Depth", 
+            "short_name": "need_to_populate"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Substrate", 
+            "short_name": "substrate"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Distance to Shore", 
+            "short_name": "distance_shore"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Depth", 
+            "short_name": "depth"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Depth Class", 
+            "short_name": "depth_class"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Geomorphology", 
+            "short_name": "geomorphology"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Exposure", 
+            "short_name": "exposure"
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Upwelling", 
+            "short_name": "upwelling"
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Ecosystem", 
+            "short_name": "ecosystem"
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Wind Potential", 
+            "short_name": "wind_potential"
+        }
+    }, 
+    {
+        "pk": 13, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Mean Tidal Energy", 
+            "short_name": "tidalmean"
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Max Tidal Energy", 
+            "short_name": "tidalmax"
+        }
+    }, 
+    {
+        "pk": 16, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Winter Wave Energy", 
+            "short_name": "wavewinter"
+        }
+    }, 
+    {
+        "pk": 15, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Summer Wave Energy", 
+            "short_name": "wavesummer"
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Chlorophyll", 
+            "short_name": "chlorophyl"
+        }
+    }, 
+    {
+        "pk": 17, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Distance to Astoria (Deep Water Port)", 
+            "short_name": "distance_astoria"
+        }
+    }, 
+    {
+        "pk": 18, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Distance to Aberdeen/Hoquium (Deep Water Ports)", 
+            "short_name": "distance_hoquium"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.parameter", 
+        "fields": {
+            "name": "Distance to All Ports", 
+            "short_name": "distance_port"
+        }
+    }
+]
