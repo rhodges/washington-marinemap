@@ -9,7 +9,16 @@ def get_scenario_stats(scenario, param_dict, model_class, param_area_class):
         perc = value / scenario_area * 100
         if perc > 0:
             #stats[key] = (int(perc*10 + .5) / 10., sq_meters_to_sq_miles(value))
-            stats[key] = (int(perc*10 + .5) / 10., value)
+            if perc > .05:
+                stats[key] = (int(perc*10 + .5) / 10., value)
+            elif perc > .005:
+                stats[key] = (int(perc*100 + .5) / 100., value)
+            elif perc > .0005:
+                stats[key] = (int(perc*1000 + .5) / 1000., value)
+            elif perc > .00005:
+                stats[key] = (int(perc*10000 + .5) / 10000., value)
+            else:
+                stats[key] = (int(perc*100000 + .5) / 100000., value)
     #arrays not dicts as ordering matters for coloration (at least for now...)
     sorted_tuples, list_reverse = sort_dict(stats, model_class, param_area_class)
     jstats = simplejson.dumps(sorted_tuples) 
