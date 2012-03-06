@@ -222,7 +222,7 @@ class MOS(Feature):
         try:
             data = form_data[index]
         except:
-            if 'dist_shore' in index or 'dist_port' in index or 'min_depth' in index or 'max_depth' in index or 'min_tidalmean' in index or 'max_tidalmean' in index or 'min_tidalmax' in index or 'max_tidalmax' in index or 'min_wavesummer' in index or 'max_wavesummer' in index or 'min_wavewinter' in index or 'max_wavewinter' in index:
+            if 'dist_shore' in index or 'dist_port' in index or 'dist_astoria' in index or 'dist_hoquium' in index or 'min_depth' in index or 'max_depth' in index or 'min_tidalmean' in index or 'max_tidalmean' in index or 'min_tidalmax' in index or 'max_tidalmax' in index or 'min_wavesummer' in index or 'max_wavesummer' in index or 'min_wavewinter' in index or 'max_wavewinter' in index:
                 data = 0
             else:
                 data = []
@@ -705,7 +705,9 @@ class Scenario(Analysis):
                     orig_geomorphologies = set(getattr(orig, 'input_geomorphology').all())
                     orig_upwellings = set(getattr(orig, 'input_upwelling').all())
                     orig_chlorophyls = set(getattr(orig, 'input_chlorophyl').all())
+                    
                     super(Scenario, self).save(rerun=False, *args, **kwargs)
+                    
                     new_substrates = set(getattr(self, 'input_substrate').all())
                     new_tidal_substrates = set(getattr(self, 'input_tidal_substrate').all())
                     new_nearshore_substrates = set(getattr(self, 'input_nearshore_substrate').all())
