@@ -125,6 +125,7 @@ madrona.onShow(function() {
     //Chart drawing function 
     function createChart(div, data ) { //, series_colors) {
         tooltip_output = 'current output...';
+        tooltip_location = 'e';
         chart = $.jqplot(div, data, {
             animate: true,
             animateReplot: true,
@@ -146,8 +147,8 @@ madrona.onShow(function() {
                                         speed: 1500 
                                     },
                                     barWidth: 25,
-                                    barPadding: 20,
-                                    barMargin: 1,
+                                    //barPadding: 20,
+                                    //barMargin: 1,
                                     barDirection: 'horizontal',
                                     //varyBarColor: true
                 }
@@ -156,8 +157,11 @@ madrona.onShow(function() {
             highlighter: {
                 show: true,
                 tooltipOffset: 7,
-                tooltipLocation: 'n',
+                //tooltipLocation: tooltip_location,//using modified highlighter.js to dynamically position tooltip
+                                                    //note: it is still possible to override the dynamic behavior by setting this var
                 formatString: tooltip_output,
+                //fadeTooltip: false,
+                //tooltipFadeSpeed: 'fast',
                 showMarker: false
             },
             axes: {

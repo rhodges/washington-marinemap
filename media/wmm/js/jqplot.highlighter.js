@@ -97,7 +97,8 @@
         this.showTooltip = true;
         // prop: tooltipLocation
         // Where to position tooltip, 'n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'
-        this.tooltipLocation = 'nw';
+        this.tooltipLocation = '';
+        //this.tooltipLocation = 'nw';
         // prop: fadeTooltip
         // true = fade in/out tooltip, flase = show/hide tooltip
         this.fadeTooltip = true;
@@ -333,7 +334,7 @@
         }
         elem.html(str);
         
-        //Added on 1/11/2012 by Scott Fletcher to enable specialized tooltip output
+        //Added on 1/11/2012 by me (Scott Fletcher) to enable specialized tooltip output
         elem.html(neighbor.data[2]);
         
         var gridpos = {x:neighbor.gridData[0], y:neighbor.gridData[1]};
@@ -348,7 +349,19 @@
 			loc = oppositeLocations;
 		}
 		
-        switch (loc[locationIndicies[opts.tooltipLocation]]) {
+        if (opts.tooltipLocation != '') {
+            this.tooltipLocation = loc[locationIndicies[opts.tooltipLocation]];
+        } else {
+            if (neighbor.data[0] > 50) {
+                this.tooltipLocation = 'nw';
+            } else if (neighbor.data[0] > 30) {
+                this.tooltipLocation = 'n';
+            } else {
+                this.tooltipLocation = 'ne';
+            }
+        }
+        //switch (loc[locationIndicies[opts.tooltipLocation]]) {
+        switch (this.tooltipLocation) {
             case 'nw':
                 var x = gridpos.x + plot._gridPadding.left - elem.outerWidth(true) - opts.tooltipOffset - fact * ms;
                 var y = gridpos.y + plot._gridPadding.top - opts.tooltipOffset - elem.outerHeight(true) - fact * ms;
