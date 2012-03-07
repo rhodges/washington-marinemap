@@ -25,7 +25,7 @@ def get_scenario_stats(scenario, param_dict, model_class, param_area_class):
     return jstats, list_reverse
      
 def sort_dict(param_dict, model_class, param_area_class):
-    params = model_class.objects.order_by('id')
+    params = model_class.objects.order_by('-id')
     sorted_tuples = []
     ordered_list = []
     for param in params:        
@@ -46,6 +46,8 @@ def sort_dict(param_dict, model_class, param_area_class):
             #tooltip_text = "Total Area: %.2f sq miles" %param_dict[param.name][1]
             sorted_tuples.append( [param_dict[param.short_name][0], param.name, tooltip_text] )
             ordered_list.append(param)
+    import pdb
+    pdb.set_trace()
     ordered_list.reverse()
     return sorted_tuples, ordered_list
       
