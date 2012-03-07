@@ -339,11 +339,11 @@
             switch(id) {
                 //Step 1 Categories
                 case 'info_energy_objs':
-                    text  = "The renewable energy scenario is designed to identify suitable areas for renewable ocean energy types (wind, wave, and tidal) using input data for sediment type, depth and power potential. ";
+                    text  = "The renewable energy scenario is designed to identify suitable areas for renewable ocean energy (tidal, wave, wind) using input parameters including sediment type, depth, and power potential. ";
                     text += "<p></p>An additonal step is to optimize industry recommended siting criteria while minimizing conflicts with other ocean uses.";
                     break;
                 case 'info_conservation_objs':
-                    text  = "The marine conservation scenario is designed to help identify areas of conservation in the nearshore, open and deep water environments off the coast of Washington. ";
+                    text  = "The marine conservation scenario is designed to help identify areas in the nearshore, seafloor or benthic environment, and in the water column or pelagic areas off the coast of Washington.  Users can use input parameters including habitat, depth, geomorphology, vegetation and exposure to wave energy that are important for proposing conservation areas. ";
                     text += "<p></p>Users can use input parameters of habitat, depth, geomorphology, vegetation, and exposure that are important to create conservation areas. ";
                     break;
                 //Step 2 Energy Parameters 
@@ -393,10 +393,10 @@
                     text = "Geomorphology represents seaforms or terrains that define the physical shape of  habitats and the processes that creates them.";
                     break;
                 case 'info_nearshore_substrate':
-                    text = "Estuary substrate or sediment type is  the physical material found on the bottom of estuaries that provides the inherent physical structure for biological life in estuaries.";
+                    text = "Substrate refers to the sea bottom sediment type (i.e. mud) that provides habitat for life found in estuaries and along the coast.";
                     break;
                 case 'info_exposure':
-                    text = "Exposure represents shoreline and estuary vulnerability to wave and wind impacts.";
+                    text = "Wave energy or fetch represents the amount of exposure of the shoreline to prevailing wind, or the distance water can travel continuously without obstruction. The amount of exposure influences what habitat can grow and survive along the coast and in estuaries.";
                     break;
                 case 'info_ecosystem':
                     text = "Ecosystem represent the vegetation type within estuaries and along shorelines.";
@@ -465,7 +465,7 @@
                     text = "Selection of substrate depends on the associated species of interest; for example, rocky intertidal species occur over hard bottom substrates, while juvenile salmon and forage fish can occur over soft bottom substrates.";
                     break;
                 case 'info_exposure_step3':
-                    text = "Selection of exposure depends on the species of interest associated with nearshore exposure; for example, rocky intertidal species can occur in exposed or very exposed nearshore areas, while juvenile salmon and forage fish can occur in protected or very protected estuary areas.";
+                    text = "Selection of wave energy or degree of shoreline exposure depends on the species of interest associated with nearshore exposure; for example, rocky intertidal species can occur in exposed or very exposed nearshore areas, while juvenile salmon and forage fish can occur in protected or very protected estuary areas.";
                     break;
                 case 'info_ecosystem_step3':
                     text = "Selection of the ecosystem type depends on the species of interest associated with the vegetation community.";
@@ -594,7 +594,7 @@
   
   <div class="step" id="step1">
     <p class="step-text"><i>Step 1 of 4 </i>
-    <p class="instructions"> Choose 1 or more Objectives from the following categories: </p>
+    <p class="instructions"> Choose one or more management objectives from the following categories: </p>
     <div id="objectives">
         <label class="step1-header">
             Renewable Energy
