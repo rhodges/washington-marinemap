@@ -46,8 +46,6 @@ def sort_dict(param_dict, model_class, param_area_class):
             #tooltip_text = "Total Area: %.2f sq miles" %param_dict[param.name][1]
             sorted_tuples.append( [param_dict[param.short_name][0], param.name, tooltip_text] )
             ordered_list.append(param)
-    import pdb
-    pdb.set_trace()
     ordered_list.reverse()
     return sorted_tuples, ordered_list
       
