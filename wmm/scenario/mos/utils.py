@@ -55,26 +55,34 @@ def get_drill_down_stats(scenario, dictionary, outer_class, inner_class, param_a
         outer_name = outer_class.objects.get(short_name=outer_short_name).name
         total_area = float( sum( [area for param, area in param_dict.items()] ) )
         param_perc_dict = {}
-        for inner_short_name, area in param_dict.items():
-            inner_name = inner_class.objects.get(short_name=inner_short_name).name
-            drill_down_name = '%s_%s' %(outer_short_name, inner_short_name)
-            total_param_area = param_area_class.objects.get(name=drill_down_name).area
-            if total_param_area is not None:
-                perc = param_dict[inner_short_name] / total_param_area * 100
-                if perc == 100:
-                    perc = int(perc)
-                    tooltip_text = "%s%s of available %s/%s" %(perc, '%', inner_name, outer_name)
+        param_perc_list = []
+        ordered_inner_params = inner_class.objects.all().order_by('-id')
+        for inner_param in ordered_inner_params:
+            if inner_param.short_name in param_dict.keys():
+                inner_name = inner_param.name
+                inner_short_name = inner_param.short_name
+                area = param_dict[inner_short_name]
+        #for inner_short_name, area in param_dict.items():
+            #inner_name = inner_class.objects.get(short_name=inner_short_name).name
+                drill_down_name = '%s_%s' %(outer_short_name, inner_short_name)
+                total_param_area = param_area_class.objects.get(name=drill_down_name).area
+                if total_param_area is not None:
+                    perc = param_dict[inner_short_name] / total_param_area * 100
+                    if perc == 100:
+                        perc = int(perc)
+                        tooltip_text = "%s%s of available %s/%s" %(perc, '%', inner_name, outer_name)
+                    else:
+                        tooltip_text = "%.2f%s of available %s/%s" %(perc, '%', inner_name, outer_name)
                 else:
-                    tooltip_text = "%.2f%s of available %s/%s" %(perc, '%', inner_name, outer_name)
-            else:
-                tooltip_text = "Data Unavailable"
-            #tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(area)
-            param_perc_dict[inner_name] = [int(area / total_area * 1000 + .5) / 10., tooltip_text]
-            if param_perc_dict[inner_name][0] == 0.0:
-                param_perc_dict[inner_name] = [int(area / total_area * 10000 + .5) / 100., tooltip_text]
-            if param_perc_dict[inner_name][0] == 0.0:
-                param_perc_dict[inner_name] = [int(area / total_area * 100000 + .5) / 1000., tooltip_text]
-        stats[outer_short_name] = param_perc_dict
+                    tooltip_text = "Data Unavailable"
+                #tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(area)
+                perc = int(area / total_area * 1000 + .5) / 10.
+                if perc == 0.0:
+                    perc = int(area / total_area * 10000 + .5) / 100.
+                if perc == 0.0:
+                    perc = int(area / total_area * 100000 + .5) / 1000.
+                param_perc_list.append([perc, inner_name, tooltip_text])
+        stats[outer_short_name] = param_perc_list
     jstats = simplejson.dumps(stats)
     return jstats
               
