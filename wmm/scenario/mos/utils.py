@@ -70,6 +70,10 @@ def get_drill_down_stats(scenario, dictionary, outer_class, inner_class, param_a
                 tooltip_text = "Data Unavailable"
             #tooltip_text = "Total Area: %.2f sq miles" %sq_meters_to_sq_miles(area)
             param_perc_dict[inner_name] = [int(area / total_area * 1000 + .5) / 10., tooltip_text]
+            if param_perc_dict[inner_name][0] == 0.0:
+                param_perc_dict[inner_name] = [int(area / total_area * 10000 + .5) / 100., tooltip_text]
+            if param_perc_dict[inner_name][0] == 0.0:
+                param_perc_dict[inner_name] = [int(area / total_area * 100000 + .5) / 1000., tooltip_text]
         stats[outer_short_name] = param_perc_dict
     jstats = simplejson.dumps(stats)
     return jstats
