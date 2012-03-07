@@ -65,22 +65,20 @@ madrona.onShow(function() {
         var data = [];
         var divs = [];
         var len = 0;
+
         for (var key in stats) {
             if (!stats.hasOwnProperty(key)) { //not sure what this actually does...
                 continue;
             }
             series_data = [[]];
-            for (var inner_key in stats[key]) {
-                if (!stats[key].hasOwnProperty(inner_key)) {
-                    continue;
-                }
-                series_data[0].push( [stats[key][inner_key][0], inner_key, stats[key][inner_key][1]] );
-            }
+            $.each(stats[key], function( index, stats_tuple) {
+                series_data[0].push( [stats_tuple[0], stats_tuple[1], stats_tuple[2]] );
+            });
             data.push(series_data);
             divs.push(obj_short_name+'_'+key+'_'+div_suffix); 
             len++;
         };
-        //console.log(divs);  
+        
         for (i=0; i<len; i++) {
             var height = bar_height * data[i][0].length + bar_height;
             $('#'+divs[i]).height(height);
