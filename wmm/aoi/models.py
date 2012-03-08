@@ -7,7 +7,6 @@ from madrona.common.utils import asKml
 from madrona.features.models import PointFeature, LineFeature, PolygonFeature
 from madrona.raster_stats.models import RasterDataset, zonal_stats
 from picklefield import PickledObjectField
-from general.models import *
 from general.utils import get_tradeoff_score
 
 @register
@@ -98,6 +97,8 @@ class AOI(PolygonFeature):
         return '778B1A55'  
 
     def run(self):
+        #the following import needs to be here to prevent issues with / loss of imports due to circular imports between smp and general 
+        from general.models import *
         #calculate objective scores
         avg_score = get_tradeoff_score(ConservationScoring, self.geometry_final)        
         self.conservation_score = int(round(avg_score * 10))
@@ -116,7 +117,7 @@ class AOI(PolygonFeature):
         #save the new entry
         super(AOI, self).save(*args, **kwargs)
         #might also check for absent scores (ensure that scoring fields added later would still be updated)
-        if self.geometry_final.wkt.__hash__() != self.geometry_hash:
+        if self.geometry_final.wkt.__hash__() != self.geometry_hash or self.conservation_score is None or self.tidalenergy_score is None or self.waveenergy_score is None or self.windenergy_score is None:
             self.run()
             super(AOI, self).save(*args, **kwargs)
 
