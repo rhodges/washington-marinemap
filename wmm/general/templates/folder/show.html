@@ -162,16 +162,43 @@
             </ul>
             
             <h2>Contents</h2>
+            
                 {% if instance.num_scenarios > 0 %}
-                <p>Multi-Objective Scenarios: {{instance.num_scenarios}}</p>
+                <p style="margin-bottom:0px">Multi-Objective Scenarios: 
+                {% for scenario in instance.scenario_set %}
+                <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{scenario.name}}</p>
+                {% endfor %}
                 {% endif %}
-                {% if instance.num_conservation_sites > 0 %}
-                <p>Conservation Sites: {{instance.num_conservation_sites}}</p>
+                
+                {% if instance.num_smps > 0 %}
+                <p style="margin-bottom:0px">SMP Characterization Sites: 
+                {% for smp in instance.smp_set %}
+                <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{smp.name}}</p>
+                {% endfor %}
                 {% endif %}
-                {% if instance.num_windenergy_sites > 0 %}
-                <p>Wind Energy Sites: {{instance.num_windenergy_sites}}</p>
+                
+                {% if instance.num_aois > 0 %}
+                <p style="margin-bottom:0px">Areas of Interest: 
+                {% for aoi in instance.aoi_set %}
+                <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{aoi.name}}</p>
+                {% endfor %}
                 {% endif %}
-                {% if instance.num_scenarios == 0 and instance.num_conservation_sites == 0 and instance.num_windenergy_sites == 0 %}
+                
+                {% if instance.num_kmls > 0 %}
+                <p style="margin-bottom:0px">Uploaded KMLs: 
+                {% for kml in instance.kml_set %}
+                <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{kml.name}}</p>
+                {% endfor %}
+                {% endif %}
+                
+                {% if instance.num_folders > 0 %}
+                <p style="margin-bottom:0px">Other Folders: 
+                {% for folder in instance.folder_set %}
+                <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{folder.name}}</p>
+                {% endfor %}
+                {% endif %}
+                
+                {% if instance.num_features == 0 %}
                 <p><i>Currently empty</i></p>
                 {% endif %}
             
@@ -191,7 +218,7 @@
         </div>
         
         <div id="results" class="tabs">
-        {% if instance.num_aois > 0 %}
+        {% if instance.num_aois > 0  or instance.num_smps > 0 %}
             <ul>
                 <li><a href="#visual"><span>Chart</span></a></li>
                 <li><a id="table_button" href="#text"><span>Table</span></a></li>
@@ -342,7 +369,7 @@
         {% else %}
             <div id="empty">
                 </br>
-                <p>Your folder, <b>{{instance.name}}</b>, is currently without any Areas of Interest.</p>
+                <p>Your folder, <b>{{instance.name}}</b>, is currently without any Areas of Interest or SMP Characterization Sites.</p>
                 <p>Tradeoff reports will become available once the folder has been populated.<p>
             </div>
         {% endif %}

@@ -22,6 +22,24 @@ class Folder(FeatureCollection):
     description = models.TextField(null=True,blank=True)
     
     @property
+    def folder_set(self):
+        folders = []
+        features = self.feature_set()
+        for feature in features:
+            if feature.__class__ == Folder:
+                folders.append(feature)
+        return folders
+    
+    @property
+    def kml_set(self):
+        kmls = []
+        features = self.feature_set()
+        for feature in features:
+            if feature.__class__ == UserKml:
+                kmls.append(feature)
+        return kmls
+    
+    @property
     def aoi_set(self):
         aois = []
         features = self.feature_set()
@@ -40,10 +58,43 @@ class Folder(FeatureCollection):
         return smps
     
     @property
+    def scenario_set(self):
+        scenarios = []
+        features = self.feature_set()
+        for feature in features:
+            if feature.__class__ == MOS:
+                scenarios.append(feature)
+        return scenarios
+    
+    @property
+    def num_folders(self):
+        count = 0
+        for object in self.feature_set():
+            if object.__class__ == Folder:
+                count += 1
+        return count 
+    
+    @property
+    def num_kmls(self):
+        count = 0
+        for object in self.feature_set():
+            if object.__class__ == UserKML:
+                count += 1
+        return count 
+    
+    @property
     def num_aois(self):
         count = 0
         for object in self.feature_set():
             if object.__class__ == AOI:
+                count += 1
+        return count 
+    
+    @property
+    def num_smps(self):
+        count = 0
+        for object in self.feature_set():
+            if object.__class__ == SMPSite:
                 count += 1
         return count 
     
@@ -54,6 +105,11 @@ class Folder(FeatureCollection):
             if object.__class__ == MOS:
                 count += 1
         return count
+        
+    @property
+    def num_features(self):
+        return len(self.feature_set())
+        
     '''    
     @property
     def num_conservation_sites(self):
