@@ -12,9 +12,10 @@
         
         $('#show_analysis').click( function(event) { 
             
-            var selected_x = $('select.x-axis').val();
+            var selected_x = $('input[name=x-axis]:checked').val();
+            //console.log( $('input[name=x-axis]:checked').val() );
             
-            var selected_y = $('select.y-axis').val();
+            var selected_y = $('input[name=y-axis]:checked').val();
                         
             //if (selected_x != selected_y) {
             $.post('general/tradeoff/show-analysis', {'folder_id': folder_id, 'selected_x': selected_x, 'selected_y': selected_y}, function(data) {
@@ -48,6 +49,81 @@
 
     });
     
+    $('body').delegate( '.mot_info', 'mouseover', function(event) {
+        //console.log('entering MOS mouseover event function...');
+        id = $(this).attr('id');
+        var text = "none";
+        left = false;
+        right = false;
+        switch(id) {
+            //Scored Objectives 
+            case 'info_wind_energy_x':
+                right = true;
+                text  = "lots of talk about wind energy and how it was scored.";
+                break;
+            case 'info_wind_energy_y':
+                left = true;
+                text  = "lots of talk about wind energy and how it was scored.";
+                break;
+            case 'info_tidal_energy_x':
+                right = true;
+                text  = "lots of talk about tidal energy and how it was scored.";
+                break;
+            case 'info_tidal_energy_y':
+                left = true;
+                text  = "lots of talk about tidal energy and how it was scored.";
+                break;
+            case 'info_wave_energy_x':
+                right = true;
+                text  = "lots of talk about wave energy and how it was scored.";
+                break;
+            case 'info_wave_energy_y':
+                left = true;
+                text  = "lots of talk about wave energy and how it was scored.";
+                break;
+            case 'info_conservation_x':
+                right = true;
+                text  = "lots of talk about conservation and how it was scored.";
+                break;
+            case 'info_conservation_y':
+                left = true;
+                text  = "lots of talk about conservation and how it was scored.";
+                break;
+        }
+        if (left) {
+            target_position = 'leftMiddle';
+            tooltip_position = 'rightMiddle';
+        } else {
+            target_position = 'rightMiddle';
+            tooltip_position = 'leftMiddle';
+        }
+        if (text!='none') {
+            $(this).qtip({
+                content: text, 
+                show: { 
+                    delay: 0,
+                    when: { event: 'mouseover' },
+                    ready: true  //without this option, the browser hangs  
+                },
+                position: {
+                    corner: {
+                        target: target_position,
+                        tooltip: tooltip_position
+                    }
+                },
+                hide: { when: {event: 'mouseleave'} },
+                style: { 
+                    width: 300,
+                    name: 'blue' 
+                }
+            });
+            event.stopImmediatePropagation();//prevents repeated calls to delegate during repeat visits 
+            //(previously, when smp reports, for example, were re-visited, delegate would get called once for each re-visit that 
+            // had taken place between application refreshes)
+            //(initially, this repeat-call behavior occurred for all delegate calls until img classes were made specific to app)
+        } 
+    });  
+
     function toggleDiv(divId, srcId) {
         $("#"+divId).toggle();
         if ($("#"+srcId).text() == 'Read More') { 
@@ -123,49 +199,112 @@
             <div id="visual">
                 <div id="Tradeoff_Instructions" class="step">
                     <p>Choose two objectives to be charted in the Tradeoff Analysis Report. &nbsp;
-                    <form>
+                    <form id="radio">
                         <table>
                             <tr>
-                                <td width="15%">
+                                <td class="left-column">
                                     &nbsp;
                                 </td>
-                                <td align="center" width="30%">
-                                    <label>Objective #1</label>
+                                <td class="objective1" align="center">
+                                    <label class="header">Objective 1</label>
                                 </td>
-                                <td width="10%">
+                                <td class="middle-column">
                                     &nbsp;
                                 </td>
-                                <td align="center" width="30%">
-                                    <label>Objective #2</label>
+                                <td class="objective1" align="center">
+                                    <label class="header">Objective 2</label>
+                                </td>
+                                <td class="right-column">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left-column">
+                                    &nbsp;
+                                </td>
+                                <td class="objective1">
+                                    <label>
+                                    <input type="radio" value="Wind Energy" class="x-axis" name="x-axis">Wind Energy
+                                    <img src="/media/wmm/img/info.png" id="info_wind_energy_x" class="mot_info"/>
+                                    </label>
+                                </td>
+                                <td class="middle-column">
+                                    &nbsp;
+                                </td>
+                                <td class="right-column">
+                                    <label>
+                                    <input type="radio" value="Wind Energy" class="y-axis" name="y-axis" checked>Wind Energy
+                                    <img src="/media/wmm/img/info.png" id="info_wind_energy_y" class="mot_info"/>
+                                    </label>
                                 </td>
                                 <td width="15%">
                                     &nbsp;
                                 </td>
                             </tr>
                             <tr>
+                                <td class="left-column">
+                                    &nbsp;
+                                </td>
+                                <td class="objective1">
+                                    <label>
+                                    <input type="radio" value="Tidal Energy" class="x-axis" name="x-axis">Tidal Energy
+                                    <img src="/media/wmm/img/info.png" id="info_tidal_energy_x" class="mot_info"/>
+                                    </label>
+                                </td>
+                                <td class="middle-column">
+                                    &nbsp;
+                                </td>
+                                <td class="right-column">
+                                    <label>
+                                    <input type="radio" value="Tidal Energy" class="y-axis" name="y-axis">Tidal Energy
+                                    <img src="/media/wmm/img/info.png" id="info_tidal_energy_y" class="mot_info"/>
+                                    </label>
+                                </td>
                                 <td width="15%">
                                     &nbsp;
                                 </td>
-                                <td width="30%" align="center">
-                                    <label>
-                                    <select class="x-axis" name="x-axis">
-                                        <option value="Wind Energy">Wind Energy</option>
-                                        <option value="Tidal Energy">Tidal Energy</option>
-                                        <option value="Wave Energy">Wave Energy</option>
-                                        <option value="Conservation" selected>Conservation</option>
-                                    </select>
-                                    </label>
-                                </td>
-                                <td width="10%">
+                            </tr>
+                            <tr>
+                                <td class="left-column">
                                     &nbsp;
                                 </td>
-                                <td width="30%" align="center">
-                                    <label><select class="y-axis" name="y-axis">
-                                        <option value="Wind Energy" selected>Wind Energy</option>
-                                        <option value="Tidal Energy">Tidal Energy</option>
-                                        <option value="Wave Energy">Wave Energy</option>
-                                        <option value="Conservation">Conservation</option>
-                                    </select></label>
+                                <td class="objective1">
+                                    <label>
+                                    <input type="radio" value="Wave Energy" class="x-axis" name="x-axis">Wave Energy
+                                    <img src="/media/wmm/img/info.png" id="info_wave_energy_x" class="mot_info"/>
+                                    </label>
+                                </td>
+                                <td class="middle-column">
+                                    &nbsp;
+                                </td>
+                                <td class="right-column">
+                                    <label>
+                                    <input type="radio" value="Wave Energy" class="y-axis" name="y-axis">Wave Energy
+                                    <img src="/media/wmm/img/info.png" id="info_wave_energy_y" class="mot_info"/>
+                                    </label>
+                                </td>
+                                <td width="15%">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left-column">
+                                    &nbsp;
+                                </td>
+                                <td class="objective1">
+                                    <label>
+                                    <input type="radio" value="Conservation" class="x-axis" name="x-axis" checked>Conservation
+                                    <img src="/media/wmm/img/info.png" id="info_conservation_x" class="mot_info"/>
+                                    </label>
+                                </td>
+                                <td class="middle-column">
+                                    &nbsp;
+                                </td>
+                                <td class="right-column">
+                                    <label>
+                                    <input type="radio" value="Conservation" class="y-axis" name="y-axis">Conservation
+                                    <img src="/media/wmm/img/info.png" id="info_conservation_y" class="mot_info"/>
+                                    </label>
                                 </td>
                                 <td width="15%">
                                     &nbsp;
@@ -212,7 +351,37 @@
     </div>
     
 <style type="text/css">
-div .field > label { font-size: 12px; display: inline; }
+
+label {
+    clear: both;
+    color: #344E63;
+    display: block;
+    font-size: 12px;
+    font-weight: normal !important;
+    margin: 0 0 5px;
+    padding: 0;
+    text-shadow: 0 1px 0 #FCFAFF;
+}
+label.header {
+    font-weight: bold !important;
+}
+
+td.left-column {
+    width: 10%;
+}
+td.objective1 {
+    width: 25%;
+}
+td.middle-column {
+    width: 20%;
+}
+td.objective1 {
+    width: 25%;
+}
+td.right-column {
+    width: 10%;
+}
+
 div .step { 
     -moz-box-shadow: 5px 5px 5px #ddd;
     -webkit-box-shadow: 5px 5px 5px #ddd;
