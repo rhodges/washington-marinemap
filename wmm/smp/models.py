@@ -6,12 +6,19 @@ from picklefield import PickledObjectField
 from madrona.common.utils import asKml
 from madrona.features import register, alternate
 from madrona.features.models import Feature, PolygonFeature
+from general.models import *
+from general.utils import get_tradeoff_score
 
 # Create your models here.
     
 @register
 class SMPSite(PolygonFeature):
     description = models.TextField(null=True,blank=True)
+    geometry_hash = models.BigIntegerField(null=True, blank=True)
+    conservation_score = models.IntegerField(verbose_name='Conservation Score', null=True, blank=True)
+    tidalenergy_score = models.IntegerField(verbose_name='Tidal Energy Score', null=True, blank=True)
+    waveenergy_score = models.IntegerField(verbose_name='Wave Energy Score', null=True, blank=True)
+    windenergy_score = models.IntegerField(verbose_name='Wind Energy Score', null=True, blank=True)
     
     @property
     def kml(self):
@@ -74,6 +81,29 @@ class SMPSite(PolygonFeature):
     @classmethod
     def color(self):
         return '778B1A55'             
+
+    def run(self):
+        #calculate objective scores
+        avg_score = get_tradeoff_score(ConservationScoring, self.geometry_final)        
+        self.conservation_score = int(round(avg_score * 10))
+        avg_score = get_tradeoff_score(TidalEnergyScoring, self.geometry_final)        
+        self.tidalenergy_score = int(round(avg_score * 10))
+        avg_score = get_tradeoff_score(WaveEnergyScoring, self.geometry_final)        
+        self.waveenergy_score = int(round(avg_score * 10))
+        avg_score = get_tradeoff_score(WindEnergyScoring, self.geometry_final)        
+        self.windenergy_score = int(round(avg_score * 10))
+        
+        self.geometry_hash = self.geometry_final.wkt.__hash__()
+        
+        return True        
+        
+    def save(self, *args, **kwargs):
+        #save the new entry
+        super(SMPSite, self).save(*args, **kwargs)
+        #might also check for absent scores (ensure that scoring fields added later would still be updated)
+        if self.geometry_final.wkt.__hash__() != self.geometry_hash:
+            self.run()
+            super(SMPSite, self).save(*args, **kwargs)
 
     class Options:
         manipulators = []

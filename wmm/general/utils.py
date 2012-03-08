@@ -1,6 +1,23 @@
 
 default_value = '---'
 
+
+def get_tradeoff_score(model_class, model_geometry):
+    scoring_objects = model_class.objects.filter(geometry__bboverlaps=model_geometry)
+    total_area = 0.0
+    total_score = 0.0
+    
+    for scoring_object in scoring_objects:
+        scoring_geom = scoring_object.geometry
+        overlap = scoring_geom.intersection(model_geometry)
+        if overlap.area > 0:
+            total_area += overlap.area
+            total_score += scoring_object.score * overlap.area
+    if total_area > 0:
+        return total_score / total_area
+    else:
+        return 0
+
 def kmlcolor_to_htmlcolor(kmlcolor):
     return str('#' + kmlcolor[6] + kmlcolor[7] + kmlcolor[4] + kmlcolor[5] + kmlcolor[2] + kmlcolor[3] )
     

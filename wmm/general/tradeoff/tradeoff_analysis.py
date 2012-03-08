@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
+from math import log
 from aoi.models import AOI
 from scenario.models import *
 from settings import *
@@ -18,16 +19,9 @@ objective_list = [ "Conservation", "Tidal Energy", "Wind Energy", "Wave Energy" 
 '''
 '''
 def display_tradeoff_analysis(request, folder, x_axis, y_axis, template='folder/reports/tradeoff_report.html'):
-    context = get_tradeoff_context(folder, x_axis, y_axis)
+    context = run_tradeoff_analysis(folder, x_axis, y_axis)
     return render_to_response(template, RequestContext(request, context)) 
 
-'''
-'''    
-def get_tradeoff_context(folder, x_axis, y_axis): 
-    #get context from cache or from running analysis
-    context = run_tradeoff_analysis(folder, x_axis, y_axis)   
-    return context
-    
 '''
 Run the analysis, create the cache, and return the results as a context dictionary so they may be rendered with template
 '''    
@@ -48,25 +42,29 @@ def run_tradeoff_analysis(folder, x_axis, y_axis):
 '''
 '''    
 def get_chart_attributes(folder, x_axis, y_axis):
+    aoi_attributes, aoi_names, aoi_colors, color_index = get_chart_attributes_from_feature_set(folder.aoi_set, x_axis, y_axis)
+    smp_attributes, smp_names, smp_colors, color_index = get_chart_attributes_from_feature_set(folder.smp_set, x_axis, y_axis, color_index=color_index)
+    attributes = aoi_attributes + smp_attributes
+    names = aoi_names + smp_names
+    colors = aoi_colors + smp_colors
+    return attributes, names, colors
+    
+def get_chart_attributes_from_feature_set(feature_set, x_axis, y_axis, color_index=0):
     attributes = []
-    #the following is a temporary placeholder until we get actual sites and valuations in place...
-    #objs = [ [],[],[],[] ]
-    aois = folder.feature_set()
     names = []
     colors = []
-    index = 0
-    for aoi in aois:
-        x_value = get_score(aoi, x_axis)
-        y_value = get_score(aoi, y_axis)
-        from math import log
-        nlog_size = log(sq_meters_to_sq_miles(aoi.geometry_final.area))
-        name = str(aoi.name)
+    for feature in feature_set:
+        x_value = get_score(feature, x_axis)
+        y_value = get_score(feature, y_axis)
+        nlog_size = log(sq_meters_to_sq_miles(feature.geometry_final.area))
+        name = str(feature.name)
         names.append(name)
-        colors.append(series_colors[index%10])
+        colors.append(series_colors[color_index%10])
         attribute_list = [x_value, y_value, nlog_size, name]
         attributes.append(attribute_list)
-        index += 1
-    return attributes, names, colors
+        color_index += 1
+    return attributes, names, colors, color_index
+    
      
 '''
 '''    
@@ -125,10 +123,10 @@ def get_tradeoff_table_context(folder):
 
 '''
 '''    
-def get_scores(aoi):
+def get_scores(site):
     scores_list = []
     for type in type_list:
-        scores_list.append(getattr(aoi, '%s_score' %type))
+        scores_list.append(getattr(site, '%s_score' %type))
     return scores_list
     
 '''
@@ -143,16 +141,23 @@ def get_type(objective):
 '''
 '''
 def get_table_attributes(folder):
-    sites = []
-    #site = [name, color, valuations]
-    for aoi in folder.aoi_set:
+    aoi_sites = get_table_attributes_from_feature_set(folder.aoi_set)
+    smp_sites = get_table_attributes_from_feature_set(folder.smp_set)
+    sites = aoi_sites + smp_sites
+    return sites
+    
+'''
+'''    
+def get_table_attributes_from_feature_set(feature_set): 
+    sites = [] 
+    for feature in feature_set:
         site = {}
-        site['name'] = str(aoi.name)
+        site['name'] = str(feature.name)
         site['color'] = series_colors[0]
-        scores = get_scores(aoi)
+        scores = get_scores(feature)
         site['scores'] = scores 
         site['conflict'] = has_conflict(scores)
-        sites.append(site)
+        sites.append(site)      
     return sites
 
 '''

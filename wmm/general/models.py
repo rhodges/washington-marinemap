@@ -6,6 +6,7 @@ from madrona.features import register
 from madrona.layers.models import PrivateLayerList
 from scenario.models import MOS
 from aoi.models import AOI
+from smp.models import SMPSite
 
 
 @register
@@ -28,6 +29,15 @@ class Folder(FeatureCollection):
             if feature.__class__ == AOI:
                 aois.append(feature)
         return aois
+    
+    @property
+    def smp_set(self):
+        smps = []
+        features = self.feature_set()
+        for feature in features:
+            if feature.__class__ == SMPSite:
+                smps.append(feature)
+        return smps
     
     @property
     def num_aois(self):
@@ -73,3 +83,37 @@ class Folder(FeatureCollection):
         form_template = 'folder/form.html'
         show_template = 'folder/show.html'
         icon_url = 'wmm/img/folder.png'
+
+'''Scoring Models'''
+       
+class ConservationScoring(models.Model):
+    score = models.FloatField()
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Conservation Scoring Grid")
+    objects = models.GeoManager()
+    
+    def __unicode__(self):
+        return u'Conservation Score: %s' %self.score              
+
+class TidalEnergyScoring(models.Model):
+    score = models.FloatField()
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Tidal Energy Scoring Grid")
+    objects = models.GeoManager()
+    
+    def __unicode__(self):
+        return u'Tidal Energy Score: %s' %self.score              
+
+class WindEnergyScoring(models.Model):
+    score = models.FloatField()
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Wind Energy Scoring Grid")
+    objects = models.GeoManager()
+    
+    def __unicode__(self):
+        return u'Wind Energy Score: %s' %self.score              
+
+class WaveEnergyScoring(models.Model):
+    score = models.FloatField()
+    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Wave Energy Scoring Grid")
+    objects = models.GeoManager()
+    
+    def __unicode__(self):
+        return u'Wave Energy Score: %s' %self.score              

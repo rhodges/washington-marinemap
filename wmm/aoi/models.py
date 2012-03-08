@@ -7,6 +7,8 @@ from madrona.common.utils import asKml
 from madrona.features.models import PointFeature, LineFeature, PolygonFeature
 from madrona.raster_stats.models import RasterDataset, zonal_stats
 from picklefield import PickledObjectField
+from general.models import *
+from general.utils import get_tradeoff_score
 
 @register
 class AOI(PolygonFeature):
@@ -96,30 +98,14 @@ class AOI(PolygonFeature):
         return '778B1A55'  
 
     def run(self):
-        def get_tradeoff_score(model_class):
-            scoring_objects = model_class.objects.filter(geometry__bboverlaps=self.geometry_final)
-            total_area = 0.0
-            total_score = 0.0
-            
-            for scoring_object in scoring_objects:
-                scoring_geom = scoring_object.geometry
-                overlap = scoring_geom.intersection(self.geometry_final)
-                if overlap.area > 0:
-                    total_area += overlap.area
-                    total_score += scoring_object.score * overlap.area
-            if total_area > 0:
-                return total_score / total_area
-            else:
-                return 0
-                
         #calculate objective scores
-        avg_score = get_tradeoff_score(ConservationScoring)        
+        avg_score = get_tradeoff_score(ConservationScoring, self.geometry_final)        
         self.conservation_score = int(round(avg_score * 10))
-        avg_score = get_tradeoff_score(TidalEnergyScoring)        
+        avg_score = get_tradeoff_score(TidalEnergyScoring, self.geometry_final)        
         self.tidalenergy_score = int(round(avg_score * 10))
-        avg_score = get_tradeoff_score(WaveEnergyScoring)        
+        avg_score = get_tradeoff_score(WaveEnergyScoring, self.geometry_final)        
         self.waveenergy_score = int(round(avg_score * 10))
-        avg_score = get_tradeoff_score(WindEnergyScoring)        
+        avg_score = get_tradeoff_score(WindEnergyScoring, self.geometry_final)        
         self.windenergy_score = int(round(avg_score * 10))
         
         self.geometry_hash = self.geometry_final.wkt.__hash__()
@@ -167,42 +153,7 @@ class AOIShapefile(models.Model):
     aoi_modification_date = models.DateTimeField(blank=True, null=True)
     date_modified = models.DateTimeField(blank=True, null=True, auto_now_add=True)
     objects = models.GeoManager()
-
         
-'''Scoring Models'''
-       
-class ConservationScoring(models.Model):
-    score = models.FloatField()
-    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Conservation Scoring Grid")
-    objects = models.GeoManager()
-    
-    def __unicode__(self):
-        return u'Conservation Score: %s' %self.score              
-
-class TidalEnergyScoring(models.Model):
-    score = models.FloatField()
-    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Tidal Energy Scoring Grid")
-    objects = models.GeoManager()
-    
-    def __unicode__(self):
-        return u'Tidal Energy Score: %s' %self.score              
-
-class WindEnergyScoring(models.Model):
-    score = models.FloatField()
-    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Wind Energy Scoring Grid")
-    objects = models.GeoManager()
-    
-    def __unicode__(self):
-        return u'Wind Energy Score: %s' %self.score              
-
-class WaveEnergyScoring(models.Model):
-    score = models.FloatField()
-    geometry = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Wave Energy Scoring Grid")
-    objects = models.GeoManager()
-    
-    def __unicode__(self):
-        return u'Wave Energy Score: %s' %self.score              
-
 
 '''Reporting Models'''     
 
