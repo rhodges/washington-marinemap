@@ -4,21 +4,37 @@
 
 <script type="text/javascript" charset="utf-8">
     madrona.onShow(function(){
-    
+        onChart = false;
         var folder_id = {{instance.pk}};
         $('#Tradeoff_Analysis').hide();
         $('#change_objectives').hide();
         $('#toggle_legend').hide();
         
+        $('#chart_button').click( function(event) {
+        
+            selected_smps = $("input:checkbox[name='smps']:checked");
+            smps = Array();
+            $.each(selected_smps, function() {
+                smps.push( $(this).val() );
+            });
+            selected_aois = $("input:checkbox[name='aois']:checked");
+            aois = [];
+            $.each(selected_aois, function() {
+                aois.push( $(this).val() );
+            });
+            if (onChart) {
+                $('#show_analysis').click();
+            }
+        });
+        
         $('#show_analysis').click( function(event) { 
-            
             var selected_x = $('input[name=x-axis]:checked').val();
             //console.log( $('input[name=x-axis]:checked').val() );
             
             var selected_y = $('input[name=y-axis]:checked').val();
                         
             //if (selected_x != selected_y) {
-            $.post('general/tradeoff/show-analysis', {'folder_id': folder_id, 'selected_x': selected_x, 'selected_y': selected_y}, function(data) {
+            $.post('general/tradeoff/show-analysis', {'folder_id': folder_id, 'selected_x': selected_x, 'selected_y': selected_y, 'smps': smps, 'aois': aois}, function(data) {
                 $('#Tradeoff_Analysis').html(data);
             });
             $('#Tradeoff_Instructions').hide();
@@ -26,6 +42,7 @@
             $('#show_analysis').hide();
             $('#change_objectives').show();
             $('#toggle_legend').show();
+            onChart = true;
             //} else {
                 
             //}
@@ -38,10 +55,21 @@
             $('#change_objectives').hide();
             $('#toggle_legend').hide();
             $('#show_analysis').show();
+            onChart = false;
         });
         
         $('#table_button').click( function(event) {
-            $.post('general/tradeoff/show-table', {'folder_id': folder_id}, function(data) {
+            selected_smps = $("input:checkbox[name='smps']:checked");
+            smps = [];
+            $.each(selected_smps, function() {
+                smps.push( $(this).val() );
+            });
+            selected_aois = $("input:checkbox[name='aois']:checked");
+            aois = [];
+            $.each(selected_aois, function() {
+                aois.push( $(this).val() );
+            });
+            $.post('general/tradeoff/show-table', {'folder_id': folder_id, 'smps': smps, 'aois': aois}, function(data) {
                 $('#Tradeoff_Table').html(data);
             });
         });
@@ -220,9 +248,99 @@
         <div id="results" class="tabs">
         {% if instance.num_aois > 0  or instance.num_smps > 0 %}
             <ul>
-                <li><a href="#visual"><span>Chart</span></a></li>
+                <li><a href="#introduction"><span>Introduction</span></a></li>
+                <li><a id="chart_button" href="#visual"><span>Chart</span></a></li>
                 <li><a id="table_button" href="#text"><span>Table</span></a></li>
             </ul>
+            <div id="introduction">
+                <p>The multi-objective tradeoffs reports help you compare the conservation and renewable energy scores for your shapes.
+                <p>Select the shapes you would like to include in the report:
+                <table>
+                    <tr>
+                        {% if instance.num_aois > 0 and instance.num_smps > 0 %}
+                            <td class="intro-40-column" align="right">
+                                <label class="header">Areas of Interest:</label>
+                            </td>
+                            <td class="intro-middle-column">
+                                &nbsp;
+                            </td>
+                            <td class="intro-40-column" align="right">
+                                <label class="header">SMP Characterization Sites:</label>
+                            </td>
+                            <td class="right-column">
+                                &nbsp;
+                            </td>
+                        {% else %}
+                            {% if instance.num_aois > 0 %}
+                            <td class="intro-80-column" align="right">
+                                <label class="header">Areas of Interest:</label>
+                            </td>
+                            <td class="intro-middle-column">
+                                &nbsp;
+                            </td>
+                            {% endif %}
+                            {% if instance.num_smps > 0 %}
+                            <td class="intro-80-column" align="right">
+                                <label class="header">SMP Characterization Sites:</label>
+                            </td>
+                            <td class="right-column">
+                                &nbsp;
+                            </td>
+                            {% endif %}
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        {% if instance.num_aois > 0 and instance.num_smps > 0 %}
+                            <form>
+                            <td class="intro-40-column" align="right" valign="top">{% for aoi in instance.aoi_set %}
+                                 <label>{{aoi.name}} <input type="checkbox" name="aois" value="{{aoi.id}}" checked/></label>
+                                {% endfor %}
+                            </td>
+                            </form>
+                            <td class="intro-middle-column">
+                                &nbsp;
+                            </td>
+                            </form>
+                            <form>
+                            <td class="intro-40-column" align="right" valign="top">{% for smp in instance.smp_set %}
+                                 <label>{{smp.name}} <input type="checkbox" name="smps" value="{{smp.id}}" checked/></label>
+                                {% endfor %}
+                            </td>
+                            </form>
+                            <td class="right-column">
+                                &nbsp;
+                            </td>
+                            </form>
+                        {% else %}
+                            {% if instance.num_aois > 0 %}
+                            <form>
+                            <td class="intro-80-column" align="right" valign="top">{% for aoi in instance.aoi_set %}
+                                 <label>{{aoi.name}} <input type="checkbox" name="aois" value="{{aoi.id}}" checked/></label>
+                                {% endfor %}
+                            </td>
+                            </form>
+                            <td class="intro-middle-column">
+                                &nbsp;
+                            </td>
+                            </form>
+                            {% endif %}
+                            {% if instance.num_smps > 0 %}
+                            <form>
+                            <td class="intro-80-column" align="right" valign="top">{% for smp in instance.smp_set %}
+                                 <label>{{smp.name}} <input type="checkbox" name="smps" value="{{smp.id}}" checked/></label>
+                                {% endfor %}
+                            </td>
+                            </form>
+                            <td class="right-column">
+                                &nbsp;
+                            </td>
+                            </form>
+                            {% endif %}
+                        {% endif %}
+                    </tr>
+                </table>
+                        
+            </div>
             <div id="visual">
                 <div id="Tradeoff_Instructions" class="step">
                     <p>Choose two objectives to be charted in the Tradeoff Analysis Report. &nbsp;
@@ -232,13 +350,13 @@
                                 <td class="left-column">
                                     &nbsp;
                                 </td>
-                                <td class="objective1" align="center">
+                                <td class="obj-column" align="center">
                                     <label class="header">Objective 1</label>
                                 </td>
                                 <td class="middle-column">
                                     &nbsp;
                                 </td>
-                                <td class="objective1" align="center">
+                                <td class="obj-column" align="center">
                                     <label class="header">Objective 2</label>
                                 </td>
                                 <td class="right-column">
@@ -249,7 +367,7 @@
                                 <td class="left-column">
                                     &nbsp;
                                 </td>
-                                <td class="objective1">
+                                <td class="obj-column">
                                     <label>
                                     <input type="radio" value="Wind Energy" class="x-axis" name="x-axis">Wind Energy
                                     <img src="/media/wmm/img/info.png" id="info_wind_energy_x" class="mot_info"/>
@@ -272,7 +390,7 @@
                                 <td class="left-column">
                                     &nbsp;
                                 </td>
-                                <td class="objective1">
+                                <td class="obj-column">
                                     <label>
                                     <input type="radio" value="Tidal Energy" class="x-axis" name="x-axis">Tidal Energy
                                     <img src="/media/wmm/img/info.png" id="info_tidal_energy_x" class="mot_info"/>
@@ -295,7 +413,7 @@
                                 <td class="left-column">
                                     &nbsp;
                                 </td>
-                                <td class="objective1">
+                                <td class="obj-column">
                                     <label>
                                     <input type="radio" value="Wave Energy" class="x-axis" name="x-axis">Wave Energy
                                     <img src="/media/wmm/img/info.png" id="info_wave_energy_x" class="mot_info"/>
@@ -318,7 +436,7 @@
                                 <td class="left-column">
                                     &nbsp;
                                 </td>
-                                <td class="objective1">
+                                <td class="obj-column">
                                     <label>
                                     <input type="radio" value="Conservation" class="x-axis" name="x-axis" checked>Conservation
                                     <img src="/media/wmm/img/info.png" id="info_conservation_x" class="mot_info"/>
@@ -392,18 +510,31 @@ label {
 label.header {
     font-weight: bold !important;
 }
+form input[type="checkbox"] {
+    top: 2px !important;
+}
 
 td.left-column {
     width: 10%;
 }
-td.objective1 {
+td.obj-column {
     width: 25%;
+}
+td.intro-40-column {
+    width: 40%;
+    align: "right";
+    valign: "top";
+}
+td.inrto-80-column {
+    width: 80%;
+    align: "right";
+    valign: "top";
+}
+td.intro-middle-column {
+    width: 10%;
 }
 td.middle-column {
     width: 20%;
-}
-td.objective1 {
-    width: 25%;
 }
 td.right-column {
     width: 10%;
