@@ -132,10 +132,33 @@
         }
     }
     
+    function toggleDiv(divId, srcId) {
+        $("#"+divId).toggle();
+        if ($("#"+srcId).text() == 'Read More') { 
+            $("#"+srcId).text('Hide Text'); 
+        } else if ($("#"+srcId).text() == 'Hide Text') { 
+            $("#"+srcId).text('Read More'); 
+        }
+        if ($("#"+srcId).text() == 'More') { 
+            $("#"+srcId).text('Hide'); 
+        } else if ($("#"+srcId).text() == 'Hide') { 
+            $("#"+srcId).text('More'); 
+        }
+    }
 </script>
 
 
-<p>
-<div id="chartdiv" class="chart" style="left:10px;width:373px;height:420px; "></div>
+<div>
+<div id="chartdiv" class="chart" style="left:10px;width:373px;height:380px; "></div>
+<label><a id="displayInstructions" href="javascript:toggleDiv('instructions', 'displayInstructions');">More</a></label>
+<div id="instructions" style="display: none">
+<p>The results are displayed such that shapes that are scored higher for {{x_axis}} will be further along 
+   the x-axis (to the right), and those that are scored higher for {{y_axis}} will be further 
+   along the y-axis (toward the top).  
+<p>Conflict areas, those areas that have high scores for both objectives, 
+   will be seen in the upper-right quadrant of the graph.  
+</p>
+</div>
+
 
 {% endblock %}
