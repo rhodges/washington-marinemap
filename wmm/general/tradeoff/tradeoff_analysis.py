@@ -18,7 +18,7 @@ objective_list = [ "Conservation", "Tidal Energy", "Wind Energy", "Wave Energy" 
     
 '''
 '''
-def display_tradeoff_analysis(request, folder, x_axis, y_axis, smp_ids, aoi_ids, template='folder/reports/tradeoff_report.html'):
+def display_tradeoff_analysis(request, folder, x_axis, y_axis, smp_ids, aoi_ids, template='analysis_folder/reports/tradeoff_report.html'):
     context = run_tradeoff_analysis(folder, x_axis, y_axis, smp_ids, aoi_ids)
     return render_to_response(template, RequestContext(request, context)) 
 
@@ -111,7 +111,7 @@ def get_quadrant(x,y):
     
 '''
 '''
-def display_tradeoff_table(request, folder, smp_ids, aoi_ids, template='folder/reports/tradeoff_table.html'):  
+def display_tradeoff_table(request, folder, smp_ids, aoi_ids, template='analysis_folder/reports/tradeoff_table.html'):  
     context = get_tradeoff_table_context(folder, smp_ids, aoi_ids)   
     return render_to_response(template, RequestContext(request, context))
     
