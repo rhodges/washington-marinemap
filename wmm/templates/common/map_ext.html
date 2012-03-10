@@ -16,16 +16,46 @@
     $('a[href="#DataLayers"]').click();
     {% if user.is_authenticated %}
     //$('a[href="#DataLayers"]').click();
-    {% endif %}         
+    {% endif %} 
+    $('#signin_button').click(function(){
+        $('#signin').click();
+    });
+    $('#register_button').click(function(){
+        $('#register').click();
+    });       
 {% endblock %}
 
 {% block addToOptions %} 
-    {% if user.is_authenticated %}
     $('a[href="#DataLayers"]').click();
-    {% else %}
-    options.show_panel='about'; 
-    {% endif %}                
 {% endblock addToOptions %}
+
+{% block datalayers %}
+<div id="DataLayers">
+    {% if user.is_authenticated %}
+    {% else %}
+        <div class="box" style="margin-top:25px;">
+            <h1> Washington Marine Planner </h1>
+            <p>The Washington Marine Planner is being developed in support of Pacific County's Shoreline Master Program.</p>
+            <p>More information on SMPs for the state of Washington can be found 
+            <a href="http://www.ecy.wa.gov/programs/sea/shorelines/smp/index.html" target="_blank">here</a>.
+            </p>
+        </div>
+    {% endif %}
+    <h1>Data Layers</h1>
+    <div id="datalayerstree" style="margin-left:10px;"></div>
+    {% if user.is_authenticated %}
+    {% else %}
+        <div style="margin-top:30px;">
+            <h3> If you already have an account </h3>
+            <a href="#" class="button" id="signin_button" style="margin-left:10px;margin-top:5px;margin-bottom:5px;"><span>Sign In</span></a>
+            </br>
+            <h3 style="margin-top:20px;"> If you do not have an account </h3>
+            <a href="#" class="button" id="register_button" style="margin-left:10px;margin-top:5px;margin-bottom:5px;"><span>Register</span></a>
+            </br>
+        </div>
+    {% endif %}
+</div>
+{% endblock datalayers %}
 
 {% block metanavigation %}
 {% if user.is_authenticated %}
@@ -70,3 +100,4 @@ The following clipping operations were performed on your shape:
 If you ever need to change your shape, we also keep a copy of the lines you draw, so you will always have the un-clipped version for editing.
 <br><br>
 {% endblock shapeDefinitionPanelAfterManipulatorContent %}
+

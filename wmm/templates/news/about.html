@@ -10,39 +10,6 @@ More information on SMPs for the state of Washington can be found
 <a href="http://www.ecy.wa.gov/programs/sea/shorelines/smp/index.html" target="_blank">here</a>.
 </p>
 
-<script type="text/javascript" charset="utf-8">
-    madrona.onShow(function(){
-        $('#signin2').click(function(){
-            $('#signin').click();
-        });
-
-        $('#register2').click(function(){
-            $('#register').click();
-        });
-        
-        $('#datalayers2').click(function(){
-            alert('map layers');
-            $('a[href="#DataLayers"]').click();
-        });
-    });
-
-</script>
-
-{% if user.is_authenticated %}
-{% else %}
-<div style="margin-top:30px;">
-<h3> If you already have an account: </h3>
-<a href="#" class="button" id="signin2"><span>Sign In</span></a>
-</br>
-<h3> If you do not have an account: </h3>
-<a href="#" class="button" id="register2"><span>Register</span></a>
-</br>
-<!--
-<h3> If you only wish to view the map layers: </h3>
-<a href="#" class="button" id="datalayers2"><span>Map Layers</span></a>
-</div>
--->
-{% endif %}
 
 <style>
     div.about {

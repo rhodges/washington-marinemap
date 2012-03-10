@@ -33,16 +33,14 @@
 <br>
 {% endif %}
 
-<div class="login" style="margin-top:25px">
+<div class="box" style="margin-top:25px">
 
 <form id="auth_form" name="auth_form" action="{% url user_signin %}" method="post">
     <input type="hidden" name="next" value="{{ next }}" />
-	<fieldset>
-        <legend><strong>Sign In To {% appname %}</strong></legend> 
+        <h2>Sign In To {% appname %}</h2> 
 		<div class="form-row" style="margin-top:15px;"><label for="id_username">Username</label>{{ form2.username }}</div>
 		<div class="form-row" style="margin-top:10px;"><label for="id_password">Password</label>{{ form2.password }}</div>
         <div class="submit-row" style="margin-top:10px;"><input type="submit" name="blogin" value="Sign in"> </div>
-	</fieldset>	
 </form>
 
 <p><a class="panel_link" href="{% url auth_password_reset %}">Forgot your password?</a></p>

@@ -13,7 +13,7 @@
         $('#chart_button').click( function(event) {
         
             selected_smps = $("input:checkbox[name='smps']:checked");
-            smps = Array();
+            smps = [];
             $.each(selected_smps, function() {
                 smps.push( $(this).val() );
             });
@@ -22,12 +22,17 @@
             $.each(selected_aois, function() {
                 aois.push( $(this).val() );
             });
-            if (onChart) {
-                $('#show_analysis').click();
+            if (smps.length > 0 || aois.length > 0) {
+                if (onChart) {
+                    $('#show_chart').click();
+                }
+            } else {
+                alert('You must select at least one shape to view analysis.');
+                $('#intro_button').click();
             }
         });
         
-        $('#show_analysis').click( function(event) { 
+        $('#show_chart').click( function(event) { 
             var selected_x = $('input[name=x-axis]:checked').val();
             //console.log( $('input[name=x-axis]:checked').val() );
             
@@ -39,13 +44,10 @@
             });
             $('#Tradeoff_Instructions').hide();
             $('#Tradeoff_Analysis').show();
-            $('#show_analysis').hide();
+            $('#show_chart').hide();
             $('#change_objectives').show();
             $('#toggle_legend').show();
             onChart = true;
-            //} else {
-                
-            //}
             
         });
         
@@ -54,7 +56,7 @@
             $('#Tradeoff_Instructions').show();
             $('#change_objectives').hide();
             $('#toggle_legend').hide();
-            $('#show_analysis').show();
+            $('#show_chart').show();
             onChart = false;
         });
         
@@ -69,9 +71,14 @@
             $.each(selected_aois, function() {
                 aois.push( $(this).val() );
             });
-            $.post('general/tradeoff/show-table', {'folder_id': folder_id, 'smps': smps, 'aois': aois}, function(data) {
-                $('#Tradeoff_Table').html(data);
-            });
+            if (smps.length > 0 || aois.length > 0) {
+                $.post('general/tradeoff/show-table', {'folder_id': folder_id, 'smps': smps, 'aois': aois}, function(data) {
+                    $('#Tradeoff_Table').html(data);
+                });
+            } else {
+                alert('You must select at least one shape to view analysis.');
+                $('#intro_button').click();
+            }
         });
             
 
@@ -169,8 +176,8 @@
 
 <h1>
     <img src="/media/wmm/img/folder.png"/>
-    <small><small>Folder: </small></small> 
-    "{{instance.name}}"
+    <small><small>Folder </small></small> 
+    &nbsp;&nbsp;{{instance.name}}
 </h1>
     <div class="tabs">
         <ul>
@@ -248,7 +255,7 @@
         <div id="results" class="tabs">
         {% if instance.num_aois > 0  or instance.num_smps > 0 %}
             <ul>
-                <li><a href="#introduction"><span>Introduction</span></a></li>
+                <li><a id="intro_button" href="#introduction"><span>Introduction</span></a></li>
                 <li><a id="chart_button" href="#visual"><span>Chart</span></a></li>
                 <li><a id="table_button" href="#text"><span>Table</span></a></li>
             </ul>
@@ -476,7 +483,7 @@
                 <div class="wizard_nav" style="width:100%">
                     <a href="#" class="button" style="float:left;" onclick="this.blur(); return false;" id="change_objectives"><span>&lt; Change Objectives</span></a>
                     <a href="#" class="button" style="float:right;" onclick="javascript:toggleLegend('toggle_legend'); return false;" id="toggle_legend"><span>Hide Legend</span></a>
-                    <a href="#" class="button" style="float:right;" onclick="this.blur(); return false;" id="show_analysis"><span>Show Chart &gt;</span></a> 
+                    <a href="#" class="button" style="float:right;" onclick="this.blur(); return false;" id="show_chart"><span>Show Chart &gt;</span></a> 
                 </div>
             </div>
             <div id="text">

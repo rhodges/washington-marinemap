@@ -11,6 +11,14 @@ from smp.models import SMPSite
 
 @register
 class UserKml(PrivateLayerList):
+
+    def save(self, *args, **kwargs):
+        #place in default folder
+        my_shapes, create = Folder.objects.get_or_create(name='My Shapes', user=self.user)
+        self.collection = my_shapes
+        #save the new entry
+        super(UserKml, self).save(*args, **kwargs)
+    
     class Options:
         verbose_name = 'Uploaded KML'
         form = 'general.forms.UserKmlForm'
@@ -18,7 +26,7 @@ class UserKml(PrivateLayerList):
         
 
 @register
-class Folder(FeatureCollection):
+class SimpleFolder(FeatureCollection):
     description = models.TextField(null=True,blank=True)
     
     @property
@@ -110,23 +118,6 @@ class Folder(FeatureCollection):
     def num_features(self):
         return len(self.feature_set())
         
-    '''    
-    @property
-    def num_conservation_sites(self):
-        count = 0
-        for object in self.feature_set():
-            if object.__class__ == ConservationSite:
-                count += 1
-        return count
-        
-    @property
-    def num_windenergy_sites(self):
-        count = 0
-        for object in self.feature_set():
-            if object.__class__ == WindEnergySite:
-                count += 1
-        return count
-    '''    
     class Options:
         verbose_name = 'Folder'
         valid_children = ( 'scenario.models.MOS', 
@@ -139,6 +130,22 @@ class Folder(FeatureCollection):
         form_template = 'folder/form.html'
         show_template = 'folder/show.html'
         icon_url = 'wmm/img/folder.png'
+        
+@register
+class Folder(SimpleFolder): #Tradeoff Collection 
+    
+    class Options:
+        verbose_name = 'Tradeoff Collection'
+        valid_children = ( 'scenario.models.MOS', 
+                           'smp.models.SMPSite',
+                           'aoi.models.AOI',
+                           'general.models.UserKml', 
+                           'general.models.Folder',
+                           'madrona.bookmarks.models.Bookmark')
+        form = 'general.forms.FolderForm'
+        form_template = 'folder/form.html'
+        show_template = 'folder/show.html'
+        icon_url = 'wmm/img/analysis.png'
 
 '''Scoring Models'''
        
