@@ -19,7 +19,7 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 
 class ObjectiveAdmin(admin.ModelAdmin):
-    list_display = ('name', 'short_name', 'pk')
+    list_display = ('name', 'short_name', 'color', 'pk')
     fields = ['name', 'short_name', 'color']
 admin.site.register(Objective, ObjectiveAdmin)
 

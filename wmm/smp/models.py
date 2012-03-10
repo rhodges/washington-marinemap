@@ -79,7 +79,7 @@ class SMPSite(PolygonFeature):
 
     @classmethod
     def color(self):
-        return '778B1A55'             
+        return '776BAEFD'             
 
     def run(self):
         #the following import needs to be here to prevent issues with / loss of imports due to circular imports between smp and general 
