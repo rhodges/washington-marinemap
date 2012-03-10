@@ -14,7 +14,7 @@ def tradeoff_analysis(request):
         smp_ids = getlist(request, 'smps[]')
         aoi_ids = getlist(request, 'aois[]')
         
-        folder_obj = get_object_or_404(Folder, pk=folder_id)
+        folder_obj = get_object_or_404(AnalysisFolder, pk=folder_id)
         #check permissions
         viewable, response = folder_obj.is_viewable(request.user)
         if not viewable:
@@ -30,7 +30,7 @@ def tradeoff_table(request):
         folder_id = getlist(request, 'folder_id')[0]
         smp_ids = getlist(request, 'smps[]')
         aoi_ids = getlist(request, 'aois[]')
-        folder_obj = get_object_or_404(Folder, pk=folder_id)
+        folder_obj = get_object_or_404(AnalysisFolder, pk=folder_id)
         #check permissions
         viewable, response = folder_obj.is_viewable(request.user)
         if not viewable:
