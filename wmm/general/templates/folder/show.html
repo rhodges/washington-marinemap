@@ -2,505 +2,84 @@
 {% block title %}{{instance.name}}{% endblock title %}
 {% block panel %}
 
-<script type="text/javascript" charset="utf-8">
-    madrona.onShow(function(){
-        onChart = false;
-        var folder_id = {{instance.pk}};
-        $('#Tradeoff_Analysis').hide();
-        $('#change_objectives').hide();
-        $('#toggle_legend').hide();
-        
-        $('#chart_button').click( function(event) {
-        
-            selected_smps = $("input:checkbox[name='smps']:checked");
-            smps = [];
-            $.each(selected_smps, function() {
-                smps.push( $(this).val() );
-            });
-            selected_aois = $("input:checkbox[name='aois']:checked");
-            aois = [];
-            $.each(selected_aois, function() {
-                aois.push( $(this).val() );
-            });
-            if (smps.length > 0 || aois.length > 0) {
-                if (onChart) {
-                    $('#show_chart').click();
-                }
-            } else {
-                alert('You must select at least one shape to view analysis.');
-                $('#intro_button').click();
-            }
-        });
-        
-        $('#show_chart').click( function(event) { 
-            var selected_x = $('input[name=x-axis]:checked').val();
-            //console.log( $('input[name=x-axis]:checked').val() );
-            
-            var selected_y = $('input[name=y-axis]:checked').val();
-                        
-            //if (selected_x != selected_y) {
-            $.post('general/tradeoff/show-analysis', {'folder_id': folder_id, 'selected_x': selected_x, 'selected_y': selected_y, 'smps': smps, 'aois': aois}, function(data) {
-                $('#Tradeoff_Analysis').html(data);
-            });
-            $('#Tradeoff_Instructions').hide();
-            $('#Tradeoff_Analysis').show();
-            $('#show_chart').hide();
-            $('#change_objectives').show();
-            $('#toggle_legend').show();
-            onChart = true;
-            
-        });
-        
-        $('#change_objectives').click( function(event) {    
-            $('#Tradeoff_Analysis').hide();
-            $('#Tradeoff_Instructions').show();
-            $('#change_objectives').hide();
-            $('#toggle_legend').hide();
-            $('#show_chart').show();
-            onChart = false;
-        });
-        
-        $('#table_button').click( function(event) {
-            selected_smps = $("input:checkbox[name='smps']:checked");
-            smps = [];
-            $.each(selected_smps, function() {
-                smps.push( $(this).val() );
-            });
-            selected_aois = $("input:checkbox[name='aois']:checked");
-            aois = [];
-            $.each(selected_aois, function() {
-                aois.push( $(this).val() );
-            });
-            if (smps.length > 0 || aois.length > 0) {
-                $.post('general/tradeoff/show-table', {'folder_id': folder_id, 'smps': smps, 'aois': aois}, function(data) {
-                    $('#Tradeoff_Table').html(data);
-                });
-            } else {
-                alert('You must select at least one shape to view analysis.');
-                $('#intro_button').click();
-            }
-        });
-            
-
-    });
-    
-    $('body').delegate( '.mot_info', 'mouseover', function(event) {
-        //console.log('entering MOS mouseover event function...');
-        id = $(this).attr('id');
-        var text = "none";
-        left = false;
-        right = false;
-        switch(id) {
-            //Scored Objectives 
-            case 'info_wind_energy_x':
-                right = true;
-                text  = "lots of talk about wind energy and how it was scored.";
-                break;
-            case 'info_wind_energy_y':
-                left = true;
-                text  = "lots of talk about wind energy and how it was scored.";
-                break;
-            case 'info_tidal_energy_x':
-                right = true;
-                text  = "lots of talk about tidal energy and how it was scored.";
-                break;
-            case 'info_tidal_energy_y':
-                left = true;
-                text  = "lots of talk about tidal energy and how it was scored.";
-                break;
-            case 'info_wave_energy_x':
-                right = true;
-                text  = "lots of talk about wave energy and how it was scored.";
-                break;
-            case 'info_wave_energy_y':
-                left = true;
-                text  = "lots of talk about wave energy and how it was scored.";
-                break;
-            case 'info_conservation_x':
-                right = true;
-                text  = "lots of talk about conservation and how it was scored.";
-                break;
-            case 'info_conservation_y':
-                left = true;
-                text  = "lots of talk about conservation and how it was scored.";
-                break;
-        }
-        if (left) {
-            target_position = 'leftMiddle';
-            tooltip_position = 'rightMiddle';
-        } else {
-            target_position = 'rightMiddle';
-            tooltip_position = 'leftMiddle';
-        }
-        if (text!='none') {
-            $(this).qtip({
-                content: text, 
-                show: { 
-                    delay: 0,
-                    when: { event: 'mouseover' },
-                    ready: true  //without this option, the browser hangs  
-                },
-                position: {
-                    corner: {
-                        target: target_position,
-                        tooltip: tooltip_position
-                    }
-                },
-                hide: { when: {event: 'mouseleave'} },
-                style: { 
-                    width: 300,
-                    name: 'blue' 
-                }
-            });
-            event.stopImmediatePropagation();//prevents repeated calls to delegate during repeat visits 
-            //(previously, when smp reports, for example, were re-visited, delegate would get called once for each re-visit that 
-            // had taken place between application refreshes)
-            //(initially, this repeat-call behavior occurred for all delegate calls until img classes were made specific to app)
-        } 
-    });  
-
-    function toggleDiv(divId, srcId) {
-        $("#"+divId).toggle();
-        if ($("#"+srcId).text() == 'Read More') { 
-            $("#"+srcId).text('Hide Text'); 
-        } else if ($("#"+srcId).text() == 'Hide Text') { 
-            $("#"+srcId).text('Read More'); 
-        }
-        if ($("#"+srcId).text() == 'More') { 
-            $("#"+srcId).text('Hide'); 
-        } else if ($("#"+srcId).text() == 'Hide') { 
-            $("#"+srcId).text('More'); 
-        }
-    }
-</script>
-
 <h1>
     <img src="/media/wmm/img/folder.png"/>
     <small><small>Folder </small></small> 
     &nbsp;&nbsp;{{instance.name}}
 </h1>
-    <div class="tabs">
-        <ul>
-            <li><a href="#Inputs"><span>Attributes</span></a></li>
-            <li><a href="#results"><span>Multi-Objective Tradeoffs</span></a></li>
+<div class="tabs">
+    <ul>
+        <li><a href="#Inputs"><span>Attributes</span></a></li>
+    </ul>
+    <div id="Inputs">
+        <ul class="metadata">
+          {% if instance.user.first_name and instance.user.last_name %} 
+            <li class="creator">Created By {{instance.user.first_name}} {{instance.user.last_name}}</li>
+          {% else %}
+            <li class="creator">Created By {{instance.user.username}}</li>
+          {% endif %}
+            <li class="created">Created {{instance.date_created|date:"d M, Y P"}}</li>
+            <li class="modified">Modified {{instance.date_modified|date:"d M, Y P"}}</li>
+            <br class="clear" />
         </ul>
-        <div id="Inputs">
-            <ul class="metadata">
-              {% if instance.user.first_name and instance.user.last_name %} 
-                <li class="creator">Created By {{instance.user.first_name}} {{instance.user.last_name}}</li>
-              {% else %}
-                <li class="creator">Created By {{instance.user.username}}</li>
-              {% endif %}
-                <li class="created">Created {{instance.date_created|date:"d M, Y P"}}</li>
-                <li class="modified">Modified {{instance.date_modified|date:"d M, Y P"}}</li>
-                <br class="clear" />
-            </ul>
-            
-            <h2>Contents</h2>
-            
-                {% if instance.num_scenarios > 0 %}
-                <p style="margin-bottom:0px">Multi-Objective Scenarios: 
-                {% for scenario in instance.scenario_set %}
-                <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{scenario.name}}</p>
-                {% endfor %}
-                {% endif %}
-                
-                {% if instance.num_smps > 0 %}
-                <p style="margin-bottom:0px">SMP Characterization Sites: 
-                {% for smp in instance.smp_set %}
-                <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{smp.name}}</p>
-                {% endfor %}
-                {% endif %}
-                
-                {% if instance.num_aois > 0 %}
-                <p style="margin-bottom:0px">Areas of Interest: 
-                {% for aoi in instance.aoi_set %}
-                <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{aoi.name}}</p>
-                {% endfor %}
-                {% endif %}
-                
-                {% if instance.num_kmls > 0 %}
-                <p style="margin-bottom:0px">Uploaded KMLs: 
-                {% for kml in instance.kml_set %}
-                <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{kml.name}}</p>
-                {% endfor %}
-                {% endif %}
-                
-                {% if instance.num_folders > 0 %}
-                <p style="margin-bottom:0px">Other Folders: 
-                {% for folder in instance.folder_set %}
-                <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{folder.name}}</p>
-                {% endfor %}
-                {% endif %}
-                
-                {% if instance.num_features == 0 %}
-                <p><i>Currently empty</i></p>
-                {% endif %}
-            
-            <h2>Description</h2>
-                {% if instance.description %}
-                <p>{{instance.description}}</p>
-                {% else %}
-                <p><i>No Description</i></p>
-                {% endif %}
-            
-            <h2>Hint</h2>
-            <div class="draghint">
-                <img src="{{MEDIA_URL}}common/images/dragdrophint.png" />
-                To add features to this collection, simply drag and drop features in and out of it from the sidebar after saving.
-                <br style="clear:both;" />
-            </div>
-        </div>
         
-        <div id="results" class="tabs">
-        {% if instance.num_aois > 0  or instance.num_smps > 0 %}
-            <ul>
-                <li><a id="intro_button" href="#introduction"><span>Introduction</span></a></li>
-                <li><a id="chart_button" href="#visual"><span>Chart</span></a></li>
-                <li><a id="table_button" href="#text"><span>Table</span></a></li>
-            </ul>
-            <div id="introduction">
-                <p>The multi-objective tradeoffs reports help you compare the conservation and renewable energy scores for your shapes.
-                <p>Select the shapes you would like to include in the report:
-                <table>
-                    <tr>
-                        {% if instance.num_aois > 0 and instance.num_smps > 0 %}
-                            <td class="intro-40-column" align="right">
-                                <label class="header">Areas of Interest:</label>
-                            </td>
-                            <td class="intro-middle-column">
-                                &nbsp;
-                            </td>
-                            <td class="intro-40-column" align="right">
-                                <label class="header">SMP Characterization Sites:</label>
-                            </td>
-                            <td class="right-column">
-                                &nbsp;
-                            </td>
-                        {% else %}
-                            {% if instance.num_aois > 0 %}
-                            <td class="intro-80-column" align="right">
-                                <label class="header">Areas of Interest:</label>
-                            </td>
-                            <td class="intro-middle-column">
-                                &nbsp;
-                            </td>
-                            {% endif %}
-                            {% if instance.num_smps > 0 %}
-                            <td class="intro-80-column" align="right">
-                                <label class="header">SMP Characterization Sites:</label>
-                            </td>
-                            <td class="right-column">
-                                &nbsp;
-                            </td>
-                            {% endif %}
-                        {% endif %}
-                    </tr>
-                    <tr>
-                        {% if instance.num_aois > 0 and instance.num_smps > 0 %}
-                            <form>
-                            <td class="intro-40-column" align="right" valign="top">{% for aoi in instance.aoi_set %}
-                                 <label>{{aoi.name}} <input type="checkbox" name="aois" value="{{aoi.id}}" checked/></label>
-                                {% endfor %}
-                            </td>
-                            </form>
-                            <td class="intro-middle-column">
-                                &nbsp;
-                            </td>
-                            </form>
-                            <form>
-                            <td class="intro-40-column" align="right" valign="top">{% for smp in instance.smp_set %}
-                                 <label>{{smp.name}} <input type="checkbox" name="smps" value="{{smp.id}}" checked/></label>
-                                {% endfor %}
-                            </td>
-                            </form>
-                            <td class="right-column">
-                                &nbsp;
-                            </td>
-                            </form>
-                        {% else %}
-                            {% if instance.num_aois > 0 %}
-                            <form>
-                            <td class="intro-80-column" align="right" valign="top">{% for aoi in instance.aoi_set %}
-                                 <label>{{aoi.name}} <input type="checkbox" name="aois" value="{{aoi.id}}" checked/></label>
-                                {% endfor %}
-                            </td>
-                            </form>
-                            <td class="intro-middle-column">
-                                &nbsp;
-                            </td>
-                            </form>
-                            {% endif %}
-                            {% if instance.num_smps > 0 %}
-                            <form>
-                            <td class="intro-80-column" align="right" valign="top">{% for smp in instance.smp_set %}
-                                 <label>{{smp.name}} <input type="checkbox" name="smps" value="{{smp.id}}" checked/></label>
-                                {% endfor %}
-                            </td>
-                            </form>
-                            <td class="right-column">
-                                &nbsp;
-                            </td>
-                            </form>
-                            {% endif %}
-                        {% endif %}
-                    </tr>
-                </table>
-                        
-            </div>
-            <div id="visual">
-                <div id="Tradeoff_Instructions" class="step">
-                    <p>Choose two objectives to be charted in the Tradeoff Analysis Report. &nbsp;
-                    <form id="radio">
-                        <table>
-                            <tr>
-                                <td class="left-column">
-                                    &nbsp;
-                                </td>
-                                <td class="obj-column" align="center">
-                                    <label class="header">Objective 1</label>
-                                </td>
-                                <td class="middle-column">
-                                    &nbsp;
-                                </td>
-                                <td class="obj-column" align="center">
-                                    <label class="header">Objective 2</label>
-                                </td>
-                                <td class="right-column">
-                                    &nbsp;
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="left-column">
-                                    &nbsp;
-                                </td>
-                                <td class="obj-column">
-                                    <label>
-                                    <input type="radio" value="Wind Energy" class="x-axis" name="x-axis">Wind Energy
-                                    <img src="/media/wmm/img/info.png" id="info_wind_energy_x" class="mot_info"/>
-                                    </label>
-                                </td>
-                                <td class="middle-column">
-                                    &nbsp;
-                                </td>
-                                <td class="right-column">
-                                    <label>
-                                    <input type="radio" value="Wind Energy" class="y-axis" name="y-axis" checked>Wind Energy
-                                    <img src="/media/wmm/img/info.png" id="info_wind_energy_y" class="mot_info"/>
-                                    </label>
-                                </td>
-                                <td width="15%">
-                                    &nbsp;
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="left-column">
-                                    &nbsp;
-                                </td>
-                                <td class="obj-column">
-                                    <label>
-                                    <input type="radio" value="Tidal Energy" class="x-axis" name="x-axis">Tidal Energy
-                                    <img src="/media/wmm/img/info.png" id="info_tidal_energy_x" class="mot_info"/>
-                                    </label>
-                                </td>
-                                <td class="middle-column">
-                                    &nbsp;
-                                </td>
-                                <td class="right-column">
-                                    <label>
-                                    <input type="radio" value="Tidal Energy" class="y-axis" name="y-axis">Tidal Energy
-                                    <img src="/media/wmm/img/info.png" id="info_tidal_energy_y" class="mot_info"/>
-                                    </label>
-                                </td>
-                                <td width="15%">
-                                    &nbsp;
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="left-column">
-                                    &nbsp;
-                                </td>
-                                <td class="obj-column">
-                                    <label>
-                                    <input type="radio" value="Wave Energy" class="x-axis" name="x-axis">Wave Energy
-                                    <img src="/media/wmm/img/info.png" id="info_wave_energy_x" class="mot_info"/>
-                                    </label>
-                                </td>
-                                <td class="middle-column">
-                                    &nbsp;
-                                </td>
-                                <td class="right-column">
-                                    <label>
-                                    <input type="radio" value="Wave Energy" class="y-axis" name="y-axis">Wave Energy
-                                    <img src="/media/wmm/img/info.png" id="info_wave_energy_y" class="mot_info"/>
-                                    </label>
-                                </td>
-                                <td width="15%">
-                                    &nbsp;
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="left-column">
-                                    &nbsp;
-                                </td>
-                                <td class="obj-column">
-                                    <label>
-                                    <input type="radio" value="Conservation" class="x-axis" name="x-axis" checked>Conservation
-                                    <img src="/media/wmm/img/info.png" id="info_conservation_x" class="mot_info"/>
-                                    </label>
-                                </td>
-                                <td class="middle-column">
-                                    &nbsp;
-                                </td>
-                                <td class="right-column">
-                                    <label>
-                                    <input type="radio" value="Conservation" class="y-axis" name="y-axis">Conservation
-                                    <img src="/media/wmm/img/info.png" id="info_conservation_y" class="mot_info"/>
-                                    </label>
-                                </td>
-                                <td width="15%">
-                                    &nbsp;
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
-                    <p>
-                    <a id="displayInstructions" href="javascript:toggleDiv('instructions', 'displayInstructions');">More</a>
-                    </p>
-                    <div id="instructions" style="display: none">
-                        <p>The multi-objective tradeoffs report helps you compare the scores of your shapes.</p>
-                        <p>The results are displayed such that shapes that are scored higher for Objective #1 will be further along 
-                           the x-axis (to the right), and those that are scored higher for Objective #2 will be further 
-                           along the y-axis (toward the top).  
-                        <p>Conflict areas, those areas that have high scores for both objectives, 
-                           will be seen in the upper-right quadrant of the graph.  
-                        </p>
-                    </div>
-                </div>
-                
-                <div id="Tradeoff_Analysis" class="step"></div>
-                
-                <div class="wizard_nav" style="width:100%">
-                    <a href="#" class="button" style="float:left;" onclick="this.blur(); return false;" id="change_objectives"><span>&lt; Change Objectives</span></a>
-                    <a href="#" class="button" style="float:right;" onclick="javascript:toggleLegend('toggle_legend'); return false;" id="toggle_legend"><span>Hide Legend</span></a>
-                    <a href="#" class="button" style="float:right;" onclick="this.blur(); return false;" id="show_chart"><span>Show Chart &gt;</span></a> 
-                </div>
-            </div>
-            <div id="text">
-                <div id="Tradeoff_Table" class="step">
-                    <p>coming soon...</p>
-                </div>
-            </div>
-        {% else %}
-            <div id="empty">
-                </br>
-                <p>Your folder, <b>{{instance.name}}</b>, is currently without any Areas of Interest or SMP Characterization Sites.</p>
-                <p>Tradeoff reports will become available once the folder has been populated.<p>
-            </div>
-        {% endif %}
-        </div>
+        <h2>Contents</h2>
         
-    </div>
+            {% if instance.num_scenarios > 0 %}
+            <p style="margin-bottom:0px">Multi-Objective Scenarios: 
+            {% for scenario in instance.scenario_set %}
+            <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{scenario.name}}</p>
+            {% endfor %}
+            {% endif %}
+            
+            {% if instance.num_smps > 0 %}
+            <p style="margin-bottom:0px">SMP Characterization Sites: 
+            {% for smp in instance.smp_set %}
+            <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{smp.name}}</p>
+            {% endfor %}
+            {% endif %}
+            
+            {% if instance.num_aois > 0 %}
+            <p style="margin-bottom:0px">Areas of Interest: 
+            {% for aoi in instance.aoi_set %}
+            <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{aoi.name}}</p>
+            {% endfor %}
+            {% endif %}
+            
+            {% if instance.num_kmls > 0 %}
+            <p style="margin-bottom:0px">Uploaded KMLs: 
+            {% for kml in instance.kml_set %}
+            <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{kml.name}}</p>
+            {% endfor %}
+            {% endif %}
+            
+            {% if instance.num_folders > 0 %}
+            <p style="margin-bottom:0px">Other Folders: 
+            {% for folder in instance.folder_set %}
+            <p style="margin-left:25px;margin-top:0px;margin-bottom:0px;">{{folder.name}}</p>
+            {% endfor %}
+            {% endif %}
+            
+            {% if instance.num_features == 0 %}
+            <p><i>Currently empty</i></p>
+            {% endif %}
+        
+        <h2>Description</h2>
+            {% if instance.description %}
+            <p>{{instance.description}}</p>
+            {% else %}
+            <p><i>No Description</i></p>
+            {% endif %}
+        
+        <h2>Hint</h2>
+        <div class="draghint">
+            <img src="{{MEDIA_URL}}common/images/dragdrophint.png" />
+            To add features to this collection, simply drag and drop features in and out of it from the sidebar after saving.
+            <br style="clear:both;" />
+        </div>
+    </div>        
+    
+</div>
     
 <style type="text/css">
 

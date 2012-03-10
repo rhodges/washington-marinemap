@@ -26,7 +26,7 @@ class UserKml(PrivateLayerList):
         
 
 @register
-class SimpleFolder(FeatureCollection):
+class Folder(FeatureCollection):
     description = models.TextField(null=True,blank=True)
     
     @property
@@ -124,29 +124,62 @@ class SimpleFolder(FeatureCollection):
                            'smp.models.SMPSite',
                            'aoi.models.AOI',
                            'general.models.UserKml', 
-                           'general.models.Folder',
+                           'general.models.Folder', 
+                           'general.models.AnalysisFolder',
                            'madrona.bookmarks.models.Bookmark')
         form = 'general.forms.FolderForm'
         form_template = 'folder/form.html'
         show_template = 'folder/show.html'
         icon_url = 'wmm/img/folder.png'
-        
+
 @register
-class Folder(SimpleFolder): #Tradeoff Collection 
+class AnalysisFolder(FeatureCollection):
+    description = models.TextField(null=True,blank=True)
+    
+    @property
+    def aoi_set(self):
+        aois = []
+        features = self.feature_set()
+        for feature in features:
+            if feature.__class__ == AOI:
+                aois.append(feature)
+        return aois
+    
+    @property
+    def smp_set(self):
+        smps = []
+        features = self.feature_set()
+        for feature in features:
+            if feature.__class__ == SMPSite:
+                smps.append(feature)
+        return smps
+        
+    @property
+    def num_aois(self):
+        count = 0
+        for object in self.feature_set():
+            if object.__class__ == AOI:
+                count += 1
+        return count 
+    
+    @property
+    def num_smps(self):
+        count = 0
+        for object in self.feature_set():
+            if object.__class__ == SMPSite:
+                count += 1
+        return count 
     
     class Options:
         verbose_name = 'Tradeoff Collection'
-        valid_children = ( 'scenario.models.MOS', 
-                           'smp.models.SMPSite',
-                           'aoi.models.AOI',
-                           'general.models.UserKml', 
-                           'general.models.Folder',
-                           'madrona.bookmarks.models.Bookmark')
-        form = 'general.forms.FolderForm'
-        form_template = 'folder/form.html'
-        show_template = 'folder/show.html'
+        valid_children = ( 'smp.models.SMPSite',
+                           'aoi.models.AOI' )
+        form = 'general.forms.AnalysisFolderForm'
+        form_template = 'analysis_folder/form.html'
+        show_template = 'analysis_folder/show.html'
         icon_url = 'wmm/img/analysis.png'
-
+        
+        
 '''Scoring Models'''
        
 class ConservationScoring(models.Model):
