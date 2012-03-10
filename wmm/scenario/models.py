@@ -104,7 +104,7 @@ class MOS(Feature):
             
             #run analysis on scenarios only when necessary
             for obj in self.input_objectives.all():
-                rerun = None
+                scenario_rerun = None
                 obj_short_name = obj.short_name
                 #note:  this is not the name provided in the kml.  this name is purely for referential purposes
                 scenario_name = self.name + '_%s' % obj_short_name
@@ -153,7 +153,7 @@ class MOS(Feature):
                                     'input_min_wavesummer': min_wavesummer, 'input_max_wavesummer': max_wavesummer, 
                                     'input_min_wavewinter': min_wavewinter, 'input_max_wavewinter': max_wavewinter }
                     if scenario.needs_rerun(scenario_dict):
-                        rerun = True
+                        scenario_rerun = True
                     scenario.__dict__.update(scenario_dict)
                 else:
                     scenario = Scenario(user=user, name=scenario_name, input_objective=obj, 
@@ -174,7 +174,7 @@ class MOS(Feature):
                     or set(scenario.input_depth_class.all()) != set(depth_classes)
                     or set(scenario.input_geomorphology.all()) != set(geomorphologies)
                     or set(scenario.input_upwelling.all()) != set(upwellings) ):
-                    rerun = True   
+                    scenario_rerun = True   
                 scenario.input_parameters = input_params 
                 if obj_short_name == 'nearshore_conservation':
                     scenario.input_nearshore_substrate = substrates
@@ -190,7 +190,7 @@ class MOS(Feature):
                 scenario.input_upwelling = upwellings             
                 scenario.input_chlorophyl = chlorophyls
                 
-                scenario.save(rerun=rerun)
+                scenario.save(rerun=scenario_rerun)
                 self.scenarios.add(scenario)
         
         #remove any unwanted scenarios
@@ -209,7 +209,7 @@ class MOS(Feature):
             if not overlap.empty:
                 self.overlap_geom = overlap
         
-        #TODO:  why are we running analysis twice when creating scenarios initially? -- is this still happening...?
+        #TODO:  are we running analysis twice when creating scenarios initially? 
         super(MOS, self).save(*args, **kwargs)
 
     def __unicode__(self):
