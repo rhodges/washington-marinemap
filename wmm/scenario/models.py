@@ -343,7 +343,7 @@ class MOS(Feature):
     @property
     def overlap_kml(self):
         header = '<strong>Area of Overlap</strong>'
-        color = '501478B4'
+        color = '500D0067'
         obj_name = 'Area of Overlap'
         objective = ''
         description = ''
