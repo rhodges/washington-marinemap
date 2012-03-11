@@ -7,7 +7,7 @@ from madrona.common.utils import asKml
 from madrona.features.models import PointFeature, LineFeature, PolygonFeature
 from madrona.raster_stats.models import RasterDataset, zonal_stats
 from picklefield import PickledObjectField
-from general.utils import get_tradeoff_score
+from general.utils import get_tradeoff_score, sq_meters_to_sq_miles
 
 @register
 class AOI(PolygonFeature):
@@ -34,6 +34,10 @@ class AOI(PolygonFeature):
             asf.aoi_modification_date = self.date_modified
             asf.save()
         return asf
+        
+    @property
+    def area_in_sq_miles(self):
+        return sq_meters_to_sq_miles(self.geometry_final.area)
         
     @property
     def kml(self):

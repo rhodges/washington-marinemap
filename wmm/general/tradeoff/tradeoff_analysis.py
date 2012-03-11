@@ -58,6 +58,8 @@ def get_chart_attributes_from_feature_set(feature_set, x_axis, y_axis, requested
             x_value = get_score(feature, x_axis)
             y_value = get_score(feature, y_axis)
             nlog_size = log(sq_meters_to_sq_miles(feature.geometry_final.area))
+            if nlog_size < 1:
+                nlog_size = 1
             name = str(feature.name)
             names.append(name)
             colors.append(series_colors[color_index%10])
