@@ -158,6 +158,9 @@
                 <br class="clear" />
             </ul>
             
+            <h2>Area </h2>
+                <p style="margin-bottom: 0px; margin-top: 5px;">{{instance.area_in_sq_miles|floatformat:1}} sq miles</p>              
+            
             <h2>Objective Scores <small>(out of 100)</small>:</h2>
                 {% if instance.conservation_score >= 0 %}
                 <p style="margin-bottom: 0px; margin-top: 10px;">Conservation: {{instance.conservation_score}}</p>
@@ -190,7 +193,7 @@
             <h2>Next Steps</h2>
             <div class="draghint">
                 <img src="{{MEDIA_URL}}common/images/dragdrophint.png" />
-                To view tradeoff analysis on the conservation and renewable energy scores for your SMP sites, simply organize your sites into a folder, view the folders attributes, and select Multi-Objective Tradeoffs.
+                To view tradeoff analysis on the conservation and renewable energy scores for your SMP sites, organize your sites into a Tradeoff Collection, view the collection's attributes, and select Multi-Objective Tradeoffs.
                 <br style="clear:both;" />
             </div>
         </div>
