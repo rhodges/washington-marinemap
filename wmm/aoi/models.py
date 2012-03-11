@@ -40,6 +40,10 @@ class AOI(PolygonFeature):
         return sq_meters_to_sq_miles(self.geometry_final.area)
         
     @property
+    def formatted_area(self):
+        return int((self.area_in_sq_miles * 10) +.5) / 10.
+        
+    @property
     def kml(self):
         return """
         <Placemark id="%s">
@@ -48,6 +52,11 @@ class AOI(PolygonFeature):
             <styleUrl>#%s-default</styleUrl>
             <ExtendedData>
                 <Data name="name"><value>%s</value></Data>
+                <Data name="area"><value>%s</value></Data>
+                <Data name="conservation_score"><value>%s</value></Data>
+                <Data name="tidal_score"><value>%s</value></Data>
+                <Data name="wave_score"><value>%s</value></Data>
+                <Data name="wind_score"><value>%s</value></Data>
                 <Data name="user"><value>%s</value></Data>
                 <Data name="desc"><value>%s</value></Data>
                 <Data name="modified"><value>%s</value></Data>
@@ -55,7 +64,8 @@ class AOI(PolygonFeature):
             %s 
         </Placemark>
         """ % (self.uid, escape(self.name), self.model_uid(), 
-               escape(self.name), self.user, escape(self.description), self.date_modified.replace(microsecond=0), 
+               escape(self.name), self.formatted_area, self.conservation_score, self.tidalenergy_score, self.waveenergy_score, 
+               self.windenergy_score, self.user, escape(self.description), self.date_modified.replace(microsecond=0), 
                self.geom_kml)
 
     @property
@@ -65,7 +75,8 @@ class AOI(PolygonFeature):
             <BalloonStyle>
                 <bgColor>ffeeeeee</bgColor>
                 <text> <![CDATA[
-                    <font color="#1A3752"><strong>$[name]</strong></font><br />
+                    <font color="#1A3752"><strong>$[name]</strong></font>
+                    <p>Area: $[area] sq miles</p>
                     <p>$[desc]</p>
                     <font size=1>Created by $[user] on $[modified]</font>
                 ]]> </text>
