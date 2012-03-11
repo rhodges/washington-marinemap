@@ -192,7 +192,10 @@
                 <br class="clear" />
             </ul>
             
-            <h2>Objective Scores <small>(out of 100)</small>:</h2>
+            <h2>Area </h2>
+                <p style="margin-bottom: 0px; margin-top: 5px;">{{instance.area_in_sq_miles|floatformat:1}} sq miles</p>              
+            
+            <h2>Objective Scores <small>(out of 100)</small></h2>
                 {% if instance.conservation_score >= 0 %}
                 <p style="margin-bottom: 0px; margin-top: 10px;">Conservation: {{instance.conservation_score}}</p>
                 {% else %}
