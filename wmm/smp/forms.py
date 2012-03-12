@@ -4,6 +4,8 @@ from models import *
 
 
 class SMPSiteForm(SpatialFeatureForm):
+    description = forms.CharField(widget=forms.Textarea(attrs={'cols': 30, 'rows': 3}), required=False)
+    
     class Meta(SpatialFeatureForm.Meta):
         model = SMPSite
         exclude = list(SpatialFeatureForm.Meta.exclude)

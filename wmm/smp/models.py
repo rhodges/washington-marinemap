@@ -130,7 +130,7 @@ class SMPSite(PolygonFeature):
                 'wmm_manipulators.manipulators.ExcludeTerrestrialManipulator']
         verbose_name = 'SMP Characterization Site'
         form = 'smp.forms.SMPSiteForm'
-        form_template = 'smp/form.html'
+        #form_template = 'smp/form.html'
         show_template = 'smp/show.html'
         icon_url = 'wmm/img/smp.png'
 

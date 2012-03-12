@@ -14,9 +14,6 @@
 
 {% block js_ready %}
     $('a[href="#DataLayers"]').click();
-    {% if user.is_authenticated %}
-    //$('a[href="#DataLayers"]').click();
-    {% endif %} 
     $('#signin_button').click(function(){
         $('#signin').click();
     });

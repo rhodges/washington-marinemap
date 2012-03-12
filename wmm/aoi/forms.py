@@ -5,6 +5,8 @@ from models import *
 
             
 class AoiForm(SpatialFeatureForm):
+    description = forms.CharField(widget=forms.Textarea(attrs={'cols': 30, 'rows': 3}), required=False)
+    
     class Meta(SpatialFeatureForm.Meta):
         model = AOI
         exclude = list(SpatialFeatureForm.Meta.exclude)
