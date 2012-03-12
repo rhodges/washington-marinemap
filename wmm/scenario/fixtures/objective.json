@@ -1,0 +1,83 @@
+[
+    {
+        "pk": 4, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "772DBBC8", 
+            "name": "Shoreside Development", 
+            "short_name": "shoreside_development"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "77722399", 
+            "name": "Shellfish Aquaculture", 
+            "short_name": "shellfish_aquaculture"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "77470B64", 
+            "name": "Offshore Fishing", 
+            "short_name": "offshore_fishing"
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "772C6D00", 
+            "name": "Pelagic", 
+            "short_name": "pelagic_conservation"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "77458B23", 
+            "name": "Nearshore", 
+            "short_name": "nearshore_conservation"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "775DAB41", 
+            "name": "Benthic", 
+            "short_name": "offshore_conservation"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "7776C474", 
+            "name": "Wind", 
+            "short_name": "wind_energy"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "779BD9A1", 
+            "name": "Wave", 
+            "short_name": "wave_energy"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "scenario.objective", 
+        "fields": {
+            "color": "77C0E9C7", 
+            "name": "Tidal", 
+            "short_name": "tidal_energy"
+        }
+    }
+]
