@@ -620,7 +620,7 @@ class Scenario(Analysis):
         else:
             hoquium_buffer = 1
         
-        mapcalc = """r.mapcalc "rresult = if((%s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s)==17,1,null())" """ % (port_buffer, shoreline_buffer, depth, substrate, depth_class, geomorphology, exposure, ecosystem, upwelling, chlorophyl, wind, tidalmean, tidalmax, wavesummer, wavewinter, astoria_buffer, hoquium_buffer)
+        mapcalc = """nice -n 1 r.mapcalc "rresult = if((%s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s + %s)==17,1,null())" """ % (port_buffer, shoreline_buffer, depth, substrate, depth_class, geomorphology, exposure, ecosystem, upwelling, chlorophyl, wind, tidalmean, tidalmax, wavesummer, wavewinter, astoria_buffer, hoquium_buffer)
         g.run(mapcalc)
         self.output_mapcalc = mapcalc
         

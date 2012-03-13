@@ -6,21 +6,21 @@ def nearshore_conservation_report(g):
     # Scenario 
     
     #substrate stats -- collecting area (in meters) for each substrate represented in the resulting scenario
-    substrate_result = """r.mapcalc "subresult = if(rresult==1,nearshore_substrate,null())" """
+    substrate_result = """nice -n 1 r.mapcalc "subresult = if(rresult==1,nearshore_substrate,null())" """
     g.run(substrate_result)
     #generate dictionary from stats
     substrate_name_dict, substrate_dict = get_dict_from_stats(g, NearshoreSubstrate, 'subresult')
     nearshore_report['substrate']=substrate_name_dict
     
     #exposure stats
-    exposure_result = """r.mapcalc "expresult = if(rresult==1,exposure,null())" """
+    exposure_result = """nice -n 1 r.mapcalc "expresult = if(rresult==1,exposure,null())" """
     g.run(exposure_result)
     #generate dictionary from stats
     exposure_name_dict, exposure_dict = get_dict_from_stats(g, NearshoreExposure, 'expresult')
     nearshore_report['exposure']=exposure_name_dict
     
     #ecosystem stats
-    ecosystem_result = """r.mapcalc "ecoresult = if(rresult==1,vegetation,null())" """
+    ecosystem_result = """nice -n 1 r.mapcalc "ecoresult = if(rresult==1,vegetation,null())" """
     g.run(ecosystem_result)
     #generate dictionary from stats
     ecosystem_name_dict, ecosystem_dict = get_dict_from_stats(g, NearshoreEcosystem, 'ecoresult')
@@ -34,11 +34,11 @@ def nearshore_conservation_report(g):
     for sub_id in sub_ids:
         #generate substrate raster
         sub_raster = 'subresult_%s' %sub_id
-        substrate_result = """r.mapcalc "%s = if(nearshore_substrate==%s,subresult,null())" """ % (sub_raster, sub_id)
+        substrate_result = """nice -n 1 r.mapcalc "%s = if(nearshore_substrate==%s,subresult,null())" """ % (sub_raster, sub_id)
         g.run(substrate_result)
         #generate exposure results for current substrate
         sub_exp_raster = 'substrate_%s_expresult' %sub_id
-        exp_result = """r.mapcalc "%s = if(%s==%s,exposure,null())" """ %(sub_exp_raster, sub_raster, sub_id)
+        exp_result = """nice -n 1 r.mapcalc "%s = if(%s==%s,exposure,null())" """ %(sub_exp_raster, sub_raster, sub_id)
         g.run(exp_result)
         #generate dictionary from stats
         exp_name_dict, exp_dict = get_dict_from_stats(g, NearshoreExposure, sub_exp_raster)
@@ -52,7 +52,7 @@ def nearshore_conservation_report(g):
         #generate geomorphology results for current substrate
         sub_raster = 'subresult_%s' %sub_id
         sub_eco_raster = 'substrate_%s_ecoresult' %sub_id
-        eco_result = """r.mapcalc "%s = if(%s==%s,vegetation,null())" """ %(sub_eco_raster, sub_raster, sub_id)
+        eco_result = """nice -n 1 r.mapcalc "%s = if(%s==%s,vegetation,null())" """ %(sub_eco_raster, sub_raster, sub_id)
         g.run(eco_result)
         #generate dictionary from stats
         eco_name_dict, eco_dict = get_dict_from_stats(g, NearshoreEcosystem, sub_eco_raster)
@@ -68,11 +68,11 @@ def nearshore_conservation_report(g):
     for eco_id in eco_ids:
         #generate ecosystem raster
         eco_raster = 'ecoresult_%s' %eco_id
-        ecosystem_result = """r.mapcalc "%s = if(vegetation==%s,ecoresult,null())" """ % (eco_raster, eco_id)
+        ecosystem_result = """nice -n 1 r.mapcalc "%s = if(vegetation==%s,ecoresult,null())" """ % (eco_raster, eco_id)
         g.run(ecosystem_result)
         #generate exposure results for current ecosystem
         eco_exp_raster = 'ecosystem_%s_expresult' %eco_id
-        eco_result = """r.mapcalc "%s = if(%s==%s,exposure,null())" """ %(eco_exp_raster, eco_raster, eco_id)
+        eco_result = """nice -n 1 r.mapcalc "%s = if(%s==%s,exposure,null())" """ %(eco_exp_raster, eco_raster, eco_id)
         g.run(eco_result)
         #generate dictionary from stats
         eco_name_dict, eco_dict = get_dict_from_stats(g, NearshoreExposure, eco_exp_raster)
