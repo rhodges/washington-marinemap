@@ -349,6 +349,7 @@
 			loc = oppositeLocations;
 		}
 		
+        //Added on 3/06/2012 by me (Scott Fletcher) to enable appropriate tooltip location
         if (opts.tooltipLocation != '') {
             this.tooltipLocation = loc[locationIndicies[opts.tooltipLocation]];
         } else {
