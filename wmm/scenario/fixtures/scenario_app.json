@@ -786,7 +786,7 @@
         "fields": {
             "color": "778B1A55", 
             "name": "Undefined", 
-            "short_name": "undefined"
+            "short_name": "undefined_substrate"
         }
     }, 
     {
@@ -942,7 +942,7 @@
         "model": "scenario.nearshoreecosystem", 
         "fields": {
             "name": "Undefined", 
-            "short_name": "undefined"
+            "short_name": "undefined_ecosystem"
         }
     }, 
     {
