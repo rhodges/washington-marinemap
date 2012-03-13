@@ -1,0 +1,247 @@
+{% extends 'common/panel.html' %}
+
+{% load percentage %}
+{% load humanize %}
+
+{% block title %}Area of Interest Biological Conservation Report{% endblock %}
+{% block panel %}
+
+<div class='freetext'>
+
+<h3>Birds</h3>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Seabirds</b>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_seabirds" class="aoi_info"/>
+            </td>
+            <td></td>
+        </tr>
+        {% if seabird_count > 0 %}
+        {% for tuple in seabirds %}
+        <tr>
+            <td></td>
+            <td>{{tuple.0}} ({{tuple.1|intcomma}}) </td>
+            <td></td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Snowy Plover Critical Habitats</b>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_snowyplover" class="aoi_info"/>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            {% if snowy_plover_count == 0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{snowy_plover_area|floatformat:1}} sq miles ({{snowy_plover_perc|percentage:1}} of your Area)</td>
+            {% endif %}
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Marine Mammals</h3>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Seals/Sealions</b>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_haulouts" class="aoi_info"/>
+            </td>
+            <td></td>
+        </tr>
+        {% if haulout_count > 0 %}
+        {% for tuple in haulouts %}
+        <tr>
+            <td></td>
+            <td>{{tuple.0}} ({{tuple.1|intcomma}}) </td>
+            <td></td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Orca Critical Habitat</b>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_orca" class="aoi_info"/>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            {% if orca_count == 0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{orca_area|floatformat:1}} sq miles ({{orca_perc|percentage:1}} of your Area)</td>
+            {% endif %}
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Plants</h3>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Kelp</b>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_kelp" class="aoi_info"/>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            {% if kelp_count == 0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{kelp_area|floatformat:1}} sq miles ({{kelp_perc|percentage:1}} of your Area)</td>
+            {% endif %}
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td colspan="3"><b>Chlorophyll</b>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_chlorophyll" class="aoi_info"/>
+            </td>
+        </tr>
+        {% if chlorophyll_count > 0 %}
+        {% for report in chlorophyll %}
+        <tr>
+            <td class="left">{{report.0}}</td>
+            <td class="right">{{report.1|floatformat:1}} sq miles </td>
+            <td class="right">({{report.2|percentage:1}} of available {{report.0}})</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+<h3>Invertebrates</h3>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Coral</b>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_coral" class="aoi_info"/>
+            </td>
+            <td></td>
+        </tr>
+        {% if coral_count > 0 %}
+        {% for tuple in coral_tuples %}
+        <tr>
+            <td class="left">{{tuple.0}}</td>
+            <td class="right">{{tuple.1|floatformat:1}} cpue </td>
+            <td class="right">({{tuple.2|floatformat:1}} sq miles)</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Sponges</b>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_sponges" class="aoi_info"/>
+            </td>
+            <td></td>
+        </tr>
+        {% if sponge_count > 0 %}
+        {% for tuple in sponge_tuples %}
+        <tr>
+            <td class="left">{{tuple.0}}</td>
+            <td class="right">{{tuple.1|floatformat:1}} cpue </td>
+            <td class="right">({{tuple.2|floatformat:1}} sq miles)</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td></td>
+            <td><b>Olympia Oysters</b>
+                <img src="/media/wmm/img/info.png" id="info_aoi_conservation_oysters" class="aoi_info"/>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            {% if oyster_count == 0 %}
+            <td>None Found</td>
+            {% else %}
+            <td>{{oyster_area|floatformat:1}} sq miles ({{oyster_perc|percentage:1}} of your Area)</td>
+            {% endif %}
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+</div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script type="text/javascript">
+function toggleDiv(divId, srcId) {
+   $("#"+divId).toggle();
+    if ($("#"+srcId).text() == 'Learn More') { 
+        $("#"+srcId).text('Hide Text'); 
+    } else { 
+        $("#"+srcId).text('Learn More'); 
+    }
+}
+
+</script>
+
+{% endblock %}
