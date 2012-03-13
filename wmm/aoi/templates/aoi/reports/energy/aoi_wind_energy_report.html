@@ -1,0 +1,93 @@
+{% extends 'common/panel.html' %}
+
+{% load percentage %}
+{% load humanize %}
+
+{% block title %}Area of Interest Wind Energy Report{% endblock %}
+{% block panel %}
+
+<div class='freetext'>
+<h3>Depth Range<img src="/media/wmm/img/info.png" id="info_wind_depth" class="aoi_info"/></h3>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td><b>Min Depth</b></td>
+            <td><b>Max Depth</b></td>
+            <td><b>Average Depth</b></td>
+        </tr>
+        <tr>
+            <td>{{min_depth|floatformat:0|intcomma}} feet {{min_depth_postscript}}</td>
+            <td>{{max_depth|floatformat:0|intcomma}} feet {{max_depth_postscript}}</td>
+            <td>{{avg_depth|floatformat:0|intcomma}} feet {{avg_depth_postscript}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Substrate<img src="/media/wmm/img/info.png" id="info_wind_substrate" class="aoi_info"/></h3>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td colspan="3"><b>Substrate Types</b></td>
+        </tr>
+        {% if substrate_count > 0 %}
+        {% for substrate in substrates %}
+        <tr>
+            <td class="left">{{substrate.0}}</td>
+            <td class="right">{{substrate.1|floatformat:1}} sq miles </td>
+            <td class="right">({{substrate.2|percentage:1}} of available {{substrate.0}})</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+<h3>Wind Potential<img src="/media/wmm/img/info.png" id="info_wind_potential" class="aoi_info"/></h3>
+<p>
+<table  style='width:430px' class='analysis_container'>
+    <tbody>
+        <tr class="grey">
+            <td colspan="3"><b>Wind Class</b></td>
+        </tr>
+        {% if wind_power_count > 0 %}
+        {% for potential in wind_power_tuples %}
+        <tr>
+            <td class="left">{{potential.0}}</td>
+            <td class="right">{{potential.1|floatformat:1}} sq miles </td>
+            <td class="right">({{potential.2}})</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td>None Found</td>
+            <td></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+</div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script type="text/javascript">
+function toggleDiv(divId, srcId) {
+   $("#"+divId).toggle();
+    if ($("#"+srcId).text() == 'Learn More') { 
+        $("#"+srcId).text('Hide Text'); 
+    } else { 
+        $("#"+srcId).text('Learn More'); 
+    }
+}
+
+</script>
+
+{% endblock %}

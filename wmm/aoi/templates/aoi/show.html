@@ -1,0 +1,265 @@
+{% extends 'common/panel.html' %}
+{% block title %}{{instance.name}}{% endblock title %}
+{% block panel %}
+
+<script type="text/javascript" charset="utf-8">
+
+    $('body').delegate( '.aoi_info', 'mouseover', function(event) {
+        //console.log('entering AOI mouseover event function...');
+        id = $(this).attr('id');
+        var text = "none";
+        topRight = false;
+        topMiddle = false;
+        topLeft = false;
+        switch(id) {
+            //Conservation Biological Reports
+            case 'info_aoi_conservation_seabirds':
+                topMiddle = true;
+                text  = "Reports number of birds within your Area of Interest by species type, based on Seabird Colonies layer, WDFW, 2006.";
+                break;
+            case 'info_aoi_conservation_snowyplover':
+                topLeft = true;
+                text  = "Reports area within your Area of Interest and calculates percentage of Area of Interest, based on Snowy Plover Critical Habitat layer, USFWS, 2012.";
+                break;
+            case 'info_aoi_conservation_haulouts':
+                topMiddle = true;
+                text  = "Reports number of seals and sea lions within your Area of Interest by species type, based on Seal/Sea Lion Haulout layer, WDFW, 2000.";
+                break;
+            case 'info_aoi_conservation_orca':
+                topMiddle = true;
+                text  = "Reports area within your Area of Interest and calculates percentage of Area of Interest, based on Southern Resident Killer Whale Critical Habitat layer, NOAA NMFS, 2012.";
+                break;
+            case 'info_aoi_conservation_kelp':
+                topMiddle = true;
+                text  = "Reports area within your Area of Interest and calculates percentage of Area of Interest, based on Kelp layer, WA DNR, 2011.";
+                break;
+            case 'info_aoi_conservation_chlorophyll':
+                topMiddle = true;
+                text  = "Reports area for chlorophyll by type within your Area of Interest and  calculates percentage of total available by type, based on Chlorophyll layer, TNC, 2011.";
+                break;
+            case 'info_aoi_conservation_coral':
+                topMiddle = true;
+                text  = "Reports area and average catch per unit effort (CPUE) by coral type within your Area of Interest, based on Corals layer, NOAA NMFS and TNC 2006.";
+                break;
+            case 'info_aoi_conservation_sponges':
+                topMiddle = true;
+                text  = "Reports area and average catch per unit effort (CPUE) by sponge type within your Area of Interest, based on Sponges layer, NOAA NMFS and TNC 2006.";
+                break;
+            case 'info_aoi_conservation_oysters':
+                topMiddle = true;
+                text  = "Reports area within your Area of Interest and calculates percentage of Area of Interest, based on Olympia Oyster layer, WDFW, 2006.";
+                break;
+            //Conservation Physical Reports
+            case 'info_benthic_habitat':
+                topLeft = true;
+                text  = "Reports area for depth, geomorphology and substrates by type within your Area of Interest and calculates percentage of total available by type, based on the Benthic Habitat layer, TNC, 2011.";
+                break;
+            case 'info_canyons':
+                topMiddle = true;
+                text  = "Reports area  and calculates percentage of canyons within your Area of Interest, based on the Canyons layer, TNC, 2011.";
+                break;
+            case 'info_rocky_substrates':
+                topMiddle = true;
+                text  = "Reports area  and calculates percentage of rocky substrates within your Area of Interest, based on the Rocky Substrates layer, TNC, 2011.";
+                break;
+            case 'info_estuary_habitats':
+                topMiddle = true;
+                text  = "Reports area for estuary habitats by type within your Area of Interest and calculates percentage of total available by type, based on Estuaries layer, TNC, 2011.";
+                break;
+            case 'info_estuary_substrates':
+                topMiddle = true;
+                text  = "Reports area for substrate by type within your Area of Interest and calculates percentage of total available by type, based on Estuaries layer, TNC, 2011.";
+                break;
+            case 'info_islands':
+                topRight = true;
+                text  = "Reports number, area, and percentage within your Area of Interest, based on Islands layer, TNC, 2011.";
+                break;
+            case 'info_upwelling':
+                topMiddle = true;
+                text  = "Reports area for upwelling by type within your Area of Interest and  calculates percentage of total available by type, based on Upwelling layer, TNC, 2011.";
+                break;
+            //Tidal Energy Reports
+            case 'info_tidal_depth':
+                topRight = true;
+                text  = "Reports minimum, maximum, and average depth within your Area of Interest, based on Bathymetry layer, TNC, 2011. Compare to a suggested depth range of 100-200 (Mineral Management Service, 2007).";
+                break;
+            case 'info_tidal_substrate':
+                topRight = true;
+                text  = "Reports area for substrate type within your Area of Interest and calculate percentage of total available by type, based on Substrate layer, TNC 2011.";
+                break;
+            case 'info_tidal_mean':
+                topMiddle = true;
+                text  = "Reports minimum, maximum, and average mean (average) tidal current within your Area of Interest, based on Mean Tidal Current data, GA Tech University, 2012. Compare to minimum tidal current of 1.5 m/s (Spaulding et al. 2010).";
+                break;
+            case 'info_tidal_max':
+                topMiddle = true;
+                text  = "Reports minimum, maximum, and average maximum tidal current within your Area of Interest, based on Maximum Tidal Current data, GA Tech University, 2012. Compare to minimum tidal current of 1.5 m/s (Spaulding et al. 2010).";
+                break;
+            //Wave Energy Reports
+            case 'info_wave_depth':
+                topRight = true;
+                text  = "Reports minimum, maximum, and average depth within your Area of Interest, based on Bathymetry layer, TNC, 2011. Compare to a suggested depth range of 0-100 (Mineral Management Service, Alternative Energy Report, 2007).";
+                break;
+            case 'info_wave_substrate':
+                topRight = true;
+                text  = "Reports area for substrate type within your Area of Interest and calculate percentage of total available by type, based on Substrate layer, TNC 2011.";
+                break;
+            case 'info_wave_summer':
+                topLeft = true;
+                text  = "Reports minimum, maximum, and average summer wave energy within your Area of Interest, based on Summer Wave Energy layer, NOAA WW3 and the Natural Capital Project, 2012.  Compare to minimum wave energy density of 10 kW/m (Spaulding et al. 2010).";
+                break;
+            case 'info_wave_winter':
+                topLeft = true;
+                text  = "Reports minimum, maximum, and average summer wave energy density within your Area of Interest, based on Winter Wave Energy layer, NOAA WW3 and the Natural Capital Project, 2012. Compare to minimum wave energy density of 10 kW/m (Spaulding et al. 2010).";
+                break;
+            //Wind Energy Reports
+            case 'info_wind_depth':
+                topRight = true;
+                text  = "Reports minimum, maximum, and average depth within your Area of Interest, based on Bathymetry layer, TNC, 2011. Compare to a suggested depth range of 0-200 (NREL 2011).";
+                break;
+            case 'info_wind_substrate':
+                topRight = true;
+                text  = "Reports area for substrate type within your Area of Interest and calculate percentage of total available by type, based on Substrate layer, TNC 2011.";
+                break;
+            case 'info_wind_potential':
+                topRight = true;
+                text  = "Reports area for wind potential class, wind density, and wind speed by type within your Area of Interest, based on 50-meter Height Wind Power Class layer, NREL, 2011. Compare to a minimum wind potential class minimum wind speed of 15.7 mph (NREL 2007).";
+                break;
+        }
+        if (topRight) {
+            target_position = 'topLeft';
+            tooltip_position = 'bottomLeft';
+        } else if (topLeft) {
+            target_position = 'topRight';
+            tooltip_position = 'bottomRight';
+        } else if (topMiddle) {
+            target_position = 'topMiddle';
+            tooltip_position = 'bottomMiddle';
+        } else {
+            target_position: 'rightMiddle';
+            tooltip_position: 'leftMiddle';
+        }
+        if (text!='none') {
+            $(this).qtip({
+                content: text, 
+                show: { 
+                    delay: 0,
+                    when: { event: 'mouseover' },
+                    ready: true  //without this option, the browser hangs  
+                },
+                position: {
+                    corner: {
+                        target: target_position,
+                        tooltip: tooltip_position
+                    }
+                },
+                hide: { when: {event: 'mouseleave'} },
+                style: { 
+                    width: 320,
+                    name: 'blue' 
+                }
+            });
+            event.stopImmediatePropagation();//prevents repeated calls to delegate during repeat visits 
+            //(previously, when smp reports, for example, were re-visited, delegate would get called once for each re-visit that 
+            // had taken place between application refreshes)
+            //(initially, this repeat-call behavior occurred for all delegate calls until img classes were made specific to app)
+        } 
+    });             
+   
+    
+</script>
+
+<h1>
+    <img src="/media/wmm/img/aoi.png"/>
+    <small><small>AOI </small></small> 
+    &nbsp;&nbsp;{{instance.name}}
+</h1>
+    <div class="tabs">
+        <ul>
+            <li><a href="#Inputs"><span>Attributes</span></a></li>
+            <li><a href="#conservation_reports"><span>Conservation Reports</span></a></li>
+            <li><a href="#energy_reports"><span>Energy Reports</span></a></li>
+        </ul>
+        <div id="Inputs">
+            <ul class="metadata">
+              {% if instance.user.first_name and instance.user.last_name %} 
+                <li class="creator">Created By {{instance.user.first_name}} {{instance.user.last_name}}</li>
+              {% else %}
+                <li class="creator">Created By {{instance.user.username}}</li>
+              {% endif %}
+                <li class="created">Created {{instance.date_created|date:"d M, Y P"}}</li>
+                <li class="modified">Modified {{instance.date_modified|date:"d M, Y P"}}</li>
+                <br class="clear" />
+            </ul>
+            
+            <h2>Area </h2>
+                <p style="margin-bottom: 0px; margin-top: 5px;">{{instance.area_in_sq_miles|floatformat:1}} sq miles</p>              
+            
+            <h2>Objective Scores <small>(out of 100)</small></h2>
+                {% if instance.conservation_score >= 0 %}
+                <p style="margin-bottom: 0px; margin-top: 10px;">Conservation: {{instance.conservation_score}}</p>
+                {% else %}
+                <p style="margin-bottom: 0px; margin-top: 10px;"><i>Conservation: not yet unavailable</i></p>
+                {% endif %}
+                {% if instance.tidalenergy_score >= 0 %}
+                <p style="margin-bottom: 0px; margin-top: 5px;">Tidal Energy: {{instance.tidalenergy_score}}</p>
+                {% else %}
+                <p style="margin-bottom: 0px; margin-top: 5px;"><i>Tidal Energy: not yet unavailable</i></p>
+                {% endif %}
+                {% if instance.waveenergy_score >= 0 %}
+                <p style="margin-bottom: 0px; margin-top: 5px;">Wave Energy: {{instance.waveenergy_score}}</p>
+                {% else %}
+                <p style="margin-bottom: 0px; margin-top: 5px;"><i>Wave Energy: not yet unavailable</i></p>
+                {% endif %}
+                {% if instance.windenergy_score >= 0 %}
+                <p style="margin-bottom: 0px; margin-top: 5px;">Wind Energy: {{instance.windenergy_score}}</p>
+                {% else %}
+                <p style="margin-bottom: 0px; margin-top: 5px;"><i>Wind Energy: not yet unavailable</i></p>
+                {% endif %}                                  
+                
+            <h2>Description</h2>
+                {% if instance.description %}
+                <p>{{instance.description}}</p>
+                {% else %}
+                <p><i>No Description</i></p>
+                {% endif %}
+                
+            <h2>Next Steps</h2>
+            <div class="draghint">
+                <img src="{{MEDIA_URL}}common/images/dragdrophint.png" />
+                To view tradeoff analysis on the conservation and renewable energy scores for your Areas of Interest, organize your Areas into a Tradeoff Collection, view the collection's attributes, and select Multi-Objective Tradeoffs.
+                <br style="clear:both;" />
+            </div>
+        </div>
+        
+        <div id="conservation_reports" class="tabs">
+            <ul>
+                <li><a href="#Conservation_Instructions"><span>Instructions</span></a></li>
+                <li><a href="{% url aoi_analysis instance.pk 'physical' %}"><span>Physical</span></a></li>
+                <li><a href="{% url aoi_analysis instance.pk 'biological' %}"><span>Biological</span></a></li>
+            </ul>
+            <div id="Conservation_Instructions">
+                <h3>Conservation Reports</h3>
+                <p><strong>Physical</strong> conservation reports provide information on the physical aspects of your site as they relate to conservation. </p>
+                <p><strong>Biological</strong> conservation reports provide information on the biological aspects of your site as they relate to conservation. </p>
+            </div>
+        </div>
+        
+        <div id="energy_reports" class="tabs">
+            <ul>
+                <li><a href="#Energy_Instructions"><span>Instructions</span></a></li>
+                <li><a href="{% url aoi_analysis instance.pk 'wind' %}"><span>Wind</span></a></li>
+                <li><a href="{% url aoi_analysis instance.pk 'wave' %}"><span>Wave</span></a></li>
+                <li><a href="{% url aoi_analysis instance.pk 'tidal' %}"><span>Tidal</span></a></li>
+            </ul>
+            <div id="Energy_Instructions">
+                <h3>Renewable Energy Reports</h3>
+                <p><strong>Wind</strong> energy reports provide information on the potential for wind energy generation. </p>
+                <p><strong>Wave</strong> energy reports provide information on the potential for wave energy generation. </p>
+                <p><strong>Tidal</strong> energy reports provide information on the potential for tidal energy generation. </p>
+            </div>
+        </div>
+        
+    </div>
+
+{% endblock panel %}
