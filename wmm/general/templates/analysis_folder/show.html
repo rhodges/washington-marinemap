@@ -79,82 +79,7 @@
         });
             
 
-    });
-    
-    $('body').delegate( '.mot_info', 'mouseover', function(event) {
-        //console.log('entering MOS mouseover event function...');
-        id = $(this).attr('id');
-        var text = "none";
-        left = false;
-        right = false;
-        switch(id) {
-            //Scored Objectives 
-            case 'info_wind_energy_x':
-                right = true;
-                text  = "lots of talk about wind energy and how it was scored.";
-                break;
-            case 'info_wind_energy_y':
-                left = true;
-                text  = "lots of talk about wind energy and how it was scored.";
-                break;
-            case 'info_tidal_energy_x':
-                right = true;
-                text  = "lots of talk about tidal energy and how it was scored.";
-                break;
-            case 'info_tidal_energy_y':
-                left = true;
-                text  = "lots of talk about tidal energy and how it was scored.";
-                break;
-            case 'info_wave_energy_x':
-                right = true;
-                text  = "lots of talk about wave energy and how it was scored.";
-                break;
-            case 'info_wave_energy_y':
-                left = true;
-                text  = "lots of talk about wave energy and how it was scored.";
-                break;
-            case 'info_conservation_x':
-                right = true;
-                text  = "lots of talk about conservation and how it was scored.";
-                break;
-            case 'info_conservation_y':
-                left = true;
-                text  = "lots of talk about conservation and how it was scored.";
-                break;
-        }
-        if (left) {
-            target_position = 'leftMiddle';
-            tooltip_position = 'rightMiddle';
-        } else {
-            target_position = 'rightMiddle';
-            tooltip_position = 'leftMiddle';
-        }
-        if (text!='none') {
-            $(this).qtip({
-                content: text, 
-                show: { 
-                    delay: 0,
-                    when: { event: 'mouseover' },
-                    ready: true  //without this option, the browser hangs  
-                },
-                position: {
-                    corner: {
-                        target: target_position,
-                        tooltip: tooltip_position
-                    }
-                },
-                hide: { when: {event: 'mouseleave'} },
-                style: { 
-                    width: 300,
-                    name: 'blue' 
-                }
-            });
-            event.stopImmediatePropagation();//prevents repeated calls to delegate during repeat visits 
-            //(previously, when smp reports, for example, were re-visited, delegate would get called once for each re-visit that 
-            // had taken place between application refreshes)
-            //(initially, this repeat-call behavior occurred for all delegate calls until img classes were made specific to app)
-        } 
-    });  
+    });    
 
     function toggleDiv(divId, srcId) {
         $("#"+divId).toggle();
@@ -324,22 +249,60 @@
                     <p>
                     <div class="tabs" style="margin-top:10px;">
                         <ul>
-                            <li><a href="#conservation"><span>Conservation</span></a></li>
+                            <li><a href="#general"><span>General</span></a></li>
                             <li><a href="#tidal_energy"><span>Tidal Energy</span></a></li>
                             <li><a href="#wave_energy"><span>Wave Energy</span></a></li>
                             <li><a href="#wind_energy"><span>Wind Energy</span></a></li>
                         </ul>
-                        <div id="conservation">
-                        <p>This is where we explain conservation scoring.
+                        <div id="general">
+                            <p>We developed a scoring layer for each type of renewable ocean energy (wind, wave, and tidal) to evaluate a user designed shapes for ocean energy siting. This scoring scale was developed to be compatible with the scoring scale used for conservation, which ranges from 0 to 10, with 0 being least suitable for a particular management objective and 10 being most suitable. These scoring layers were developed for each ocean energy objective based on the following data (listed in order of importance): energy potential, substrate or sediment type, depth range, distance to electrical substations and distance to electrical transmission lines. 
+                            <p>We created an incremental scoring scheme that included distance to electrical infrastructure into the development of all of the ocean scoring layers. We created proximity layers that represent distance to substations and distance to transmission lines. We scored a 10 for locations within 5 miles of either substation or transmission lines; the score was decreased 1 point for each additional 4 miles after the initial 5 miles. Energy potential, sediment and depth are unique for each type of ocean energy and they are described in more detail in their individual sections. 
                         </div>
                         <div id="tidal_energy">
-                        <p>This is where we explain tidal energy scoring.
+                            <p>The tidal energy scoring layer was developed from the maximum and average tidal current, depth, substrate and distance to substations and to transmission lines. Dr Brian Polagye from the Mechanical Engineering Department at the University of Washington provided guidance on developing the scoring criteria for tidal power, sediment type and depth. We scored a 0 for depth range of 0-66 feet (0-20 meters), a score of 10 for depth range of 66-262 feet (20-80 meters), and depths greater than 262 feet (80 meters), a score of 0. We used the following sediment and bottom substrate scoring scheme: bedrock (island/rock) are excellent substrates and scored 10; consolidated sediments (sand) scored 7; unconsolidated sediments (mud, organics, sand/mud, cobble, gravel, wood/organics) scored 3; deep, unconsolidated sediments (undefined) scored 0. The mean and maximum tidal power layers were scored according to the criteria given below:
+                            <table class="center" style="text-align:left;">
+                                <tr>
+                                    <td><p>&lt; 0.5 kW/m2 - Poor</td><td style="text-align:right;"><p>0</td>
+                                </tr>
+                                <tr>
+                                    <td><p>0.5 - 1 kW/m2 - Fair</td><td style="text-align:right;"><p>3</td>
+                                </tr>
+                                <tr>
+                                    <td><p>1 - 2 kW/m2 - Good</td><td style="text-align:right;"><p>5</td>
+                                </tr>
+                                <tr>
+                                    <td><p>2 - 4 kW/m2 - Excellent</td><td style="text-align:right;"><p>8</td>
+                                </tr>
+                                <tr>
+                                    <td><p>&gt; 4 kW/m2 - Outstanding</td><td style="text-align:right;"><p>10</td>
+                                </tr>
+                            </table>
+                            <p>We combined the individual scoring layers using by weighted each layer according to its importance and then added them together to create a final tidal energy scoring layer. We weighted mean tidal power potential by 0.35, maximum tidal power potential by 0.15, depth and substrate each by 0.2, and distance to substation and distance to transmission lines each by 0.05. We would expect maximum tidal conditions to occur a very small percentage of the time, so it is scored lower than the mean tidal power potential, which represents the average tidal conditions. We also removed any areas that fell below the minimum tidal energy potential threshold since they do not have any economically viable energy potential. 
                         </div>
                         <div id="wave_energy">
-                        <p>This is where we explain wave energy scoring.
+                        <p>The wave energy scoring layer was developed from the winter and summer wave energy densities, depth, substrate and distance to substations and to transmission lines. The wave energy potential was scored a 10 for summer and winter wave energy densities greater than 10 kW/meter, and scored 0 for those wave energy densities less than 10 kW/meter (Spaulding et al. 2010). Soft and unconsolidated bottom sediments including mud, sand, shell, and gravel were scored as 10 while hard bottom substrates (for example, islands, rock and boulder) were scored a 0. We assigned a depth range of 98-197 feet a score of 10, and those depths less than 98 feet and greater than 197 feet, a score of 0 (Mineral Management Services, 2007).
+                        <p>We combined the individual scoring layers using by weighted each layer according to its importance and then added them together to create a final wave energy scoring layer. We weighted winter wave energy density and summer wave energy density each by 0.25, depth and substrate each by 0.2, and distance to substation and distance to transmission lines each by 0.05. We also removed any areas that fell below the minimum energy potential threshold since they do not have any economically viable energy potential. 
                         </div>
                         <div id="wind_energy">
-                        <p>This is where we explain wind energy scoring.
+                        <p>The wind energy scoring layer was developed from wind speed, depth, substrate and distance to substations and to transmission lines. Principle Power, Inc. provided guidance on developing the scoring criteria for wind speed, sediment type and depth. We assigned a depth range of  less than 98 feet (30 meters) a score of 0, depths from 98-197 feet (30-60 meters) scored 5, and depths greater than 197 feet (60 meters), a score of 10. Soft and unconsolidated bottom sediments including mud, sand, shell, cobble, gravel, organics and fines were scored as 10; hard bottom substrates (for example, rock and boulder) were scored a 0. The wind speed layer was scored according to criteria given below:
+                        <table class="center" style="text-align:left;">
+                                <tr>
+                                    <td><p>&lt; 7 m/s</td><td style="text-align:right;"><p>0</td>
+                                </tr>
+                                <tr>
+                                    <td><p>7 m/s</td><td style="text-align:right;"><p>5</td>
+                                </tr>
+                                <tr>
+                                    <td><p>8 m/s</td><td style="text-align:right;"><p>8</td>
+                                </tr>
+                                <tr>
+                                    <td><p>9 m/s</td><td style="text-align:right;"><p>9</td>
+                                </tr>
+                                <tr>
+                                    <td><p>&gt; 10 m/s</td><td style="text-align:right;"><p>10</td>
+                                </tr>
+                            </table>
+                            <p>We combined the individual scoring layers using by weighted each layer according to its importance and then adding them together to create a final wind energy scoring layer. We weighted wind speed potential by 0.5, depth and substrate each by 0.2, and distance to substation and distance to transmission lines each by 0.05. We also removed any areas that fell below the minimum wind energy potential threshold since they do not have any economically viable energy potential. 
                         </div>
                     </div>
                 </div>
@@ -497,7 +460,10 @@ label.header {
 form input[type="checkbox"] {
     top: 2px !important;
 }
-
+table.center {
+    margin-left:auto;
+    margin-right:auto;
+}
 td.left-column {
     width: 10%;
 }
@@ -522,6 +488,10 @@ td.middle-column {
 }
 td.right-column {
     width: 10%;
+}
+td p {
+    margin-top:0px !important;
+    margin-bottom:0px !important;
 }
 
 div .step { 
