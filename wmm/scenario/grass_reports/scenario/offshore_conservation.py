@@ -7,21 +7,21 @@ def offshore_conservation_report(g):
     # Scenario 
     
     #substrate stats -- collecting area (in meters) for each substrate represented in the resulting scenario
-    substrate_result = """r.mapcalc "subresult = if(rresult==1,substrate,null())" """
+    substrate_result = """nice -n 1 r.mapcalc "subresult = if(rresult==1,substrate,null())" """
     g.run(substrate_result)
     #generate dictionary from stats
     substrate_name_dict, substrate_dict = get_dict_from_stats(g, Substrate, 'subresult')
     offshore_report['substrate']=substrate_name_dict
     
     #depth class stats
-    depth_class_result = """r.mapcalc "dcresult = if(rresult==1,depth_class,null())" """
+    depth_class_result = """nice -n 1 r.mapcalc "dcresult = if(rresult==1,depth_class,null())" """
     g.run(depth_class_result)
     #generate dictionary from stats
     depth_class_name_dict, depth_class_dict = get_dict_from_stats(g, DepthClass, 'dcresult')
     offshore_report['depth_class']=depth_class_name_dict
     
     #geomorphology stats
-    geomorphology_result = """r.mapcalc "georesult = if(rresult==1,geomorphology,null())" """
+    geomorphology_result = """nice -n 1 r.mapcalc "georesult = if(rresult==1,geomorphology,null())" """
     g.run(geomorphology_result)
     #generate dictionary from stats
     geomorphology_name_dict, geomorphology_dict = get_dict_from_stats(g, Geomorphology, 'georesult')
@@ -35,11 +35,11 @@ def offshore_conservation_report(g):
     for sub_id in sub_ids:
         #generate substrate raster
         sub_raster = 'subresult_%s' %sub_id
-        substrate_result = """r.mapcalc "%s = if(substrate==%s,subresult,null())" """ % (sub_raster, sub_id)
+        substrate_result = """nice -n 1 r.mapcalc "%s = if(substrate==%s,subresult,null())" """ % (sub_raster, sub_id)
         g.run(substrate_result)
         #generate depthclass results for current substrate
         sub_dc_raster = 'substrate_%s_dcresult' %sub_id
-        dc_result = """r.mapcalc "%s = if(%s==%s,depth_class,null())" """ %(sub_dc_raster, sub_raster, sub_id)
+        dc_result = """nice -n 1 r.mapcalc "%s = if(%s==%s,depth_class,null())" """ %(sub_dc_raster, sub_raster, sub_id)
         g.run(dc_result)
         #generate dictionary from stats
         dc_name_dict, dc_dict = get_dict_from_stats(g, DepthClass, sub_dc_raster)
@@ -53,7 +53,7 @@ def offshore_conservation_report(g):
         #generate geomorphology results for current substrate
         sub_raster = 'subresult_%s' %sub_id
         sub_geo_raster = 'substrate_%s_georesult' %sub_id
-        geo_result = """r.mapcalc "%s = if(%s==%s,geomorphology,null())" """ %(sub_geo_raster, sub_raster, sub_id)
+        geo_result = """nice -n 1 r.mapcalc "%s = if(%s==%s,geomorphology,null())" """ %(sub_geo_raster, sub_raster, sub_id)
         g.run(geo_result)
         #generate dictionary from stats
         geo_name_dict, geo_dict = get_dict_from_stats(g, Geomorphology, sub_geo_raster)
@@ -69,11 +69,11 @@ def offshore_conservation_report(g):
     for dc_id in dc_ids:
         #generate depthclass raster
         dc_raster = 'dcresult_%s' %dc_id
-        depth_class_result = """r.mapcalc "%s = if(depth_class==%s,dcresult,null())" """ % (dc_raster, dc_id)
+        depth_class_result = """nice -n 1 r.mapcalc "%s = if(depth_class==%s,dcresult,null())" """ % (dc_raster, dc_id)
         g.run(depth_class_result)
         #generate geomorphology results for current depthclass
         dc_geo_raster = 'depth_class_%s_georesult' %dc_id
-        dc_result = """r.mapcalc "%s = if(%s==%s,geomorphology,null())" """ %(dc_geo_raster, dc_raster, dc_id)
+        dc_result = """nice -n 1 r.mapcalc "%s = if(%s==%s,geomorphology,null())" """ %(dc_geo_raster, dc_raster, dc_id)
         g.run(dc_result)
         #generate dictionary from stats
         dc_name_dict, dc_dict = get_dict_from_stats(g, Geomorphology, dc_geo_raster)

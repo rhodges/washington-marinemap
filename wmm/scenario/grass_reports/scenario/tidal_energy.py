@@ -7,7 +7,7 @@ def tidal_energy_report(g, max_query, mean_query, scenario):
     # Scenario 
     
     #substrate stats -- collecting area (in meters) for each substrate represented in the resulting scenario
-    substrate_result = """r.mapcalc "subresult = if(rresult==1,tidal_substrate,null())" """
+    substrate_result = """nice -n 1 r.mapcalc "subresult = if(rresult==1,tidal_substrate,null())" """
     g.run(substrate_result)
     #r.stats -an generates area stats with area totals (-a), while ignoring null values (-n) (those areas outside of overlap)
     substrate_name_dict, substrate_dict = get_dict_from_stats(g, TidalSubstrate, 'subresult')
@@ -19,7 +19,7 @@ def tidal_energy_report(g, max_query, mean_query, scenario):
     
     #Max Tidal 
     if max_query != 1:
-        max_tidal = """r.mapcalc "maxresult = if(%s==1,1,null())" """ %max_query
+        max_tidal = """nice -n 1 r.mapcalc "maxresult = if(%s==1,1,null())" """ %max_query
         g.run(max_tidal)
         max_tidal_area = get_raster_area(g, 'maxresult')
         if max_tidal_area > 0:
@@ -30,7 +30,7 @@ def tidal_energy_report(g, max_query, mean_query, scenario):
     
     #Mean Tidal
     if mean_query != 1: 
-        mean_tidal = """r.mapcalc "meanresult = if(%s==1,1,null())" """ %mean_query
+        mean_tidal = """nice -n 1 r.mapcalc "meanresult = if(%s==1,1,null())" """ %mean_query
         g.run(mean_tidal)
         mean_tidal_area = get_raster_area(g, 'meanresult')
         if mean_tidal_area > 0:
@@ -50,7 +50,7 @@ def tidal_energy_report(g, max_query, mean_query, scenario):
         sub_result_area = area
         
         if max_query != 1:
-            total_sub_max_tidal = """r.mapcalc "total_max_tidal_%s = if(tidal_substrate==%s,maxresult,null())" """ %(name, sub_id)
+            total_sub_max_tidal = """nice -n 1 r.mapcalc "total_max_tidal_%s = if(tidal_substrate==%s,maxresult,null())" """ %(name, sub_id)
             g.run(total_sub_max_tidal)
             total_sub_max_area = get_raster_area(g, 'total_max_tidal_%s'%name)
             if total_sub_max_area > 0:
@@ -59,7 +59,7 @@ def tidal_energy_report(g, max_query, mean_query, scenario):
             else:
                 max_sub_dict[sub_name] = 0.0
         if mean_query != 1: 
-            total_sub_mean_tidal = """r.mapcalc "total_mean_tidal_%s = if(tidal_substrate==%s,meanresult,null())" """ %(name, sub_id)
+            total_sub_mean_tidal = """nice -n 1 r.mapcalc "total_mean_tidal_%s = if(tidal_substrate==%s,meanresult,null())" """ %(name, sub_id)
             g.run(total_sub_mean_tidal)
             total_sub_mean_area = get_raster_area(g, 'total_mean_tidal_%s'%name)  
             if total_sub_mean_area > 0:
