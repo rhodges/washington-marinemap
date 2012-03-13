@@ -4,8 +4,11 @@
     // setup which kml files are shown in the data layers panel
     //options.rememberMapExtent = false; 
     //madrona.addLayer('http://d243vm3w7590ia.cloudfront.net/State/Wa_tersea/Wa_tersea.kmz', {setExtent: true});
-    {% if is_public_layers %}        
-    madrona.addLayer('{% url public-data-layers %}', {setExtent: true});
+    {% if is_public_layers %}   
+        {% if camera %}
+        {% else %}
+        madrona.addLayer('{% url public-data-layers %}', {setExtent: true});
+        {% endif %}
     {% endif %}
     {% if user.is_authenticated and is_privatekml %}
     madrona.addLayer('{% url layers-privatekml-list session_key=session_key %}');            
