@@ -344,7 +344,7 @@ class MOS(Feature):
     @property
     def overlap_kml(self):
         header = '<strong>Area of Overlap</strong>'
-        color = '500D0067'
+        color = '50143CB4'
         obj_name = 'Area of Overlap'
         objective = ''
         description = ''
@@ -367,7 +367,7 @@ class MOS(Feature):
                     %s
                     </MultiGeometry>
                 </Placemark>
-                """ % ( color, obj_name, self.model_uid(),
+                """ % ( self.scenario_style(color), obj_name, self.model_uid(),
                         header, objective, self.user, escape(self.description_html), description,
                         self.date_modified.replace(microsecond=0), 
                         asKml(self.overlap_geom.transform( settings.GEOMETRY_CLIENT_SRID, clone=True)) )
