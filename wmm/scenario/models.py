@@ -89,6 +89,7 @@ class MOS(Feature):
         super(MOS, self).delete(*args, **kwargs)
       
     def save(self, form=None, *args, **kwargs):
+        super(MOS, self).save(*args, **kwargs) #adding this to enable Copying (3/14/2012)
         if form is not None: 
             form_data = form.cleaned_data 
             user = form_data['user'] 
