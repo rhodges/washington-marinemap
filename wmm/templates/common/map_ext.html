@@ -35,9 +35,12 @@
     {% else %}
         <div class="box" style="margin-top:25px;">
             <h1> Washington Marine Planner </h1>
-            <p>The Washington Marine Planner is being developed in support of Pacific County's Shoreline Master Program.</p>
-            <p>More information on SMPs for the state of Washington can be found 
-            <a href="http://www.ecy.wa.gov/programs/sea/shorelines/smp/index.html" target="_blank">here</a>.
+            <p>The Washington Marine Planner is being developed in support of 
+            <a href="http://www.ecy.wa.gov/programs/sea/shorelines/smp/index.html" target="_blank">Pacific County's Shoreline Master Program</a>.</p>
+            <p>While the Data Layers below are available to all users, registering and signing in allows you to 
+               site <img src='/media/wmm/img/multi.png'/> Scenarios for renewable energy and conservation uses, 
+               design <img src='/media/wmm/img/aoi.png'/> Areas for analysis, 
+               and analyze your Areas for <img src='/media/wmm/img/analysis.png'/> Tradeoffs between the various objectives.
             </p>
         </div>
         <div class="box">
@@ -47,12 +50,9 @@
     {% if user.is_authenticated %}
     {% else %}
         </div>
-        <div class="box">
-            <h1> Sign In or Register </h1>
             <a href="#" class="button" id="signin_button" ><span>Sign In</span></a>
             <a href="#" class="button" id="register_button" style="margin-left:5px;"><span>Register</span></a>
             <br class="clear" />
-        </div>
     {% endif %}
 </div>
 {% endblock datalayers %}
