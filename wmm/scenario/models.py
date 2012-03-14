@@ -452,8 +452,8 @@ class Scenario(Analysis):
     input_max_depth = models.FloatField(verbose_name='Maximum Depth', null=True, blank=True)
     
     input_wind_potential = models.ManyToManyField("WindPotential", null=True, blank=True)  
-    input_min_tidalmean = models.FloatField(verbose_name='Minimum TidalMax', null=True, blank=True)
-    input_max_tidalmean = models.FloatField(verbose_name='Maximum TidalMax', null=True, blank=True)
+    input_min_tidalmean = models.FloatField(verbose_name='Minimum TidalMean', null=True, blank=True)
+    input_max_tidalmean = models.FloatField(verbose_name='Maximum TidalMean', null=True, blank=True)
     input_min_tidalmax = models.FloatField(verbose_name='Minimum TidalMax', null=True, blank=True)
     input_max_tidalmax = models.FloatField(verbose_name='Maximum TidalMax', null=True, blank=True)
     input_min_wavesummer = models.FloatField(verbose_name='Minimum Wave-Summer', null=True, blank=True)
