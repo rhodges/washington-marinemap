@@ -25,12 +25,21 @@ class CheckboxSelectMultipleWithTooltip(forms.CheckboxSelectMultiple):
         super(CheckboxSelectMultipleWithTooltip, self).__init__(attrs)
         self.queryset = queryset
         self.substrate = substrate
+        self.attrs = attrs
 
     def render(self, *args, **kwargs): 
         output = super(CheckboxSelectMultipleWithTooltip, self).render(*args,**kwargs) 
-        for param in self.queryset:            
+        for param in self.queryset: 
+            tidal_substrate = False
+            try:
+                if param.parameter.short_name == 'substrate' and self.substrate is None and 'tidal' in self.attrs['class']:
+                    tidal_substrate = True
+            except:
+                pass
             if param.parameter.short_name == 'substrate' and self.substrate is not None:
                 output = output.replace(str(param), '%s <img src="/media/wmm/img/info.png" id="info_%s" class="info" />' %(str(param), self.substrate) )
+            elif tidal_substrate:
+                output = output.replace(str(param), '%s <img src="/media/wmm/img/info.png" id="info_tidal_substrate" class="info" />' %(str(param)) )
             else:
                 output = output.replace(str(param), '%s <img src="/media/wmm/img/info.png" id="info_%s" class="info" />' %(str(param), param.parameter.short_name) )
         #print output
