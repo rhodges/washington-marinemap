@@ -190,7 +190,7 @@ class MOSForm(FeatureForm):
                                                 widget=DualSliderWidgetWithTooltip( 'input_min_depth_wind_energy',
                                                                                     'input_max_depth_wind_energy',
                                                                                     min=0,max=5000,step=10,
-                                                                                    id="info_depth_step3"),
+                                                                                    id="info_wind_depth_step3"),
                                                 required=False)
     input_substrate_wind_energy = ModelMultipleChoiceField( queryset=Substrate.objects.all().order_by('id'), 
                                                             widget=forms.CheckboxSelectMultiple(attrs={'class':'wind_energy_substrate_checkboxes'}),

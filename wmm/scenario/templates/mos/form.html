@@ -367,11 +367,14 @@
                 case 'info_substrate':
                     text = "Certain substrates are better suited for mooring and anchoring of offshore energy facilities; for example softer substrates are easier to imbed pilings and other anchoring structures.";
                     break;
+                case 'info_tidal_substrate':
+                    text = "Certain substrates are better suited for mooring and anchoring of offshore energy facilities; for example hard substrates (such as bedrock) are easier to attach tidal facilities to the seafloor.";
+                    break;
                 case 'info_tidalmean':
-                    text = "Mean tidal energy represents the average high veolocity ocean currents in meters/second available for tidal power generation.";
+                    text = "Mean tidal energy represents the average mean kinetic power density in kilowatts per square meters available for tidal power generation.";
                     break;
                 case 'info_tidalmax':
-                    text = "Max tidal energy represents the maximum high veolocity ocean currents in meters/second available for tidal power generation.";
+                    text = "Max tidal energy represents the maximum mean kinetic power density in kilowatts per square meters available for tidal power generation.";
                     break;
                 case 'info_wavesummer':
                     text = "On the west coast of North America we see seasonal variability of wave power potential; in general summer waves are smaller with less power potential.";
@@ -426,18 +429,26 @@
                     break;
                 case 'info_depth_step3':
                     topMiddle = true;
-                    text = "Depth ranges vary by manufacturer; in general depths of 0-100 feet are recommended. <br>(Mineral Management Service, Alternative Energy Report, 2007).";
+                    text = "Suitable depth ranges from 66-262 ft (20-80 meters); depths less than 66 feet (20 meters) are too shallow and depths greater than 262 feet (80 meters) are too deep (Polagye pers.comm. 2012).";
+                    break;
+                case 'info_wind_depth_step3':
+                    topMiddle = true;
+                    text = "For offshore, floating wind facilities depths greater than 197 feet (60 meters) are most suitable while, depths between 98-197 feet (30-60 meters) are suitable and depths less than 98 feet (30 meters) are least suitable (Principle Power, Inc. 2012)";
                     break;
                 case 'info_substrate_step3':
-                    text = "Selection of substrate type is important to the installation of pilings  and other anchoring structures; softer substrate are easier to anchor mooring structures.";
+                    text = "Selection of substrate type is important to the installation of pilings  and other anchoring structures; softer substrate (organics, mud, sand, gravel, cobble) are easier to anchor mooring structures.";
+                    break;
+                case 'info_tidal_substrate_step3':
+                    topMiddle = true;
+                    text = "Selection of substrate type is important to the installation of pilings and other anchoring structures; for tidal facilities bedrock is excellent, consolidated sediments (sand) are good, unconsolidated sediments (mud, shell, boulder, gravel, cobble, over bedrock or consolidated sediments) are fair, and deep unconsolidated sediments are poor (Polagye pers.comm. 2012).";
                     break;
                 case 'info_tidalmean_step3':
-                    topMiddle = true;
-                    text = "The minimum tidal current value should be greater than 1.5m/s for economically viable energy production (Spaulding et al. 2010).";
+                    topLeft = true;
+                    text = "The guidelines for average mean kinetic power density for economically viable energy production should be followed: less than 0.5 kW/m2 is poor, 0.5 - 1 kW/m2 is fair, 1-2 kW/m2 is good, 2-4 kW/m2 is excellent, and greater than 4 kW/m2 is outstanding  (Polagye pers.comm. 2012).";
                     break;
                 case 'info_tidalmax_step3':
-                    topMiddle = true;
-                    text = "The minimum tidal current value should be greater than 1.5m/s for economically viable energy production (Spaulding et al. 2010).";
+                    topLeft = true;
+                    text = "The guidelines for maximum mean kinetic power density for economically viable energy production should be followed: less than 0.5 kW/m2 is poor, 0.5 - 1 kW/m2 is fair, 1-2 kW/m2 is good, 2-4 kW/m2 is excellent, and greater than 4 kW/m2 is outstanding  (Polagye pers.comm. 2012).";
                     break;
                 case 'info_wavesummer_step3':
                     topLeft = true;
@@ -449,7 +460,7 @@
                     break;
                 case 'info_wind_step3':
                     topRight = true;
-                    text = "The National Renewable Energy Laboratory (2011) recommends siting of offshore wind facilities in areas with a wind power class greater than 4 corresponding to a wind speed greater than 15.7 mph.";
+                    text = "The National Renewable Energy Laboratory (2011) recommends siting of offshore wind facilities in areas with a wind power class greater than 4 corresponding to a wind speed greater than 15.7 mph. Wind power class of 5 is excellent, 6 is superb, and 7 is outstanding.";
                     break;
                 //Step 3 Conservation Parameters
                 case 'info_substrate_benthic_step3':
@@ -457,6 +468,9 @@
                     break;
                 case 'info_depth_class_step3':
                     text = "Depth classes are adopted from (Greene et al. 2004). Innershelf is defined as nearshore shallow from 0-40m; mid-shelf is defined as continental shelf, 40-200m; mesobenthal is defined as the upper continental shelf, 200-700m; and bathybenthal is defined as lower to toe of continental shelf, 700-3500m. ";
+                    break;
+                case 'info_benthic_depth_class_step3':
+                    text = "Depth classes are adopted from (Greene et al. 2004). Innershelf is defined as nearshore shallow from 0-40m; mid-shelf is defined as continental shelf, 40-200m; mesobenthal is defined as the upper continental shelf, 200-700m; and bathybenthal is defined as lower to toe of continental shelf, 700-3500m. Selection of depth class depends on the associated species; for example, some demersal fish species such as rockfish can occur at bathybenthal depths, while pelagic fish species such as salmon can occur at inner- and mid-shelf depths.";
                     break;
                 case 'info_geomorphology_step3':
                     text = "Selection of geomorphology depends on the associated species; for example, some coral species can occur in basins, while some sponges occur along slopes.";
@@ -474,7 +488,7 @@
                     text = "Selection of the upwelling type depends on the desired scenario outcome; high upwelling relates to high levels of chlorophyll production and primary productivity.";
                     break;
                 case 'info_chlorophyll_step3':
-                    text = "Selection of the chlorophyll type depends on the desired scenario outcome; high chlorophyll relates to high primary productivity.";
+                    text = "Selection of the chlorophyll type depends on the desired scenario outcome; high chlorophyll relates to high primary productivity";
                     break;
                 default:
                     $(this).hide();
@@ -724,7 +738,7 @@
                     </div>
                 </div>
                 <div id="substrate_tidal_energy_widget" class="inputfield">
-                    <label class="param">Substrate Types <img src="/media/wmm/img/info.png" id="info_substrate_step3" class="info" /></label>
+                    <label class="param">Substrate Types <img src="/media/wmm/img/info.png" id="info_tidal_substrate_step3" class="info" /></label>
                     <div class="param-checkboxes">
                         {{ form.input_substrate_tidal_energy }} 
                     </div>
@@ -862,7 +876,7 @@
                         {{ form.input_min_depth_wind_energy }}            
                         to
                         {{ form.input_max_depth_wind_energy }}            
-
+                        
                         {{ form.input_depth_wind_energy }} </label> 
                     </div>
                 </div>
@@ -896,7 +910,7 @@
                     </div>
                 </div>
                 <div id="depth_class_offshore_conservation_widget" class="inputfield">
-                    <label class="param">Depth Classes <img src="/media/wmm/img/info.png" id="info_depth_class_step3" class="info" /></label>
+                    <label class="param">Depth Classes <img src="/media/wmm/img/info.png" id="info_benthic_depth_class_step3" class="info" /></label>
                     <div class="param-checkboxes">
                         {{ form.input_depth_class_offshore_conservation }} 
                     </div>
