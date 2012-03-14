@@ -72,7 +72,11 @@
         {% for tuple in growing_areas %}
         <tr>
             <td></td>
+            {% if tuple.1 > .1 %}
             <td>{{tuple.0}} ({{tuple.1|floatformat:1|intcomma}} acres)</td>
+            {% else %}
+            <td>{{tuple.0}} ({{tuple.1|floatformat:2|intcomma}} acres)</td>
+            {% endif %}
             <td></td>
         </tr>
         {% endfor %}
