@@ -170,6 +170,10 @@ class AnalysisFolder(FeatureCollection):
                 count += 1
         return count 
     
+    @property
+    def num_features(self):
+        return len(self.feature_set())
+        
     class Options:
         verbose_name = 'Tradeoff Collection'
         valid_children = ( 'smp.models.SMPSite',
