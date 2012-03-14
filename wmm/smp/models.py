@@ -80,7 +80,7 @@ class SMPSite(PolygonFeature):
         import mapnik
         polygon_style = mapnik.Style()
         
-        ps = mapnik.PolygonSymbolizer(mapnik.Color('#DC640C'))
+        ps = mapnik.PolygonSymbolizer(mapnik.Color('#FDAE6B'))
         ps.fill_opacity = 0.6
         ls = mapnik.LineSymbolizer(mapnik.Color('#ff0000'),0.2)
         ls.stroke_opacity = 1.0
