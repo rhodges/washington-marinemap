@@ -182,6 +182,10 @@ function toggleReports(obj_id, src_id) {
     }
 }; 
 
+$('#panel-holder').delegate('.jqPlot', 'mouseleave', function () {
+    $(this).find('.jqplot-highlighter-tooltip').hide();
+});
+
 
   
 </script>
