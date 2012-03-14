@@ -94,20 +94,20 @@ class MOSForm(FeatureForm):
     input_substrate_tidal_energy = ModelMultipleChoiceField(queryset=TidalSubstrate.objects.all().order_by('id'), 
                                                             widget=forms.CheckboxSelectMultiple(attrs={'class':'tidal_energy_substrate_checkboxes'}),
                                                             label="Include areas with the following Substrate Types", required=False) 
-    input_min_tidalmean_tidal_energy = forms.FloatField(initial=.6, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_max_tidalmean_tidal_energy = forms.FloatField(initial=1.2, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_tidalmean_tidal_energy = forms.FloatField(min_value=0, max_value=1.2, initial=0,
+    input_min_tidalmean_tidal_energy = forms.FloatField(initial=1, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_max_tidalmean_tidal_energy = forms.FloatField(initial=1.7, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_tidalmean_tidal_energy = forms.FloatField(min_value=0, max_value=1.7, initial=0,
                                                     widget=DualSliderWidgetWithTooltip( 'input_min_tidalmean_tidal_energy',
                                                                                         'input_max_tidalmean_tidal_energy',
-                                                                                        min=0,max=1.2,step=.1,
+                                                                                        min=0,max=1.7,step=.1,
                                                                                         id="info_tidalmean_step3"),
                                                     required=False)
-    input_min_tidalmax_tidal_energy = forms.FloatField(initial=1.5, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_max_tidalmax_tidal_energy = forms.FloatField(initial=3.1, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_tidalmax_tidal_energy = forms.FloatField( min_value=0, max_value=3.1, initial=0,
+    input_min_tidalmax_tidal_energy = forms.FloatField(initial=8, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_max_tidalmax_tidal_energy = forms.FloatField(initial=14.2, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_tidalmax_tidal_energy = forms.FloatField( min_value=0, max_value=14.2, initial=0,
                                                     widget=DualSliderWidgetWithTooltip( 'input_min_tidalmax_tidal_energy',
                                                                                         'input_max_tidalmax_tidal_energy',
-                                                                                        min=0,max=3.1,step=.1,
+                                                                                        min=0,max=14.2,step=.1,
                                                                                         id="info_tidalmax_step3"),
                                                     required=False)
     
