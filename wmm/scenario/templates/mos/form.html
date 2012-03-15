@@ -614,7 +614,11 @@
 
 
 {% if form.media %} {{ form.media }} {% endif %}
-<h1>{{ title }}</h1>
+<h1>
+    <img src="/media/wmm/img/multi.png"/>
+    <small>New Scenario </small> 
+</h1>
+
 <form id="featureform" action="{{action}}" method="post"> 
   {% for hidden in form.hidden_fields %}
     <div style="display:none;">
@@ -1107,7 +1111,6 @@ label.step3-header {
 }
 div.step4-header {
     font-weight: bold;
-    padding-left: 15px !important;
 }
 label.param {
     font-weight: normal !important;
