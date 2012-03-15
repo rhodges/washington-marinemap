@@ -7,7 +7,7 @@ from django.utils.safestring import mark_safe
 from django.contrib.gis.geos import fromstr
 from models import *
 from os.path import splitext,split
-from scenario.widgets import AdminFileWidget, CheckboxSelectMultipleWithTooltip, SliderWidgetWithTooltip, DualSliderWidgetWithTooltip
+from scenario.widgets import AdminFileWidget, CheckboxSelectMultipleWithTooltip, CheckboxSelectMultipleWithObjTooltip, SliderWidgetWithTooltip, DualSliderWidgetWithTooltip
 
 
 class SubstrateModelMultipleChoiceField(ModelMultipleChoiceField):
@@ -43,10 +43,12 @@ class MOSForm(FeatureForm):
     support_file = ValidFileField(widget=AdminFileWidget,required=False,label="Support File")
     #could optionally add a param similar to the following:  help_text="(e.g. a pdf or text document that explains this scenario)"
     
+    #is input_categories being used?
     input_categories = forms.ModelMultipleChoiceField(  queryset=Category.objects.all().order_by('id'),
                                                         widget=forms.CheckboxSelectMultiple(attrs={'class': 'categories'}),
                                                         required=False,
                                                         label="")
+    
     input_objectives = forms.ModelMultipleChoiceField(  queryset=Objective.objects.all().order_by('id'), 
                                                         widget=forms.CheckboxSelectMultiple(attrs={'class': 'objectives'}),
                                                         required=False, 
@@ -56,7 +58,10 @@ class MOSForm(FeatureForm):
     # CATEGORY:  RENEWABLE ENERGY
     
     input_objectives_energy = forms.ModelMultipleChoiceField(   queryset=EnergyObjective.objects.all().order_by('id'), 
-                                                                widget=forms.CheckboxSelectMultiple(attrs={'class': 'energy_objectives'}),
+                                                                widget=CheckboxSelectMultipleWithObjTooltip(
+                                                                    queryset=EnergyObjective.objects.all(), 
+                                                                    attrs={'class': 'energy_objectives'}
+                                                                ),
                                                                 required=False, 
                                                                 label="")
         
@@ -203,7 +208,10 @@ class MOSForm(FeatureForm):
     # CATEGORY:  CONSERVATION 
     
     input_objectives_conservation = forms.ModelMultipleChoiceField( queryset=ConservationObjective.objects.all().order_by('id'), 
-                                                                    widget=forms.CheckboxSelectMultiple(attrs={'class': 'conservation_objectives'}),
+                                                                    widget=CheckboxSelectMultipleWithObjTooltip(
+                                                                        queryset=ConservationObjective.objects.all(), 
+                                                                        attrs={'class': 'conservation_objectives'}
+                                                                    ),
                                                                     required=False, 
                                                                     label="")
                                      

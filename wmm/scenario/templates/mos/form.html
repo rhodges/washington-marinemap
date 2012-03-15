@@ -342,9 +342,27 @@
                     text  = "The renewable energy scenario is designed to identify suitable areas for renewable ocean energy (tidal, wave, wind) using input parameters including sediment type, depth, and power potential. ";
                     text += "<p></p>An additonal step is to optimize industry recommended siting criteria while minimizing conflicts with other ocean uses.";
                     break;
+                case 'info_tidal_energy':
+                    text  = "The tidal energy objective uses spatial information about the distribution of average and maximum tidal energy potential, depth, substrate bottom types, and distance to shoreline and ports (all ports and deep water ports) to find suitable areas to locate tidal energy facilities off the coast of Washington.";
+                    break;
+                case 'info_wave_energy':
+                    text  = "The wave energy objective uses spatial information about the distribution of winter and summer wave energy potential, depth, substrate bottom types, and distance to shoreline and ports (all ports and deep water ports) to identify areas suitable for wave energy facilities off the coast of Washington.";
+                    break;
+                case 'info_wind_energy':
+                    text  = "The wind energy objective uses spatial information about the distribution of wind power potential, depth, substrate bottom types, and distance to shoreline and ports (all ports and deep water ports) to identify areas suitable for wind energy facilities off the coast of Washington.";
+                    break;
                 case 'info_conservation_objs':
                     text  = "The marine conservation scenario is designed to help identify areas in the nearshore, seafloor or benthic environment, and in the water column or pelagic areas off the coast of Washington.  Users can use input parameters including habitat, depth, geomorphology, vegetation and exposure to wave energy that are important for proposing conservation areas. ";
                     text += "<p></p>Users can use input parameters of habitat, depth, geomorphology, vegetation, and exposure that are important to create conservation areas. ";
+                    break;
+                case 'info_offshore_conservation':
+                    text  = "The benthic or deep ocean conservation objective uses spatial information about the distribution of depth, bottom sediments, and deep-sea geomorphology (the shape of deep sea floor) to identify areas suitable for conservation of benthic habitats off the coast of Washington.";
+                    break;
+                case 'info_nearshore_conservation':
+                    text  = "The nearshore and estuarine or shallow water conservation objective uses spatial information about the distribution of bottom sediments, ecosystems or vegetation type and wind and wave exposure to identify areas suitable for conservation of estuarine and nearshore habitats near the coast of Washington.";
+                    break;
+                case 'info_pelagic_conservation':
+                    text  = "The pelagic or open ocean conservation objective uses spatial information about the distribution of areas of upwelling and chlorophyll to identify areas suitable for conservaiton of pelagic areas off the coast of Washington.";
                     break;
                 //Step 2 Energy Parameters 
                 case 'info_distance_shore':

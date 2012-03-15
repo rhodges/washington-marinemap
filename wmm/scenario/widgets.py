@@ -19,7 +19,20 @@ class AdminFileWidget(forms.FileInput):
         output.append(super(AdminFileWidget, self).render(name, value, attrs))
         #output.append("</p>")
         return mark_safe(u''.join(output))
- 
+  
+class CheckboxSelectMultipleWithObjTooltip(forms.CheckboxSelectMultiple):
+    def __init__(self, queryset=None, attrs=None):
+        super(CheckboxSelectMultipleWithObjTooltip, self).__init__(attrs)
+        self.queryset = queryset
+        self.attrs = attrs
+
+    def render(self, *args, **kwargs): 
+        output = super(CheckboxSelectMultipleWithObjTooltip, self).render(*args,**kwargs) 
+        for obj in self.queryset: 
+            output = output.replace(str(obj), '%s <img src="/media/wmm/img/info.png" id="info_%s" class="info" />' %(str(obj), obj.objective.short_name) )
+        #print output
+        return mark_safe(output)     
+    
 class CheckboxSelectMultipleWithTooltip(forms.CheckboxSelectMultiple):
     def __init__(self, queryset=None, substrate=None, attrs=None):
         super(CheckboxSelectMultipleWithTooltip, self).__init__(attrs)
