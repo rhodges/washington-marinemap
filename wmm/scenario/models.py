@@ -81,7 +81,7 @@ class MOS(Feature):
     support_file = models.FileField(upload_to='scenarios/files/', null=True, blank=True)
     
     overlap_geom = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Scenario Area of Overlap")
-       
+    union_geom = models.MultiPolygonField(srid=settings.GEOMETRY_DB_SRID, null=True, blank=True, verbose_name="Union of Scenario Geometries")
     
     def delete(self, *args, **kwargs):
         scenarios = Scenario.objects.filter(mos=self.id)
@@ -199,9 +199,18 @@ class MOS(Feature):
         scenarios = self.scenarios.exclude(input_objective__in=objs)
         scenarios.delete()
         
-        #generate overlapping geometry
         scenario_geoms = [s.geometry_final for s in self.scenarios.all()]
-        scenario_areas = [s.area for s in scenario_geoms]
+        #generate union geometry (for staticmap)
+        try:
+            union_geom = scenario_geoms[0].buffer(0)
+            if len(scenario_geoms) > 1:
+                for geom in scenario_geoms[1:]:
+                    union_geom = union_geom.union(cascaded_union(geom).buffer(0))
+            self.union_geom = union_geom
+        except:
+            self.union_geom = None
+            
+        #generate overlapping geometry
         self.overlap_geom = None
         if len(scenario_geoms) > 1:
             overlap = scenario_geoms[0].buffer(0)
@@ -229,6 +238,27 @@ class MOS(Feature):
                 data = []
         return data            
     
+    @classmethod
+    def mapnik_geomfield(self):
+        return "union_geom"
+
+    @classmethod
+    def mapnik_style(self):
+        import mapnik
+        polygon_style = mapnik.Style()
+        
+        ps = mapnik.PolygonSymbolizer(mapnik.Color('#A1D99B'))
+        ps.fill_opacity = 0.5
+        
+        ls = mapnik.LineSymbolizer(mapnik.Color('#555555'),0.75)
+        ls.stroke_opacity = 0.5
+        
+        r = mapnik.Rule()
+        r.symbols.append(ps)
+        r.symbols.append(ls)
+        polygon_style.rules.append(r)
+        return polygon_style   
+
     @property
     def objective_ids(self):
         obj_ids = [scenario.input_objective.id for scenario in self.scenarios.all()]
