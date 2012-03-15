@@ -36,14 +36,21 @@
         <div class="box" style="margin-top:25px;">
             <h1> Washington Marine Planner </h1>
             <p> The Washington Marine Planner is being developed in support of the state's 
-                <a href="http://www.ecy.wa.gov/programs/sea/msp/index.html" target="_blank">MSP legislative process</a> 
-                and the <a href="http://www.ecy.wa.gov/programs/sea/shorelines/smp/index.html" target="_blank">Pacific County SMP</a>.</p>
-            <p> While the Data Layers below are available to all users, registering allows you to 
-                site <img src='/media/wmm/img/multi.png' width="12px" height="12px"/> Scenarios for renewable energy and conservation uses, 
-                design <img src='/media/wmm/img/aoi.png' width="12px" height="12px"/> Areas and 
-                <img src='/media/wmm/img/smp.png' width="12px" height="12px"/> SMPs for analysis, 
-                and analyze your Areas for <img src='/media/wmm/img/analysis.png' width="12px" height="12px"/> Tradeoffs between the various objectives.
+                <a href="http://www.ecy.wa.gov/programs/sea/msp/index.html" target="_blank">Marine Spatial Planning (MSP)</a> legislative process
+                and the Pacific County <a href="http://www.ecy.wa.gov/programs/sea/shorelines/smp/index.html" target="_blank">Shoreline Master Plan (SMP)</a>.</p>
+            <p style="margin-bottom:5px"> The Data Layers below are available to all users. Registering allows you to: 
+                <ul class="wmp">
+                    <li>Site <img src='/media/wmm/img/multi.png' width="12px" height="12px"/> Scenarios for renewable energy and conservation uses, </li>
+                    <li>Design <img src='/media/wmm/img/aoi.png' width="12px" height="12px"/> Areas and 
+                        <img src='/media/wmm/img/smp.png' width="12px" height="12px"/> SMPs for analysis, and</li>
+                    <li>Analyze your Areas for <img src='/media/wmm/img/analysis.png' width="12px" height="12px"/> Tradeoffs between the various objectives</li>
+                </ul>
             </p>
+            <div>
+            <a href="#" class="button" id="register_button"><span>Register</span></a>
+            <a href="#" class="button" id="signin_button"><span>Sign In</span></a>
+            <br class="clear" />
+            </div>
         </div>
         <div class="box">
     {% endif %}
@@ -52,11 +59,20 @@
     {% if user.is_authenticated %}
     {% else %}
         </div>
-            <a href="#" class="button" id="signin_button" ><span>Sign In</span></a>
-            <a href="#" class="button" id="register_button" style="margin-left:5px;"><span>Register</span></a>
-            <br class="clear" />
     {% endif %}
 </div>
+<style type="text/css">
+ul.wmp {
+    padding-left: 25px;
+    margin-top: 0px;
+    color: #4C4C4C;
+    font-size: 12px;
+    font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana,sans-serif;
+}
+ul.wmp li {
+    margin-bottom:3px;
+}
+</style>
 {% endblock datalayers %}
 
 {% block metanavigation %}
@@ -101,4 +117,3 @@ The following clipping operations were performed on your shape:
 If you ever need to change your shape, we also keep a copy of the lines you draw, so you will always have the un-clipped version for editing.
 <br><br>
 {% endblock shapeDefinitionPanelAfterManipulatorContent %}
-
