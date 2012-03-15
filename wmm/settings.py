@@ -69,6 +69,8 @@ LOG_FILE =  os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'wmm.
 PRIVATE_KML_ROOT = '/usr/local/privatekml'
 BOOKMARK_FEATURE = True
 
+HELP_EMAIL = 'help@marineplanning.org'
+
 #GRASS variables
 GISBASE = "/usr/local/grass-6.4.1RC2"
 GISDBASE = "/mnt/wmm/grass"
