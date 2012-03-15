@@ -12,13 +12,11 @@
 {% if form.media %} {{ form.media }} {% endif %}
 
 <h1>
-    <img src="/media/wmm/img/analysis.png"/>
-    <small>New Tradeoff Collection </small> 
+    <img src="media/common/images/kml_document_icon.png"/>
+    <small>New Uploaded KML</small> 
 </h1>
 
 <div class="box" style="padding-top:15px; padding-bottom:0px;">
-    <p style="margin-left:0px;margin-bottom:25px;">Tradeoff Collections are used to organize Areas of Interest and SMP Characterization Sites for Multi-Objective Tradeoff Analysis.
-    <p>
     {% if form.is_multipart %}
     <form id="featureform" enctype="multipart/form-data" action="{{action}}" method="post">
         <input type='hidden' name='MAX_FILE_SIZE' value="10485760" /> <!-- 10 MB upload limit -->

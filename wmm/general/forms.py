@@ -17,6 +17,8 @@ class AnalysisFolderForm(FeatureForm):
         model = AnalysisFolder
 
 class UserKmlForm(FeatureForm):
+    name = forms.CharField(label='KML Name')
+    description = forms.CharField(widget=forms.Textarea(attrs={'cols': 30, 'rows': 3}), required=False)
 
     class Meta(FeatureForm.Meta):
         model = UserKml

@@ -12,16 +12,11 @@ from smp.models import SMPSite
 @register
 class UserKml(PrivateLayerList):
 
-    def save(self, *args, **kwargs):
-        #place in default folder
-        my_shapes, create = Folder.objects.get_or_create(name='My Shapes', user=self.user)
-        self.collection = my_shapes
-        #save the new entry
-        super(UserKml, self).save(*args, **kwargs)
-    
     class Options:
         verbose_name = 'Uploaded KML'
         form = 'general.forms.UserKmlForm'
+        form_template = 'userkml/form.html'
+        show_template = 'userkml/show.html'
         icon_url = 'media/common/images/kml_document_icon.png'
         
 

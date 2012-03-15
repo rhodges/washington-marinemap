@@ -68,7 +68,11 @@
 </script>
 
 {% if form.media %} {{ form.media }} {% endif %}
-<h1>{{title}}</h1>
+
+<h1>
+    <img src="/media/wmm/img/aoi.png"/>
+    <small>New Area of Interest (AOI) </small> 
+</h1>
 
 {% if is_spatial %} 
 
@@ -92,7 +96,7 @@
 {% if json %}
         <div style="display:none;" class="json">{{json}}</div>
 {% endif %}
-    <p class="instructions">Provide a name to identify your feature: </p>
+    <p class="instructions">Provide a name to identify your Area: </p>
 {% for field in form.visible_fields %}
     <div class="field{% if field.field.required %} required{% endif %}">
         {# Include the hidden fields in the form #}
@@ -182,6 +186,10 @@ p.instructions {
     font-family: sans-serif;
 }
 
+textarea {
+    margin-top: 5px !important;
+    margin-left: 0px !important;
+}
 </style>
 
 {% endblock %}

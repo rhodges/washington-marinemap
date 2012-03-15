@@ -7,29 +7,29 @@
     <small><small>Uploaded KML </small></small>
     &nbsp;&nbsp;{{instance.name}}
 </h1>
-    <div class="tabs">
-        <ul>
-            <li><a href="#Inputs"><span>Attributess</span></a></li>
+<div class="tabs">
+    <ul>
+        <li><a href="#Inputs"><span>Attributess</span></a></li>
+    </ul>
+    <div id="Inputs">
+        <ul class="metadata">
+          {% if instance.user.first_name and instance.user.last_name %} 
+            <li class="creator">Created By {{instance.user.first_name}} {{instance.user.last_name}}</li>
+          {% else %}
+            <li class="creator">Created By {{instance.user.username}}</li>
+          {% endif %}
+            <li class="created">Created {{instance.date_created|date:"d M, Y P"}}</li>
+            <li class="modified">Modified {{instance.date_modified|date:"d M, Y P"}}</li>
+            <br class="clear" />
         </ul>
-        <div id="Inputs">
-            <ul class="metadata">
-              {% if instance.user.first_name and instance.user.last_name %} 
-                <li class="creator">Created By {{instance.user.first_name}} {{instance.user.last_name}}</li>
-              {% else %}
-                <li class="creator">Created By {{instance.user.username}}</li>
-              {% endif %}
-                <li class="created">Created {{instance.date_created|date:"d M, Y P"}}</li>
-                <li class="modified">Modified {{instance.date_modified|date:"d M, Y P"}}</li>
-                <br class="clear" />
-            </ul>
-            <h2>Description</h2>
-                {% if instance.description %}
-                <p>{{instance.description}}</p>
-                {% else %}
-                <p><i>No Description</i></p>
-                {% endif %}
-        </div>
-        
+        <h2>Description</h2>
+            {% if instance.description %}
+            <p>{{instance.description}}</p>
+            {% else %}
+            <p><i>No Description</i></p>
+            {% endif %}
     </div>
+    
+</div>
 
 {% endblock panel %}
