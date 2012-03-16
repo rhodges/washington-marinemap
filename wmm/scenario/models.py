@@ -169,7 +169,9 @@ class MOS(Feature):
                 
                 if (   set(scenario.input_parameters.all()) != set(input_params)
                     or set(scenario.input_wind_potential.all()) != set(wind_potentials)
-                    or (set(scenario.input_substrate.all()) != set(substrates) and set(scenario.input_nearshore_substrate.all()) != set(substrates))
+                    or (set(scenario.input_substrate.all()) != set(substrates) 
+                        and set(scenario.input_nearshore_substrate.all()) != set(substrates)
+                        and set(scenario.input_tidal_substrate.all()) != set(substrates))
                     or set(scenario.input_nearshore_exposure.all()) != set(exposures)
                     or set(scenario.input_nearshore_ecosystem.all()) != set(ecosystems)
                     or set(scenario.input_depth_class.all()) != set(depth_classes)
@@ -190,7 +192,6 @@ class MOS(Feature):
                 scenario.input_geomorphology = geomorphologies             
                 scenario.input_upwelling = upwellings             
                 scenario.input_chlorophyl = chlorophyls
-                
                 scenario.save(rerun=scenario_rerun)
                 self.scenarios.add(scenario)
         
@@ -372,9 +373,7 @@ class MOS(Feature):
                             <Data name="type"><value>%s</value></Data>
                             <Data name="modified"><value>%s</value></Data>
                         </ExtendedData>
-                        <MultiGeometry>
                         %s
-                        </MultiGeometry>
                     </Placemark>
                     """ % ( self.scenario_style(scenario.color), obj_name, self.model_uid(),
                             header, objective, self.user, escape(self.description_html), escape(self.parameter_html(scenario)),
@@ -709,7 +708,7 @@ class Scenario(Analysis):
             #cleanup
             os.remove(output)
             del g
-
+            
         geom.srid = settings.GEOMETRY_DB_SRID
         self.output_geom = geom
         self.output_area = geom.area # sq m 
@@ -764,7 +763,7 @@ class Scenario(Analysis):
                     new_upwellings = set(getattr(self, 'input_upwelling').all())
                     new_chlorophyls = set(getattr(self, 'input_chlorophyl').all())
                     if orig_substrates != new_substrates or orig_nearshore_substrates != new_nearshore_substrates or orig_nearshore_exposures != new_nearshore_exposures or orig_nearshore_ecosystems != new_nearshore_ecosystems or orig_depth_classes != new_depth_classes or orig_geomorphologies != new_geomorphologies or orig_upwellings != new_upwellings or orig_chlorophyls != new_chlorophyls:
-                        rerun = True                    
+                        rerun = True     
             super(Scenario, self).save(rerun=rerun, *args, **kwargs)
         else: #editing a scenario and rerun is provided 
             super(Scenario, self).save(rerun=rerun, *args, **kwargs)
