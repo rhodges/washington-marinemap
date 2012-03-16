@@ -140,7 +140,7 @@
     <h1>
         <img src="/media/wmm/img/multi.png"/>
         <small><small>Scenario </small></small> 
-        &nbsp;&nbsp;{{instance.name}}
+        &nbsp;&nbsp;{{instance.name}} {% if instance.unioned_geometry %}{% else %} -- Empty Geometry{% endif %}
     </h1>
     <div class="tabs">
         <ul>
