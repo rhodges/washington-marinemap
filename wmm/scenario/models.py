@@ -205,7 +205,7 @@ class MOS(Feature):
             union_geom = scenario_geoms[0].buffer(0)
             if len(scenario_geoms) > 1:
                 for geom in scenario_geoms[1:]:
-                    union_geom = union_geom.union(cascaded_union(geom).buffer(0))
+                    union_geom = union_geom.union(geom).buffer(0)
             self.union_geom = union_geom
         except:
             self.union_geom = None
@@ -270,7 +270,22 @@ class MOS(Feature):
             return "<p><strong>Description:</strong> %s</p>" %self.description
         else:
             return ""
-        
+    
+    @property
+    def unioned_geometry(self):
+        if self.union_geom is None:
+            scenario_geoms = [s.geometry_final for s in self.scenarios.all()]
+            #generate union geometry 
+            try:
+                union_geom = scenario_geoms[0].buffer(0)
+                if len(scenario_geoms) > 1:
+                    for geom in scenario_geoms[1:]:
+                        union_geom = union_geom.union(geom).buffer(0)
+                self.union_geom = union_geom
+            except:
+                self.union_geom = None
+        return self.union_geom
+    
     def parameter_html(self, scenario):
         html = "" 
         parameter_ids = scenario.input_parameter_ids
