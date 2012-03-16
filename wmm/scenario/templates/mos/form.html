@@ -337,6 +337,7 @@
             topLeft = false;
             topRight = false;
             switch(id) {
+            
                 //Step 1 Categories
                 case 'info_energy_objs':
                     text  = "The renewable energy scenario is designed to identify suitable areas for renewable ocean energy (tidal, wave, wind) using input parameters including sediment type, depth, and power potential. ";
@@ -364,6 +365,7 @@
                 case 'info_pelagic_conservation':
                     text  = "The pelagic or open ocean conservation objective uses spatial information about the distribution of areas of upwelling and chlorophyll to identify areas suitable for conservaiton of pelagic areas off the coast of Washington.";
                     break;
+                    
                 //Step 2 Energy Parameters 
                 case 'info_distance_shore':
                     text = "Distance to shore is an important consideration due to cost of laying transmission cables to shore-based sub-stations.";
@@ -403,6 +405,7 @@
                 case 'info_wind_potential':
                     text = "These data represent 50-meter height wind power resource estimates  produced by TrueWind Solutions using their MesoMap system and historical weather data.";
                     break;
+                    
                 //Step 2 Conservation Parameters 
                 case 'info_benthic_substrate':
                     text = "Benthic substrate or sediment type is the physical material found on the ocean floor that provides the inherent physical structure for biological life in benthic habitats.";
@@ -428,6 +431,7 @@
                 case 'info_chlorophyl':
                     text = "Chlorophyll - a concentration is an excellent measure of primary productivity in the marine environment and forms the basis of the marine food chain.";
                     break;
+                    
                 //Step 3 Energy Parameters
                 case 'info_dist_shore_step3':
                     topMiddle = true;
@@ -480,15 +484,16 @@
                     topRight = true;
                     text = "The National Renewable Energy Laboratory (2011) recommends siting of offshore wind facilities in areas with a wind power class greater than 4 corresponding to a wind speed greater than 15.7 mph. Wind power class of 5 is excellent, 6 is superb, and 7 is outstanding.";
                     break;
+                    
                 //Step 3 Conservation Parameters
                 case 'info_substrate_benthic_step3':
                     text = "Selection of substrate depends on the associated species of interest; for example, some groundfish or demersal species occur over hard bottom substrates, while open ocean or pelagic species can occur over soft bottom substrates.";
                     break;
-                case 'info_depth_class_step3':
-                    text = "Depth classes are adopted from (Greene et al. 2004). Innershelf is defined as nearshore shallow from 0-40m; mid-shelf is defined as continental shelf, 40-200m; mesobenthal is defined as the upper continental shelf, 200-700m; and bathybenthal is defined as lower to toe of continental shelf, 700-3500m. ";
-                    break;
+                //case 'info_depth_class_step3':
+                //    text = "Depth classes are adopted from (Greene et al. 2004). <p>Innershelf is defined as nearshore shallow from 0-40m; <p>Midshelf is defined as continental shelf, 40-200m; <p>Mesobenthal is defined as the upper continental shelf, 200-700m; and <p>Bathybenthal is defined as lower to toe of continental shelf, 700-3500m. ";
+                //    break;
                 case 'info_benthic_depth_class_step3':
-                    text = "Depth classes are adopted from (Greene et al. 2004). Innershelf is defined as nearshore shallow from 0-40m; mid-shelf is defined as continental shelf, 40-200m; mesobenthal is defined as the upper continental shelf, 200-700m; and bathybenthal is defined as lower to toe of continental shelf, 700-3500m. Selection of depth class depends on the associated species; for example, some demersal fish species such as rockfish can occur at bathybenthal depths, while pelagic fish species such as salmon can occur at inner- and mid-shelf depths.";
+                    text = "Depth classes are adopted from (Greene et al. 2004). <p></p>Innershelf is defined as nearshore shallow from 0-40m. <p></p>Midshelf is defined as continental shelf, 40-200m. <p></p>Mesobenthal is defined as the upper continental shelf, 200-700m. <p></p>Bathybenthal is defined as lower to toe of continental shelf, 700-3500m. <p></p>Selection of depth class depends on the associated species; for example, some demersal fish species such as rockfish can occur at bathybenthal depths, while pelagic fish species such as salmon can occur at inner- and mid-shelf depths.";
                     break;
                 case 'info_geomorphology_step3':
                     text = "Selection of geomorphology depends on the associated species; for example, some coral species can occur in basins, while some sponges occur along slopes.";
