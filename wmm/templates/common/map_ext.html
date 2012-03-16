@@ -33,16 +33,17 @@
 <div id="DataLayers">
     {% if user.is_authenticated %}
     {% else %}
-        <div class="box" style="margin-top:25px;">
+        <div class="box" style="margin-top:20px;">
             <h1> Washington Marine Planner </h1>
             <p> The Washington Marine Planner is being developed in support of the state's 
                 <a href="http://www.ecy.wa.gov/programs/sea/msp/index.html" target="_blank">Marine Spatial Planning (MSP)</a> legislative process
                 and the Pacific County <a href="http://www.ecy.wa.gov/programs/sea/shorelines/smp/index.html" target="_blank">Shoreline Master Plan (SMP)</a>.</p>
-            <p style="margin-bottom:5px"> The Data Layers below are available to all users. Registering allows you to: 
+            <p style="margin-bottom:0px"> The Data Layers below are available to all users. 
+            <p style="margin-top:1px; margin-bottom:3px">Registering with the site will, additionally, allow you to: 
                 <ul class="wmp">
-                    <li>Site <img src='/media/wmm/img/multi.png' width="12px" height="12px"/> Scenarios for renewable energy and conservation uses, </li>
+                    <li>Site <img src='/media/wmm/img/multi.png' width="12px" height="12px"/> Scenarios for renewable energy and conservation uses</li>
                     <li>Design <img src='/media/wmm/img/aoi.png' width="12px" height="12px"/> Areas and 
-                        <img src='/media/wmm/img/smp.png' width="12px" height="12px"/> SMPs for analysis, and</li>
+                        <img src='/media/wmm/img/smp.png' width="12px" height="12px"/> SMPs for analysis</li>
                     <li>Analyze your Areas for <img src='/media/wmm/img/analysis.png' width="12px" height="12px"/> Tradeoffs between the various objectives</li>
                 </ul>
             </p>
@@ -62,6 +63,9 @@
     {% endif %}
 </div>
 <style type="text/css">
+h1 {
+    margin-top: 5px;
+}
 ul.wmp {
     padding-left: 25px;
     margin-top: 0px;
