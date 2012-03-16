@@ -407,9 +407,7 @@ class MOS(Feature):
                         <Data name="params"><value>%s</value></Data>
                         <Data name="modified"><value>%s</value></Data>
                     </ExtendedData>
-                    <MultiGeometry>
                     %s
-                    </MultiGeometry>
                 </Placemark>
                 """ % ( self.scenario_style(color), obj_name, self.model_uid(),
                         header, objective, self.user, escape(self.description_html), description,
