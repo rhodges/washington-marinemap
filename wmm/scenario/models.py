@@ -915,9 +915,7 @@ class Scenario(Analysis):
                 <Data name="type"><value>%s</value></Data>
                 <Data name="modified"><value>%s</value></Data>
             </ExtendedData>
-            <MultiGeometry>
             %s
-            </MultiGeometry>
         </Placemark>
         """ % (self.kml_style, self.uid, escape(self.name), self.model_uid(),
             escape(self.name), self.user, escape(self.description), self.kml_param_output, 
