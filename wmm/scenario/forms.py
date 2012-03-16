@@ -72,12 +72,12 @@ class MOSForm(FeatureForm):
                                                                     widget=CheckboxSelectMultipleWithTooltip(queryset=TidalEnergyParameter.objects.all(), attrs={'class': 'parameters_tidal_energy'}),
                                                                     required=False, 
                                                                     label="")
-    input_dist_shore_tidal_energy = forms.FloatField(   min_value=0, max_value=20, initial=2,
-                                                        widget=SliderWidgetWithTooltip( min=0,max=20,step=.25,
+    input_dist_shore_tidal_energy = forms.FloatField(   min_value=0, max_value=25, initial=3,
+                                                        widget=SliderWidgetWithTooltip( min=0,max=25,step=.5,
                                                                                         id="info_dist_shore_step3"),
                                                         required=False)
-    input_dist_port_tidal_energy = forms.FloatField(    min_value=0, max_value=50, initial=5,
-                                                        widget=SliderWidgetWithTooltip( min=0,max=50,step=.5,
+    input_dist_port_tidal_energy = forms.FloatField(    min_value=0, max_value=50, initial=25,
+                                                        widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
                                                                                         id="info_dist_port_step3"),
                                                         required=False)
     input_dist_astoria_tidal_energy = forms.FloatField( min_value=0, max_value=100, initial=25,
@@ -88,12 +88,12 @@ class MOSForm(FeatureForm):
                                                         widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
                                                                                         id="info_dist_hoquium_step3"),
                                                         required=False)
-    input_min_depth_tidal_energy = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_max_depth_tidal_energy = forms.FloatField(initial=500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_depth_tidal_energy = forms.FloatField(min_value=0, max_value=5000, initial=0,
+    input_min_depth_tidal_energy = forms.FloatField(initial=50, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_max_depth_tidal_energy = forms.FloatField(initial=200, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_depth_tidal_energy = forms.FloatField(min_value=0, max_value=500, initial=0,
                                                 widget=DualSliderWidgetWithTooltip( 'input_min_depth_tidal_energy',
                                                                                     'input_max_depth_tidal_energy',
-                                                                                    min=0,max=5000,step=10, 
+                                                                                    min=0,max=500,step=10, 
                                                                                     id="info_depth_step3"),
                                                 required=False)
     input_substrate_tidal_energy = ModelMultipleChoiceField(queryset=TidalSubstrate.objects.all().order_by('id'), 
@@ -122,12 +122,12 @@ class MOSForm(FeatureForm):
                                                                     widget=CheckboxSelectMultipleWithTooltip(queryset=WaveEnergyParameter.objects.all(), attrs={'class': 'parameters_wave_energy'}),
                                                                     required=False, 
                                                                     label="")
-    input_dist_shore_wave_energy = forms.FloatField(min_value=0, max_value=20, initial=2,
-                                                    widget=SliderWidgetWithTooltip( min=0,max=20,step=.25,
+    input_dist_shore_wave_energy = forms.FloatField(min_value=0, max_value=50, initial=3,
+                                                    widget=SliderWidgetWithTooltip( min=0,max=50,step=.5,
                                                                                     id="info_dist_shore_step3"),
                                                     required=False)
-    input_dist_port_wave_energy = forms.FloatField( min_value=0, max_value=50, initial=5,
-                                                    widget=SliderWidgetWithTooltip( min=0,max=50,step=.5,
+    input_dist_port_wave_energy = forms.FloatField( min_value=0, max_value=50, initial=25,
+                                                    widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
                                                                                     id="info_dist_port_step3"),
                                                     required=False)
     input_dist_astoria_wave_energy = forms.FloatField(  min_value=0, max_value=100, initial=25,
@@ -138,12 +138,12 @@ class MOSForm(FeatureForm):
                                                         widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
                                                                                         id="info_dist_hoquium_step3"),
                                                         required=False)
-    input_min_depth_wave_energy = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_max_depth_wave_energy = forms.FloatField(initial=500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_depth_wave_energy = forms.FloatField( min_value=0, max_value=5000, initial=0,
+    input_min_depth_wave_energy = forms.FloatField(initial=50, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_max_depth_wave_energy = forms.FloatField(initial=200, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
+    input_depth_wave_energy = forms.FloatField( min_value=0, max_value=500, initial=0,
                                                 widget=DualSliderWidgetWithTooltip( 'input_min_depth_wave_energy',
                                                                                     'input_max_depth_wave_energy',
-                                                                                    min=0,max=5000,step=10,
+                                                                                    min=0,max=500,step=10,
                                                                                     id="info_depth_step3"),
                                                 required=False)
     input_substrate_wave_energy = ModelMultipleChoiceField(   queryset=Substrate.objects.all().order_by('id'), 
@@ -173,12 +173,12 @@ class MOSForm(FeatureForm):
                                                                     widget=CheckboxSelectMultipleWithTooltip(queryset=WindEnergyParameter.objects.all(), attrs={'class': 'parameters_wind_energy'}),
                                                                     required=False, 
                                                                     label="")
-    input_dist_shore_wind_energy = forms.FloatField(min_value=0, max_value=20, initial=2,
-                                                    widget=SliderWidgetWithTooltip( min=0,max=20,step=.25,
+    input_dist_shore_wind_energy = forms.FloatField(min_value=0, max_value=50, initial=5,
+                                                    widget=SliderWidgetWithTooltip( min=0,max=50,step=.5,
                                                                                     id="info_dist_shore_step3"),
                                                     required=False)
-    input_dist_port_wind_energy = forms.FloatField( min_value=0, max_value=50, initial=5,
-                                                    widget=SliderWidgetWithTooltip( min=0,max=50,step=.5,
+    input_dist_port_wind_energy = forms.FloatField( min_value=0, max_value=50, initial=25,
+                                                    widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
                                                                                     id="info_dist_port_step3"),
                                                     required=False)
     input_dist_astoria_wind_energy = forms.FloatField(  min_value=0, max_value=100, initial=25,
@@ -186,15 +186,15 @@ class MOSForm(FeatureForm):
                                                                                         id="info_dist_astoria_step3"),
                                                         required=False)
     input_dist_hoquium_wind_energy = forms.FloatField(  min_value=0, max_value=100, initial=25,
-                                                        widget=SliderWidgetWithTooltip( min=0,max=100,step=5,
+                                                        widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
                                                                                         id="info_dist_hoquium_step3"),
                                                         required=False)
     input_min_depth_wind_energy = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
     input_max_depth_wind_energy = forms.FloatField(initial=500, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
-    input_depth_wind_energy = forms.FloatField( min_value=0, max_value=5000, initial=0,
+    input_depth_wind_energy = forms.FloatField( min_value=0, max_value=1000, initial=0,
                                                 widget=DualSliderWidgetWithTooltip( 'input_min_depth_wind_energy',
                                                                                     'input_max_depth_wind_energy',
-                                                                                    min=0,max=5000,step=10,
+                                                                                    min=0,max=1000,step=10,
                                                                                     id="info_wind_depth_step3"),
                                                 required=False)
     input_substrate_wind_energy = ModelMultipleChoiceField( queryset=Substrate.objects.all().order_by('id'), 

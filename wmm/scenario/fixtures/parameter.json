@@ -123,7 +123,7 @@
         "pk": 17, 
         "model": "scenario.parameter", 
         "fields": {
-            "name": "Distance to Astoria (Deep Water Port)", 
+            "name": "Distance to Deep Water Port of Astoria", 
             "short_name": "distance_astoria"
         }
     }, 
@@ -131,7 +131,7 @@
         "pk": 18, 
         "model": "scenario.parameter", 
         "fields": {
-            "name": "Distance to Aberdeen/Hoquium (Deep Water Ports)", 
+            "name": "Distance to Deep Water Port of Grays Harbor", 
             "short_name": "distance_hoquium"
         }
     }, 
