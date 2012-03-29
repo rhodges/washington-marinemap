@@ -347,7 +347,7 @@ class MOS(Feature):
         return html 
         
     @property 
-    def kml(self):        
+    def kml(self):   
         combined_kml = '<Folder id="%s"><name>%s</name><visibility>0</visibility><open>0</open>' %(self.uid, self.name)
         #mos_name = escape(self.name)
         #print 'mos_name = %s' %mos_name
