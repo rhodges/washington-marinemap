@@ -6,6 +6,7 @@
     //madrona.addLayer('http://d243vm3w7590ia.cloudfront.net/State/Wa_tersea/Wa_tersea.kmz', {setExtent: true});
     {% if is_public_layers %}   
         {% if camera %}
+        madrona.addLayer('{% url public-data-layers %}');
         {% else %}
         madrona.addLayer('{% url public-data-layers %}', {setExtent: true});
         {% endif %}
