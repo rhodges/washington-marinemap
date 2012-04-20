@@ -85,6 +85,7 @@ ul.wmp li {
 {% if user.is_authenticated %}
 <li><a href="#" id="profile">{{user.username}}</a> | </li>
 {% endif %}
+<li><a href="javascript:madrona.editors[0].panel.showUrl('/disclaimer/',{});" id="disclaimer">disclaimer</a> | </li>
 <li><a href="#" id="help">help</a> | </li>
 <li><a href="#" id="about">about</a> | </li>
 {% if user.is_authenticated %}
