@@ -76,7 +76,7 @@ class MOSForm(FeatureForm):
                                                         widget=SliderWidgetWithTooltip( min=0,max=25,step=.5,
                                                                                         id="info_dist_shore_step3"),
                                                         required=False)
-    input_dist_port_tidal_energy = forms.FloatField(    min_value=0, max_value=50, initial=25,
+    input_dist_port_tidal_energy = forms.FloatField(    min_value=0, max_value=100, initial=25,
                                                         widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
                                                                                         id="info_dist_port_step3"),
                                                         required=False)
@@ -126,7 +126,7 @@ class MOSForm(FeatureForm):
                                                     widget=SliderWidgetWithTooltip( min=0,max=50,step=.5,
                                                                                     id="info_dist_shore_step3"),
                                                     required=False)
-    input_dist_port_wave_energy = forms.FloatField( min_value=0, max_value=50, initial=25,
+    input_dist_port_wave_energy = forms.FloatField( min_value=0, max_value=100, initial=25,
                                                     widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
                                                                                     id="info_dist_port_step3"),
                                                     required=False)
@@ -177,7 +177,7 @@ class MOSForm(FeatureForm):
                                                     widget=SliderWidgetWithTooltip( min=0,max=50,step=.5,
                                                                                     id="info_dist_shore_step3"),
                                                     required=False)
-    input_dist_port_wind_energy = forms.FloatField( min_value=0, max_value=50, initial=25,
+    input_dist_port_wind_energy = forms.FloatField( min_value=0, max_value=100, initial=25,
                                                     widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
                                                                                     id="info_dist_port_step3"),
                                                     required=False)
