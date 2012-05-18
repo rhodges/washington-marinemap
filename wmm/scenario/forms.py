@@ -76,16 +76,16 @@ class MOSForm(FeatureForm):
                                                         widget=SliderWidgetWithTooltip( min=0,max=25,step=.5,
                                                                                         id="info_dist_shore_step3"),
                                                         required=False)
-    input_dist_port_tidal_energy = forms.FloatField(    min_value=0, max_value=100, initial=25,
-                                                        widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
+    input_dist_port_tidal_energy = forms.FloatField(    min_value=0, max_value=500, initial=100,
+                                                        widget=SliderWidgetWithTooltip( min=0,max=500,step=10,
                                                                                         id="info_dist_port_step3"),
                                                         required=False)
-    input_dist_astoria_tidal_energy = forms.FloatField( min_value=0, max_value=100, initial=25,
-                                                        widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
+    input_dist_astoria_tidal_energy = forms.FloatField( min_value=0, max_value=500, initial=100,
+                                                        widget=SliderWidgetWithTooltip( min=0,max=500,step=10,
                                                                                         id="info_dist_astoria_step3"),
                                                         required=False)
-    input_dist_hoquium_tidal_energy = forms.FloatField( min_value=0, max_value=100, initial=25,
-                                                        widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
+    input_dist_hoquium_tidal_energy = forms.FloatField( min_value=0, max_value=500, initial=100,
+                                                        widget=SliderWidgetWithTooltip( min=0,max=500,step=10,
                                                                                         id="info_dist_hoquium_step3"),
                                                         required=False)
     input_min_depth_tidal_energy = forms.FloatField(initial=50, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
@@ -126,16 +126,16 @@ class MOSForm(FeatureForm):
                                                     widget=SliderWidgetWithTooltip( min=0,max=50,step=.5,
                                                                                     id="info_dist_shore_step3"),
                                                     required=False)
-    input_dist_port_wave_energy = forms.FloatField( min_value=0, max_value=100, initial=25,
-                                                    widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
+    input_dist_port_wave_energy = forms.FloatField( min_value=0, max_value=500, initial=100,
+                                                    widget=SliderWidgetWithTooltip( min=0,max=500,step=10,
                                                                                     id="info_dist_port_step3"),
                                                     required=False)
-    input_dist_astoria_wave_energy = forms.FloatField(  min_value=0, max_value=100, initial=25,
-                                                        widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
+    input_dist_astoria_wave_energy = forms.FloatField(  min_value=0, max_value=500, initial=100,
+                                                        widget=SliderWidgetWithTooltip( min=0,max=500,step=10,
                                                                                         id="info_dist_astoria_step3"),
                                                         required=False)
-    input_dist_hoquium_wave_energy = forms.FloatField(  min_value=0, max_value=100, initial=25,
-                                                        widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
+    input_dist_hoquium_wave_energy = forms.FloatField(  min_value=0, max_value=500, initial=100,
+                                                        widget=SliderWidgetWithTooltip( min=0,max=500,step=10,
                                                                                         id="info_dist_hoquium_step3"),
                                                         required=False)
     input_min_depth_wave_energy = forms.FloatField(initial=50, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
@@ -177,16 +177,16 @@ class MOSForm(FeatureForm):
                                                     widget=SliderWidgetWithTooltip( min=0,max=50,step=.5,
                                                                                     id="info_dist_shore_step3"),
                                                     required=False)
-    input_dist_port_wind_energy = forms.FloatField( min_value=0, max_value=100, initial=25,
-                                                    widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
+    input_dist_port_wind_energy = forms.FloatField( min_value=0, max_value=500, initial=100,
+                                                    widget=SliderWidgetWithTooltip( min=0,max=500,step=10,
                                                                                     id="info_dist_port_step3"),
                                                     required=False)
-    input_dist_astoria_wind_energy = forms.FloatField(  min_value=0, max_value=100, initial=25,
-                                                        widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
+    input_dist_astoria_wind_energy = forms.FloatField(  min_value=0, max_value=500, initial=100,
+                                                        widget=SliderWidgetWithTooltip( min=0,max=500,step=10,
                                                                                         id="info_dist_astoria_step3"),
                                                         required=False)
-    input_dist_hoquium_wind_energy = forms.FloatField(  min_value=0, max_value=100, initial=25,
-                                                        widget=SliderWidgetWithTooltip( min=0,max=100,step=1,
+    input_dist_hoquium_wind_energy = forms.FloatField(  min_value=0, max_value=500, initial=100,
+                                                        widget=SliderWidgetWithTooltip( min=0,max=500,step=10,
                                                                                         id="info_dist_hoquium_step3"),
                                                         required=False)
     input_min_depth_wind_energy = forms.FloatField(initial=0, widget=forms.TextInput(attrs={'class':'slidervalue'}), required=False)
