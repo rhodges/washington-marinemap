@@ -2,6 +2,7 @@ from django import forms
 from django.forms.widgets import *
 from django.utils.safestring import mark_safe
 from madrona.analysistools.widgets import SliderWidget, DualSliderWidget
+from os.path import splitext,split
 
 class AdminFileWidget(forms.FileInput):
     """
