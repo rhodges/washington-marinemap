@@ -1,0 +1,3 @@
+[MarineMap](http://code.google.com/p/marinemap), a web-based [decision support tool](http://marinemap.org/decision-support-tool) for spatial planning, is being utilized in ongoing marine planning processes in Washington.
+
+[MarineMap](http://code.google.com/p/marinemap) offers a simple, flexible and powerful means of gathering expertise from resource managers, scientists, stakeholders and public in a process of collaborative decision making.
